@@ -73,8 +73,7 @@ library(rmap)
 data = data.frame(subRegion=c("CA","FL","ID","MO","TX","WY"),
                   x=c(2050,2050,2050,2050,2050,2050),
                   value=c(5,10,15,34,2,7))
-map(polygonTable=data,
-                  folderName = "vignetteMaps", mapTitleOn = F)
+map(data,folder = "vignetteMaps", mapTitleOn = F)
 ```
 
 <p align="center" style="font-size:18px;"> *US49* </p>
@@ -92,8 +91,8 @@ library(rmap)
 data = data.frame(subRegion=c("AK","FL","ID","MO","TX","WY"),
                   x=c(2050,2050,2050,2050,2050,2050),
                   value=c(5,10,15,34,2,7))
-map(polygonTable=data,
-                  folderName = "vignetteMaps", mapTitleOn = F)
+map(data,
+                  folder = "vignetteMaps", mapTitleOn = F)
 ```
 
 
@@ -111,8 +110,8 @@ unique(mapUS49County@data$subRegionAlt) # Check Alternate names
 data = data.frame(subRegion=c("Pender_NC","Larue_KY","Jim Wells_TX","Orange_IN","Putnam_FL","Ellis_KS"),
                   x=c(2050,2050,2050,2050,2050,2050),
                   value=c(5,10,15,34,2,7))
-map(polygonTable=data,
-                  folderName = "vignetteMaps",
+map(data,
+                  folder = "vignetteMaps",
                   nameAppend = "_Alt",
                   mapTitleOn = F)
 ```
@@ -131,8 +130,8 @@ unique(mapUS52County@data$subRegionAlt) # Check Alternate names
 data = data.frame(subRegion=c("Aleutians West_AK","Sabana Grande_PR","Kalawao_HI","Orange_IN","Putnam_FL","Ellis_KS"),
                   x=c(2050,2050,2050,2050,2050,2050),
                   value=c(5,10,15,34,2,7))
-map(polygonTable=data,
-                  folderName = "vignetteMaps",
+map(data,
+                  folder = "vignetteMaps",
                   nameAppend = "_Alt",
                   mapTitleOn = F)
 ```
@@ -151,8 +150,8 @@ unique(mapGCAMBasins@data$subRegion) # Check Available Regions
 data = data.frame(subRegion=c("Colombia","China","EU-12","Pakistan","Middle East","Japan"),
                   x=c(2050,2050,2050,2050,2050,2050),
                   value=c(5,10,15,34,2,7))
-map(polygonTable=data,
-                  folderName = "vignetteMaps",
+map(data,
+                  folder = "vignetteMaps",
                   mapTitleOn = F)
 ```
 
@@ -168,8 +167,8 @@ unique(mapGCAMBasins@data$subRegion) # Check Available Regions
 data = data.frame(subRegion=c("Negro","La_plata","Great","New_England","Indus","Zambezi"),
                   x=c(2050,2050,2050,2050,2050,2050),
                   value=c(5,10,15,34,2,7))
-map(polygonTable=data,
-                  folderName = "vignetteMaps",
+map(data,
+                  folder = "vignetteMaps",
                   mapTitleOn = F)
 ```
 
@@ -187,8 +186,8 @@ unique(mapCountries@data$subRegion) # Check Available Regions
 data = data.frame(subRegion=c("Colombia","China","India","Spain","Ghana","Iran"),
                   x=c(2050,2050,2050,2050,2050,2050),
                   value=c(5,10,15,34,2,7))
-map(polygonTable=data,
-                  folderName = "vignetteMaps",
+map(data,
+                  folder = "vignetteMaps",
                   mapTitleOn = F)
 ```
 
@@ -205,8 +204,8 @@ unique(mapStates@data$subRegion) # Check Available Regions
 data = data.frame(subRegion=c("Punjab","FL","TX","Faryab","Assam","Lac"),
                   x=c(2050,2050,2050,2050,2050,2050),
                   value=c(5,10,15,34,2,7))
-map(polygonTable=data,
-                  folderName = "vignetteMaps",
+map(data,
+                  folder = "vignetteMaps",
                   mapTitleOn = F)
 ```
 
@@ -227,14 +226,14 @@ data = data.frame(subRegion=c("Colombia","China","India"),
                   value=c(5,10,15))
 
 # Auto selection by rmap will choose rmap::mapCountries
-map(polygonTable=data,
-                  folderName = "vignetteChooseMap",
+map(data,
+                  folder = "vignetteChooseMap",
                   mapTitleOn = F)
 
 # User can specify that they want to plot this data on rmap::mapGCAMReg32
-map(polygonTable=data,
+map(data,
                   subRegShape = rmap::mapGCAMReg32,
-                  folderName = "vignetteChooseMap",
+                  folder = "vignetteChooseMap",
                   nameAppend = "Chosen",
                   mapTitleOn = F)
 
@@ -253,9 +252,9 @@ library(rmap)
 data = data.frame(subRegion=c("AK","HI","PR","MO","TX","WY"),
                   x=c(2050,2050,2050,2050,2050,2050),
                   value=c(5,10,15,34,2,7))
-map(polygonTable=data,
+map(data,
                   subRegShape=rmap::mapUS52Compact,
-                  folderName = "vignetteMaps", mapTitleOn = F)
+                  folder = "vignetteMaps", mapTitleOn = F)
 ```
 
 <p align="center" style="font-size:18px;"> *US52Compact* </p>
@@ -271,9 +270,9 @@ unique(mapUS52CountyCompact@data$subRegionAlt) # Check Alternate names
 data = data.frame(subRegion=c("Aleutians West_AK","Sabana Grande_PR","Kalawao_HI","Orange_IN","Putnam_FL","Ellis_KS"),
                   x=c(2050,2050,2050,2050,2050,2050),
                   value=c(5,10,15,34,2,7))
-map(polygonTable=data,
+map(data,
                   subRegShape=rmap::mapUS52CountyCompact,
-                  folderName = "vignetteMaps",
+                  folder = "vignetteMaps",
                   nameAppend = "_Alt",
                   mapTitleOn = F)
 ```
@@ -309,11 +308,11 @@ unique(shapeSubset@data$states) # Get a list of the unique subRegions
 data = data.frame(states=c("Cauca","Valle del Cauca","Antioquia","Córdoba","Bolívar","Atlántico"),
                   x=c(2050,2050,2050,2050,2050,2050),
                   value=c(5,10,15,34,2,7))
-map(polygonTable=data,
+map(data,
                   subRegShape = shapeSubset,
                   subRegCol = "states",
                   subRegType = "ColombiaStates",
-                  folderName = "vignetteMaps_shapeSubset",
+                  folder = "vignetteMaps_shapeSubset",
                   mapTitleOn = F)
 
 ```
@@ -343,11 +342,11 @@ mapplot(shapeCrop)
 data = data.frame(county=c("Wise_TX","Scurry_TX","Kendall_TX","Frio_TX","Hunt_TX","Austin_TX"),
                   x=c(2050,2050,2050,2050,2050,2050),
                   value=c(5,10,15,34,2,7))
-map(polygonTable=data,
+map(data,
                   subRegShape = shapeCrop,
                   subRegCol = "county",
                   subRegType = "TexasCounties",
-                  folderName = "vignetteMaps_shapeCrop",
+                  folder = "vignetteMaps_shapeCrop",
                   mapTitleOn = F)
 
 ```
@@ -367,8 +366,8 @@ By setting the **cropToBoundary** argument to **T** the function will crop your 
 ```{r, eval=F}
 library(rmap)
 data = data.frame(subRegion = c("India","China"), year=c(2010,2010),value = c(32,54))
-map(polygonTable = data, mapTitleOn = F, folderName = "vignetteMaps", cropToBoundary=F, )
-map(polygonTable = data, mapTitleOn = F, folderName = "vignetteMaps", cropToBoundary=T, 
+map(polygonTable = data, mapTitleOn = F, folder = "vignetteMaps", cropToBoundary=F, )
+map(polygonTable = data, mapTitleOn = F, folder = "vignetteMaps", cropToBoundary=T, 
                   nameAppend="Cropped")
 ```
 
@@ -389,12 +388,12 @@ By turning on **extension** a background layer will be added to any shape map.
 library(rmap)
 data = data.frame(
   subRegion = c("India","China"), year=c(2010,2010), value = c(32,54))
-map(polygonTable = data, mapTitleOn=F, folderName = "vignetteMaps", 
+map(polygonTable = data, mapTitleOn=F, folder = "vignetteMaps", 
                   cropToBoundary =T,
                   extension = T, nameAppend="Extended")
 
 # Can increase the extnded boundaries by using expandPercent
-map(polygonTable = data, mapTitleOn=F, folderName = "vignetteMaps", 
+map(polygonTable = data, mapTitleOn=F, folder = "vignetteMaps", 
                   cropToBoundary =T,
                   extension = T, nameAppend="Extended10", expandPercent = 50)
 ```
@@ -423,7 +422,7 @@ data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
                             37, 53, 23, 12, 45,
                             23, 99, 102, 85, 75,
                             12, 76, 150, 64, 90))
-map(polygonTable = data, folderName ="multiYear", 
+map(polygonTable = data, folder ="multiYear", 
                   cropToBoundary=T, extension = T )
 ```
 
@@ -458,7 +457,7 @@ data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
                             37, 53, 23, 12, 45,
                             23, 99, 102, 85, 75,
                             12, 76, 150, 64, 90))
-map(polygonTable = data, folderName ="multiClass", 
+map(polygonTable = data, folder ="multiClass", 
                   cropToBoundary=T, extension = T )
 ```
 
@@ -488,7 +487,7 @@ data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
                   value = c(32, 38, 54, 63, 24,
                             37, 53, 23, 12, 45,
                             40, 44, 12, 30, 99))
-map(polygonTable = data, folderName ="multiScenario", 
+map(polygonTable = data, folder ="multiScenario", 
                   cropToBoundary=T, extension = T, scenRef="scen1", scenDiff=c("scen3"))
 ```
 
@@ -518,7 +517,7 @@ data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
                   value = c(32, 38, 54, 63, 24,
                             37, 53, 23, 12, 45,
                             40, 45, 12, 50, 63))
-map(polygonTable = data, folderName ="multiYear", 
+map(polygonTable = data, folder ="multiYear", 
                   cropToBoundary=T, extension = T, xRef=2010, xDiff = c(2020))
 ```
 
@@ -545,7 +544,7 @@ data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
                   year = rep(2010,10),
                   value = c(32, 38, 54, 63, 24,
                             37, 53, 23, 12, 45))
-map(polygonTable = data, folderName ="scaleRange", 
+map(polygonTable = data, folder ="scaleRange", 
                   cropToBoundary=T, extension = T, scenRef="scen1", 
                   scaleRange = c(0,50), scaleRangeDiffAbs = c(-100,100), scaleRangeDiffPrcnt = c(-60,60))
 ```
@@ -573,7 +572,7 @@ data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
                   year = rep(2010,10),
                   value = c(32, 38, 54, 63, 24,
                             37, 53, 23, 12, 45))
-map(polygonTable = data, folderName ="colorPalettes", 
+map(polygonTable = data, folder ="colorPalettes", 
                   cropToBoundary=T, extension = T, scenRef="scen1",
                   classPalette = "pal_wet", classPaletteDiff = "pal_div_BrGn")
 
@@ -606,14 +605,14 @@ dfClass1 <- data$dataAggClass1; dfClass1
 dfClass2 <- data$dataAggClass1; dfClass2
 
 # Plot data aggregated by param
-map(polygonTable = dfParam, folderName ="GCAMbyParam", 
+map(polygonTable = dfParam, folder ="GCAMbyParam", 
                   cropToBoundary=T, extension = T, xRange = c(2010,2020,2030,2040),
                   scenRef="SSP3", scaleRange = data.frame(param=c("landAlloc", "elecByTechTWh","watSupRunoffBasin","pop"),
                                                           min = c(0,0,0,0),
                                                           max = c(10000,15000,2000,2000)))
 
 # Plot data aggregated by Class1
-map(polygonTable = dfClass1, folderName ="GCAMbyClass", 
+map(polygonTable = dfClass1, folder ="GCAMbyClass", 
                   cropToBoundary=T, extension = T, xRange = c(2010,2020,2030,2040),
                   scenRef="SSP3")
 ```
