@@ -1,0 +1,12 @@
+Meta
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+*basexdb*
+outputs
+.proj
+.PROJ
+dataFiles
+
+
