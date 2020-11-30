@@ -3,21 +3,32 @@
   [![codecov](https://codecov.io/gh/JGCRI/rmap/branch/master/graph/badge.svg?token=XQ913U4IYM)](https://codecov.io/gh/JGCRI/rmap)
   <!-- badges: end -->
 
-- Github: https://github.com/JGCRI/rmap
-- Webpage: https://jgcri.github.io/rmap/
-- Cheatsheet: https://github.com/JGCRI/rmap/blob/master/rmapCheatsheet.pdf
-
 <!-- ------------------------>
 <!-- ------------------------>
 # <a name="Contents"></a>Contents
 <!-- ------------------------>
 <!-- ------------------------>
 
+- [Key Links](#Key Links)
 - [Introduction](#Introduction)
 - [Citation](#Citation)
 - [Installation Guide](#InstallGuide)
 - [How-to guide](#howto) 
 - [Publications](#Publications)
+
+<!-- ------------------------>
+<!-- ------------------------>
+# <a name="KeyLinks"></a>Key Links
+<p align="center"> <img src="READMEfigs/rmapHeaderThick.PNG"></p>
+<!-- ------------------------>
+<!-- ------------------------>
+
+[Back to Contents](#Contents)
+
+- Github: https://github.com/JGCRI/rmap
+- Webpage: https://jgcri.github.io/rmap/
+- Cheatsheet: https://github.com/JGCRI/rmap/blob/master/rmapCheatsheet.pdf
+
 
   
 <!-- ------------------------>
