@@ -15,7 +15,7 @@ navbar:
       text: "News"
       href: news/index.html
     - text: cheatsheet
-      href: https://github.com/JGCRI/metis/blob/master/rmapCheatsheet.pdf
+      href: https://github.com/JGCRI/rmap/blob/main/rmapCheatsheet.pdf
       
 toc:
   depth: 2
