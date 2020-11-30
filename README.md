@@ -1,5 +1,5 @@
 <!-- badges: start -->
-   ![R-CMD-check](https://github.com/JGCRI/rmap/workflows/R-CMD-check/badge.svg)
+   ![R-CMD](https://github.com/JGCRI/rmap/workflows/R-CMD/badge.svg)
   [![codecov](https://codecov.io/gh/JGCRI/rmap/branch/master/graph/badge.svg?token=XQ913U4IYM)](https://codecov.io/gh/JGCRI/rmap)
   <!-- badges: end -->
 
