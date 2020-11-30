@@ -1,0 +1,16 @@
+{
+    "dialog-state": {
+        "query": "rgcam",
+        "path": "C:/Z/models/rmap/R",
+        "regex": false,
+        "caseSensitive": false,
+        "filePatterns": [
+            "*.r",
+            "*.R"
+        ],
+        "excludeFilePatterns": [],
+        "resultsCount": 0,
+        "errorCount": 0,
+        "replaceErrors": ""
+    }
+}

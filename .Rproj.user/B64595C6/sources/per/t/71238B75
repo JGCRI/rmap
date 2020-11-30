@@ -1,0 +1,24 @@
+{
+    "id": "71238B75",
+    "path": "C:/Z/models/rmap/R/printPdfPng.R",
+    "project_path": "R/printPdfPng.R",
+    "type": "r_source",
+    "hash": "41460363",
+    "contents": "",
+    "dirty": false,
+    "created": 1606509773761.0,
+    "source_on_save": false,
+    "relative_order": 8,
+    "properties": {
+        "cursorPosition": "19,0",
+        "scrollLine": "0"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1606518058,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1606518058710,
+    "read_only": false,
+    "read_only_alternatives": []
+}

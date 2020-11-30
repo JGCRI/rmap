@@ -1,0 +1,24 @@
+{
+    "id": "207DB391",
+    "path": "C:/Z/models/rmap/R/mappings.R",
+    "project_path": "R/mappings.R",
+    "type": "r_source",
+    "hash": "671503529",
+    "contents": "",
+    "dirty": false,
+    "created": 1606446351871.0,
+    "source_on_save": false,
+    "relative_order": 2,
+    "properties": {
+        "cursorPosition": "473,32",
+        "scrollLine": "0"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1606519273,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1606519273306,
+    "read_only": false,
+    "read_only_alternatives": []
+}

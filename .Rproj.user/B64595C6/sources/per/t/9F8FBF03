@@ -1,0 +1,24 @@
+{
+    "id": "9F8FBF03",
+    "path": "C:/Z/models/rmap/R/mapplot.R",
+    "project_path": "R/mapplot.R",
+    "type": "r_source",
+    "hash": "159851811",
+    "contents": "",
+    "dirty": false,
+    "created": 1606446712524.0,
+    "source_on_save": false,
+    "relative_order": 5,
+    "properties": {
+        "cursorPosition": "1008,0",
+        "scrollLine": "0"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1606586779,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1606586779896,
+    "read_only": false,
+    "read_only_alternatives": []
+}

@@ -1,0 +1,24 @@
+{
+    "id": "60F45A7A",
+    "path": "C:/Z/models/rmap/tests/testthat/test-map.R",
+    "project_path": "tests/testthat/test-map.R",
+    "type": "r_source",
+    "hash": "1458129129",
+    "contents": "",
+    "dirty": false,
+    "created": 1606525496390.0,
+    "source_on_save": false,
+    "relative_order": 12,
+    "properties": {
+        "cursorPosition": "377,0",
+        "scrollLine": "0"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1606587124,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1606587124809,
+    "read_only": false,
+    "read_only_alternatives": []
+}

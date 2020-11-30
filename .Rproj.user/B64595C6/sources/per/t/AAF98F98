@@ -1,0 +1,24 @@
+{
+    "id": "AAF98F98",
+    "path": "C:/Z/models/rmap/tests/testthat.R",
+    "project_path": "tests/testthat.R",
+    "type": "r_source",
+    "hash": "1036536057",
+    "contents": "",
+    "dirty": false,
+    "created": 1606525503157.0,
+    "source_on_save": false,
+    "relative_order": 13,
+    "properties": {
+        "cursorPosition": "1,12",
+        "scrollLine": "0"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1606525511,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1606525511625,
+    "read_only": false,
+    "read_only_alternatives": []
+}
