@@ -32,9 +32,9 @@ Imports:
 	rlang (>= 0.3.0), 
 	magrittr (>= 1.5),
 	knitr (>= 1.20),
-	grid (>= 4.0.2),
 	RColorBrewer (>= 1.1.2),
 	magick (>= 2.1)
-VignetteBuilder: knitr
 Suggests: 
     rmarkdown
+VignetteBuilder: 
+    knitr
