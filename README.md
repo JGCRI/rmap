@@ -3,8 +3,6 @@
   [![codecov](https://codecov.io/gh/JGCRI/rmap/branch/master/graph/badge.svg?token=XQ913U4IYM)](https://codecov.io/gh/JGCRI/rmap)
   <!-- badges: end -->
 
-<p align="center"> <img src="READMEfigs/rmapHeaderThin.PNG"></p>
-<p align="center"> <img src="READMEfigs/pnnlUMDLogos.PNG"></p>
 <p align="center"> <img src="READMEfigs/rmapHeaderThick.PNG"></p>
 
 - Github: https://github.com/JGCRI/rmap
