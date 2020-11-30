@@ -1,9 +1,6 @@
 <!-- badges: start -->
-  [![Travis build status](https://travis-ci.org/JGCRI/rmap.svg?branch=master)](https://travis-ci.org/JGCRI/rmap)
   [![codecov](https://codecov.io/gh/JGCRI/rmap/branch/master/graph/badge.svg?token=XQ913U4IYM)](https://codecov.io/gh/JGCRI/rmap)
   <!-- badges: end -->
-
-<p align="center"> <img src="READMEfigs/rmapHeaderThick.PNG"></p>
 
 - Github: https://github.com/JGCRI/rmap
 - Webpage: https://jgcri.github.io/rmap/
