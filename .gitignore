@@ -8,5 +8,6 @@ outputs
 .proj
 .PROJ
 dataFiles
-
+docs
+articles
 
