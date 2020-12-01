@@ -9,7 +9,7 @@
 <!-- ------------------------>
 <!-- ------------------------>
 
-- [Key Links](#Key Links)
+- [Key Links](#KeyLinks)
 - [Introduction](#Introduction)
 - [Citation](#Citation)
 - [Installation Guide](#InstallGuide)
