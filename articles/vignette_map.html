@@ -85,7 +85,8 @@
 
       
 
-      </header><script src="vignette_map_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="vignette_map_files/accessible-code-block-0.0.1/empty-anchor.js"></script><link href="vignette_map_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
+<script src="vignette_map_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>map</h1>
@@ -145,10 +146,11 @@
 <!-------------------------->
 <!-------------------------->
 <p>rmap comes with a set of preloaded maps. A full list of rmap maps is available at <a href="https://jgcri.github.io/rmap/articles/vignette_colorsMapsParams/#maps-1.html">colors, maps and params</a>. The pre-loaded maps all come with each polygon labelled in a <strong>subRegion</strong> column. For each map the data contained in the shapefile and the map itself can be viewed as follows:</p>
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">rmap</span>)
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">mapUS49</span>@<span class="kw">data</span>) <span class="co"># To View data in shapefile</span>
-<span class="kw pkg">rmap</span><span class="kw ns">::</span><span class="fu"><a href="../reference/mapplot.html">mapplot</a></span>(<span class="no">mapUS49</span>, <span class="kw">labels</span><span class="kw">=</span><span class="no">T</span>)</pre></body></html></div>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">mapUS49</span><span class="op">@</span><span class="va">data</span><span class="op">)</span> <span class="co"># To View data in shapefile</span>
+<span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/mapplot.html">mapplot</a></span><span class="op">(</span><span class="va">mapUS49</span>, labels<span class="op">=</span><span class="cn">T</span><span class="op">)</span></code></pre></div>
 <p align="center" style="font-size:18px;">
 <em>Example View of Pre-loaded Map for US49</em>
 </p>
@@ -171,12 +173,13 @@
 <div id="us-49" class="section level3">
 <h3 class="hasAnchor">
 <a href="#us-49" class="anchor"></a>US 49</h3>
-<div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">rmap</span>)
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>
 
-<span class="no">data</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="kw">subRegion</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"CA"</span>,<span class="st">"FL"</span>,<span class="st">"ID"</span>,<span class="st">"MO"</span>,<span class="st">"TX"</span>,<span class="st">"WY"</span>),
-                  <span class="kw">x</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>),
-                  <span class="kw">value</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">5</span>,<span class="fl">10</span>,<span class="fl">15</span>,<span class="fl">34</span>,<span class="fl">2</span>,<span class="fl">7</span>))
-<span class="fu"><a href="../reference/map.html">map</a></span>(<span class="no">data</span>,<span class="kw">folder</span> <span class="kw">=</span> <span class="st">"vignetteMaps"</span>, <span class="kw">mapTitleOn</span> <span class="kw">=</span> <span class="no">F</span>)</pre></body></html></div>
+<span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>subRegion<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"CA"</span>,<span class="st">"FL"</span>,<span class="st">"ID"</span>,<span class="st">"MO"</span>,<span class="st">"TX"</span>,<span class="st">"WY"</span><span class="op">)</span>,
+                  x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span><span class="op">)</span>,
+                  value<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">5</span>,<span class="fl">10</span>,<span class="fl">15</span>,<span class="fl">34</span>,<span class="fl">2</span>,<span class="fl">7</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span>,folder <span class="op">=</span> <span class="st">"vignetteMaps"</span>, mapTitleOn <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></code></pre></div>
 <p align="center" style="font-size:18px;">
 <em>US49</em>
 </p>
@@ -191,13 +194,14 @@
 <div id="us-52" class="section level3">
 <h3 class="hasAnchor">
 <a href="#us-52" class="anchor"></a>US 52</h3>
-<div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">rmap</span>)
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>
 
-<span class="no">data</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="kw">subRegion</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"AK"</span>,<span class="st">"FL"</span>,<span class="st">"ID"</span>,<span class="st">"MO"</span>,<span class="st">"TX"</span>,<span class="st">"WY"</span>),
-                  <span class="kw">x</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>),
-                  <span class="kw">value</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">5</span>,<span class="fl">10</span>,<span class="fl">15</span>,<span class="fl">34</span>,<span class="fl">2</span>,<span class="fl">7</span>))
-<span class="fu"><a href="../reference/map.html">map</a></span>(<span class="no">data</span>,
-                  <span class="kw">folder</span> <span class="kw">=</span> <span class="st">"vignetteMaps"</span>, <span class="kw">mapTitleOn</span> <span class="kw">=</span> <span class="no">F</span>)</pre></body></html></div>
+<span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>subRegion<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"AK"</span>,<span class="st">"FL"</span>,<span class="st">"ID"</span>,<span class="st">"MO"</span>,<span class="st">"TX"</span>,<span class="st">"WY"</span><span class="op">)</span>,
+                  x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span><span class="op">)</span>,
+                  value<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">5</span>,<span class="fl">10</span>,<span class="fl">15</span>,<span class="fl">34</span>,<span class="fl">2</span>,<span class="fl">7</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span>,
+                  folder <span class="op">=</span> <span class="st">"vignetteMaps"</span>, mapTitleOn <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></code></pre></div>
 <p align="center" style="font-size:18px;">
 <em>US52</em>
 </p>
@@ -207,17 +211,18 @@
 <div id="us-49-counties" class="section level3">
 <h3 class="hasAnchor">
 <a href="#us-49-counties" class="anchor"></a>US 49 Counties</h3>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">rmap</span>)
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span>(<span class="no">mapUS49County</span>@<span class="kw">data</span>$<span class="no">subRegion</span>) <span class="co"># Check subRegion Names</span>
-<span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span>(<span class="no">mapUS49County</span>@<span class="kw">data</span>$<span class="no">subRegionAlt</span>) <span class="co"># Check Alternate names</span>
-<span class="no">data</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="kw">subRegion</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Pender_NC"</span>,<span class="st">"Larue_KY"</span>,<span class="st">"Jim Wells_TX"</span>,<span class="st">"Orange_IN"</span>,<span class="st">"Putnam_FL"</span>,<span class="st">"Ellis_KS"</span>),
-                  <span class="kw">x</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>),
-                  <span class="kw">value</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">5</span>,<span class="fl">10</span>,<span class="fl">15</span>,<span class="fl">34</span>,<span class="fl">2</span>,<span class="fl">7</span>))
-<span class="fu"><a href="../reference/map.html">map</a></span>(<span class="no">data</span>,
-                  <span class="kw">folder</span> <span class="kw">=</span> <span class="st">"vignetteMaps"</span>,
-                  <span class="kw">nameAppend</span> <span class="kw">=</span> <span class="st">"_Alt"</span>,
-                  <span class="kw">mapTitleOn</span> <span class="kw">=</span> <span class="no">F</span>)</pre></body></html></div>
+<span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">mapUS49County</span><span class="op">@</span><span class="va">data</span><span class="op">$</span><span class="va">subRegion</span><span class="op">)</span> <span class="co"># Check subRegion Names</span>
+<span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">mapUS49County</span><span class="op">@</span><span class="va">data</span><span class="op">$</span><span class="va">subRegionAlt</span><span class="op">)</span> <span class="co"># Check Alternate names</span>
+<span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>subRegion<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Pender_NC"</span>,<span class="st">"Larue_KY"</span>,<span class="st">"Jim Wells_TX"</span>,<span class="st">"Orange_IN"</span>,<span class="st">"Putnam_FL"</span>,<span class="st">"Ellis_KS"</span><span class="op">)</span>,
+                  x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span><span class="op">)</span>,
+                  value<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">5</span>,<span class="fl">10</span>,<span class="fl">15</span>,<span class="fl">34</span>,<span class="fl">2</span>,<span class="fl">7</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span>,
+                  folder <span class="op">=</span> <span class="st">"vignetteMaps"</span>,
+                  nameAppend <span class="op">=</span> <span class="st">"_Alt"</span>,
+                  mapTitleOn <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></code></pre></div>
 <p align="center" style="font-size:18px;">
 <em>US49 Counties</em>
 </p>
@@ -227,17 +232,18 @@
 <div id="us-52-counties" class="section level3">
 <h3 class="hasAnchor">
 <a href="#us-52-counties" class="anchor"></a>US 52 Counties</h3>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">rmap</span>)
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span>(<span class="no">mapUS52County</span>@<span class="kw">data</span>$<span class="no">subRegion</span>) <span class="co"># Check subRegion Names</span>
-<span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span>(<span class="no">mapUS52County</span>@<span class="kw">data</span>$<span class="no">subRegionAlt</span>) <span class="co"># Check Alternate names</span>
-<span class="no">data</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="kw">subRegion</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Aleutians West_AK"</span>,<span class="st">"Sabana Grande_PR"</span>,<span class="st">"Kalawao_HI"</span>,<span class="st">"Orange_IN"</span>,<span class="st">"Putnam_FL"</span>,<span class="st">"Ellis_KS"</span>),
-                  <span class="kw">x</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>),
-                  <span class="kw">value</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">5</span>,<span class="fl">10</span>,<span class="fl">15</span>,<span class="fl">34</span>,<span class="fl">2</span>,<span class="fl">7</span>))
-<span class="fu"><a href="../reference/map.html">map</a></span>(<span class="no">data</span>,
-                  <span class="kw">folder</span> <span class="kw">=</span> <span class="st">"vignetteMaps"</span>,
-                  <span class="kw">nameAppend</span> <span class="kw">=</span> <span class="st">"_Alt"</span>,
-                  <span class="kw">mapTitleOn</span> <span class="kw">=</span> <span class="no">F</span>)</pre></body></html></div>
+<span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">mapUS52County</span><span class="op">@</span><span class="va">data</span><span class="op">$</span><span class="va">subRegion</span><span class="op">)</span> <span class="co"># Check subRegion Names</span>
+<span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">mapUS52County</span><span class="op">@</span><span class="va">data</span><span class="op">$</span><span class="va">subRegionAlt</span><span class="op">)</span> <span class="co"># Check Alternate names</span>
+<span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>subRegion<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Aleutians West_AK"</span>,<span class="st">"Sabana Grande_PR"</span>,<span class="st">"Kalawao_HI"</span>,<span class="st">"Orange_IN"</span>,<span class="st">"Putnam_FL"</span>,<span class="st">"Ellis_KS"</span><span class="op">)</span>,
+                  x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span><span class="op">)</span>,
+                  value<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">5</span>,<span class="fl">10</span>,<span class="fl">15</span>,<span class="fl">34</span>,<span class="fl">2</span>,<span class="fl">7</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span>,
+                  folder <span class="op">=</span> <span class="st">"vignetteMaps"</span>,
+                  nameAppend <span class="op">=</span> <span class="st">"_Alt"</span>,
+                  mapTitleOn <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></code></pre></div>
 <p align="center" style="font-size:18px;">
 <em>US52 Counties</em>
 </p>
@@ -247,15 +253,16 @@
 <div id="gcam-32-regions" class="section level3">
 <h3 class="hasAnchor">
 <a href="#gcam-32-regions" class="anchor"></a>GCAM 32 Regions</h3>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">rmap</span>)
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span>(<span class="no">mapGCAMBasins</span>@<span class="kw">data</span>$<span class="no">subRegion</span>) <span class="co"># Check Available Regions</span>
-<span class="no">data</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="kw">subRegion</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Colombia"</span>,<span class="st">"China"</span>,<span class="st">"EU-12"</span>,<span class="st">"Pakistan"</span>,<span class="st">"Middle East"</span>,<span class="st">"Japan"</span>),
-                  <span class="kw">x</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>),
-                  <span class="kw">value</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">5</span>,<span class="fl">10</span>,<span class="fl">15</span>,<span class="fl">34</span>,<span class="fl">2</span>,<span class="fl">7</span>))
-<span class="fu"><a href="../reference/map.html">map</a></span>(<span class="no">data</span>,
-                  <span class="kw">folder</span> <span class="kw">=</span> <span class="st">"vignetteMaps"</span>,
-                  <span class="kw">mapTitleOn</span> <span class="kw">=</span> <span class="no">F</span>)</pre></body></html></div>
+<span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">mapGCAMBasins</span><span class="op">@</span><span class="va">data</span><span class="op">$</span><span class="va">subRegion</span><span class="op">)</span> <span class="co"># Check Available Regions</span>
+<span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>subRegion<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Colombia"</span>,<span class="st">"China"</span>,<span class="st">"EU-12"</span>,<span class="st">"Pakistan"</span>,<span class="st">"Middle East"</span>,<span class="st">"Japan"</span><span class="op">)</span>,
+                  x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span><span class="op">)</span>,
+                  value<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">5</span>,<span class="fl">10</span>,<span class="fl">15</span>,<span class="fl">34</span>,<span class="fl">2</span>,<span class="fl">7</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span>,
+                  folder <span class="op">=</span> <span class="st">"vignetteMaps"</span>,
+                  mapTitleOn <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></code></pre></div>
 <p align="center" style="font-size:18px;">
 <em>GCAM 32 Regions</em>
 </p>
@@ -265,15 +272,16 @@
 <div id="gcam-basins" class="section level3">
 <h3 class="hasAnchor">
 <a href="#gcam-basins" class="anchor"></a>GCAM Basins</h3>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">rmap</span>)
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span>(<span class="no">mapGCAMBasins</span>@<span class="kw">data</span>$<span class="no">subRegion</span>) <span class="co"># Check Available Regions</span>
-<span class="no">data</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="kw">subRegion</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Negro"</span>,<span class="st">"La_plata"</span>,<span class="st">"Great"</span>,<span class="st">"New_England"</span>,<span class="st">"Indus"</span>,<span class="st">"Zambezi"</span>),
-                  <span class="kw">x</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>),
-                  <span class="kw">value</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">5</span>,<span class="fl">10</span>,<span class="fl">15</span>,<span class="fl">34</span>,<span class="fl">2</span>,<span class="fl">7</span>))
-<span class="fu"><a href="../reference/map.html">map</a></span>(<span class="no">data</span>,
-                  <span class="kw">folder</span> <span class="kw">=</span> <span class="st">"vignetteMaps"</span>,
-                  <span class="kw">mapTitleOn</span> <span class="kw">=</span> <span class="no">F</span>)</pre></body></html></div>
+<span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">mapGCAMBasins</span><span class="op">@</span><span class="va">data</span><span class="op">$</span><span class="va">subRegion</span><span class="op">)</span> <span class="co"># Check Available Regions</span>
+<span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>subRegion<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Negro"</span>,<span class="st">"La_plata"</span>,<span class="st">"Great"</span>,<span class="st">"New_England"</span>,<span class="st">"Indus"</span>,<span class="st">"Zambezi"</span><span class="op">)</span>,
+                  x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span><span class="op">)</span>,
+                  value<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">5</span>,<span class="fl">10</span>,<span class="fl">15</span>,<span class="fl">34</span>,<span class="fl">2</span>,<span class="fl">7</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span>,
+                  folder <span class="op">=</span> <span class="st">"vignetteMaps"</span>,
+                  mapTitleOn <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></code></pre></div>
 <p align="center" style="font-size:18px;">
 <em>GCAM Basins</em>
 </p>
@@ -283,15 +291,16 @@
 <div id="world-countries" class="section level3">
 <h3 class="hasAnchor">
 <a href="#world-countries" class="anchor"></a>World Countries</h3>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">rmap</span>)
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span>(<span class="no">mapCountries</span>@<span class="kw">data</span>$<span class="no">subRegion</span>) <span class="co"># Check Available Regions</span>
-<span class="no">data</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="kw">subRegion</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Colombia"</span>,<span class="st">"China"</span>,<span class="st">"India"</span>,<span class="st">"Spain"</span>,<span class="st">"Ghana"</span>,<span class="st">"Iran"</span>),
-                  <span class="kw">x</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>),
-                  <span class="kw">value</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">5</span>,<span class="fl">10</span>,<span class="fl">15</span>,<span class="fl">34</span>,<span class="fl">2</span>,<span class="fl">7</span>))
-<span class="fu"><a href="../reference/map.html">map</a></span>(<span class="no">data</span>,
-                  <span class="kw">folder</span> <span class="kw">=</span> <span class="st">"vignetteMaps"</span>,
-                  <span class="kw">mapTitleOn</span> <span class="kw">=</span> <span class="no">F</span>)</pre></body></html></div>
+<span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">mapCountries</span><span class="op">@</span><span class="va">data</span><span class="op">$</span><span class="va">subRegion</span><span class="op">)</span> <span class="co"># Check Available Regions</span>
+<span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>subRegion<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Colombia"</span>,<span class="st">"China"</span>,<span class="st">"India"</span>,<span class="st">"Spain"</span>,<span class="st">"Ghana"</span>,<span class="st">"Iran"</span><span class="op">)</span>,
+                  x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span><span class="op">)</span>,
+                  value<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">5</span>,<span class="fl">10</span>,<span class="fl">15</span>,<span class="fl">34</span>,<span class="fl">2</span>,<span class="fl">7</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span>,
+                  folder <span class="op">=</span> <span class="st">"vignetteMaps"</span>,
+                  mapTitleOn <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></code></pre></div>
 <p align="center" style="font-size:18px;">
 <em>World Countries</em>
 </p>
@@ -301,15 +310,16 @@
 <div id="world-states" class="section level3">
 <h3 class="hasAnchor">
 <a href="#world-states" class="anchor"></a>World States</h3>
-<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">rmap</span>)
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span>(<span class="no">mapStates</span>@<span class="kw">data</span>$<span class="no">subRegion</span>) <span class="co"># Check Available Regions</span>
-<span class="no">data</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="kw">subRegion</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Punjab"</span>,<span class="st">"FL"</span>,<span class="st">"TX"</span>,<span class="st">"Faryab"</span>,<span class="st">"Assam"</span>,<span class="st">"Lac"</span>),
-                  <span class="kw">x</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>),
-                  <span class="kw">value</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">5</span>,<span class="fl">10</span>,<span class="fl">15</span>,<span class="fl">34</span>,<span class="fl">2</span>,<span class="fl">7</span>))
-<span class="fu"><a href="../reference/map.html">map</a></span>(<span class="no">data</span>,
-                  <span class="kw">folder</span> <span class="kw">=</span> <span class="st">"vignetteMaps"</span>,
-                  <span class="kw">mapTitleOn</span> <span class="kw">=</span> <span class="no">F</span>)</pre></body></html></div>
+<span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">mapStates</span><span class="op">@</span><span class="va">data</span><span class="op">$</span><span class="va">subRegion</span><span class="op">)</span> <span class="co"># Check Available Regions</span>
+<span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>subRegion<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Punjab"</span>,<span class="st">"FL"</span>,<span class="st">"TX"</span>,<span class="st">"Faryab"</span>,<span class="st">"Assam"</span>,<span class="st">"Lac"</span><span class="op">)</span>,
+                  x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span><span class="op">)</span>,
+                  value<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">5</span>,<span class="fl">10</span>,<span class="fl">15</span>,<span class="fl">34</span>,<span class="fl">2</span>,<span class="fl">7</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span>,
+                  folder <span class="op">=</span> <span class="st">"vignetteMaps"</span>,
+                  mapTitleOn <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></code></pre></div>
 <p align="center" style="font-size:18px;">
 <em>World States</em>
 </p>
@@ -321,23 +331,24 @@
 <h2 class="hasAnchor">
 <a href="#select-map" class="anchor"></a>Select Map</h2>
 <p>Sometimes subRegions can be present on multiple maps. For example “Colombia”, China" and “India” are all members of <code><a href="../reference/mapGCAMReg32.html">rmap::mapGCAMReg32</a></code> as well as <code><a href="../reference/mapCountries.html">rmap::mapCountries</a></code>. If a user knows which map they want to plot their data on they should specify the map in the <code>subRegShape</code> argument.</p>
-<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">rmap</span>)
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>
 
-<span class="no">data</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="kw">subRegion</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Colombia"</span>,<span class="st">"China"</span>,<span class="st">"India"</span>),
-                  <span class="kw">x</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>),
-                  <span class="kw">value</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">5</span>,<span class="fl">10</span>,<span class="fl">15</span>))
+<span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>subRegion<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Colombia"</span>,<span class="st">"China"</span>,<span class="st">"India"</span><span class="op">)</span>,
+                  x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span><span class="op">)</span>,
+                  value<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">5</span>,<span class="fl">10</span>,<span class="fl">15</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co"># Auto selection by rmap will choose rmap::mapCountries</span>
-<span class="fu"><a href="../reference/map.html">map</a></span>(<span class="no">data</span>,
-                  <span class="kw">folder</span> <span class="kw">=</span> <span class="st">"vignetteChooseMap"</span>,
-                  <span class="kw">mapTitleOn</span> <span class="kw">=</span> <span class="no">F</span>)
+<span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span>,
+                  folder <span class="op">=</span> <span class="st">"vignetteChooseMap"</span>,
+                  mapTitleOn <span class="op">=</span> <span class="cn">F</span><span class="op">)</span>
 
 <span class="co"># User can specify that they want to plot this data on rmap::mapGCAMReg32</span>
-<span class="fu"><a href="../reference/map.html">map</a></span>(<span class="no">data</span>,
-                  <span class="kw">subRegShape</span> <span class="kw">=</span> <span class="kw pkg">rmap</span><span class="kw ns">::</span><span class="no"><a href="../reference/mapGCAMReg32.html">mapGCAMReg32</a></span>,
-                  <span class="kw">folder</span> <span class="kw">=</span> <span class="st">"vignetteChooseMap"</span>,
-                  <span class="kw">nameAppend</span> <span class="kw">=</span> <span class="st">"Chosen"</span>,
-                  <span class="kw">mapTitleOn</span> <span class="kw">=</span> <span class="no">F</span>)</pre></body></html></div>
+<span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span>,
+                  subRegShape <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapGCAMReg32.html">mapGCAMReg32</a></span>,
+                  folder <span class="op">=</span> <span class="st">"vignetteChooseMap"</span>,
+                  nameAppend <span class="op">=</span> <span class="st">"Chosen"</span>,
+                  mapTitleOn <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></code></pre></div>
 <p align="center" style="font-size:18px;">
 <em>Select Pre-Loaded Map</em>
 </p>
@@ -347,14 +358,15 @@
 <div id="us-52-compact" class="section level2">
 <h2 class="hasAnchor">
 <a href="#us-52-compact" class="anchor"></a>US 52 Compact</h2>
-<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">rmap</span>)
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>
 
-<span class="no">data</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="kw">subRegion</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"AK"</span>,<span class="st">"HI"</span>,<span class="st">"PR"</span>,<span class="st">"MO"</span>,<span class="st">"TX"</span>,<span class="st">"WY"</span>),
-                  <span class="kw">x</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>),
-                  <span class="kw">value</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">5</span>,<span class="fl">10</span>,<span class="fl">15</span>,<span class="fl">34</span>,<span class="fl">2</span>,<span class="fl">7</span>))
-<span class="fu"><a href="../reference/map.html">map</a></span>(<span class="no">data</span>,
-                  <span class="kw">subRegShape</span><span class="kw">=</span><span class="kw pkg">rmap</span><span class="kw ns">::</span><span class="no"><a href="../reference/mapUS52Compact.html">mapUS52Compact</a></span>,
-                  <span class="kw">folder</span> <span class="kw">=</span> <span class="st">"vignetteMaps"</span>, <span class="kw">mapTitleOn</span> <span class="kw">=</span> <span class="no">F</span>)</pre></body></html></div>
+<span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>subRegion<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"AK"</span>,<span class="st">"HI"</span>,<span class="st">"PR"</span>,<span class="st">"MO"</span>,<span class="st">"TX"</span>,<span class="st">"WY"</span><span class="op">)</span>,
+                  x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span><span class="op">)</span>,
+                  value<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">5</span>,<span class="fl">10</span>,<span class="fl">15</span>,<span class="fl">34</span>,<span class="fl">2</span>,<span class="fl">7</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span>,
+                  subRegShape<span class="op">=</span><span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapUS52Compact.html">mapUS52Compact</a></span>,
+                  folder <span class="op">=</span> <span class="st">"vignetteMaps"</span>, mapTitleOn <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></code></pre></div>
 <p align="center" style="font-size:18px;">
 <em>US52Compact</em>
 </p>
@@ -364,18 +376,19 @@
 <div id="us-52-counties-compact" class="section level2">
 <h2 class="hasAnchor">
 <a href="#us-52-counties-compact" class="anchor"></a>US 52 Counties Compact</h2>
-<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">rmap</span>)
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span>(<span class="no">mapUS52CountyCompact</span>@<span class="kw">data</span>$<span class="no">subRegion</span>) <span class="co"># Check subRegion Names</span>
-<span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span>(<span class="no">mapUS52CountyCompact</span>@<span class="kw">data</span>$<span class="no">subRegionAlt</span>) <span class="co"># Check Alternate names</span>
-<span class="no">data</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="kw">subRegion</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Aleutians West_AK"</span>,<span class="st">"Sabana Grande_PR"</span>,<span class="st">"Kalawao_HI"</span>,<span class="st">"Orange_IN"</span>,<span class="st">"Putnam_FL"</span>,<span class="st">"Ellis_KS"</span>),
-                  <span class="kw">x</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>),
-                  <span class="kw">value</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">5</span>,<span class="fl">10</span>,<span class="fl">15</span>,<span class="fl">34</span>,<span class="fl">2</span>,<span class="fl">7</span>))
-<span class="fu"><a href="../reference/map.html">map</a></span>(<span class="no">data</span>,
-                  <span class="kw">subRegShape</span><span class="kw">=</span><span class="kw pkg">rmap</span><span class="kw ns">::</span><span class="no"><a href="../reference/mapUS52CountyCompact.html">mapUS52CountyCompact</a></span>,
-                  <span class="kw">folder</span> <span class="kw">=</span> <span class="st">"vignetteMaps"</span>,
-                  <span class="kw">nameAppend</span> <span class="kw">=</span> <span class="st">"_Alt"</span>,
-                  <span class="kw">mapTitleOn</span> <span class="kw">=</span> <span class="no">F</span>)</pre></body></html></div>
+<span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">mapUS52CountyCompact</span><span class="op">@</span><span class="va">data</span><span class="op">$</span><span class="va">subRegion</span><span class="op">)</span> <span class="co"># Check subRegion Names</span>
+<span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">mapUS52CountyCompact</span><span class="op">@</span><span class="va">data</span><span class="op">$</span><span class="va">subRegionAlt</span><span class="op">)</span> <span class="co"># Check Alternate names</span>
+<span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>subRegion<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Aleutians West_AK"</span>,<span class="st">"Sabana Grande_PR"</span>,<span class="st">"Kalawao_HI"</span>,<span class="st">"Orange_IN"</span>,<span class="st">"Putnam_FL"</span>,<span class="st">"Ellis_KS"</span><span class="op">)</span>,
+                  x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span><span class="op">)</span>,
+                  value<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">5</span>,<span class="fl">10</span>,<span class="fl">15</span>,<span class="fl">34</span>,<span class="fl">2</span>,<span class="fl">7</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span>,
+                  subRegShape<span class="op">=</span><span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapUS52CountyCompact.html">mapUS52CountyCompact</a></span>,
+                  folder <span class="op">=</span> <span class="st">"vignetteMaps"</span>,
+                  nameAppend <span class="op">=</span> <span class="st">"_Alt"</span>,
+                  mapTitleOn <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></code></pre></div>
 <p align="center" style="font-size:18px;">
 <em>US52 Counties Compact</em>
 </p>
@@ -396,26 +409,27 @@
 <div id="subset-existing-shape" class="section level2">
 <h2 class="hasAnchor">
 <a href="#subset-existing-shape" class="anchor"></a>Subset existing shape</h2>
-<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">rmap</span>); <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">rgdal</span>)
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>; <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://rgdal.r-forge.r-project.org">rgdal</a></span><span class="op">)</span>
 
-<span class="no">shapeSubset</span> <span class="kw">&lt;-</span> <span class="kw pkg">rmap</span><span class="kw ns">::</span><span class="no"><a href="../reference/mapStates.html">mapStates</a></span> <span class="co"># Read in World States shape file</span>
-<span class="no">shapeSubset</span> <span class="kw">&lt;-</span> <span class="no">shapeSubset</span>[<span class="no">shapeSubset</span>@<span class="kw">data</span>$<span class="no">region</span> <span class="kw">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Colombia"</span>),] <span class="co"># Subset the shapefile to Colombia</span>
-<span class="no">shapeSubset</span>@<span class="kw">data</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/droplevels.html">droplevels</a></span>(<span class="no">shapeSubset</span>@<span class="kw">data</span>)
-<span class="no">shapeSubset</span>@<span class="kw">data</span> <span class="kw">&lt;-</span> <span class="no">shapeSubset</span>@<span class="kw">data</span> <span class="kw">%&gt;%</span> <span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html">rename</a></span>(<span class="kw">states</span><span class="kw">=</span><span class="no">subRegion</span>) <span class="co"># Lets assume the subRegion column was called "states"</span>
-<span class="fu"><a href="../reference/mapplot.html">mapplot</a></span>(<span class="no">shapeSubset</span>,<span class="kw">fillCol</span><span class="kw">=</span><span class="st">"states"</span>) <span class="co"># View custom shape</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">shapeSubset</span>@<span class="kw">data</span>) <span class="co"># review data</span>
-<span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span>(<span class="no">shapeSubset</span>@<span class="kw">data</span>$<span class="no">states</span>) <span class="co"># Get a list of the unique subRegions</span>
+<span class="va">shapeSubset</span> <span class="op">&lt;-</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapStates.html">mapStates</a></span> <span class="co"># Read in World States shape file</span>
+<span class="va">shapeSubset</span> <span class="op">&lt;-</span> <span class="va">shapeSubset</span><span class="op">[</span><span class="va">shapeSubset</span><span class="op">@</span><span class="va">data</span><span class="op">$</span><span class="va">region</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Colombia"</span><span class="op">)</span>,<span class="op">]</span> <span class="co"># Subset the shapefile to Colombia</span>
+<span class="va">shapeSubset</span><span class="op">@</span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/droplevels.html">droplevels</a></span><span class="op">(</span><span class="va">shapeSubset</span><span class="op">@</span><span class="va">data</span><span class="op">)</span>
+<span class="va">shapeSubset</span><span class="op">@</span><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">shapeSubset</span><span class="op">@</span><span class="va">data</span> <span class="op">%&gt;%</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/rename.html">rename</a></span><span class="op">(</span>states<span class="op">=</span><span class="va">subRegion</span><span class="op">)</span> <span class="co"># Lets assume the subRegion column was called "states"</span>
+<span class="fu"><a href="../reference/mapplot.html">mapplot</a></span><span class="op">(</span><span class="va">shapeSubset</span>,fillCol<span class="op">=</span><span class="st">"states"</span><span class="op">)</span> <span class="co"># View custom shape</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">shapeSubset</span><span class="op">@</span><span class="va">data</span><span class="op">)</span> <span class="co"># review data</span>
+<span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">shapeSubset</span><span class="op">@</span><span class="va">data</span><span class="op">$</span><span class="va">states</span><span class="op">)</span> <span class="co"># Get a list of the unique subRegions</span>
 
 <span class="co"># Plot data on subset</span>
-<span class="no">data</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="kw">states</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Cauca"</span>,<span class="st">"Valle del Cauca"</span>,<span class="st">"Antioquia"</span>,<span class="st">"Córdoba"</span>,<span class="st">"Bolívar"</span>,<span class="st">"Atlántico"</span>),
-                  <span class="kw">x</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>),
-                  <span class="kw">value</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">5</span>,<span class="fl">10</span>,<span class="fl">15</span>,<span class="fl">34</span>,<span class="fl">2</span>,<span class="fl">7</span>))
-<span class="fu"><a href="../reference/map.html">map</a></span>(<span class="no">data</span>,
-                  <span class="kw">subRegShape</span> <span class="kw">=</span> <span class="no">shapeSubset</span>,
-                  <span class="kw">subRegCol</span> <span class="kw">=</span> <span class="st">"states"</span>,
-                  <span class="kw">subRegType</span> <span class="kw">=</span> <span class="st">"ColombiaStates"</span>,
-                  <span class="kw">folder</span> <span class="kw">=</span> <span class="st">"vignetteMaps_shapeSubset"</span>,
-                  <span class="kw">mapTitleOn</span> <span class="kw">=</span> <span class="no">F</span>)</pre></body></html></div>
+<span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>states<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Cauca"</span>,<span class="st">"Valle del Cauca"</span>,<span class="st">"Antioquia"</span>,<span class="st">"Córdoba"</span>,<span class="st">"Bolívar"</span>,<span class="st">"Atlántico"</span><span class="op">)</span>,
+                  x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span><span class="op">)</span>,
+                  value<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">5</span>,<span class="fl">10</span>,<span class="fl">15</span>,<span class="fl">34</span>,<span class="fl">2</span>,<span class="fl">7</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span>,
+                  subRegShape <span class="op">=</span> <span class="va">shapeSubset</span>,
+                  subRegCol <span class="op">=</span> <span class="st">"states"</span>,
+                  subRegType <span class="op">=</span> <span class="st">"ColombiaStates"</span>,
+                  folder <span class="op">=</span> <span class="st">"vignetteMaps_shapeSubset"</span>,
+                  mapTitleOn <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></code></pre></div>
 <p align="center" style="font-size:18px;">
 <em>Shape subset</em>
 </p>
@@ -426,28 +440,29 @@
 <h2 class="hasAnchor">
 <a href="#crop-a-shape-to-another-shape" class="anchor"></a>Crop a shape to another shape</h2>
 <p>For example if someone wants to analyze counties in Texas.</p>
-<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">rmap</span>); <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">raster</span>)
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>; <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/raster">raster</a></span><span class="op">)</span>
 
-<span class="no">shapeSubRegions</span> <span class="kw">&lt;-</span> <span class="kw pkg">rmap</span><span class="kw ns">::</span><span class="no"><a href="../reference/mapUS49County.html">mapUS49County</a></span>
-<span class="no">shapeCropTo</span> <span class="kw">&lt;-</span> <span class="kw pkg">rmap</span><span class="kw ns">::</span><span class="no"><a href="../reference/mapUS49.html">mapUS49</a></span>
-<span class="no">shapeCropTo</span> <span class="kw">&lt;-</span> <span class="no">shapeCropTo</span>[<span class="no">shapeCropTo</span>@<span class="kw">data</span>$<span class="no">subRegion</span> <span class="kw">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"TX"</span>),]
-<span class="no">shapeCropTo</span>@<span class="kw">data</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/droplevels.html">droplevels</a></span>(<span class="no">shapeCropTo</span>@<span class="kw">data</span>)
-<span class="no">shapeCrop</span><span class="kw">&lt;-</span> <span class="kw pkg">sp</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/sp/man/spTransform.html">spTransform</a></span>(<span class="no">shapeCropTo</span>,<span class="kw pkg">raster</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/projection.html">crs</a></span>(<span class="no">shapeSubRegions</span>))
-<span class="no">shapeCrop</span> <span class="kw">&lt;-</span><span class="kw pkg">raster</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/crop.html">crop</a></span>(<span class="no">shapeSubRegions</span>,<span class="no">shapeCropTo</span>)
-<span class="no">shapeCrop</span>@<span class="kw">data</span> <span class="kw">&lt;-</span> <span class="no">shapeCrop</span>@<span class="kw">data</span><span class="kw">%&gt;%</span><span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span>(<span class="no">subRegion</span>)
-<span class="no">shapeCrop</span>$<span class="no">subRegion</span><span class="kw">%&gt;%</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/unique.html">unique</a></span>() <span class="co"># Check subRegion names</span>
-<span class="fu"><a href="../reference/mapplot.html">mapplot</a></span>(<span class="no">shapeCrop</span>)
+<span class="va">shapeSubRegions</span> <span class="op">&lt;-</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapUS49County.html">mapUS49County</a></span>
+<span class="va">shapeCropTo</span> <span class="op">&lt;-</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapUS49.html">mapUS49</a></span>
+<span class="va">shapeCropTo</span> <span class="op">&lt;-</span> <span class="va">shapeCropTo</span><span class="op">[</span><span class="va">shapeCropTo</span><span class="op">@</span><span class="va">data</span><span class="op">$</span><span class="va">subRegion</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"TX"</span><span class="op">)</span>,<span class="op">]</span>
+<span class="va">shapeCropTo</span><span class="op">@</span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/droplevels.html">droplevels</a></span><span class="op">(</span><span class="va">shapeCropTo</span><span class="op">@</span><span class="va">data</span><span class="op">)</span>
+<span class="va">shapeCrop</span><span class="op">&lt;-</span> <span class="fu">sp</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/sp/man/spTransform.html">spTransform</a></span><span class="op">(</span><span class="va">shapeCropTo</span>,<span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/projection.html">crs</a></span><span class="op">(</span><span class="va">shapeSubRegions</span><span class="op">)</span><span class="op">)</span>
+<span class="va">shapeCrop</span> <span class="op">&lt;-</span><span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/crop.html">crop</a></span><span class="op">(</span><span class="va">shapeSubRegions</span>,<span class="va">shapeCropTo</span><span class="op">)</span>
+<span class="va">shapeCrop</span><span class="op">@</span><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">shapeCrop</span><span class="op">@</span><span class="va">data</span><span class="op">%&gt;%</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">subRegion</span><span class="op">)</span>
+<span class="va">shapeCrop</span><span class="op">$</span><span class="va">subRegion</span><span class="op">%&gt;%</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/unique.html">unique</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># Check subRegion names</span>
+<span class="fu"><a href="../reference/mapplot.html">mapplot</a></span><span class="op">(</span><span class="va">shapeCrop</span><span class="op">)</span>
 
 <span class="co"># Plot data on subset</span>
-<span class="no">data</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="kw">county</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Wise_TX"</span>,<span class="st">"Scurry_TX"</span>,<span class="st">"Kendall_TX"</span>,<span class="st">"Frio_TX"</span>,<span class="st">"Hunt_TX"</span>,<span class="st">"Austin_TX"</span>),
-                  <span class="kw">x</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>),
-                  <span class="kw">value</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">5</span>,<span class="fl">10</span>,<span class="fl">15</span>,<span class="fl">34</span>,<span class="fl">2</span>,<span class="fl">7</span>))
-<span class="fu"><a href="../reference/map.html">map</a></span>(<span class="no">data</span>,
-                  <span class="kw">subRegShape</span> <span class="kw">=</span> <span class="no">shapeCrop</span>,
-                  <span class="kw">subRegCol</span> <span class="kw">=</span> <span class="st">"county"</span>,
-                  <span class="kw">subRegType</span> <span class="kw">=</span> <span class="st">"TexasCounties"</span>,
-                  <span class="kw">folder</span> <span class="kw">=</span> <span class="st">"vignetteMaps_shapeCrop"</span>,
-                  <span class="kw">mapTitleOn</span> <span class="kw">=</span> <span class="no">F</span>)</pre></body></html></div>
+<span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>county<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Wise_TX"</span>,<span class="st">"Scurry_TX"</span>,<span class="st">"Kendall_TX"</span>,<span class="st">"Frio_TX"</span>,<span class="st">"Hunt_TX"</span>,<span class="st">"Austin_TX"</span><span class="op">)</span>,
+                  x<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span>,<span class="fl">2050</span><span class="op">)</span>,
+                  value<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">5</span>,<span class="fl">10</span>,<span class="fl">15</span>,<span class="fl">34</span>,<span class="fl">2</span>,<span class="fl">7</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span>,
+                  subRegShape <span class="op">=</span> <span class="va">shapeCrop</span>,
+                  subRegCol <span class="op">=</span> <span class="st">"county"</span>,
+                  subRegType <span class="op">=</span> <span class="st">"TexasCounties"</span>,
+                  folder <span class="op">=</span> <span class="st">"vignetteMaps_shapeCrop"</span>,
+                  mapTitleOn <span class="op">=</span> <span class="cn">F</span><span class="op">)</span></code></pre></div>
 <p align="center" style="font-size:18px;">
 <em>Shape Crop</em>
 </p>
@@ -465,11 +480,12 @@
 <!-------------------------->
 <!-------------------------->
 <p>By setting the <strong>cropToBoundary</strong> argument to <strong>T</strong> the function will crop your map to the regions with data provided. This is particularly helpful for data plotted on the world maps as shown in the example below:</p>
-<div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">rmap</span>)
-<span class="no">data</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="kw">subRegion</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"India"</span>,<span class="st">"China"</span>), <span class="kw">year</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">2010</span>,<span class="fl">2010</span>),<span class="kw">value</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">32</span>,<span class="fl">54</span>))
-<span class="fu"><a href="../reference/map.html">map</a></span>(<span class="kw">polygonTable</span> <span class="kw">=</span> <span class="no">data</span>, <span class="kw">mapTitleOn</span> <span class="kw">=</span> <span class="no">F</span>, <span class="kw">folder</span> <span class="kw">=</span> <span class="st">"vignetteMaps"</span>, <span class="kw">cropToBoundary</span><span class="kw">=</span><span class="no">F</span>, )
-<span class="fu"><a href="../reference/map.html">map</a></span>(<span class="kw">polygonTable</span> <span class="kw">=</span> <span class="no">data</span>, <span class="kw">mapTitleOn</span> <span class="kw">=</span> <span class="no">F</span>, <span class="kw">folder</span> <span class="kw">=</span> <span class="st">"vignetteMaps"</span>, <span class="kw">cropToBoundary</span><span class="kw">=</span><span class="no">T</span>,
-                  <span class="kw">nameAppend</span><span class="kw">=</span><span class="st">"Cropped"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>
+<span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>subRegion <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"India"</span>,<span class="st">"China"</span><span class="op">)</span>, year<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2010</span>,<span class="fl">2010</span><span class="op">)</span>,value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">32</span>,<span class="fl">54</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>polygonTable <span class="op">=</span> <span class="va">data</span>, mapTitleOn <span class="op">=</span> <span class="cn">F</span>, folder <span class="op">=</span> <span class="st">"vignetteMaps"</span>, cropToBoundary<span class="op">=</span><span class="cn">F</span>, <span class="op">)</span>
+<span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>polygonTable <span class="op">=</span> <span class="va">data</span>, mapTitleOn <span class="op">=</span> <span class="cn">F</span>, folder <span class="op">=</span> <span class="st">"vignetteMaps"</span>, cropToBoundary<span class="op">=</span><span class="cn">T</span>, 
+                  nameAppend<span class="op">=</span><span class="st">"Cropped"</span><span class="op">)</span></code></pre></div>
 <p align="center" style="font-size:18px;">
 <em>Crop to Boundary</em>
 </p>
@@ -486,17 +502,18 @@
 <!-------------------------->
 <!-------------------------->
 <p>By turning on <strong>extension</strong> a background layer will be added to any shape map.</p>
-<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">rmap</span>)
-<span class="no">data</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(
-  <span class="kw">subRegion</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"India"</span>,<span class="st">"China"</span>), <span class="kw">year</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">2010</span>,<span class="fl">2010</span>), <span class="kw">value</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">32</span>,<span class="fl">54</span>))
-<span class="fu"><a href="../reference/map.html">map</a></span>(<span class="kw">polygonTable</span> <span class="kw">=</span> <span class="no">data</span>, <span class="kw">mapTitleOn</span><span class="kw">=</span><span class="no">F</span>, <span class="kw">folder</span> <span class="kw">=</span> <span class="st">"vignetteMaps"</span>,
-                  <span class="kw">cropToBoundary</span> <span class="kw">=</span><span class="no">T</span>,
-                  <span class="kw">extension</span> <span class="kw">=</span> <span class="no">T</span>, <span class="kw">nameAppend</span><span class="kw">=</span><span class="st">"Extended"</span>)
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>
+<span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>
+  subRegion <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"India"</span>,<span class="st">"China"</span><span class="op">)</span>, year<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2010</span>,<span class="fl">2010</span><span class="op">)</span>, value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">32</span>,<span class="fl">54</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>polygonTable <span class="op">=</span> <span class="va">data</span>, mapTitleOn<span class="op">=</span><span class="cn">F</span>, folder <span class="op">=</span> <span class="st">"vignetteMaps"</span>, 
+                  cropToBoundary <span class="op">=</span><span class="cn">T</span>,
+                  extension <span class="op">=</span> <span class="cn">T</span>, nameAppend<span class="op">=</span><span class="st">"Extended"</span><span class="op">)</span>
 
 <span class="co"># Can increase the extnded boundaries by using expandPercent</span>
-<span class="fu"><a href="../reference/map.html">map</a></span>(<span class="kw">polygonTable</span> <span class="kw">=</span> <span class="no">data</span>, <span class="kw">mapTitleOn</span><span class="kw">=</span><span class="no">F</span>, <span class="kw">folder</span> <span class="kw">=</span> <span class="st">"vignetteMaps"</span>,
-                  <span class="kw">cropToBoundary</span> <span class="kw">=</span><span class="no">T</span>,
-                  <span class="kw">extension</span> <span class="kw">=</span> <span class="no">T</span>, <span class="kw">nameAppend</span><span class="kw">=</span><span class="st">"Extended10"</span>, <span class="kw">expandPercent</span> <span class="kw">=</span> <span class="fl">50</span>)</pre></body></html></div>
+<span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>polygonTable <span class="op">=</span> <span class="va">data</span>, mapTitleOn<span class="op">=</span><span class="cn">F</span>, folder <span class="op">=</span> <span class="st">"vignetteMaps"</span>, 
+                  cropToBoundary <span class="op">=</span><span class="cn">T</span>,
+                  extension <span class="op">=</span> <span class="cn">T</span>, nameAppend<span class="op">=</span><span class="st">"Extended10"</span>, expandPercent <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></code></pre></div>
 <p align="center" style="font-size:18px;">
 <em>Extended Background</em>
 </p>
@@ -512,21 +529,22 @@
 <img src="vignetteFigs/rmapHeaderThick.PNG"></p>
 <!-------------------------->
 <!-------------------------->
-<div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">rmap</span>)
-<span class="no">data</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="kw">subRegion</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Austria"</span>,<span class="st">"Spain"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>,<span class="st">"Greece"</span>,
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>
+<span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>subRegion <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Austria"</span>,<span class="st">"Spain"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>,<span class="st">"Greece"</span>,
                                 <span class="st">"Austria"</span>,<span class="st">"Spain"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>,<span class="st">"Greece"</span>,
                                 <span class="st">"Austria"</span>,<span class="st">"Spain"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>,<span class="st">"Greece"</span>,
-                                <span class="st">"Austria"</span>,<span class="st">"Spain"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>,<span class="st">"Greece"</span>),
-                  <span class="kw">year</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">2025</span>,<span class="fl">5</span>),
-                               <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">2050</span>,<span class="fl">5</span>),
-                               <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">2075</span>,<span class="fl">5</span>),
-                               <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">2100</span>,<span class="fl">5</span>)),
-                  <span class="kw">value</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">32</span>, <span class="fl">38</span>, <span class="fl">54</span>, <span class="fl">63</span>, <span class="fl">24</span>,
+                                <span class="st">"Austria"</span>,<span class="st">"Spain"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>,<span class="st">"Greece"</span><span class="op">)</span>,
+                  year <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">2025</span>,<span class="fl">5</span><span class="op">)</span>,
+                               <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">2050</span>,<span class="fl">5</span><span class="op">)</span>,
+                               <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">2075</span>,<span class="fl">5</span><span class="op">)</span>,
+                               <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">2100</span>,<span class="fl">5</span><span class="op">)</span><span class="op">)</span>,
+                  value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">32</span>, <span class="fl">38</span>, <span class="fl">54</span>, <span class="fl">63</span>, <span class="fl">24</span>,
                             <span class="fl">37</span>, <span class="fl">53</span>, <span class="fl">23</span>, <span class="fl">12</span>, <span class="fl">45</span>,
                             <span class="fl">23</span>, <span class="fl">99</span>, <span class="fl">102</span>, <span class="fl">85</span>, <span class="fl">75</span>,
-                            <span class="fl">12</span>, <span class="fl">76</span>, <span class="fl">150</span>, <span class="fl">64</span>, <span class="fl">90</span>))
-<span class="fu"><a href="../reference/map.html">map</a></span>(<span class="kw">polygonTable</span> <span class="kw">=</span> <span class="no">data</span>, <span class="kw">folder</span> <span class="kw">=</span><span class="st">"multiYear"</span>,
-                  <span class="kw">cropToBoundary</span><span class="kw">=</span><span class="no">T</span>, <span class="kw">extension</span> <span class="kw">=</span> <span class="no">T</span> )</pre></body></html></div>
+                            <span class="fl">12</span>, <span class="fl">76</span>, <span class="fl">150</span>, <span class="fl">64</span>, <span class="fl">90</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>polygonTable <span class="op">=</span> <span class="va">data</span>, folder <span class="op">=</span><span class="st">"multiYear"</span>, 
+                  cropToBoundary<span class="op">=</span><span class="cn">T</span>, extension <span class="op">=</span> <span class="cn">T</span> <span class="op">)</span></code></pre></div>
 <p align="center" style="font-size:18px;">
 <em>Multi-year</em>
 </p>
@@ -547,22 +565,23 @@
 <img src="vignetteFigs/rmapHeaderThick.PNG"></p>
 <!-------------------------->
 <!-------------------------->
-<div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">rmap</span>)
-<span class="no">data</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="kw">subRegion</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Austria"</span>,<span class="st">"Spain"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>,<span class="st">"Greece"</span>,
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>
+<span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>subRegion <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Austria"</span>,<span class="st">"Spain"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>,<span class="st">"Greece"</span>,
                                 <span class="st">"Austria"</span>,<span class="st">"Spain"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>,<span class="st">"Greece"</span>,
                                 <span class="st">"Austria"</span>,<span class="st">"Spain"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>,<span class="st">"Greece"</span>,
-                                <span class="st">"Austria"</span>,<span class="st">"Spain"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>,<span class="st">"Greece"</span>),
-                  <span class="kw">class</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="st">"municipal"</span>,<span class="fl">5</span>),
-                               <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="st">"industry"</span>,<span class="fl">5</span>),
-                               <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="st">"agriculture"</span>,<span class="fl">5</span>),
-                               <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="st">"transport"</span>,<span class="fl">5</span>)),
-                  <span class="kw">year</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">2010</span>,<span class="fl">20</span>),
-                  <span class="kw">value</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">32</span>, <span class="fl">38</span>, <span class="fl">54</span>, <span class="fl">63</span>, <span class="fl">24</span>,
+                                <span class="st">"Austria"</span>,<span class="st">"Spain"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>,<span class="st">"Greece"</span><span class="op">)</span>,
+                  class <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="st">"municipal"</span>,<span class="fl">5</span><span class="op">)</span>,
+                               <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="st">"industry"</span>,<span class="fl">5</span><span class="op">)</span>,
+                               <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="st">"agriculture"</span>,<span class="fl">5</span><span class="op">)</span>,
+                               <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="st">"transport"</span>,<span class="fl">5</span><span class="op">)</span><span class="op">)</span>,
+                  year <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">2010</span>,<span class="fl">20</span><span class="op">)</span>,
+                  value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">32</span>, <span class="fl">38</span>, <span class="fl">54</span>, <span class="fl">63</span>, <span class="fl">24</span>,
                             <span class="fl">37</span>, <span class="fl">53</span>, <span class="fl">23</span>, <span class="fl">12</span>, <span class="fl">45</span>,
                             <span class="fl">23</span>, <span class="fl">99</span>, <span class="fl">102</span>, <span class="fl">85</span>, <span class="fl">75</span>,
-                            <span class="fl">12</span>, <span class="fl">76</span>, <span class="fl">150</span>, <span class="fl">64</span>, <span class="fl">90</span>))
-<span class="fu"><a href="../reference/map.html">map</a></span>(<span class="kw">polygonTable</span> <span class="kw">=</span> <span class="no">data</span>, <span class="kw">folder</span> <span class="kw">=</span><span class="st">"multiClass"</span>,
-                  <span class="kw">cropToBoundary</span><span class="kw">=</span><span class="no">T</span>, <span class="kw">extension</span> <span class="kw">=</span> <span class="no">T</span> )</pre></body></html></div>
+                            <span class="fl">12</span>, <span class="fl">76</span>, <span class="fl">150</span>, <span class="fl">64</span>, <span class="fl">90</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>polygonTable <span class="op">=</span> <span class="va">data</span>, folder <span class="op">=</span><span class="st">"multiClass"</span>, 
+                  cropToBoundary<span class="op">=</span><span class="cn">T</span>, extension <span class="op">=</span> <span class="cn">T</span> <span class="op">)</span></code></pre></div>
 <p align="center" style="font-size:18px;">
 <em>Multi-class</em>
 </p>
@@ -579,19 +598,20 @@
 <!-------------------------->
 <!-------------------------->
 <p>With multiple scenarios assigning a <strong>scenRef</strong> calculates the absolute and percentage difference between the different scenarios and stores them in corresponding folders.</p>
-<div class="sourceCode" id="cb19"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">rmap</span>)
-<span class="no">data</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="kw">subRegion</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Austria"</span>,<span class="st">"Spain"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>,<span class="st">"Greece"</span>,
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>
+<span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>subRegion <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Austria"</span>,<span class="st">"Spain"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>,<span class="st">"Greece"</span>,
                                 <span class="st">"Austria"</span>,<span class="st">"Spain"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>,<span class="st">"Greece"</span>,
-                                <span class="st">"Austria"</span>,<span class="st">"Spain"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>,<span class="st">"Greece"</span>),
-                  <span class="kw">scenario</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"scen1"</span>,<span class="st">"scen1"</span>,<span class="st">"scen1"</span>,<span class="st">"scen1"</span>,<span class="st">"scen1"</span>,
+                                <span class="st">"Austria"</span>,<span class="st">"Spain"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>,<span class="st">"Greece"</span><span class="op">)</span>,
+                  scenario <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"scen1"</span>,<span class="st">"scen1"</span>,<span class="st">"scen1"</span>,<span class="st">"scen1"</span>,<span class="st">"scen1"</span>,
                                <span class="st">"scen2"</span>,<span class="st">"scen2"</span>,<span class="st">"scen2"</span>,<span class="st">"scen2"</span>,<span class="st">"scen2"</span>,
-                               <span class="st">"scen3"</span>,<span class="st">"scen3"</span>,<span class="st">"scen3"</span>,<span class="st">"scen3"</span>,<span class="st">"scen3"</span>),
-                  <span class="kw">year</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">2010</span>,<span class="fl">15</span>),
-                  <span class="kw">value</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">32</span>, <span class="fl">38</span>, <span class="fl">54</span>, <span class="fl">63</span>, <span class="fl">24</span>,
+                               <span class="st">"scen3"</span>,<span class="st">"scen3"</span>,<span class="st">"scen3"</span>,<span class="st">"scen3"</span>,<span class="st">"scen3"</span><span class="op">)</span>,
+                  year <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">2010</span>,<span class="fl">15</span><span class="op">)</span>,
+                  value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">32</span>, <span class="fl">38</span>, <span class="fl">54</span>, <span class="fl">63</span>, <span class="fl">24</span>,
                             <span class="fl">37</span>, <span class="fl">53</span>, <span class="fl">23</span>, <span class="fl">12</span>, <span class="fl">45</span>,
-                            <span class="fl">40</span>, <span class="fl">44</span>, <span class="fl">12</span>, <span class="fl">30</span>, <span class="fl">99</span>))
-<span class="fu"><a href="../reference/map.html">map</a></span>(<span class="kw">polygonTable</span> <span class="kw">=</span> <span class="no">data</span>, <span class="kw">folder</span> <span class="kw">=</span><span class="st">"multiScenario"</span>,
-                  <span class="kw">cropToBoundary</span><span class="kw">=</span><span class="no">T</span>, <span class="kw">extension</span> <span class="kw">=</span> <span class="no">T</span>, <span class="kw">scenRef</span><span class="kw">=</span><span class="st">"scen1"</span>, <span class="kw">scenDiff</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"scen3"</span>))</pre></body></html></div>
+                            <span class="fl">40</span>, <span class="fl">44</span>, <span class="fl">12</span>, <span class="fl">30</span>, <span class="fl">99</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>polygonTable <span class="op">=</span> <span class="va">data</span>, folder <span class="op">=</span><span class="st">"multiScenario"</span>, 
+                  cropToBoundary<span class="op">=</span><span class="cn">T</span>, extension <span class="op">=</span> <span class="cn">T</span>, scenRef<span class="op">=</span><span class="st">"scen1"</span>, scenDiff<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"scen3"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p align="center" style="font-size:18px;">
 <em>Multi-Scenario Diff</em>
 </p>
@@ -613,16 +633,17 @@
 <!-------------------------->
 <!-------------------------->
 <p>With multiple years assigning a <strong>xRef</strong> calculates the absolute and percentage difference between the different years and stores them in corresponding folders.</p>
-<div class="sourceCode" id="cb20"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">rmap</span>)
-<span class="no">data</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="kw">subRegion</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Austria"</span>,<span class="st">"Spain"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>,<span class="st">"Greece"</span>,
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>
+<span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>subRegion <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Austria"</span>,<span class="st">"Spain"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>,<span class="st">"Greece"</span>,
                                 <span class="st">"Austria"</span>,<span class="st">"Spain"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>,<span class="st">"Greece"</span>,
-                                <span class="st">"Austria"</span>,<span class="st">"Spain"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>,<span class="st">"Greece"</span>),
-                  <span class="kw">year</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">2010</span>,<span class="fl">5</span>),<span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">2020</span>,<span class="fl">5</span>),<span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">2030</span>,<span class="fl">5</span>)),
-                  <span class="kw">value</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">32</span>, <span class="fl">38</span>, <span class="fl">54</span>, <span class="fl">63</span>, <span class="fl">24</span>,
+                                <span class="st">"Austria"</span>,<span class="st">"Spain"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>,<span class="st">"Greece"</span><span class="op">)</span>,
+                  year <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">2010</span>,<span class="fl">5</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">2020</span>,<span class="fl">5</span><span class="op">)</span>,<span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">2030</span>,<span class="fl">5</span><span class="op">)</span><span class="op">)</span>,
+                  value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">32</span>, <span class="fl">38</span>, <span class="fl">54</span>, <span class="fl">63</span>, <span class="fl">24</span>,
                             <span class="fl">37</span>, <span class="fl">53</span>, <span class="fl">23</span>, <span class="fl">12</span>, <span class="fl">45</span>,
-                            <span class="fl">40</span>, <span class="fl">45</span>, <span class="fl">12</span>, <span class="fl">50</span>, <span class="fl">63</span>))
-<span class="fu"><a href="../reference/map.html">map</a></span>(<span class="kw">polygonTable</span> <span class="kw">=</span> <span class="no">data</span>, <span class="kw">folder</span> <span class="kw">=</span><span class="st">"multiYear"</span>,
-                  <span class="kw">cropToBoundary</span><span class="kw">=</span><span class="no">T</span>, <span class="kw">extension</span> <span class="kw">=</span> <span class="no">T</span>, <span class="kw">xRef</span><span class="kw">=</span><span class="fl">2010</span>, <span class="kw">xDiff</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">2020</span>))</pre></body></html></div>
+                            <span class="fl">40</span>, <span class="fl">45</span>, <span class="fl">12</span>, <span class="fl">50</span>, <span class="fl">63</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>polygonTable <span class="op">=</span> <span class="va">data</span>, folder <span class="op">=</span><span class="st">"multiYear"</span>, 
+                  cropToBoundary<span class="op">=</span><span class="cn">T</span>, extension <span class="op">=</span> <span class="cn">T</span>, xRef<span class="op">=</span><span class="fl">2010</span>, xDiff <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2020</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p align="center" style="font-size:18px;">
 <em>Multi-Year Diff</em>
 </p>
@@ -643,17 +664,18 @@
 <img src="vignetteFigs/rmapHeaderThick.PNG"></p>
 <!-------------------------->
 <!-------------------------->
-<div class="sourceCode" id="cb21"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">rmap</span>)
-<span class="no">data</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="kw">subRegion</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Austria"</span>,<span class="st">"Spain"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>,<span class="st">"Greece"</span>,
-                                <span class="st">"Austria"</span>,<span class="st">"Spain"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>,<span class="st">"Greece"</span>),
-                  <span class="kw">scenario</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"scen1"</span>,<span class="st">"scen1"</span>,<span class="st">"scen1"</span>,<span class="st">"scen1"</span>,<span class="st">"scen1"</span>,
-                               <span class="st">"scen2"</span>,<span class="st">"scen2"</span>,<span class="st">"scen2"</span>,<span class="st">"scen2"</span>,<span class="st">"scen2"</span>),
-                  <span class="kw">year</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">2010</span>,<span class="fl">10</span>),
-                  <span class="kw">value</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">32</span>, <span class="fl">38</span>, <span class="fl">54</span>, <span class="fl">63</span>, <span class="fl">24</span>,
-                            <span class="fl">37</span>, <span class="fl">53</span>, <span class="fl">23</span>, <span class="fl">12</span>, <span class="fl">45</span>))
-<span class="fu"><a href="../reference/map.html">map</a></span>(<span class="kw">polygonTable</span> <span class="kw">=</span> <span class="no">data</span>, <span class="kw">folder</span> <span class="kw">=</span><span class="st">"scaleRange"</span>,
-                  <span class="kw">cropToBoundary</span><span class="kw">=</span><span class="no">T</span>, <span class="kw">extension</span> <span class="kw">=</span> <span class="no">T</span>, <span class="kw">scenRef</span><span class="kw">=</span><span class="st">"scen1"</span>,
-                  <span class="kw">scaleRange</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>,<span class="fl">50</span>), <span class="kw">scaleRangeDiffAbs</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(-<span class="fl">100</span>,<span class="fl">100</span>), <span class="kw">scaleRangeDiffPrcnt</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(-<span class="fl">60</span>,<span class="fl">60</span>))</pre></body></html></div>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>
+<span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>subRegion <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Austria"</span>,<span class="st">"Spain"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>,<span class="st">"Greece"</span>,
+                                <span class="st">"Austria"</span>,<span class="st">"Spain"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>,<span class="st">"Greece"</span><span class="op">)</span>,
+                  scenario <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"scen1"</span>,<span class="st">"scen1"</span>,<span class="st">"scen1"</span>,<span class="st">"scen1"</span>,<span class="st">"scen1"</span>,
+                               <span class="st">"scen2"</span>,<span class="st">"scen2"</span>,<span class="st">"scen2"</span>,<span class="st">"scen2"</span>,<span class="st">"scen2"</span><span class="op">)</span>,
+                  year <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">2010</span>,<span class="fl">10</span><span class="op">)</span>,
+                  value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">32</span>, <span class="fl">38</span>, <span class="fl">54</span>, <span class="fl">63</span>, <span class="fl">24</span>,
+                            <span class="fl">37</span>, <span class="fl">53</span>, <span class="fl">23</span>, <span class="fl">12</span>, <span class="fl">45</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>polygonTable <span class="op">=</span> <span class="va">data</span>, folder <span class="op">=</span><span class="st">"scaleRange"</span>, 
+                  cropToBoundary<span class="op">=</span><span class="cn">T</span>, extension <span class="op">=</span> <span class="cn">T</span>, scenRef<span class="op">=</span><span class="st">"scen1"</span>, 
+                  scaleRange <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">50</span><span class="op">)</span>, scaleRangeDiffAbs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">100</span>,<span class="fl">100</span><span class="op">)</span>, scaleRangeDiffPrcnt <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">60</span>,<span class="fl">60</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p align="center" style="font-size:18px;">
 <em>Scale Range</em>
 </p>
@@ -670,17 +692,18 @@
 <!-------------------------->
 <!-------------------------->
 <p>Can use any <a href="https://www.nceas.ucsb.edu/sites/default/files/2020-04/colorPaletteCheatsheet.pdf">R color palette</a> or choose from a list of rmap color palettes at <a href="https://jgcri.github.io/rmap/articles/vignette_colorsMapsParams.html#color-palettes-1">colors, maps and params</a>.</p>
-<div class="sourceCode" id="cb22"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">rmap</span>)
-<span class="no">data</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="kw">subRegion</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Austria"</span>,<span class="st">"Spain"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>,<span class="st">"Greece"</span>,
-                                <span class="st">"Austria"</span>,<span class="st">"Spain"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>,<span class="st">"Greece"</span>),
-                  <span class="kw">scenario</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"scen1"</span>,<span class="st">"scen1"</span>,<span class="st">"scen1"</span>,<span class="st">"scen1"</span>,<span class="st">"scen1"</span>,
-                               <span class="st">"scen2"</span>,<span class="st">"scen2"</span>,<span class="st">"scen2"</span>,<span class="st">"scen2"</span>,<span class="st">"scen2"</span>),
-                  <span class="kw">year</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="fl">2010</span>,<span class="fl">10</span>),
-                  <span class="kw">value</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">32</span>, <span class="fl">38</span>, <span class="fl">54</span>, <span class="fl">63</span>, <span class="fl">24</span>,
-                            <span class="fl">37</span>, <span class="fl">53</span>, <span class="fl">23</span>, <span class="fl">12</span>, <span class="fl">45</span>))
-<span class="fu"><a href="../reference/map.html">map</a></span>(<span class="kw">polygonTable</span> <span class="kw">=</span> <span class="no">data</span>, <span class="kw">folder</span> <span class="kw">=</span><span class="st">"colorPalettes"</span>,
-                  <span class="kw">cropToBoundary</span><span class="kw">=</span><span class="no">T</span>, <span class="kw">extension</span> <span class="kw">=</span> <span class="no">T</span>, <span class="kw">scenRef</span><span class="kw">=</span><span class="st">"scen1"</span>,
-                  <span class="kw">classPalette</span> <span class="kw">=</span> <span class="st">"pal_wet"</span>, <span class="kw">classPaletteDiff</span> <span class="kw">=</span> <span class="st">"pal_div_BrGn"</span>)</pre></body></html></div>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>
+<span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>subRegion <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Austria"</span>,<span class="st">"Spain"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>,<span class="st">"Greece"</span>,
+                                <span class="st">"Austria"</span>,<span class="st">"Spain"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>,<span class="st">"Greece"</span><span class="op">)</span>,
+                  scenario <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"scen1"</span>,<span class="st">"scen1"</span>,<span class="st">"scen1"</span>,<span class="st">"scen1"</span>,<span class="st">"scen1"</span>,
+                               <span class="st">"scen2"</span>,<span class="st">"scen2"</span>,<span class="st">"scen2"</span>,<span class="st">"scen2"</span>,<span class="st">"scen2"</span><span class="op">)</span>,
+                  year <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">2010</span>,<span class="fl">10</span><span class="op">)</span>,
+                  value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">32</span>, <span class="fl">38</span>, <span class="fl">54</span>, <span class="fl">63</span>, <span class="fl">24</span>,
+                            <span class="fl">37</span>, <span class="fl">53</span>, <span class="fl">23</span>, <span class="fl">12</span>, <span class="fl">45</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>polygonTable <span class="op">=</span> <span class="va">data</span>, folder <span class="op">=</span><span class="st">"colorPalettes"</span>, 
+                  cropToBoundary<span class="op">=</span><span class="cn">T</span>, extension <span class="op">=</span> <span class="cn">T</span>, scenRef<span class="op">=</span><span class="st">"scen1"</span>,
+                  classPalette <span class="op">=</span> <span class="st">"pal_wet"</span>, classPaletteDiff <span class="op">=</span> <span class="st">"pal_div_BrGn"</span><span class="op">)</span></code></pre></div>
 <p align="center" style="font-size:18px;">
 <em>Color Palettes</em>
 </p>
@@ -698,24 +721,25 @@
 <!-------------------------->
 <p>In this example the preloaded GCAM output <code><a href="../reference/exampleGCAMproj.html">rmap::exampleGCAMproj</a></code> is used to extract data for chosen parameters from the <a href="https://jgcri.github.io/rmap/articles/vignette_colorsMapsParams.html#params-1">parameter list</a>. USers can provided a path to their gcam database folder.</p>
 <p><strong>Note: The exampleGCAMproj comes with only a few parameters: “elecByTechTWh”,“pop”,“watWithdrawBySec”,“watSupRunoffBasin”,“landAlloc” and “agProdByCrop”</strong></p>
-<div class="sourceCode" id="cb23"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">rmap</span>)
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>
 
-<span class="no">df</span> <span class="kw">&lt;-</span> <span class="no">data</span>$<span class="no">data</span>; <span class="no">df</span>
-<span class="no">dfParam</span> <span class="kw">&lt;-</span> <span class="no">data</span>$<span class="no">dataAggParam</span>; <span class="no">dfParam</span>
-<span class="no">dfClass1</span> <span class="kw">&lt;-</span> <span class="no">data</span>$<span class="no">dataAggClass1</span>; <span class="no">dfClass1</span>
-<span class="no">dfClass2</span> <span class="kw">&lt;-</span> <span class="no">data</span>$<span class="no">dataAggClass1</span>; <span class="no">dfClass2</span>
+<span class="va">df</span> <span class="op">&lt;-</span> <span class="va">data</span><span class="op">$</span><span class="va">data</span>; <span class="va">df</span>
+<span class="va">dfParam</span> <span class="op">&lt;-</span> <span class="va">data</span><span class="op">$</span><span class="va">dataAggParam</span>; <span class="va">dfParam</span>
+<span class="va">dfClass1</span> <span class="op">&lt;-</span> <span class="va">data</span><span class="op">$</span><span class="va">dataAggClass1</span>; <span class="va">dfClass1</span>
+<span class="va">dfClass2</span> <span class="op">&lt;-</span> <span class="va">data</span><span class="op">$</span><span class="va">dataAggClass1</span>; <span class="va">dfClass2</span>
 
 <span class="co"># Plot data aggregated by param</span>
-<span class="fu"><a href="../reference/map.html">map</a></span>(<span class="kw">polygonTable</span> <span class="kw">=</span> <span class="no">dfParam</span>, <span class="kw">folder</span> <span class="kw">=</span><span class="st">"GCAMbyParam"</span>,
-                  <span class="kw">cropToBoundary</span><span class="kw">=</span><span class="no">T</span>, <span class="kw">extension</span> <span class="kw">=</span> <span class="no">T</span>, <span class="kw">xRange</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">2010</span>,<span class="fl">2020</span>,<span class="fl">2030</span>,<span class="fl">2040</span>),
-                  <span class="kw">scenRef</span><span class="kw">=</span><span class="st">"SSP3"</span>, <span class="kw">scaleRange</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="kw">param</span><span class="kw">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"landAlloc"</span>, <span class="st">"elecByTechTWh"</span>,<span class="st">"watSupRunoffBasin"</span>,<span class="st">"pop"</span>),
-                                                          <span class="kw">min</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>),
-                                                          <span class="kw">max</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">10000</span>,<span class="fl">15000</span>,<span class="fl">2000</span>,<span class="fl">2000</span>)))
+<span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>polygonTable <span class="op">=</span> <span class="va">dfParam</span>, folder <span class="op">=</span><span class="st">"GCAMbyParam"</span>, 
+                  cropToBoundary<span class="op">=</span><span class="cn">T</span>, extension <span class="op">=</span> <span class="cn">T</span>, xRange <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2010</span>,<span class="fl">2020</span>,<span class="fl">2030</span>,<span class="fl">2040</span><span class="op">)</span>,
+                  scenRef<span class="op">=</span><span class="st">"SSP3"</span>, scaleRange <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>param<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"landAlloc"</span>, <span class="st">"elecByTechTWh"</span>,<span class="st">"watSupRunoffBasin"</span>,<span class="st">"pop"</span><span class="op">)</span>,
+                                                          min <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span>,
+                                                          max <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">10000</span>,<span class="fl">15000</span>,<span class="fl">2000</span>,<span class="fl">2000</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co"># Plot data aggregated by Class1</span>
-<span class="fu"><a href="../reference/map.html">map</a></span>(<span class="kw">polygonTable</span> <span class="kw">=</span> <span class="no">dfClass1</span>, <span class="kw">folder</span> <span class="kw">=</span><span class="st">"GCAMbyClass"</span>,
-                  <span class="kw">cropToBoundary</span><span class="kw">=</span><span class="no">T</span>, <span class="kw">extension</span> <span class="kw">=</span> <span class="no">T</span>, <span class="kw">xRange</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">2010</span>,<span class="fl">2020</span>,<span class="fl">2030</span>,<span class="fl">2040</span>),
-                  <span class="kw">scenRef</span><span class="kw">=</span><span class="st">"SSP3"</span>)</pre></body></html></div>
+<span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>polygonTable <span class="op">=</span> <span class="va">dfClass1</span>, folder <span class="op">=</span><span class="st">"GCAMbyClass"</span>, 
+                  cropToBoundary<span class="op">=</span><span class="cn">T</span>, extension <span class="op">=</span> <span class="cn">T</span>, xRange <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2010</span>,<span class="fl">2020</span>,<span class="fl">2030</span>,<span class="fl">2040</span><span class="op">)</span>,
+                  scenRef<span class="op">=</span><span class="st">"SSP3"</span><span class="op">)</span></code></pre></div>
 <p align="center" style="font-size:18px;">
 <em>GCAM Outputs Folder Structure</em>
 </p>
@@ -785,7 +809,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

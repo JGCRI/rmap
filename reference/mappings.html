@@ -138,7 +138,7 @@
     <p>This function has all the mappings used to convert between different categories</p>
     </div>
 
-    <pre class="usage"><span class='fu'>mappings</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>mappings</span><span class='op'>(</span>name <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -159,9 +159,10 @@
     <p>List of Mappings</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>rmap</span>)
-<span class='no'>a</span><span class='kw'>&lt;-</span><span class='fu'>mappings</span>()
-<span class='no'>a</span> <span class='co'># will give full list of mappings</span></div><div class='output co'>#&gt; $mapParamQuery
+    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/JGCRI/rmap'>rmap</a></span><span class='op'>)</span>
+<span class='va'>a</span><span class='op'>&lt;-</span><span class='fu'>mappings</span><span class='op'>(</span><span class='op'>)</span>
+<span class='va'>a</span> <span class='co'># will give full list of mappings</span>
+</div><div class='output co'>#&gt; $mapParamQuery
 #&gt; <span style='color: #555555;'># A tibble: 88 x 4</span><span>
 #&gt;    group  param                            query     mapPalette
 #&gt;    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>                            </span><span style='color: #555555;font-style: italic;'>&lt;list&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>     
@@ -175,7 +176,7 @@
 #&gt; </span><span style='color: #555555;'> 8</span><span> energy energyFinalSubsecBySectorBuildEJ </span><span style='color: #555555;'>&lt;chr [1]&gt;</span><span> pal_hot   
 #&gt; </span><span style='color: #555555;'> 9</span><span> energy energyFinalConsumByIntlShpAvEJ   </span><span style='color: #555555;'>&lt;chr [1]&gt;</span><span> pal_hot   
 #&gt; </span><span style='color: #555555;'>10</span><span> energy energyPrimaryByFuelMTOE          </span><span style='color: #555555;'>&lt;chr [1]&gt;</span><span> pal_hot   
-#&gt; </span><span style='color: #555555;'># ... with 78 more rows</span><span>
+#&gt; </span><span style='color: #555555;'># … with 78 more rows</span><span>
 #&gt; 
 #&gt; $US52
 #&gt;  [1] "AK" "AL" "AR" "AZ" "CA" "CO" "CT" "DC" "DE" "FL" "GA" "HI" "IA" "ID" "IL"
@@ -203,7 +204,7 @@
 #&gt; </span><span style='color: #555555;'> 8</span><span>          29        38 Southeast Asia Kiribati       
 #&gt; </span><span style='color: #555555;'> 9</span><span>          29        14 Southeast Asia Samoa          
 #&gt; </span><span style='color: #555555;'>10</span><span>          29        15 Southeast Asia Tokelau        
-#&gt; </span><span style='color: #555555;'># ... with 278 more rows</span><span>
+#&gt; </span><span style='color: #555555;'># … with 278 more rows</span><span>
 #&gt; 
 #&gt; $subRegionMap
 #&gt; </span><span style='color: #555555;'># A tibble: 22 x 2</span><span>
@@ -219,7 +220,7 @@
 #&gt; </span><span style='color: #555555;'> 8</span><span> MissouriR  Missouri_River         
 #&gt; </span><span style='color: #555555;'> 9</span><span> MissppRN   Upper_Mississippi      
 #&gt; </span><span style='color: #555555;'>10</span><span> MissppRS   Lower_Mississippi_River
-#&gt; </span><span style='color: #555555;'># ... with 12 more rows</span><span>
+#&gt; </span><span style='color: #555555;'># … with 12 more rows</span><span>
 #&gt; </div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -236,7 +237,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

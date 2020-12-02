@@ -143,7 +143,7 @@ Excludes Alaska, Hawaii and Puerto Rico. Includes DC.</h1>
 Excludes Alaska, Hawaii and Puerto Rico. Includes DC.</p>
     </div>
 
-    <pre class="usage"><span class='no'>mapUS49</span></pre>
+    <pre class="usage"><span class='va'>mapUS49</span></pre>
 
 
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
@@ -154,11 +154,12 @@ Excludes Alaska, Hawaii and Puerto Rico. Includes DC.</p>
     <p>Made with Natural Earth. <a href='http://www5.statcan.gc.ca/cansim/'>http://www5.statcan.gc.ca/cansim/</a></p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
- <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>sp</span>); <span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>rmap</span>)
- <span class='kw pkg'>sp</span><span class='kw ns'>::</span><span class='fu'>plot</span>(<span class='no'>mapUS49</span>)
- <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>mapUS49</span>@<span class='kw'>data</span>)
-}</div></pre>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+ <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/edzer/sp/'>sp</a></span><span class='op'>)</span>; <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/JGCRI/rmap'>rmap</a></span><span class='op'>)</span>
+ <span class='fu'>sp</span><span class='fu'>::</span><span class='fu'>plot</span><span class='op'>(</span><span class='va'>mapUS49</span><span class='op'>)</span>
+ <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>mapUS49</span><span class='op'>@</span><span class='va'>data</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -174,7 +175,7 @@ Excludes Alaska, Hawaii and Puerto Rico. Includes DC.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>
