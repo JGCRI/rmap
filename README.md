@@ -1,6 +1,6 @@
 <!-- badges: start -->
    ![R-CMD](https://github.com/JGCRI/rmap/workflows/R-CMD/badge.svg)
-  [![codecov](https://codecov.io/gh/JGCRI/rmap/branch/master/graph/badge.svg?token=XQ913U4IYM)](https://codecov.io/gh/JGCRI/rmap)
+  [![codecov](https://codecov.io/gh/JGCRI/rmap/branch/main/graph/badge.svg?token=XQ913U4IYM)](https://codecov.io/gh/JGCRI/rmap)
   <!-- badges: end -->
 
 <!-- ------------------------>
