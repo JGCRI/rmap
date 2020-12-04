@@ -3290,9 +3290,11 @@ map<-function(data=NULL,
               shape <- subRegShapeOrig
             }
 
+            if(!is.null(shape)){
             if(subRegColOrig %in% names(shape@data)){
               shape@data <- shape@data %>%
                 dplyr::rename(subRegion=!!as.name(subRegColOrig))
+            }
             }
 
             if(runSection){
