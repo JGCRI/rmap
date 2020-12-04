@@ -477,8 +477,8 @@ if(!is.null(raster)){
 
 
       if(any(unique(raster@data[[fillColumn_i]]) %in% names(fillPalette))){
-        fillPalette<-fillPalette[1:min(length(catPalette),
-                                       length(fillPalette))]
+        # fillPalette<-fillPalette[1:min(length(catPalette),
+        #                                length(fillPalette))]
         raster@data %>%
           dplyr::mutate(!!fillColumn_i := factor(raster@data[[fillColumn_i]],
                                                  levels = names(fillPalette)))->
@@ -514,8 +514,8 @@ if(!is.null(shape)){
         }
 
         if(any(unique(shape@data[[fillColumn_i]]) %in% names(fillPalette))){
-          fillPalette<-fillPalette[1:min(length(catPalette),
-                                                length(fillPalette))]
+          # fillPalette<-fillPalette[1:min(length(catPalette),
+          #                                       length(fillPalette))]
           shape@data %>%
             dplyr::mutate(!!fillColumn_i := factor(shape@data[[fillColumn_i]],
                                                    levels = names(fillPalette))) ->
