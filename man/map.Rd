@@ -8,7 +8,6 @@ map(
   data = NULL,
   grid = NULL,
   folder = paste(getwd(), "/outputs", sep = ""),
-  folderName = "",
   xRange = "All",
   labels = F,
   labelsSize = 1,
@@ -97,8 +96,6 @@ map(
 \item{grid}{Default = NULL,}
 
 \item{folder}{Default = paste(getwd(),"/outputs",sep=""),}
-
-\item{folderName}{Default ="folderNameDefault",}
 
 \item{xRange}{Default ="All",}
 
