@@ -40,7 +40,7 @@ mapplot(
   overLayer = NULL,
   printFig = T,
   fileName = "map",
-  folder = NULL,
+  folder = paste(getwd(), "/outputs", sep = ""),
   facetFreeScale = F,
   facetRows = NA,
   facetCols = 4,

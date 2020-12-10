@@ -8,7 +8,6 @@
 #' @param data Default = NULL,
 #' @param grid Default = NULL,
 #' @param folder Default = paste(getwd(),"/outputs",sep=""),
-#' @param folderName Default ="folderNameDefault",
 #' @param xRange Default ="All",
 #' @param labels Default = F,
 #' @param labelsSize Default = 1.2,
@@ -97,7 +96,6 @@
 map<-function(data=NULL,
                            grid=NULL,
                            folder=paste(getwd(),"/outputs",sep=""),
-                           folderName="",
                            xRange="All",
                            labels=F,
                            labelsSize=1.0,
@@ -183,7 +181,6 @@ map<-function(data=NULL,
   # data=NULL
   # grid=NULL
   # folder=paste(getwd(),"/outputs",sep="")
-  # folderName=""
   # xRange="All"
   # labels=F
   # labelsSize=1.2
