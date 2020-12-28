@@ -438,7 +438,7 @@ if(!is.null(numeric2Cat_list)){
        list_index <- which(numeric2Cat_list$numeric2Cat_param==catParam)
        catBreaks <- numeric2Cat_list$numeric2Cat_breaks[[list_index]]
        catLabels <- numeric2Cat_list$numeric2Cat_labels[[list_index]]
-       if(grepl("c\\(",numeric2Cat_list$numeric2Cat_palette[[list_index]])){
+       if(grepl("c\\(",numeric2Cat_list$numeric2Cat_palette[[list_index]][1])){
          catPalette <- eval(parse(text=paste(numeric2Cat_list$numeric2Cat_palette[[list_index]])))}else{
            catPalette <- numeric2Cat_list$numeric2Cat_palette[[list_index]]}
 
@@ -513,16 +513,8 @@ if(!is.null(shape)){
                                               labels=catLabels)
         }
 
-        if(any(unique(shape@data[[fillColumn_i]]) %in% names(fillPalette))){
-          # fillPalette<-fillPalette[1:min(length(catPalette),
-          #                                       length(fillPalette))]
-          shape@data %>%
-            dplyr::mutate(!!fillColumn_i := factor(shape@data[[fillColumn_i]],
-                                                   levels = names(fillPalette))) ->
-            shape@data
-
-        } else { shape@data %>%
-            dplyr::mutate(!!fillColumn_i := as.factor(shape@data[[fillColumn_i]])) -> shape@data}
+        shape@data %>%
+          dplyr::mutate(!!fillColumn_i := as.factor(shape@data[[fillColumn_i]])) -> shape@data
       }
   }
 }

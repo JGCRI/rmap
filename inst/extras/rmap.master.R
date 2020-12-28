@@ -54,7 +54,7 @@ dataGCAM<-metis.readgcam(reReadData = F,
                          regionsSelect = regionsSelect_i ,
                          paramsSelect=paramsSelect_i,
                          folderName = "metisExample",
-                         saveData = F
+                         saveData = F,
                          folderName = NULL
 )
 
