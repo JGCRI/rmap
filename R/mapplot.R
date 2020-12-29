@@ -108,7 +108,7 @@ mapplot<-function(dataPolygon=NULL,
                   overLayer=NULL,
                   printFig=T,
                   fileName="map",
-                  folder=NULL,
+                  folder=paste(getwd(),"/outputs",sep=""),
                   facetFreeScale=F,
                   facetRows=NA,
                   facetCols=4,
@@ -377,20 +377,28 @@ utils::assignInNamespace(x="process_facet_layout", value=process_facet_layout, n
 # -----------------
 
 if(printFig!=F){
-if(!is.null(folder)){
-  if(grepl("/",folder)){
 
-    if(!dir.exists(folder)){
-      print(paste("folder entered: ", folder, " is invalid.",sep=""))
-      stop("Please enter a valid directory path or set to NULL for default 'output' folder.")
-    }
-
-  }else{
-
-  folder = gsub("//","/",paste(getwd(),"/",folder,sep=""))
-  if (!dir.exists(paste(folder,sep=""))){dir.create(paste(folder,sep=""))}
+  if(is.null(folder)){
+    folder <- paste(getwd(),"/output",sep="")
   }
-}
+
+  if(dir.exists(folder)){
+    print(paste("Default output folder: ", folder," already exists.",sep=""))
+    i=1;
+    while(i<100){
+      if(dir.exists(paste(folder,i,sep=""))){
+        i=i+1
+      }else{
+        folder <- paste(folder,i,sep="")
+        i=1000
+        print(paste("Setting output folder to: ", folder,".",sep=""))
+        dir.create(paste(folder,sep=""))
+      }
+    }
+  }else{
+    print(paste("Setting output folder to: ", folder,".",sep=""))
+    dir.create(paste(folder,sep=""))
+  }
 }
 
 #------------------------------------------
@@ -438,7 +446,7 @@ if(!is.null(numeric2Cat_list)){
        list_index <- which(numeric2Cat_list$numeric2Cat_param==catParam)
        catBreaks <- numeric2Cat_list$numeric2Cat_breaks[[list_index]]
        catLabels <- numeric2Cat_list$numeric2Cat_labels[[list_index]]
-       if(grepl("c\\(",numeric2Cat_list$numeric2Cat_palette[[list_index]])){
+       if(grepl("c\\(",numeric2Cat_list$numeric2Cat_palette[[list_index]][1])){
          catPalette <- eval(parse(text=paste(numeric2Cat_list$numeric2Cat_palette[[list_index]])))}else{
            catPalette <- numeric2Cat_list$numeric2Cat_palette[[list_index]]}
 
@@ -513,16 +521,8 @@ if(!is.null(shape)){
                                               labels=catLabels)
         }
 
-        if(any(unique(shape@data[[fillColumn_i]]) %in% names(fillPalette))){
-          # fillPalette<-fillPalette[1:min(length(catPalette),
-          #                                       length(fillPalette))]
-          shape@data %>%
-            dplyr::mutate(!!fillColumn_i := factor(shape@data[[fillColumn_i]],
-                                                   levels = names(fillPalette))) ->
-            shape@data
-
-        } else { shape@data %>%
-            dplyr::mutate(!!fillColumn_i := as.factor(shape@data[[fillColumn_i]])) -> shape@data}
+        shape@data %>%
+          dplyr::mutate(!!fillColumn_i := as.factor(shape@data[[fillColumn_i]])) -> shape@data
       }
   }
 }

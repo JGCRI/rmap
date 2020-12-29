@@ -8,7 +8,6 @@
 #' @param data Default = NULL,
 #' @param grid Default = NULL,
 #' @param folder Default = paste(getwd(),"/outputs",sep=""),
-#' @param folderName Default ="folderNameDefault",
 #' @param xRange Default ="All",
 #' @param labels Default = F,
 #' @param labelsSize Default = 1.2,
@@ -97,7 +96,6 @@
 map<-function(data=NULL,
                            grid=NULL,
                            folder=paste(getwd(),"/outputs",sep=""),
-                           folderName="",
                            xRange="All",
                            labels=F,
                            labelsSize=1.0,
@@ -183,7 +181,6 @@ map<-function(data=NULL,
   # data=NULL
   # grid=NULL
   # folder=paste(getwd(),"/outputs",sep="")
-  # folderName=""
   # xRange="All"
   # labels=F
   # labelsSize=1.2
@@ -467,36 +464,11 @@ map<-function(data=NULL,
     if(!"lat" %in% names(gridTbl)){stop("'lat' column not present in grid data provided. Need to have lat. Check data.",sep="")}
     if(!"lon" %in% names(gridTbl)){stop("'lon' column not present in grid data provided. Need to have lat. Check data.",sep="")}
 
-    if(min(gridTbl$value,na.rm=T)<0 & max(gridTbl$value,na.rm=T)>0){
-
-      gridTbl <- gridTbl %>% dplyr::mutate(classPalette=dplyr::case_when(is.na(classPalette)~"pal_div_BlRd",
-                                                                           classPalette=="pal_metis"~"pal_div_BlRd",
-                                                                           classPalette=="pal_16"~"pal_div_BlRd",
-                                                                           TRUE~classPalette),
-                                             subRegion=as.character(subRegion))
-
-
-      if(is.null(classPaletteOrig)){gridTbl <- gridTbl %>% dplyr::mutate(classPalette=classPaletteDiff)}
-
-    } else {
-
-      gridTbl <- gridTbl %>% dplyr::mutate(classPalette=dplyr::case_when(is.na(classPalette)~"pal_hot",
-                                                                           classPalette=="pal_metis"~"pal_hot",
-                                                                           classPalette=="pal_16"~"pal_hot",
-                                                                           TRUE~classPalette),
-                                             subRegion=as.character(subRegion))
-    }
-
-  #Set classPalette based on mappings()$mapParamQuery
-  gridTbl <- gridTbl %>%
-    dplyr::left_join(mappings()$mapParamQuery, by=c("param")) %>%
-    dplyr::mutate(classPalette=dplyr::case_when(!is.na(mapPalette)~mapPalette,
-                                         TRUE~classPalette))
 
     # Set classPalette if given
-  if(!is.null(classPaletteOrig)){
+    if(!is.null(classPaletteOrig)){
     gridTbl <- gridTbl %>% dplyr::mutate(classPalette = classPaletteOrig)
-  }
+    }
 
   }}
 
@@ -547,36 +519,11 @@ map<-function(data=NULL,
       # Add missing columns
       shapeTbl<-addMissing(shapeTbl)
 
-      if(!"value" %in% names(shapeTbl)){stop("'value' column not present in polygon data provided. Need to have values. Check data.",sep="")}
-
-      if(min(shapeTbl$value,na.rm=T)<0 & max(shapeTbl$value,na.rm=T)>0){
-
-        shapeTbl <- shapeTbl %>% dplyr::mutate(classPalette=dplyr::case_when(is.na(classPalette)~classPaletteDiff,
-                                                                             classPalette=="pal_metis"~classPaletteDiff,
-                                                                             classPalette=="pal_16"~classPaletteDiff,
-                                                                             TRUE~classPalette),
-                                               !!subRegCol:=as.character(get(subRegCol)))
-
-        if(is.null(classPaletteOrig)){shapeTbl <- shapeTbl %>% dplyr::mutate(classPalette=classPaletteDiff)}
-
-      } else {
-
-      shapeTbl <- shapeTbl %>% dplyr::mutate(classPalette=dplyr::case_when(is.na(classPalette)~"pal_hot",
-                                                                         classPalette=="pal_metis"~"pal_hot",
-                                                                         classPalette=="pal_16"~"pal_hot",
-                                                                         TRUE~classPalette),
-                                            !!subRegCol:=as.character(get(subRegCol)))
-      }
-
-
-      #Set classPalette based on mappings()$mapParamQuery
-      shapeTbl <- shapeTbl %>%
-        dplyr::left_join(mappings()$mapParamQuery, by=c("param")) %>%
-        dplyr::mutate(classPalette=dplyr::case_when(!is.na(mapPalette)~mapPalette,
-                                             TRUE~classPalette))
+    if(!"value" %in% names(shapeTbl)){stop("'value' column not present in polygon data provided. Need to have values. Check data.",sep="")}
 
     # Set classPalette if given
-      #if(!is.null(classPaletteOrig)){shapeTbl <- shapeTbl %>% dplyr::mutate(classPalette = classPaletteOrig)}
+    if(!is.null(classPaletteOrig)){shapeTbl <- shapeTbl %>% dplyr::mutate(classPalette = classPaletteOrig)}
+
   }}
 
   } # Read in SHape Tables
@@ -1488,9 +1435,9 @@ map<-function(data=NULL,
 
               datax<-gridTblx%>%dplyr::filter(x==x_i)
               if(nrow(datax)>0){
+
                 legendTitle<-unique(datax$units)
-                if(!is.null(classPaletteOrig)){fillPalette<-classPaletteOrig}else{
-                fillPalette<-as.character(unique(datax$classPalette))}
+                fillPalette<-as.character(unique(datax$classPalette))
 
                 datax<-datax%>%dplyr::select(lat,lon,class,value) %>%
                   dplyr::distinct(lat,lon,class,.keep_all = TRUE) %>%
@@ -1752,8 +1699,7 @@ map<-function(data=NULL,
               if(nrow(datax)>0){
 
                 legendTitle<-unique(datax$units)
-                if(!is.null(classPaletteOrig)){fillPalette<-classPaletteOrig}else{
-                  fillPalette<-as.character(unique(datax$classPalette))}
+                fillPalette<-as.character(unique(datax$classPalette))
 
                 animScaleGrid<-datax$value
 
@@ -1948,8 +1894,7 @@ map<-function(data=NULL,
 
               if(nrow(datax)>0){
                 legendTitle<-unique(datax$units)
-                if(!is.null(classPaletteOrig)){fillPalette<-classPaletteOrig}else{
-                  fillPalette<-as.character(unique(datax$classPalette))}
+                fillPalette<-as.character(unique(datax$classPalette))
 
                 meanCol = paste("Mean_",min(datax$x),"to",max(datax$x),sep="")
 
@@ -2490,8 +2435,7 @@ map<-function(data=NULL,
 
                     if(nrow(datax)>0){
                       legendTitle<-unique(datax$units)
-                      if(!is.null(classPaletteOrig)){fillPalette<-classPaletteOrig}else{
-                        fillPalette<-as.character(unique(datax$classPalette))}
+                      fillPalette<-as.character(unique(datax$classPalette))
 
                       meanCol = paste("Mean_",min(chosenRefMeanYearsX),"to",max(chosenRefMeanYearsX),sep="")
 
@@ -2750,8 +2694,7 @@ map<-function(data=NULL,
 
                         if(nrow(datax)>0){
                           legendTitle<-unique(datax$units)
-                          if(!is.null(classPaletteOrig)){fillPalette<-classPaletteOrig}else{
-                            fillPalette<-as.character(unique(datax$classPalette))}
+                          fillPalette<-as.character(unique(datax$classPalette))
 
                           datax<-datax%>%dplyr::select(subRegion,class,value,multiFacetCol,multiFacetRow)%>%
                             dplyr::distinct(subRegion,class,multiFacetCol,multiFacetRow,.keep_all = TRUE) %>%
@@ -3039,8 +2982,7 @@ map<-function(data=NULL,
 #
 #                       if(nrow(datax)>1){
 #                         legendTitle<-unique(datax$units)
-#                          if(!is.null(classPaletteOrig)){fillPalette<-classPaletteOrig}else{
-                      #fillPalette<-as.character(unique(datax$classPalette))}
+#                         fillPalette<-as.character(unique(datax$classPalette))
 #
 #                         datax<-datax%>%dplyr::select(subRegion,class,value,multiFacetCol,multiFacetRow)%>%
 #                           dplyr::distinct(subRegion,class,multiFacetCol,multiFacetRow,.keep_all = TRUE) %>%
@@ -3563,8 +3505,7 @@ map<-function(data=NULL,
 
                 if(nrow(datax)>0){
                   legendTitle<-unique(datax$units)
-                  if(!is.null(classPaletteOrig)){fillPalette<-classPaletteOrig}else{
-                    fillPalette<-as.character(unique(datax$classPalette))}
+                  fillPalette<-as.character(unique(datax$classPalette))
 
                   datax<-datax%>%dplyr::select(subRegion,class,value)%>%
                    tidyr::spread(key=class,value=value)
@@ -3865,8 +3806,7 @@ map<-function(data=NULL,
 
                 if(nrow(datax)>0){
                   legendTitle<-paste(unique(datax$units),sep="")
-                  if(!is.null(classPaletteOrig)){fillPalette<-classPaletteOrig}else{
-                    fillPalette<-as.character(unique(datax$classPalette))}
+                  fillPalette<-as.character(unique(datax$classPalette))
 
                   animScalePoly<-datax$value
 
@@ -4053,8 +3993,7 @@ map<-function(data=NULL,
 
                   if(nrow(datax)>0){
                     legendTitle<-paste(unique(datax$units),sep="")
-                    if(!is.null(classPaletteOrig)){fillPalette<-classPaletteOrig}else{
-                      fillPalette<-as.character(unique(datax$classPalette))}
+                    fillPalette<-as.character(unique(datax$classPalette))
 
                     meanCol = paste("Mean_",min(datax$x),"to",max(datax$x),sep="")
 
