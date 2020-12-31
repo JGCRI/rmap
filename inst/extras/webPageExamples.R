@@ -1,9 +1,10 @@
 library(rmap)
+map = rmap::map
 
 # Maps Available
 #------------------------------------------
 head(mapUS49@data) # To View data in shapefile
-metis::metis.map(mapUS49, labels=T)
+map(mapUS49, labels=T)
 
 
 # US49
@@ -13,7 +14,7 @@ data = data.frame(subRegion=c("CA","FL","ID","MO","TX","WY"),
                   value=c(5,10,15,34,2,7))
 data%>%head()
 rmap::map(data=data,
-                  folderName = "vignetteMaps", mapTitleOn = F)
+                  folder = "vignetteMaps", mapTitleOn = F)
 
 # US52
 #------------------------------------------
@@ -22,7 +23,7 @@ data = data.frame(subRegion=c("AK","FL","ID","MO","TX","WY"),
                   value=c(5,10,15,34,2,7));
 data%>%head()
 rmap::map(data=data,
-                  folderName = "vignetteMaps", mapTitleOn = F)
+                  folder = "vignetteMaps", mapTitleOn = F)
 
 # Counties
 #------------------------------------------
@@ -33,7 +34,7 @@ data = data.frame(subRegion=c("Pender_NC","Larue_KY","Jim Wells_TX","Orange_IN",
                   value=c(5,10,15,34,2,7))
 data%>%head()
 rmap::map(data=data,
-                  folderName = "vignetteMaps",
+                  folder = "vignetteMaps",
                   nameAppend = "_Alt",
                   mapTitleOn = F)
 
@@ -45,7 +46,7 @@ data = data.frame(subRegion=c("Colombia","China","EU-12","Pakistan","Middle East
                   x=c(2050,2050,2050,2050,2050,2050),
                   value=c(5,10,15,34,2,7))
 rmap::map(data=data,
-                  folderName = "vignetteMaps",
+                  folder = "vignetteMaps",
                   mapTitleOn = F)
 
 
@@ -56,7 +57,7 @@ data = data.frame(subRegion=c("Negro","La_plata","Great","New_England","Indus","
                   x=c(2050,2050,2050,2050,2050,2050),
                   value=c(5,10,15,34,2,7))
 rmap::map(data=data,
-                  folderName = "vignetteMaps",
+                  folder = "vignetteMaps",
                   mapTitleOn = F)
 
 # World Countries
@@ -66,7 +67,7 @@ data = data.frame(subRegion=c("Colombia","China","India","Spain","Ghana","Iran")
                   x=c(2050,2050,2050,2050,2050,2050),
                   value=c(5,10,15,34,2,7))
 rmap::map(data=data,
-                  folderName = "vignetteMaps",
+                  folder = "vignetteMaps",
                   mapTitleOn = F)
 
 
@@ -77,7 +78,7 @@ data = data.frame(subRegion=c("Punjab","FL","TX","Faryab","Assam","Lac"),
                   x=c(2050,2050,2050,2050,2050,2050),
                   value=c(5,10,15,34,2,7))
 rmap::map(data=data,
-                  folderName = "vignetteMaps",
+                  folder = "vignetteMaps",
                   mapTitleOn = F)
 
 
@@ -89,13 +90,13 @@ data = data.frame(subRegion=c("Colombia","China","India"),
 
 # Auto selection by metis will choose metis::mapCountries
 rmap::map(data=data,
-                  folderName = "vignetteChooseMap",
+                  folder = "vignetteChooseMap",
                   mapTitleOn = F)
 
 # User can specify that they want to plot this data on metis::mapGCAMReg32
 rmap::map(data=data,
                   subRegShape = metis::mapGCAMReg32,
-                  folderName = "vignetteChooseMap",
+                  folder = "vignetteChooseMap",
                   nameAppend = "Chosen",
                   mapTitleOn = F)
 
@@ -107,7 +108,7 @@ data = data.frame(subRegion=c("AK","HI","PR","MO","TX","WY"),
                   value=c(5,10,15,34,2,7))
 rmap::map(data=data,
                   subRegShape=metis::mapUS52Compact,
-                  folderName = "vignetteMaps", mapTitleOn = F)
+                  folder = "vignetteMaps", mapTitleOn = F)
 
 
 # Select US Compact Counties
@@ -119,7 +120,7 @@ data = data.frame(subRegion=c("Aleutians West_AK","Sabana Grande_PR","Kalawao_HI
                   value=c(5,10,15,34,2,7))
 rmap::map(data=data,
                   subRegShape=metis::mapUS52CountyCompact,
-                  folderName = "vignetteMaps",
+                  folder = "vignetteMaps",
                   nameAppend = "_Alt",
                   mapTitleOn = F)
 
@@ -142,7 +143,7 @@ rmap::map(data=data,
                   subRegShape = shapeSubset,
                   subRegCol = "states",
                   subRegType = "ColombiaStates",
-                  folderName = "vignetteMaps_shapeSubset",
+                  folder = "vignetteMaps_shapeSubset",
                   mapTitleOn = F)
 
 
@@ -166,15 +167,15 @@ rmap::map(data=data,
                   subRegShape = shapeCrop,
                   subRegCol = "county",
                   subRegType = "TexasCounties",
-                  folderName = "vignetteMaps_shapeCrop",
+                  folder = "vignetteMaps_shapeCrop",
                   mapTitleOn = F)
 
 
 # Crop to Boundary
 #------------------------------------------
 data = data.frame(subRegion = c("India","China"), year=c(2010,2010),value = c(32,54))
-rmap::map(data = data, mapTitleOn = F, folderName = "vignetteMaps", cropToBoundary=F, )
-rmap::map(data = data, mapTitleOn = F, folderName = "vignetteMaps", cropToBoundary=T,
+rmap::map(data = data, mapTitleOn = F, folder = "vignetteMaps", cropToBoundary=F, )
+rmap::map(data = data, mapTitleOn = F, folder = "vignetteMaps", cropToBoundary=T,
                   nameAppend="Cropped")
 
 
@@ -182,12 +183,12 @@ rmap::map(data = data, mapTitleOn = F, folderName = "vignetteMaps", cropToBounda
 #------------------------------------------
 data = data.frame(
   subRegion = c("India","China"), year=c(2010,2010), value = c(32,54))
-rmap::map(data = data, mapTitleOn=F, folderName = "vignetteMaps",
+rmap::map(data = data, mapTitleOn=F, folder = "vignetteMaps",
                   #cropToBoundary =T,
                   background = T, nameAppend="Extended")
 
 # Can increase the extnded boundaries by using expandPercent
-rmap::map(data = data, mapTitleOn=F, folderName = "vignetteMaps",
+rmap::map(data = data, mapTitleOn=F, folder = "vignetteMaps",
                   cropToBoundary =T,
                   background = T, nameAppend="Extended10", expandPercent = 50)
 
@@ -206,7 +207,7 @@ data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
                             37, 53, 23, 12, 45,
                             23, 99, 102, 85, 75,
                             12, 76, 150, 64, 90))
-rmap::map(data = data, folderName ="multiYear",
+rmap::map(data = data, folder ="multiYear",
                   cropToBoundary=T, background = T )
 
 
@@ -225,7 +226,7 @@ data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
                             37, 53, 23, 12, 45,
                             23, 99, 102, 85, 75,
                             12, 76, 150, 64, 90))
-rmap::map(data = data, folderName ="multiClass",
+rmap::map(data = data, folder ="multiClass",
                   cropToBoundary=T, background = T )
 
 
@@ -241,7 +242,7 @@ data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
                   value = c(32, 38, 54, 63, 24,
                             37, 53, 23, 12, 45,
                             40, 44, 12, 30, 99))
-rmap::map(data = data, folderName ="multiScenario",
+rmap::map(data = data, folder ="multiScenario",
                   cropToBoundary=T, background = T, scenRef="scen1", scenDiff=c("scen3"))
 
 
@@ -254,7 +255,7 @@ data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
                   value = c(32, 38, 54, 63, 24,
                             37, 53, 23, 12, 45,
                             40, 45, 12, 50, 63))
-rmap::map(data = data, folderName ="multiYear",
+rmap::map(data = data, folder ="multiYear",
                   cropToBoundary=T, background = T, xRef=2010, xDiff = c(2020))
 
 
@@ -267,7 +268,7 @@ data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
                   year = rep(2010,10),
                   value = c(32, 38, 54, 63, 24,
                             37, 50, 23, 12, 45))
-rmap::map(data = data, folderName ="scaleRange",
+rmap::map(data = data, folder ="scaleRange",
                   cropToBoundary=T, background = T, scenRef="scen1",
                   scaleRange = c(0,50), scaleRangeDiffAbs = c(-100,100), scaleRangeDiffPrcnt = c(-60,60))
 
@@ -321,8 +322,7 @@ rmap::map(data=data,
 
 
 
-
-# Comprehensive GCAm Example
+# Comprehensive GCAM Example
 #------------------------------------------
 
 data <- metis.readgcam (

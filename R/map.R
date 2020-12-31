@@ -301,20 +301,7 @@ map <- function(data = NULL,
   xRangeOrig = xRange
   if(is.null(legendSingleColorOnOrig)){legendSingleColorOn=F}
 
-
-  if(dir.exists(folder)){
-    print(paste("Default output folder: ", folder," already exists.",sep=""))
-    i=1;
-    while(i<100){
-      if(dir.exists(paste(folder,i,sep=""))){
-        i=i+1
-      }else{
-        folder <- paste(folder,i,sep="")
-        i=1000
-        print(paste("Setting output folder to: ", folder,".",sep=""))
-      }
-    }
-  }
+  if (!dir.exists(folder)){dir.create(folder)}
 
   dirOutputsX <- folder;
 
