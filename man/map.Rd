@@ -6,6 +6,9 @@
 \usage{
 map(
   data = NULL,
+  fillColumn = NULL,
+  fileName = "map",
+  printFig = T,
   grid = NULL,
   folder = paste(getwd(), "/outputs", sep = ""),
   xRange = "All",
@@ -92,6 +95,12 @@ map(
 }
 \arguments{
 \item{data}{Default = NULL,}
+
+\item{fillColumn}{(Optional). Default = NULL. Only for direct map plotting.}
+
+\item{fileName}{(Optional). Default = "map". Only for direct map plotting.}
+
+\item{printFig}{(Optional). Default = T. Only for direct map plotting.}
 
 \item{grid}{Default = NULL,}
 

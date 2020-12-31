@@ -6,6 +6,9 @@
 #' @keywords charts, diffplots
 #' @return Returns the formatted data used to produce chart
 #' @param data Default = NULL,
+#' @param fillColumn (Optional). Default = NULL. Only for direct map plotting.
+#' @param fileName (Optional). Default = "map". Only for direct map plotting.
+#' @param printFig (Optional). Default = T. Only for direct map plotting.
 #' @param grid Default = NULL,
 #' @param folder Default = paste(getwd(),"/outputs",sep=""),
 #' @param xRange Default ="All",
@@ -93,92 +96,96 @@
 #' @export
 
 
-map<-function(data=NULL,
-                           grid=NULL,
-                           folder=paste(getwd(),"/outputs",sep=""),
-                           xRange="All",
-                           labels=F,
-                           labelsSize=1.0,
-                           shape=NULL,
-                           subRegShpFolder=NULL,
-                           subRegShpFile=NULL,
-                           subRegCol="subRegion",
-                           subRegType =NULL,
-                           nameAppend="",
-                           legendOutsideSingle=T,
-                           legendOutsidePosition=NULL,
-                           legendPosition=NULL,
-                           legendFixedBreaks=5,
-                           legendTitleSizeO=1.0,
-                           legendTextSizeO=0.6,
-                           legendTitleSizeI=1.0,
-                           legendTextSizeI=0.6,
-                           animateOn=T,
-                           fps=1,
-                           background=F,
-                           boundaryRegShape=NULL,
-                           boundaryRegShpFolder=NULL,
-                           boundaryRegShpFile=NULL,
-                           boundaryRegCol="subRegion",
-                           boundaryRegionsSelect=NULL,
-                           cropToBoundary=F,
-                           extendedLabels =F,
-                           extendedFillColor="grey75",
-                           extendedBGColor="lightblue1",
-                           extendedHighLightColor="cornsilk1",
-                           extendedLabelsColor="grey30",
-                           extdendedLabelSize=0.4,
-                           extendedShape=NULL,
-                           extendedShapeCol="subRegion",
-                           expandPercent=3,
-                           projX="+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0",
-                           figWidth=6,
-                           figHeight=7,
-                           scenRef=NULL,
-                           scenDiff=NULL,
-                           scaleRange=NULL,
-                           scaleRangeDiffAbs=NULL,
-                           scaleRangeDiffPrcnt=NULL,
-                           xRef=NULL,
-                           xDiff=NULL,
-                           scaleRangeDiffxAbs=NULL,
-                           scaleRangeDiffxPrcnt=NULL,
-                           paramsSelect="All",
-                           multifacetsOn=F,
-                           multiFacetCols="multiFacetCol",
-                           multiFacetRows="multiFacetRow",
-                           legendOutsideMulti=T,
-                           legendPositionMulti=NULL,
-                           legendTitleSizeMulti=NULL,
-                           legendTextSizeAnim=NULL,
-                           legendTextSizeMulti=NULL,
-                           refMultiA=NULL,
-                           refMultiB=NULL,
-                           chosenRefMeanYears=NULL,
-                           mapTitleSize=0.5,
-                           facetBGColor=NA,
-                           facetLabelColor ="black",
-                           facetLabelSize=1.0,
-                           facetLabelSizeMultiAB=1,
-                           facetLabelBorderLwd =NA_real_,
-                           numeric2Cat_list=NULL,
-                           frameShow = F,
-                           pdfpng = 'png',
-                           fillcolorNA="gray",
-                           fillshowNA=NA,
-                           fillcolorNULL="gray",
-                           legendSingleColorOn=NULL,
-                           legendSingleValue=NULL,
-                           legendSingleColor="white",
-                           facetCols=4,
-                           mapTitleOn=T,
-                           innerMargins=c(0,0,0,0), # bottom, left, top, right
-                           legendDigitsOverride=NULL,
-                           classPalette = NULL,
-                           classPaletteDiff = "pal_div_BluRd"
-                           ){
+map <- function(data = NULL,
+                fillColumn = NULL,
+                fileName = "map",
+                printFig=T,
+                grid = NULL,
+                folder = paste(getwd(), "/outputs", sep = ""),
+                xRange = "All",
+                labels = F,
+                labelsSize = 1.0,
+                shape = NULL,
+                subRegShpFolder = NULL,
+                subRegShpFile = NULL,
+                subRegCol = "subRegion",
+                subRegType = NULL,
+                nameAppend = "",
+                legendOutsideSingle = T,
+                legendOutsidePosition = NULL,
+                legendPosition = NULL,
+                legendFixedBreaks = 5,
+                legendTitleSizeO = 1.0,
+                legendTextSizeO = 0.6,
+                legendTitleSizeI = 1.0,
+                legendTextSizeI = 0.6,
+                animateOn = T,
+                fps = 1,
+                background = F,
+                boundaryRegShape = NULL,
+                boundaryRegShpFolder = NULL,
+                boundaryRegShpFile = NULL,
+                boundaryRegCol = "subRegion",
+                boundaryRegionsSelect = NULL,
+                cropToBoundary = F,
+                extendedLabels = F,
+                extendedFillColor = "grey75",
+                extendedBGColor = "lightblue1",
+                extendedHighLightColor = "cornsilk1",
+                extendedLabelsColor = "grey30",
+                extdendedLabelSize = 0.4,
+                extendedShape = NULL,
+                extendedShapeCol = "subRegion",
+                expandPercent = 3,
+                projX = "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0",
+                figWidth = 6,
+                figHeight = 7,
+                scenRef = NULL,
+                scenDiff = NULL,
+                scaleRange = NULL,
+                scaleRangeDiffAbs = NULL,
+                scaleRangeDiffPrcnt = NULL,
+                xRef = NULL,
+                xDiff = NULL,
+                scaleRangeDiffxAbs = NULL,
+                scaleRangeDiffxPrcnt = NULL,
+                paramsSelect = "All",
+                multifacetsOn = F,
+                multiFacetCols = "multiFacetCol",
+                multiFacetRows = "multiFacetRow",
+                legendOutsideMulti = T,
+                legendPositionMulti = NULL,
+                legendTitleSizeMulti = NULL,
+                legendTextSizeAnim = NULL,
+                legendTextSizeMulti = NULL,
+                refMultiA = NULL,
+                refMultiB = NULL,
+                chosenRefMeanYears = NULL,
+                mapTitleSize = 0.5,
+                facetBGColor = NA,
+                facetLabelColor = "black",
+                facetLabelSize = 1.0,
+                facetLabelSizeMultiAB = 1,
+                facetLabelBorderLwd = NA_real_,
+                numeric2Cat_list = NULL,
+                frameShow = F,
+                pdfpng = 'png',
+                fillcolorNA = "gray",
+                fillshowNA = NA,
+                fillcolorNULL = "gray",
+                legendSingleColorOn = NULL,
+                legendSingleValue = NULL,
+                legendSingleColor = "white",
+                facetCols = 4,
+                mapTitleOn = T,
+                innerMargins = c(0, 0, 0, 0),
+                # bottom, left, top, right
+                legendDigitsOverride = NULL,
+                classPalette = NULL,
+                classPaletteDiff = "pal_div_BluRd") {
 
   # data=NULL
+  # fillColumn=NULL
   # grid=NULL
   # folder=paste(getwd(),"/outputs",sep="")
   # xRange="All"
@@ -329,6 +336,29 @@ map<-function(data=NULL,
       }
     }
   }; subRegType
+
+  #------------------
+  # Run mapplot directly if a shpefile is provided
+  # -----------------
+
+  if(all(!class(data) %in% c("tbl_df","tbl","data.frame"))){
+    if(class(data)!="character"){
+
+       if (is.null(classPalette)) {
+        classPalettex = "Spectral"
+      }else{
+        classPalettex <- classPalette
+      }
+
+      mapplot(
+        dataPolygon = data,
+        fillPalette=classPalettex,
+        folder=folder,
+        labels=labels,
+        fileName = fileName,
+        printFig = printFig)
+    }
+  } else {
 
   #------------------
   # Function for adding any missing columns if needed
@@ -4197,5 +4227,7 @@ map<-function(data=NULL,
   print("map run completed.")
 
   invisible(listx)
+
+  } # Close direct plot
 
 } # close function
