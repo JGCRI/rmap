@@ -88,14 +88,14 @@ data = data.frame(subRegion=c("Colombia","China","India"),
                   x=c(2050,2050,2050),
                   value=c(5,10,15))
 
-# Auto selection by metis will choose metis::mapCountries
+# Auto selection by rmap will choose rmap::mapCountries
 rmap::map(data=data,
                   folder = "vignetteChooseMap",
                   mapTitleOn = F)
 
-# User can specify that they want to plot this data on metis::mapGCAMReg32
+# User can specify that they want to plot this data on rmap::mapGCAMReg32
 rmap::map(data=data,
-                  subRegShape = metis::mapGCAMReg32,
+                  shape = rmap::mapGCAMReg32,
                   folder = "vignetteChooseMap",
                   nameAppend = "Chosen",
                   mapTitleOn = F)
@@ -107,7 +107,7 @@ data = data.frame(subRegion=c("AK","HI","PR","MO","TX","WY"),
                   x=c(2050,2050,2050,2050,2050,2050),
                   value=c(5,10,15,34,2,7))
 rmap::map(data=data,
-                  subRegShape=metis::mapUS52Compact,
+                  shape = rmap::mapUS52Compact,
                   folder = "vignetteMaps", mapTitleOn = F)
 
 
@@ -119,7 +119,7 @@ data = data.frame(subRegion=c("Aleutians West_AK","Sabana Grande_PR","Kalawao_HI
                   x=c(2050,2050,2050,2050,2050,2050),
                   value=c(5,10,15,34,2,7))
 rmap::map(data=data,
-                  subRegShape=metis::mapUS52CountyCompact,
+                  shape=rmap::mapUS52CountyCompact,
                   folder = "vignetteMaps",
                   nameAppend = "_Alt",
                   mapTitleOn = F)
@@ -127,11 +127,11 @@ rmap::map(data=data,
 
 # Custom Subset Existing
 #------------------------------------------
-shapeSubset <- metis::mapStates # Read in World States shape file
+shapeSubset <- rmap::mapStates # Read in World States shape file
 shapeSubset <- shapeSubset[shapeSubset@data$region %in% c("Colombia"),] # Subset the shapefile to Colombia
 shapeSubset@data <- droplevels(shapeSubset@data)
 shapeSubset@data <- shapeSubset@data %>% dplyr::rename(states=subRegion) # Lets assume the subRegion column was called "states"
-metis.map(shapeSubset,fillCol="states") # View custom shape
+rmap::map(shapeSubset,fillCol="states") # View custom shape
 head(shapeSubset@data) # review data
 unique(shapeSubset@data$states) # Get a list of the unique subRegions
 
@@ -139,8 +139,8 @@ unique(shapeSubset@data$states) # Get a list of the unique subRegions
 data = data.frame(states=c("Cauca","Valle del Cauca","Antioquia","C?rdoba","Bol?var","Atl?ntico"),
                   x=c(2050,2050,2050,2050,2050,2050),
                   value=c(5,10,15,34,2,7))
-rmap::map(data=data,
-                  subRegShape = shapeSubset,
+rmap::map(data = data,
+                  shape = shapeSubset,
                   subRegCol = "states",
                   subRegType = "ColombiaStates",
                   folder = "vignetteMaps_shapeSubset",
@@ -149,22 +149,22 @@ rmap::map(data=data,
 
 # Subset Crop to another
 #------------------------------------------
-shapeSubRegions <- metis::mapUS49County
-shapeCropTo <- metis::mapUS49
+shapeSubRegions <- rmap::mapUS49County
+shapeCropTo <- rmap::mapUS49
 shapeCropTo <- shapeCropTo[shapeCropTo@data$subRegion %in% c("TX"),]
 shapeCropTo@data <- droplevels(shapeCropTo@data)
 shapeCrop<- sp::spTransform(shapeCropTo,raster::crs(shapeSubRegions))
 shapeCrop <-raster::crop(shapeSubRegions,shapeCropTo)
 shapeCrop@data <- shapeCrop@data%>%dplyr::select(subRegion)
 shapeCrop$subRegion%>%unique() # Check subRegion names
-metis.map(shapeCrop)
+rmap::map(shapeCrop)
 
 # Plot data on subset
 data = data.frame(county=c("Wise_TX","Scurry_TX","Kendall_TX","Frio_TX","Hunt_TX","Austin_TX"),
                   x=c(2050,2050,2050,2050,2050,2050),
                   value=c(5,10,15,34,2,7))
-rmap::map(data=data,
-                  subRegShape = shapeCrop,
+rmap::map(data = data,
+                  shape = shapeCrop,
                   subRegCol = "county",
                   subRegType = "TexasCounties",
                   folder = "vignetteMaps_shapeCrop",
@@ -181,16 +181,15 @@ rmap::map(data = data, mapTitleOn = F, folder = "vignetteMaps", cropToBoundary=T
 
 # Extend
 #------------------------------------------
-data = data.frame(
-  subRegion = c("India","China"), year=c(2010,2010), value = c(32,54))
-rmap::map(data = data, mapTitleOn=F, folder = "vignetteMaps",
-                  #cropToBoundary =T,
-                  background = T, nameAppend="Extended")
+data = data.frame(subRegion = c("India","China"), year=c(2010,2010), value = c(32,54))
+rmap::map(data = data, mapTitleOn = F, folder = "vignetteMaps",
+          #cropToBoundary =T,
+          background = T, nameAppend = "Extended")
 
 # Can increase the extnded boundaries by using expandPercent
-rmap::map(data = data, mapTitleOn=F, folder = "vignetteMaps",
-                  cropToBoundary =T,
-                  background = T, nameAppend="Extended10", expandPercent = 50)
+rmap::map(data = data, mapTitleOn = F, folder = "vignetteMaps",
+          cropToBoundary = T,
+          background = T, nameAppend = "Extended10", expandPercent = 50)
 
 
 # Multi-Year
@@ -207,8 +206,10 @@ data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
                             37, 53, 23, 12, 45,
                             23, 99, 102, 85, 75,
                             12, 76, 150, 64, 90))
-rmap::map(data = data, folder ="multiYear",
-                  cropToBoundary=T, background = T )
+rmap::map(data = data,
+                  folder = "multiYear",
+                  cropToBoundary = T,
+                  background = T)
 
 
 # Multi-Class
@@ -226,8 +227,10 @@ data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
                             37, 53, 23, 12, 45,
                             23, 99, 102, 85, 75,
                             12, 76, 150, 64, 90))
-rmap::map(data = data, folder ="multiClass",
-                  cropToBoundary=T, background = T )
+rmap::map(data = data,
+                  folder = "multiClass",
+                  cropToBoundary = T,
+                  background = T)
 
 
 # Multi-Scenario Diff
@@ -242,8 +245,12 @@ data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
                   value = c(32, 38, 54, 63, 24,
                             37, 53, 23, 12, 45,
                             40, 44, 12, 30, 99))
-rmap::map(data = data, folder ="multiScenario",
-                  cropToBoundary=T, background = T, scenRef="scen1", scenDiff=c("scen3"))
+rmap::map(data = data,
+                  folder = "multiScenario",
+                  cropToBoundary = T,
+                  background = T,
+                  scenRef = "scen1",
+                  scenDiff = c("scen3"))
 
 
 # Multi-Year DIff
@@ -255,8 +262,12 @@ data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
                   value = c(32, 38, 54, 63, 24,
                             37, 53, 23, 12, 45,
                             40, 45, 12, 50, 63))
-rmap::map(data = data, folder ="multiYear",
-                  cropToBoundary=T, background = T, xRef=2010, xDiff = c(2020))
+rmap::map(data = data,
+                  folder = "multiYear",
+                  cropToBoundary = T,
+                  background = T,
+                  xRef = 2010,
+                  xDiff = c(2020))
 
 
 # Scale Range
@@ -268,9 +279,10 @@ data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
                   year = rep(2010,10),
                   value = c(32, 38, 54, 63, 24,
                             37, 50, 23, 12, 45))
-rmap::map(data = data, folder ="scaleRange",
-                  cropToBoundary=T, background = T, scenRef="scen1",
-                  scaleRange = c(0,50), scaleRangeDiffAbs = c(-100,100), scaleRangeDiffPrcnt = c(-60,60))
+rmap::map(data = data, folder = "scaleRange",
+                  cropToBoundary = T, background = T, scenRef = "scen1",
+                  scaleRange = c(0, 50), scaleRangeDiffAbs = c(-100, 100),
+                  scaleRangeDiffPrcnt = c(-60, 60))
 
 
 # Color Palettes
@@ -282,8 +294,8 @@ data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
                   year = rep(2010,10),
                   value = c(32, 38, 54, 63, 24,
                             37, 53, 23, 12, 45))
-rmap::map(data = data, folder ="colorPalettes",
-                  cropToBoundary=T, background = T, scenRef="scen1",
+rmap::map(data = data, folder = "colorPalettes",
+                  cropToBoundary = T, background = T, scenRef = "scen1",
                   classPalette = "pal_wet", classPaletteDiff = "pal_div_BrGn")
 
 
@@ -316,9 +328,9 @@ data = data.frame(subRegion=c("CA","AZ","TX","NH","ID","OH",
                   value=c(0,1,3,20,2,1,
                           0,0.1,0.3,0.2,0.25,0.5),
                   param = c(rep("param1",6),rep("param2",6)))
-rmap::map(data=data,
-               folder = "numeric2cat",
-               numeric2Cat_list=numeric2Cat_list)
+rmap::map(data = data,
+                  folder = "numeric2cat",
+                  numeric2Cat_list = numeric2Cat_list)
 
 
 
