@@ -21,9 +21,6 @@ mappings <- function(name=NULL) {
   # Metis param, query, palette, maps Mapping
   #-----------------------------------------------------------
 
-  # Used by metis.readgcam()
-  # USed by metis.mapsProcess()
-
   mapParamQuery <- tibble::tribble(
     ~group, ~param, ~query,~mapPalette,
     "energy","energyPrimaryByFuelEJ","primary energy consumption by region (direct equivalent)","pal_hot",
@@ -426,7 +423,7 @@ mappings <- function(name=NULL) {
   #--------------------------------------------------------------------------------------------------
 
   subRegionMap <- tibble::tribble(
-    ~subRegion	,	~subRegionMetis,
+    ~subRegion	,	~subRegionMap,
     "ArkWhtRedR","Arkansas_White_Red",
     "California","California_River",
     "Caribbean","Caribbean",
@@ -448,7 +445,29 @@ mappings <- function(name=NULL) {
     "UsaCstE","Mid_Atlantic",
     "UsaCstNE","New_England",
     "UsaCstSE","South_Atlantic_Gulf",
-    "UsaPacNW","Pacific_Northwest")
+    "UsaPacNW","Pacific_Northwest",
+    'BengalBay','Bay_of_Bengal_North_East_Coast',
+    'BoHai','Bo_Hai_Korean_Bay_North_Coast',
+    'ChaoPhrR','Chao_Phraya',
+    'FlyR','Fly',
+    'GangesR','Ganges_Bramaputra',
+    'Hong','Hong_Red_River',
+    'IdnE','India_East_Coast',
+    'IrianJaya','Irian_Jaya_Coast',
+    'IrrawaddyR','Irrawaddy',
+    'JavaTimor','Java_Timor',
+    'Kalimantan','Kalimantan',
+    'Mekong','Mekong',
+    'PapuaCst','Papua_New_Guinea_Coast',
+    'Phlppns','Philippines',
+    'RusCstSE','Russia_South_East_Coast',
+    'Salween','Salween',
+    'SChinaSea','South_China_Sea_Coast',
+    'SepikR','Sepik',
+    'SittaungR','Sittang',
+    'SolomonIsl','Solomon_Islands',
+    'VietnamCst','Viet_Nam_Coast',
+    'XunJiang','Xun_Jiang')
 
   #--------------------------------------------------------------------------------------------------
   # GCAM USA Regions

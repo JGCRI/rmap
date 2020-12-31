@@ -22,7 +22,7 @@ mapFind <- function(dataTbl) {
     if(T){
     NULL -> subRegShapeFoundx -> subRegShapeTypeFoundx -> subRegNotInShapeFoundx ->
       dataTblFound -> subRegionShapex -> mapStatesx -> subRegionAlt -> subRegion -> mapFindx -> subRegion1 ->
-        subRegNum-> subRegionMetis}
+        subRegNum-> subRegionMap}
 
   #......................................................
   # Check columns and map subRegions to rmap shape regions
@@ -47,9 +47,9 @@ mapFind <- function(dataTbl) {
     # Map subRegions to rmap regions
     dataTbl <- dataTbl %>%
       dplyr::left_join(rmap::mappings("subRegionMap"),by="subRegion")%>%
-      dplyr::mutate(subRegion=dplyr::case_when(!is.na(subRegionMetis)~subRegionMetis,
+      dplyr::mutate(subRegion=dplyr::case_when(!is.na(subRegionMap)~subRegionMap,
                                         TRUE~subRegion))%>%
-      dplyr::select(-subRegionMetis)
+      dplyr::select(-subRegionMap)
 
     subRegShapeTbl <- gsub("-", "_", tolower(unique(dataTbl$subRegion)))
 

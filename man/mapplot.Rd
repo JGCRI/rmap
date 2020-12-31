@@ -207,7 +207,7 @@ mapplot(
 Returns the formatted data used to produce chart
 }
 \description{
-This function produce different kinds of maps for the metis package.
+This function produce different kinds of maps for the rmap package.
 Each figure is accompanied with a csv table.
 }
 \keyword{charts,}

@@ -88,12 +88,12 @@ data = data.frame(subRegion=c("Colombia","China","India"),
                   x=c(2050,2050,2050),
                   value=c(5,10,15))
 
-# Auto selection by metis will choose metis::mapCountries
+# Auto selection by rmap will choose rmap::mapCountries
 rmap::map(data=data,
                   folder = "vignetteChooseMap",
                   mapTitleOn = F)
 
-# User can specify that they want to plot this data on metis::mapGCAMReg32
+# User can specify that they want to plot this data on rmap::mapGCAMReg32
 rmap::map(data=data,
                   shape = rmap::mapGCAMReg32,
                   folder = "vignetteChooseMap",

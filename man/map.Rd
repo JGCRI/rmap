@@ -272,7 +272,7 @@ Returns the formatted data used to produce chart
 A list with the gridTbl and shapeTbl used to plot the data if any.
 }
 \description{
-This function produce different kinds of maps for the metis package.
+This function produce different kinds of maps for the rmap package.
 Each figure is accompanied with a csv table.
 }
 \keyword{charts,}
