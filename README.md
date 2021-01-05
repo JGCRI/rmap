@@ -1,6 +1,7 @@
 <!-- badges: start -->
    ![R-CMD](https://github.com/JGCRI/rmap/workflows/R-CMD/badge.svg)
-  [![codecov](https://codecov.io/gh/JGCRI/rmap/branch/main/graph/badge.svg?token=XQ913U4IYM)](https://codecov.io/gh/JGCRI/rmap)
+  [![codecov](https://codecov.io/gh/JGCRI/rmap/branch/main/graph/badge.svg?token=XQ913U4IYM)](https://codecov.io/gh/JGCRI/rmap) ![build](https://github.com/JGCRI/rmap/workflows/build/badge.svg) ![docs](https://github.com/JGCRI/rmap/workflows/docs/badge.svg)
+  
   <!-- badges: end -->
 
 <!-- ------------------------>
