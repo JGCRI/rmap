@@ -34,8 +34,8 @@ jobs:
 
       - name: Install macos packages
         run: brew install pkg-config
-        run: brew install gdal
-        run: brew install imagemagick@6
+             brew install gdal
+             brew install imagemagick@6
         
       - name: Install dependencies
         run: |
