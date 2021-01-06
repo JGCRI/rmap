@@ -32,10 +32,12 @@ jobs:
           key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
           restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
 
-      - name: Install macos packages
-        run: brew install pkg-config
-        run: brew install gdal
-        run: brew install imagemagick@6
+      - name: Brew and macOS config
+        if: runner.os == 'macOS'
+        run: |
+          brew install pkg-config \
+            imagemagick@6 \
+            gdal
         
       - name: Install dependencies
         run: |

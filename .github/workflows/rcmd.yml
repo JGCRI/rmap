@@ -22,10 +22,12 @@ jobs:
       - uses: actions/checkout@v2
       - uses: r-lib/actions/setup-r@master
       
-      - name: Install macos packages
-        run: brew install pkg-config
-        run: brew install gdal
-        run: brew install imagemagick@6
+      - name: Brew and macOS config
+        if: runner.os == 'macOS'
+        run: |
+          brew install pkg-config \
+            imagemagick@6 \
+            gdal
 
       - name: Install dependencies
         run: |
