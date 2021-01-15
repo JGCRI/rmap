@@ -482,8 +482,8 @@
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>
 <span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>subRegion <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"India"</span>,<span class="st">"China"</span><span class="op">)</span>, year <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2010</span>,<span class="fl">2010</span><span class="op">)</span>,value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">32</span>,<span class="fl">54</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>polygonTable <span class="op">=</span> <span class="va">data</span>, mapTitleOn <span class="op">=</span> <span class="cn">F</span>, folder <span class="op">=</span> <span class="st">"vignetteMaps"</span>, cropToBoundary<span class="op">=</span><span class="cn">F</span>, <span class="op">)</span>
-<span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>polygonTable <span class="op">=</span> <span class="va">data</span>, mapTitleOn <span class="op">=</span> <span class="cn">F</span>, folder <span class="op">=</span> <span class="st">"vignetteMaps"</span>, cropToBoundary<span class="op">=</span><span class="cn">T</span>, 
+<span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, mapTitleOn <span class="op">=</span> <span class="cn">F</span>, folder <span class="op">=</span> <span class="st">"vignetteMaps"</span>, cropToBoundary<span class="op">=</span><span class="cn">F</span>, <span class="op">)</span>
+<span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, mapTitleOn <span class="op">=</span> <span class="cn">F</span>, folder <span class="op">=</span> <span class="st">"vignetteMaps"</span>, cropToBoundary<span class="op">=</span><span class="cn">T</span>, 
                   nameAppend<span class="op">=</span><span class="st">"Cropped"</span><span class="op">)</span></code></pre></div>
 <p align="center" style="font-size:18px;">
 <em>Crop to Boundary</em>
@@ -500,18 +500,18 @@
 <img src="vignetteFigs/rmapHeaderThick.PNG"></p>
 <!-------------------------->
 <!-------------------------->
-<p>By turning on <strong>extension</strong> a background layer will be added to any shape map.</p>
+<p>By turning on <strong>background</strong> a background layer will be added to any shape map.</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>
 <span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>subRegion <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"India"</span>,<span class="st">"China"</span><span class="op">)</span>, year <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2010</span>,<span class="fl">2010</span><span class="op">)</span>, value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">32</span>,<span class="fl">54</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>polygonTable <span class="op">=</span> <span class="va">data</span>, mapTitleOn <span class="op">=</span> <span class="cn">F</span>, folder <span class="op">=</span> <span class="st">"vignetteMaps"</span>, 
+<span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, mapTitleOn <span class="op">=</span> <span class="cn">F</span>, folder <span class="op">=</span> <span class="st">"vignetteMaps"</span>, 
                   cropToBoundary <span class="op">=</span> <span class="cn">T</span>,
-                  extension <span class="op">=</span> <span class="cn">T</span>, nameAppend <span class="op">=</span> <span class="st">"Extended"</span><span class="op">)</span>
+                  background <span class="op">=</span> <span class="cn">T</span>, nameAppend <span class="op">=</span> <span class="st">"Extended"</span><span class="op">)</span>
 
 <span class="co"># Can increase the extnded boundaries by using expandPercent</span>
-<span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>polygonTable <span class="op">=</span> <span class="va">data</span>, mapTitleOn <span class="op">=</span> <span class="cn">F</span>, folder <span class="op">=</span> <span class="st">"vignetteMaps"</span>, 
+<span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, mapTitleOn <span class="op">=</span> <span class="cn">F</span>, folder <span class="op">=</span> <span class="st">"vignetteMaps"</span>, 
                   cropToBoundary <span class="op">=</span> <span class="cn">T</span>,
-                  extension <span class="op">=</span> <span class="cn">T</span>, nameAppend <span class="op">=</span> <span class="st">"Extended10"</span>, expandPercent <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></code></pre></div>
+                  background <span class="op">=</span> <span class="cn">T</span>, nameAppend <span class="op">=</span> <span class="st">"Extended10"</span>, expandPercent <span class="op">=</span> <span class="fl">50</span><span class="op">)</span></code></pre></div>
 <p align="center" style="font-size:18px;">
 <em>Extended Background</em>
 </p>
@@ -541,8 +541,8 @@
                             <span class="fl">37</span>, <span class="fl">53</span>, <span class="fl">23</span>, <span class="fl">12</span>, <span class="fl">45</span>,
                             <span class="fl">23</span>, <span class="fl">99</span>, <span class="fl">102</span>, <span class="fl">85</span>, <span class="fl">75</span>,
                             <span class="fl">12</span>, <span class="fl">76</span>, <span class="fl">150</span>, <span class="fl">64</span>, <span class="fl">90</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>polygonTable <span class="op">=</span> <span class="va">data</span>, folder <span class="op">=</span><span class="st">"multiYear"</span>, 
-                  cropToBoundary<span class="op">=</span><span class="cn">T</span>, extension <span class="op">=</span> <span class="cn">T</span> <span class="op">)</span></code></pre></div>
+<span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, folder <span class="op">=</span><span class="st">"multiYear"</span>, 
+                  cropToBoundary<span class="op">=</span><span class="cn">T</span>, background <span class="op">=</span> <span class="cn">T</span> <span class="op">)</span></code></pre></div>
 <p align="center" style="font-size:18px;">
 <em>Multi-year</em>
 </p>
@@ -578,8 +578,8 @@
                             <span class="fl">37</span>, <span class="fl">53</span>, <span class="fl">23</span>, <span class="fl">12</span>, <span class="fl">45</span>,
                             <span class="fl">23</span>, <span class="fl">99</span>, <span class="fl">102</span>, <span class="fl">85</span>, <span class="fl">75</span>,
                             <span class="fl">12</span>, <span class="fl">76</span>, <span class="fl">150</span>, <span class="fl">64</span>, <span class="fl">90</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>polygonTable <span class="op">=</span> <span class="va">data</span>, folder <span class="op">=</span><span class="st">"multiClass"</span>, 
-                  cropToBoundary <span class="op">=</span> <span class="cn">T</span>, extension <span class="op">=</span> <span class="cn">T</span> <span class="op">)</span></code></pre></div>
+<span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, folder <span class="op">=</span><span class="st">"multiClass"</span>, 
+                  cropToBoundary <span class="op">=</span> <span class="cn">T</span>, background <span class="op">=</span> <span class="cn">T</span> <span class="op">)</span></code></pre></div>
 <p align="center" style="font-size:18px;">
 <em>Multi-class</em>
 </p>
@@ -608,8 +608,8 @@
                   value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">32</span>, <span class="fl">38</span>, <span class="fl">54</span>, <span class="fl">63</span>, <span class="fl">24</span>,
                             <span class="fl">37</span>, <span class="fl">53</span>, <span class="fl">23</span>, <span class="fl">12</span>, <span class="fl">45</span>,
                             <span class="fl">40</span>, <span class="fl">44</span>, <span class="fl">12</span>, <span class="fl">30</span>, <span class="fl">99</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>polygonTable <span class="op">=</span> <span class="va">data</span>, folder <span class="op">=</span><span class="st">"multiScenario"</span>, 
-                  cropToBoundary <span class="op">=</span> <span class="cn">T</span>, extension <span class="op">=</span> <span class="cn">T</span>, scenRef <span class="op">=</span> <span class="st">"scen1"</span>, scenDiff <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"scen3"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, folder <span class="op">=</span><span class="st">"multiScenario"</span>, 
+                  cropToBoundary <span class="op">=</span> <span class="cn">T</span>, background <span class="op">=</span> <span class="cn">T</span>, scenRef <span class="op">=</span> <span class="st">"scen1"</span>, scenDiff <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"scen3"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p align="center" style="font-size:18px;">
 <em>Multi-Scenario Diff</em>
 </p>
@@ -640,8 +640,8 @@
                   value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">32</span>, <span class="fl">38</span>, <span class="fl">54</span>, <span class="fl">63</span>, <span class="fl">24</span>,
                             <span class="fl">37</span>, <span class="fl">53</span>, <span class="fl">23</span>, <span class="fl">12</span>, <span class="fl">45</span>,
                             <span class="fl">40</span>, <span class="fl">45</span>, <span class="fl">12</span>, <span class="fl">50</span>, <span class="fl">63</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>polygonTable <span class="op">=</span> <span class="va">data</span>, folder <span class="op">=</span> <span class="st">"multiYear"</span>, 
-                  cropToBoundary <span class="op">=</span> <span class="cn">T</span>, extension <span class="op">=</span> <span class="cn">T</span>, xRef <span class="op">=</span> <span class="fl">2010</span>, xDiff <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2020</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, folder <span class="op">=</span> <span class="st">"multiYear"</span>, 
+                  cropToBoundary <span class="op">=</span> <span class="cn">T</span>, background <span class="op">=</span> <span class="cn">T</span>, xRef <span class="op">=</span> <span class="fl">2010</span>, xDiff <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2020</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p align="center" style="font-size:18px;">
 <em>Multi-Year Diff</em>
 </p>
@@ -671,8 +671,8 @@
                   year <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">2010</span>,<span class="fl">10</span><span class="op">)</span>,
                   value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">32</span>, <span class="fl">38</span>, <span class="fl">54</span>, <span class="fl">63</span>, <span class="fl">24</span>,
                             <span class="fl">37</span>, <span class="fl">53</span>, <span class="fl">23</span>, <span class="fl">12</span>, <span class="fl">45</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>polygonTable <span class="op">=</span> <span class="va">data</span>, folder <span class="op">=</span> <span class="st">"scaleRange"</span>, 
-                  cropToBoundary <span class="op">=</span> <span class="cn">T</span>, extension <span class="op">=</span> <span class="cn">T</span>, scenRef <span class="op">=</span> <span class="st">"scen1"</span>, 
+<span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, folder <span class="op">=</span> <span class="st">"scaleRange"</span>, 
+                  cropToBoundary <span class="op">=</span> <span class="cn">T</span>, background <span class="op">=</span> <span class="cn">T</span>, scenRef <span class="op">=</span> <span class="st">"scen1"</span>, 
                   scaleRange <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">50</span><span class="op">)</span>, scaleRangeDiffAbs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">100</span>,<span class="fl">100</span><span class="op">)</span>, scaleRangeDiffPrcnt <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">60</span>,<span class="fl">60</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p align="center" style="font-size:18px;">
 <em>Scale Range</em>
@@ -699,8 +699,8 @@
                   year <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">2010</span>,<span class="fl">10</span><span class="op">)</span>,
                   value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">32</span>, <span class="fl">38</span>, <span class="fl">54</span>, <span class="fl">63</span>, <span class="fl">24</span>,
                             <span class="fl">37</span>, <span class="fl">53</span>, <span class="fl">23</span>, <span class="fl">12</span>, <span class="fl">45</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>polygonTable <span class="op">=</span> <span class="va">data</span>, folder <span class="op">=</span><span class="st">"colorPalettes"</span>, 
-                  cropToBoundary <span class="op">=</span> <span class="cn">T</span>, extension <span class="op">=</span> <span class="cn">T</span>, scenRef <span class="op">=</span> <span class="st">"scen1"</span>,
+<span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, folder <span class="op">=</span><span class="st">"colorPalettes"</span>, 
+                  cropToBoundary <span class="op">=</span> <span class="cn">T</span>, background <span class="op">=</span> <span class="cn">T</span>, scenRef <span class="op">=</span> <span class="st">"scen1"</span>,
                   classPalette <span class="op">=</span> <span class="st">"pal_wet"</span>, classPaletteDiff <span class="op">=</span> <span class="st">"pal_div_BrGn"</span><span class="op">)</span></code></pre></div>
 <p align="center" style="font-size:18px;">
 <em>Color Palettes</em>
@@ -710,6 +710,100 @@
 <!-------------------------->
 <!-------------------------->
 </div>
+<div id="legend-customization" class="section level1">
+<h1 class="hasAnchor">
+<a href="#legend-customization" class="anchor"></a>Legend Customization</h1>
+<p align="center">
+<img src="vignetteFigs/rmapHeaderThick.PNG"></p>
+<!-------------------------->
+<!-------------------------->
+<p>There are several options to customize your legend as shown below:</p>
+<!-------------------------->
+<div id="legend-position" class="section level2">
+<h2 class="hasAnchor">
+<a href="#legend-position" class="anchor"></a>Legend Position</h2>
+<!-------------------------->
+<div id="single-facet-maps" class="section level3">
+<h3 class="hasAnchor">
+<a href="#single-facet-maps" class="anchor"></a>Single Facet Maps</h3>
+<ul>
+<li>Change the legend position to be inside or outside using <code>legendOutsideSingle = T</code>
+</li>
+<li>Modify the <code>legendPosition = c('right','top')</code> argument to change the position of all inside legends.</li>
+<li>Modify the <code>legendOutsidePosition = "left" # "right","left"</code> argument to change the position of all outside legends.</li>
+</ul>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>
+<span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>subRegion <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Austria"</span>,<span class="st">"Spain"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>,<span class="st">"Greece"</span><span class="op">)</span>,
+                  year <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">2010</span>,<span class="fl">5</span><span class="op">)</span>,
+                  value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">32</span>, <span class="fl">38</span>, <span class="fl">54</span>, <span class="fl">63</span>, <span class="fl">24</span><span class="op">)</span><span class="op">)</span>
+
+<span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, folder <span class="op">=</span><span class="st">"legendCustomization"</span>, 
+                  cropToBoundary <span class="op">=</span> <span class="cn">T</span>, background <span class="op">=</span> <span class="cn">T</span>,
+                  legendOutsideSingle <span class="op">=</span> <span class="cn">T</span>,
+                  legendOutsidePosition <span class="op">=</span> <span class="st">"left"</span>,
+                  <span class="co">#legendPosition = NULL,</span>
+                  nameAppend<span class="op">=</span><span class="st">"_legendOutsideLeft"</span><span class="op">)</span>
+
+<span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, folder <span class="op">=</span><span class="st">"legendCustomization"</span>,
+                  cropToBoundary <span class="op">=</span> <span class="cn">T</span>, background <span class="op">=</span> <span class="cn">T</span>,
+                  legendOutsideSingle <span class="op">=</span> <span class="cn">F</span>,
+                  <span class="co">#legendOutsidePosition = NULL,</span>
+                  legendPosition <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'left'</span>,<span class="st">'bottom'</span><span class="op">)</span>,
+                  nameAppend<span class="op">=</span><span class="st">"_legendInsideBottomLeft"</span><span class="op">)</span></code></pre></div>
+<p align="center" style="font-size:18px;">
+<em>Legend Position - Single Facet Maps</em>
+</p>
+<p align="center">
+<img src="vignetteFigs/map_legendPositionSingle.PNG"></p>
+</div>
+<div id="multi-faceted-maps" class="section level3">
+<h3 class="hasAnchor">
+<a href="#multi-faceted-maps" class="anchor"></a>Multi-faceted maps:</h3>
+<ul>
+<li>FREESCALE will always have legends inside the maps because these will always be different for each facet</li>
+<li>For PRETTY and KMEANS legends will always be outside</li>
+<li>So you can set the position of outside and inside legend positions together.</li>
+<li>Modify the <code>legendPosition = c('right','top')</code> argument to change the position of all inside legends.</li>
+<li>Modify the <code>legendOutsidePosition = "left" # "right","left"</code> argument to change the position of all outside legends.</li>
+</ul>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>
+<span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>subRegion <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Austria"</span>,<span class="st">"Spain"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>,<span class="st">"Greece"</span>,
+                                <span class="st">"Austria"</span>,<span class="st">"Spain"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>,<span class="st">"Greece"</span>,
+                                <span class="st">"Austria"</span>,<span class="st">"Spain"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>,<span class="st">"Greece"</span>,
+                                <span class="st">"Austria"</span>,<span class="st">"Spain"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>,<span class="st">"Greece"</span><span class="op">)</span>,
+                  class <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="st">"municipal"</span>,<span class="fl">5</span><span class="op">)</span>,
+                               <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="st">"industry"</span>,<span class="fl">5</span><span class="op">)</span>,
+                               <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="st">"agriculture"</span>,<span class="fl">5</span><span class="op">)</span>,
+                               <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="st">"transport"</span>,<span class="fl">5</span><span class="op">)</span><span class="op">)</span>,
+                  year <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">2010</span>,<span class="fl">20</span><span class="op">)</span>,
+                  value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">32</span>, <span class="fl">38</span>, <span class="fl">54</span>, <span class="fl">63</span>, <span class="fl">24</span>,
+                            <span class="fl">37</span>, <span class="fl">53</span>, <span class="fl">23</span>, <span class="fl">12</span>, <span class="fl">45</span>,
+                            <span class="fl">23</span>, <span class="fl">99</span>, <span class="fl">102</span>, <span class="fl">85</span>, <span class="fl">75</span>,
+                            <span class="fl">12</span>, <span class="fl">76</span>, <span class="fl">150</span>, <span class="fl">64</span>, <span class="fl">90</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, folder <span class="op">=</span><span class="st">"legendCustomization"</span>, 
+                  cropToBoundary <span class="op">=</span> <span class="cn">T</span>, background <span class="op">=</span> <span class="cn">T</span>,
+                  legendOutsidePosition <span class="op">=</span> <span class="st">"left"</span>,
+                  legendPosition <span class="op">=</span>  <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'left'</span>,<span class="st">'bottom'</span><span class="op">)</span>,
+                  nameAppend <span class="op">=</span> <span class="st">"_legendOutsideLeftInsideBottomLeft"</span><span class="op">)</span></code></pre></div>
+<p align="center" style="font-size:18px;">
+<em>Legend Position - Multi Facet Maps</em>
+</p>
+<p align="center">
+<img src="vignetteFigs/map_legendPositionMulti.PNG"></p>
+<!-------------------------->
+</div>
+</div>
+<div id="legend-breaks" class="section level2">
+<h2 class="hasAnchor">
+<a href="#legend-breaks" class="anchor"></a>Legend Breaks</h2>
+<!-------------------------->
+<p>To be added.</p>
+<!-------------------------->
+<!-------------------------->
+</div>
+</div>
 <div id="numeric2cat" class="section level1">
 <h1 class="hasAnchor">
 <a href="#numeric2cat" class="anchor"></a>Numeric2Cat</h1>
@@ -718,7 +812,7 @@
 <!-------------------------->
 <!-------------------------->
 <p>The <code>numeric2cat</code> parameter in the map function allows users to assign their own categorical legend labels for chosen ranges of numeric values.</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>
 <span class="co"># Create a list of ranges and categorical color scales for each parameter</span>
 <span class="va">numeric2Cat_param</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"param1"</span>,
@@ -766,7 +860,7 @@
 <!-------------------------->
 <p>In this example the preloaded GCAM output <code><a href="../reference/exampleGCAMproj.html">rmap::exampleGCAMproj</a></code> is used to extract data for chosen parameters from the <a href="https://jgcri.github.io/rmap/articles/vignette_colorsMapsParams.html#params-1">parameter list</a>. USers can provided a path to their gcam database folder.</p>
 <p><strong>Note: The exampleGCAMproj comes with only a few parameters: “elecByTechTWh”,“pop”,“watWithdrawBySec”,“watSupRunoffBasin”,“landAlloc” and “agProdByCrop”</strong></p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>
 
 <span class="va">df</span> <span class="op">&lt;-</span> <span class="va">data</span><span class="op">$</span><span class="va">data</span>; <span class="va">df</span>
@@ -775,15 +869,15 @@
 <span class="va">dfClass2</span> <span class="op">&lt;-</span> <span class="va">data</span><span class="op">$</span><span class="va">dataAggClass1</span>; <span class="va">dfClass2</span>
 
 <span class="co"># Plot data aggregated by param</span>
-<span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>polygonTable <span class="op">=</span> <span class="va">dfParam</span>, folder <span class="op">=</span> <span class="st">"GCAMbyParam"</span>, 
-                  cropToBoundary <span class="op">=</span> <span class="cn">T</span>, extension <span class="op">=</span> <span class="cn">T</span>, xRange <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2010</span>,<span class="fl">2020</span>,<span class="fl">2030</span>,<span class="fl">2040</span><span class="op">)</span>,
+<span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">dfParam</span>, folder <span class="op">=</span> <span class="st">"GCAMbyParam"</span>, 
+                  cropToBoundary <span class="op">=</span> <span class="cn">T</span>, background <span class="op">=</span> <span class="cn">T</span>, xRange <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2010</span>,<span class="fl">2020</span>,<span class="fl">2030</span>,<span class="fl">2040</span><span class="op">)</span>,
                   scenRef <span class="op">=</span> <span class="st">"SSP3"</span>, scaleRange <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>param <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"landAlloc"</span>, <span class="st">"elecByTechTWh"</span>,<span class="st">"watSupRunoffBasin"</span>,<span class="st">"pop"</span><span class="op">)</span>,
                                                             min <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span>,
                                                             max <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">10000</span>,<span class="fl">15000</span>,<span class="fl">2000</span>,<span class="fl">2000</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co"># Plot data aggregated by Class1</span>
-<span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>polygonTable <span class="op">=</span> <span class="va">dfClass1</span>, folder <span class="op">=</span> <span class="st">"GCAMbyClass"</span>, 
-                  cropToBoundary <span class="op">=</span> <span class="cn">T</span>, extension <span class="op">=</span> <span class="cn">T</span>, xRange <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2010</span>,<span class="fl">2020</span>,<span class="fl">2030</span>,<span class="fl">2040</span><span class="op">)</span>,
+<span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">dfClass1</span>, folder <span class="op">=</span> <span class="st">"GCAMbyClass"</span>, 
+                  cropToBoundary <span class="op">=</span> <span class="cn">T</span>, background <span class="op">=</span> <span class="cn">T</span>, xRange <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2010</span>,<span class="fl">2020</span>,<span class="fl">2030</span>,<span class="fl">2040</span><span class="op">)</span>,
                   scenRef <span class="op">=</span> <span class="st">"SSP3"</span><span class="op">)</span></code></pre></div>
 <p align="center" style="font-size:18px;">
 <em>GCAM Outputs Folder Structure</em>
