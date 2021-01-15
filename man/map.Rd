@@ -126,9 +126,9 @@ map(
 
 \item{legendOutsideSingle}{Default =F, Single plots by default have legends inside. This can be moved out if wanted.}
 
-\item{legendOutsidePosition}{Default = NULL, # "right","left","top","bottom", "center"}
+\item{legendOutsidePosition}{Default = NULL, # "right","left"}
 
-\item{legendPosition}{Default = NULL, # c("RIGHT','top') - RIGHT LEFT TOP BOTTOM}
+\item{legendPosition}{Default = NULL, # c('RIGHT','top') - RIGHT LEFT TOP BOTTOM}
 
 \item{legendFixedBreaks}{Default = "5",}
 

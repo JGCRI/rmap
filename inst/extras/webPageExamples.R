@@ -1,10 +1,9 @@
 library(rmap)
-map = rmap::map
 
 # Maps Available
 #------------------------------------------
 head(mapUS49@data) # To View data in shapefile
-map(mapUS49, labels=T)
+rmap::map(mapUS49, labels=T)
 
 
 # US49

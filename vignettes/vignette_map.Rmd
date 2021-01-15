@@ -366,8 +366,8 @@ By setting the **cropToBoundary** argument to **T** the function will crop your 
 ```{r, eval=F}
 library(rmap)
 data = data.frame(subRegion = c("India","China"), year = c(2010,2010),value = c(32,54))
-map(polygonTable = data, mapTitleOn = F, folder = "vignetteMaps", cropToBoundary=F, )
-map(polygonTable = data, mapTitleOn = F, folder = "vignetteMaps", cropToBoundary=T, 
+map(data = data, mapTitleOn = F, folder = "vignetteMaps", cropToBoundary=F, )
+map(data = data, mapTitleOn = F, folder = "vignetteMaps", cropToBoundary=T, 
                   nameAppend="Cropped")
 ```
 
@@ -382,19 +382,19 @@ map(polygonTable = data, mapTitleOn = F, folder = "vignetteMaps", cropToBoundary
 <!-------------------------->
 <!-------------------------->
 
-By turning on **extension** a background layer will be added to any shape map.
+By turning on **background** a background layer will be added to any shape map.
 
 ```{r, eval=F}
 library(rmap)
 data = data.frame(subRegion = c("India","China"), year = c(2010,2010), value = c(32,54))
-map(polygonTable = data, mapTitleOn = F, folder = "vignetteMaps", 
+map(data = data, mapTitleOn = F, folder = "vignetteMaps", 
                   cropToBoundary = T,
-                  extension = T, nameAppend = "Extended")
+                  background = T, nameAppend = "Extended")
 
 # Can increase the extnded boundaries by using expandPercent
-map(polygonTable = data, mapTitleOn = F, folder = "vignetteMaps", 
+map(data = data, mapTitleOn = F, folder = "vignetteMaps", 
                   cropToBoundary = T,
-                  extension = T, nameAppend = "Extended10", expandPercent = 50)
+                  background = T, nameAppend = "Extended10", expandPercent = 50)
 ```
 
 <p align="center" style="font-size:18px;"> *Extended Background* </p>
@@ -421,8 +421,8 @@ data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
                             37, 53, 23, 12, 45,
                             23, 99, 102, 85, 75,
                             12, 76, 150, 64, 90))
-map(polygonTable = data, folder ="multiYear", 
-                  cropToBoundary=T, extension = T )
+map(data = data, folder ="multiYear", 
+                  cropToBoundary=T, background = T )
 ```
 
 
@@ -456,8 +456,8 @@ data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
                             37, 53, 23, 12, 45,
                             23, 99, 102, 85, 75,
                             12, 76, 150, 64, 90))
-map(polygonTable = data, folder ="multiClass", 
-                  cropToBoundary = T, extension = T )
+map(data = data, folder ="multiClass", 
+                  cropToBoundary = T, background = T )
 ```
 
 
@@ -486,8 +486,8 @@ data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
                   value = c(32, 38, 54, 63, 24,
                             37, 53, 23, 12, 45,
                             40, 44, 12, 30, 99))
-map(polygonTable = data, folder ="multiScenario", 
-                  cropToBoundary = T, extension = T, scenRef = "scen1", scenDiff = c("scen3"))
+map(data = data, folder ="multiScenario", 
+                  cropToBoundary = T, background = T, scenRef = "scen1", scenDiff = c("scen3"))
 ```
 
 
@@ -516,8 +516,8 @@ data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
                   value = c(32, 38, 54, 63, 24,
                             37, 53, 23, 12, 45,
                             40, 45, 12, 50, 63))
-map(polygonTable = data, folder = "multiYear", 
-                  cropToBoundary = T, extension = T, xRef = 2010, xDiff = c(2020))
+map(data = data, folder = "multiYear", 
+                  cropToBoundary = T, background = T, xRef = 2010, xDiff = c(2020))
 ```
 
 
@@ -543,8 +543,8 @@ data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
                   year = rep(2010,10),
                   value = c(32, 38, 54, 63, 24,
                             37, 53, 23, 12, 45))
-map(polygonTable = data, folder = "scaleRange", 
-                  cropToBoundary = T, extension = T, scenRef = "scen1", 
+map(data = data, folder = "scaleRange", 
+                  cropToBoundary = T, background = T, scenRef = "scen1", 
                   scaleRange = c(0,50), scaleRangeDiffAbs = c(-100,100), scaleRangeDiffPrcnt = c(-60,60))
 ```
 
@@ -571,8 +571,8 @@ data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
                   year = rep(2010,10),
                   value = c(32, 38, 54, 63, 24,
                             37, 53, 23, 12, 45))
-map(polygonTable = data, folder ="colorPalettes", 
-                  cropToBoundary = T, extension = T, scenRef = "scen1",
+map(data = data, folder ="colorPalettes", 
+                  cropToBoundary = T, background = T, scenRef = "scen1",
                   classPalette = "pal_wet", classPaletteDiff = "pal_div_BrGn")
 
 ```
@@ -580,6 +580,96 @@ map(polygonTable = data, folder ="colorPalettes",
 
 <p align="center" style="font-size:18px;"> *Color Palettes* </p>
 <p align="center"> <img src="vignetteFigs/mapsProcess_colorPalettes.PNG"></p>
+
+<!-------------------------->
+<!-------------------------->
+# Legend Customization
+<p align="center"> <img src="vignetteFigs/rmapHeaderThick.PNG"></p>
+<!-------------------------->
+<!-------------------------->
+
+There are several options to customize your legend as shown below:
+
+
+<!-------------------------->
+## Legend Position
+<!-------------------------->
+
+### Single Facet Maps
+
+* Change the legend position to be inside or outside using ```legendOutsideSingle = T```
+* Modify the ```legendPosition = c('right','top')``` argument to change the position of all inside legends.
+* Modify the ```legendOutsidePosition = "left" # "right","left"``` argument to change the position of all outside legends.
+
+
+```{r, eval=F}
+library(rmap)
+data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece"),
+                  year = rep(2010,5),
+                  value = c(32, 38, 54, 63, 24))
+
+map(data = data, folder ="legendCustomization", 
+                  cropToBoundary = T, background = T,
+                  legendOutsideSingle = T,
+                  legendOutsidePosition = "left",
+                  #legendPosition = NULL,
+                  nameAppend="_legendOutsideLeft")
+
+map(data = data, folder ="legendCustomization",
+                  cropToBoundary = T, background = T,
+                  legendOutsideSingle = F,
+                  #legendOutsidePosition = NULL,
+                  legendPosition = c('left','bottom'),
+                  nameAppend="_legendInsideBottomLeft")
+
+```
+
+
+<p align="center" style="font-size:18px;"> *Legend Position - Single Facet Maps* </p>
+<p align="center"> <img src="vignetteFigs/map_legendPositionSingle.PNG"></p>
+
+
+
+### Multi-faceted maps:
+
+* FREESCALE will always have legends inside the maps because these will always be different for each facet
+* For PRETTY and KMEANS legends will always be outside
+* So you can set the position of outside and inside legend positions together.
+* Modify the ```legendPosition = c('right','top')``` argument to change the position of all inside legends.
+* Modify the ```legendOutsidePosition = "left" # "right","left"``` argument to change the position of all outside legends.
+
+
+```{r, eval=F}
+library(rmap)
+data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
+                                "Austria","Spain", "Italy", "Germany","Greece",
+                                "Austria","Spain", "Italy", "Germany","Greece",
+                                "Austria","Spain", "Italy", "Germany","Greece"),
+                  class = c(rep("municipal",5),
+                               rep("industry",5),
+                               rep("agriculture",5),
+                               rep("transport",5)),
+                  year = rep(2010,20),
+                  value = c(32, 38, 54, 63, 24,
+                            37, 53, 23, 12, 45,
+                            23, 99, 102, 85, 75,
+                            12, 76, 150, 64, 90))
+map(data = data, folder ="legendCustomization", 
+                  cropToBoundary = T, background = T,
+                  legendOutsidePosition = "left",
+                  legendPosition =  c('left','bottom'),
+                  nameAppend = "_legendOutsideLeftInsideBottomLeft")
+```
+
+<p align="center" style="font-size:18px;"> *Legend Position - Multi Facet Maps* </p>
+<p align="center"> <img src="vignetteFigs/map_legendPositionMulti.PNG"></p>
+
+<!-------------------------->
+## Legend Breaks
+<!-------------------------->
+
+
+To be added.
 
 
 <!-------------------------->
@@ -651,15 +741,15 @@ dfClass1 <- data$dataAggClass1; dfClass1
 dfClass2 <- data$dataAggClass1; dfClass2
 
 # Plot data aggregated by param
-map(polygonTable = dfParam, folder = "GCAMbyParam", 
-                  cropToBoundary = T, extension = T, xRange = c(2010,2020,2030,2040),
+map(data = dfParam, folder = "GCAMbyParam", 
+                  cropToBoundary = T, background = T, xRange = c(2010,2020,2030,2040),
                   scenRef = "SSP3", scaleRange = data.frame(param = c("landAlloc", "elecByTechTWh","watSupRunoffBasin","pop"),
                                                             min = c(0,0,0,0),
                                                             max = c(10000,15000,2000,2000)))
 
 # Plot data aggregated by Class1
-map(polygonTable = dfClass1, folder = "GCAMbyClass", 
-                  cropToBoundary = T, extension = T, xRange = c(2010,2020,2030,2040),
+map(data = dfClass1, folder = "GCAMbyClass", 
+                  cropToBoundary = T, background = T, xRange = c(2010,2020,2030,2040),
                   scenRef = "SSP3")
 ```
 
