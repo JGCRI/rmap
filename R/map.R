@@ -22,8 +22,8 @@
 #' @param subRegType Default =NULL
 #' @param nameAppend Default =""
 #' @param legendOutsideSingle Default =F, Single plots by default have legends inside. This can be moved out if wanted.
-#' @param legendOutsidePosition Default = NULL, # "right","left","top","bottom", "center"
-#' @param legendPosition Default = NULL, # c("RIGHT','top') - RIGHT LEFT TOP BOTTOM
+#' @param legendOutsidePosition Default = NULL, # "right","left"
+#' @param legendPosition Default = NULL, # c('RIGHT','top') - RIGHT LEFT TOP BOTTOM
 #' @param legendFixedBreaks Default = "5",
 #' @param animateOn Default = T,
 #' @param fps Default = 1,
