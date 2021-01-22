@@ -669,7 +669,36 @@ map(data = data, folder ="legendCustomization",
 <!-------------------------->
 
 
-To be added.
+* Number of legend breaks can be set using the ```legendFixedBreaks``` variable.
+* "Pretty" legends will choose the number of breaks closest to the value of ```legendFixedBreaks``` while ensuring "pretty" number distributions.
+* "Freescale" legends will set the number of breaks to exactly the value chosen for ```legendFixedBreaks```
+* "Kmeans" will ignore the value chosen for ```legendFixedBreaks```since it calculates the best breaks it self to highlight the distribution of the data.
+* The ```legendFixedBreaks``` will apply in the same way to Diff Plots.
+
+
+```{r, eval=F}
+library(rmap)
+data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece"),
+                  year = rep(2010,5),
+                  value = c(32, 38, 54, 63, 24))
+
+map(data = data, folder ="legendCustomization",
+                  cropToBoundary = T, background = T,
+                  legendFixedBreaks=9,
+                  nameAppend="_legendBreaks9")
+
+map(data = data, folder ="legendCustomization",
+                  cropToBoundary = T, background = T,
+                  legendFixedBreaks=3,
+                  nameAppend="_legendBreaks3")
+
+```
+
+
+<p align="center" style="font-size:18px;"> *Legend Position - Legend Breaks* </p>
+<p align="center"> <img src="vignetteFigs/map_legendBreaks.PNG"></p>
+
+
 
 
 <!-------------------------->
