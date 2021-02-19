@@ -21,7 +21,6 @@
 <!-- ------------------------>
 <!-- ------------------------>
 # <a name="KeyLinks"></a>Key Links
-<p align="center"> <img src="READMEfigs/rmapHeaderThick.PNG"></p>
 <!-- ------------------------>
 <!-- ------------------------>
 
@@ -36,7 +35,6 @@
 <!-- ------------------------>
 <!-- ------------------------>
 # <a name="Introduction"></a>Introduction
-<p align="center"> <img src="READMEfigs/rmapHeaderThick.PNG"></p>
 <!-- ------------------------>
 <!-- ------------------------>
 
@@ -48,7 +46,6 @@
 <!-- ------------------------>
 <!-- ------------------------>
 # <a name="Citation"></a>Citation
-<p align="center"> <img src="READMEfigs/rmapHeaderThick.PNG"></p>
 <!-- ------------------------>
 <!-- ------------------------>
 
@@ -58,7 +55,6 @@
 <!-- ------------------------>
 <!-- ------------------------>
 # <a name="InstallGuide"></a>Installation Guide
-<p align="center"> <img src="READMEfigs/rmapHeaderThick.PNG"></p>
 <!-- ------------------------>
 <!-- ------------------------>
 
@@ -94,7 +90,6 @@ brew install imagemagick@6
 <!-- ------------------------>
 <!-- ------------------------>
 # <a name="keyfunctions"></a> How to guides
-<p align="center"> <img src="READMEfigs/rmapHeaderThick.PNG"></p>
 <!-- ------------------------>
 <!-- ------------------------>
 
@@ -106,7 +101,6 @@ A detailed step-by-step walkthrough and how-to guide is provided on the [How-to]
 <!-- ------------------------>
 <!-- ------------------------>
 # <a name="Publications"></a>Publications
-<p align="center"> <img src="READMEfigs/rmapHeaderThick.PNG"></p>
 <!-- ------------------------>
 <!-- ------------------------>
 
