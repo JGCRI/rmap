@@ -885,15 +885,13 @@
 <img src="vignetteFigs/rmapHeaderThick.PNG"></p>
 <!-------------------------->
 <!-------------------------->
-<p>In this example the preloaded GCAM output <code><a href="../reference/exampleGCAMproj.html">rmap::exampleGCAMproj</a></code> is used to extract data for chosen parameters from the <a href="https://jgcri.github.io/rmap/articles/vignette_colorsMapsParams.html#params-1">parameter list</a>. USers can provided a path to their gcam database folder.</p>
+<p>In this example data was extracted from the preloaded GCAM output <code><a href="../reference/exampleGCAMproj.html">rmap::exampleGCAMproj</a></code> and aggregated by paramater and class into <code><a href="../reference/exampleMapDataParam.html">rmap::exampleMapDataParam</a></code> and <code><a href="../reference/exampleMapDataClass.html">rmap::exampleMapDataClass</a></code>. Users can process their own GCAM data outputs into similar tables.</p>
 <p><strong>Note: The exampleGCAMproj comes with only a few parameters: “elecByTechTWh”,“pop”,“watWithdrawBySec”,“watSupRunoffBasin”,“landAlloc” and “agProdByCrop”</strong></p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>
 
-<span class="va">df</span> <span class="op">&lt;-</span> <span class="va">data</span><span class="op">$</span><span class="va">data</span>; <span class="va">df</span>
-<span class="va">dfParam</span> <span class="op">&lt;-</span> <span class="va">data</span><span class="op">$</span><span class="va">dataAggParam</span>; <span class="va">dfParam</span>
-<span class="va">dfClass1</span> <span class="op">&lt;-</span> <span class="va">data</span><span class="op">$</span><span class="va">dataAggClass1</span>; <span class="va">dfClass1</span>
-<span class="va">dfClass2</span> <span class="op">&lt;-</span> <span class="va">data</span><span class="op">$</span><span class="va">dataAggClass1</span>; <span class="va">dfClass2</span>
+<span class="va">dfParam</span> <span class="op">&lt;-</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/exampleMapDataParam.html">exampleMapDataParam</a></span>
+<span class="va">dfClass1</span> <span class="op">&lt;-</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/exampleMapDataClass.html">exampleMapDataClass</a></span>
 
 <span class="co"># Plot data aggregated by param</span>
 <span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">dfParam</span>, folder <span class="op">=</span> <span class="st">"GCAMbyParam"</span>, 
