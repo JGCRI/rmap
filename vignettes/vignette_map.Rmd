@@ -756,7 +756,7 @@ rmap::map(data = data,
 <!-------------------------->
 <!-------------------------->
 
-In this example the preloaded GCAM output `rmap::exampleGCAMproj` is used to extract data for chosen parameters from the [parameter list](https://jgcri.github.io/rmap/articles/vignette_colorsMapsParams.html#params-1). USers can provided a path to their gcam database folder.
+In this example data was extracted from the preloaded GCAM output `rmap::exampleGCAMproj` and aggregated by paramater and class into `rmap::exampleMapDataParam` and `rmap::exampleMapDataClass`. Users can process their own GCAM data outputs into similar tables.
 
 **Note: The exampleGCAMproj comes with only a few parameters: "elecByTechTWh","pop","watWithdrawBySec","watSupRunoffBasin","landAlloc" and "agProdByCrop"**
 
@@ -764,10 +764,8 @@ In this example the preloaded GCAM output `rmap::exampleGCAMproj` is used to ext
 ```{r, eval=F}
 library(rmap)
 
-df <- data$data; df
-dfParam <- data$dataAggParam; dfParam
-dfClass1 <- data$dataAggClass1; dfClass1
-dfClass2 <- data$dataAggClass1; dfClass2
+dfParam <- rmap::exampleMapDataParam
+dfClass1 <- rmap::exampleMapDataClass
 
 # Plot data aggregated by param
 map(data = dfParam, folder = "GCAMbyParam", 

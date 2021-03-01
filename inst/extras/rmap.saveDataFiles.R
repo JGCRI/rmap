@@ -1074,8 +1074,8 @@ dataGCAM<-metis.readgcam (dataProjFile = exampleGCAMproj,
                           paramsSelect =c("elecByTechTWh", "pop","watWithdrawBySec","watSupRunoffBasin",
                                           "landAlloc","agProdByCrop"),saveData = F)
 df <- dataGCAM$data;unique(df$scenario); unique(df$param);
-exampleMapDataParam <- dataGCAM$dataAggParam
-exampleMapDataClass <- dataGCAM$dataAggClass1
+exampleMapDataParam <- dataGCAM$dataAggParam %>% dplyr::mutate(classPalette=pal_rmap)
+exampleMapDataClass <- dataGCAM$dataAggClass1 %>% dplyr::mutate(classPalette=pal_rmap)
 use_data(exampleMapDataParam, overwrite=T)
 use_data(exampleMapDataClass, overwrite=T)
 

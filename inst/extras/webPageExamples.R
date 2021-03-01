@@ -336,11 +336,20 @@ rmap::map(data = data,
 # Comprehensive GCAM Example
 #------------------------------------------
 
-data <- metis.readgcam (
-  #gcamdatabase = "Path_to_GCAMdatabase",
-  dataProjFile = metis::exampleGCAMproj,
-  scenOrigNames = c("GCAM_SSP5","GCAM_SSP3"),
-  scenNewNames = c("SSP5","SSP3"),
-  paramsSelect = c("landAlloc", "elecByTechTWh","watSupRunoffBasin","pop"),  # From Param list ?metis.readgcam
-  regionsSelect = c("India","China","Pakistan"))
+library(rmap)
+
+dfParam <- rmap::exampleMapDataParam; dfParam
+dfClass <- rmap::exampleMapDataClass; dfClass
+
+# Plot data aggregated by param
+map(data = dfParam, folder = "GCAMbyParam",
+    cropToBoundary = T, background = T, xRange = c(2010,2020,2030,2040),
+    scenRef = "SSP3", scaleRange = data.frame(param = c("landAlloc", "elecByTechTWh","watSupRunoffBasin","pop"),
+                                              min = c(0,0,0,0),
+                                              max = c(10000,15000,2000,2000)))
+
+# Plot data aggregated by Class1
+map(data = dfClass, folder = "GCAMbyClass",
+    cropToBoundary = T, background = T, xRange = c(2010,2020,2030,2040),
+    scenRef = "SSP3")
 
