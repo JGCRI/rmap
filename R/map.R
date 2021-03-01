@@ -343,6 +343,7 @@ map <- function(data = NULL,
         folder=folder,
         labels=labels,
         fileName = fileName,
+        fillColumn = fillColumn,
         printFig = printFig)
     }
   } else {

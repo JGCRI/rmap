@@ -46,7 +46,7 @@ rmap comes with a set of preloaded maps. A full list of rmap maps is available a
 library(rmap)
 
 head(mapUS49@data) # To View data in shapefile
-rmap::mapplot(mapUS49, labels=T)
+rmap::map(mapUS49, labels=T)
 
 ```
 
@@ -300,7 +300,7 @@ shapeSubset <- rmap::mapStates # Read in World States shape file
 shapeSubset <- shapeSubset[shapeSubset@data$region %in% c("Colombia"),] # Subset the shapefile to Colombia
 shapeSubset@data <- droplevels(shapeSubset@data)
 shapeSubset@data <- shapeSubset@data %>% dplyr::rename(states=subRegion) # Lets assume the subRegion column was called "states"
-mapplot(shapeSubset, fillCol = "states") # View custom shape
+map(shapeSubset, fillCol = "states") # View custom shape
 head(shapeSubset@data) # review data
 unique(shapeSubset@data$states) # Get a list of the unique subRegions
 
@@ -336,7 +336,7 @@ shapeCrop<- sp::spTransform(shapeCropTo,raster::crs(shapeSubRegions))
 shapeCrop <-raster::crop(shapeSubRegions,shapeCropTo)
 shapeCrop@data <- shapeCrop@data%>%dplyr::select(subRegion)
 shapeCrop$subRegion%>%unique() # Check subRegion names
-mapplot(shapeCrop)
+map(shapeCrop)
 
 # Plot data on subset
 data = data.frame(county = c("Wise_TX","Scurry_TX","Kendall_TX","Frio_TX","Hunt_TX","Austin_TX"),
@@ -661,7 +661,7 @@ map(data = data, folder ="legendCustomization",
                   nameAppend = "_legendOutsideLeftInsideBottomLeft")
 ```
 
-<p align="center" style="font-size:18px;"> *Legend Position - Multi Facet Maps* </p>
+<p align="center" style="font-size:18px;"> *Legend Customization - Multi Facet Maps* </p>
 <p align="center"> <img src="vignetteFigs/map_legendPositionMulti.PNG"></p>
 
 <!-------------------------->
@@ -695,7 +695,7 @@ map(data = data, folder ="legendCustomization",
 ```
 
 
-<p align="center" style="font-size:18px;"> *Legend Position - Legend Breaks* </p>
+<p align="center" style="font-size:18px;"> *Legend Customization - Legend Breaks* </p>
 <p align="center"> <img src="vignetteFigs/map_legendBreaks.PNG"></p>
 
 
