@@ -23,7 +23,8 @@ map(
   legendOutsideSingle = T,
   legendOutsidePosition = NULL,
   legendPosition = NULL,
-  legendFixedBreaks = 5,
+  legendBreaksn = 5,
+  legendFixedBreaks = NULL,
   legendTitleSizeO = 1,
   legendTextSizeO = 0.6,
   legendTitleSizeI = 1,
@@ -82,7 +83,97 @@ map(
   fillcolorNA = "gray",
   fillshowNA = NA,
   fillcolorNULL = "gray",
-  legendSingleColorOn = NULL,
+  legendSingleColorOn = F,
+  legendSingleValue = NULL,
+  legendSingleColor = "white",
+  facetCols = 4,
+  mapTitleOn = T,
+  innerMargins = c(0, 0, 0, 0),
+  legendDigitsOverride = NULL,
+  classPalette = NULL,
+  classPaletteDiff = "pal_div_BluRd"
+)
+
+map(
+  data = NULL,
+  fillColumn = NULL,
+  fileName = "map",
+  printFig = T,
+  grid = NULL,
+  folder = paste(getwd(), "/outputs", sep = ""),
+  xRange = "All",
+  labels = F,
+  labelsSize = 1,
+  shape = NULL,
+  subRegShpFolder = NULL,
+  subRegShpFile = NULL,
+  subRegCol = "subRegion",
+  subRegType = NULL,
+  nameAppend = "",
+  legendOutsideSingle = T,
+  legendOutsidePosition = NULL,
+  legendPosition = NULL,
+  legendBreaksn = 5,
+  legendFixedBreaks = NULL,
+  legendTitleSizeO = 1,
+  legendTextSizeO = 0.6,
+  legendTitleSizeI = 1,
+  legendTextSizeI = 0.6,
+  animateOn = T,
+  fps = 1,
+  background = F,
+  boundaryRegShape = NULL,
+  boundaryRegShpFolder = NULL,
+  boundaryRegShpFile = NULL,
+  boundaryRegCol = "subRegion",
+  boundaryRegionsSelect = NULL,
+  cropToBoundary = F,
+  extendedLabels = F,
+  extendedFillColor = "grey75",
+  extendedBGColor = "lightblue1",
+  extendedHighLightColor = "cornsilk1",
+  extendedLabelsColor = "grey30",
+  extdendedLabelSize = 0.4,
+  extendedShape = NULL,
+  extendedShapeCol = "subRegion",
+  expandPercent = 3,
+  projX = "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0",
+  figWidth = 6,
+  figHeight = 7,
+  scenRef = NULL,
+  scenDiff = NULL,
+  scaleRange = NULL,
+  scaleRangeDiffAbs = NULL,
+  scaleRangeDiffPrcnt = NULL,
+  xRef = NULL,
+  xDiff = NULL,
+  scaleRangeDiffxAbs = NULL,
+  scaleRangeDiffxPrcnt = NULL,
+  paramsSelect = "All",
+  multifacetsOn = F,
+  multiFacetCols = "multiFacetCol",
+  multiFacetRows = "multiFacetRow",
+  legendOutsideMulti = T,
+  legendPositionMulti = NULL,
+  legendTitleSizeMulti = NULL,
+  legendTextSizeAnim = NULL,
+  legendTextSizeMulti = NULL,
+  refMultiA = NULL,
+  refMultiB = NULL,
+  chosenRefMeanYears = NULL,
+  mapTitleSize = 0.5,
+  facetBGColor = NA,
+  facetLabelColor = "black",
+  facetLabelSize = 1,
+  facetLabelSizeMultiAB = 1,
+  facetLabelBorderLwd = NA_real_,
+  numeric2Cat_list = NULL,
+  frameShow = F,
+  pdfpng = "png",
+  fillcolorNA = "gray",
+  fillshowNA = NA,
+  fillcolorNULL = "gray",
+  legendSingleColorOn = F,
   legendSingleValue = NULL,
   legendSingleColor = "white",
   facetCols = 4,
@@ -130,7 +221,9 @@ map(
 
 \item{legendPosition}{Default = NULL, # c('RIGHT','top') - RIGHT LEFT TOP BOTTOM}
 
-\item{legendFixedBreaks}{Default = "5",}
+\item{legendBreaksn}{Default = "5",}
+
+\item{legendFixedBreaks}{Default = NULL,}
 
 \item{legendTitleSizeO}{Default = 2,}
 
@@ -158,7 +251,7 @@ map(
 
 \item{cropToBoundary}{Default = T}
 
-\item{extendedLabels}{Default = T}
+\item{extendedLabels}{Default = F}
 
 \item{extendedFillColor}{Default ="grey75",}
 
@@ -270,8 +363,15 @@ map(
 Returns the formatted data used to produce chart
 
 A list with the gridTbl and shapeTbl used to plot the data if any.
+
+Returns the formatted data used to produce chart
+
+A list with the gridTbl and shapeTbl used to plot the data if any.
 }
 \description{
+This function produce different kinds of maps for the rmap package.
+Each figure is accompanied with a csv table.
+
 This function produce different kinds of maps for the rmap package.
 Each figure is accompanied with a csv table.
 }

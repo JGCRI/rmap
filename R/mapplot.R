@@ -33,7 +33,7 @@
 #' @param legendDigits Default = NULL,
 #' @param legendTitle Default = "Legend",
 #' @param legendStyle Default = "pretty",
-#' @param legendFixedBreaks Default = "5",
+#' @param legendBreaksn Default = "5",
 #' @param legendBreaks Default = NULL,
 #' @param pdfpng Default = "png",
 #' @param underLayer Default = NULL,
@@ -101,7 +101,7 @@ mapplot<-function(dataPolygon=NULL,
                   legendDigits=NULL,
                   legendTitle="Legend",
                   legendStyle="pretty",
-                  legendFixedBreaks=5,
+                  legendBreaksn=5,
                   legendBreaks=NULL,
                   pdfpng="png",
                   underLayer=NULL,
@@ -131,7 +131,7 @@ mapplot<-function(dataPolygon=NULL,
                   catParam=NULL,
                   innerMargins=c(0,0,0,0), # bottom, left, top, right
                   outerMargins=c(0.01,0.01,0.01,0.01),# bottom, left, top, right
-                  legendSingleColorOn=T,
+                  legendSingleColorOn=F,
                   legendSingleValue=NULL,
                   legendSingleColor="white",
                   legendDigitsOverride=NULL,
@@ -169,7 +169,7 @@ mapplot<-function(dataPolygon=NULL,
   # legendDigits=NULL
   # legendTitle="Legend"
   # legendStyle="pretty"
-  # legendFixedBreaks=5
+  # legendBreaksn=5
   # legendBreaks=NULL
   # pdfpng="png"
   # underLayer=NULL
@@ -550,12 +550,12 @@ if(!is.null(shape)){
 if(!is.null(raster)){
 
 
-  if(is.null(legendBreaks)){legendBreaks=scales::pretty_breaks(n=legendFixedBreaks)(raster@data%>%dplyr::select(fillColumn)%>%as.matrix())}
+  if(is.null(legendBreaks)){legendBreaks=scales::pretty_breaks(n=legendBreaksn)(raster@data%>%dplyr::select(fillColumn)%>%as.matrix())}
 
   if(!is.null(shape)){map<-tmap::tm_shape(raster, bbox=shape@bbox)} else {map<-tmap::tm_shape(raster)}
 
   map<- map + tmap::tm_raster(col=fillColumn,palette = fillPalette, title=legendTitle,
-                                  style=legendStyle,n=legendFixedBreaks,breaks=legendBreaks,legend.show = legendShow)
+                                  style=legendStyle,n=legendBreaksn,breaks=legendBreaks,legend.show = legendShow)
 
   if(!is.null(raster)){checkFacets=length(names(raster))}
 
@@ -601,8 +601,8 @@ if(grepl("polygon",class(shape)[1],ignore.case=T) | grepl("tmap",class(shape)[1]
 if(is.null(raster)){
 
 if(is.null(legendBreaks)){
-  if(length(scales::pretty_breaks(n=legendFixedBreaks)(shape@data%>%dplyr::select(fillColumn)%>%as.matrix()))>1){
-    legendBreaks=scales::pretty_breaks(n=legendFixedBreaks)(shape@data%>%dplyr::select(fillColumn)%>%as.matrix())
+  if(length(scales::pretty_breaks(n=legendBreaksn)(shape@data%>%dplyr::select(fillColumn)%>%as.matrix()))>1){
+    legendBreaks=scales::pretty_breaks(n=legendBreaksn)(shape@data%>%dplyr::select(fillColumn)%>%as.matrix())
   }else{legendBreaks=NULL}
 }
 
@@ -799,7 +799,7 @@ if(min(legendBreaksX)>=legendSingleValueX){
     }}}};legendBreaksX
   }
 
-  legendFixedBreaksX = length(legendBreaksX)
+  legendBreaksnX = length(legendBreaksX)
   length(legendBreaksX);length(legendLabelsX);legendBreaksX;legendLabelsX
 
   # Assign new Labels to Palette
@@ -814,24 +814,24 @@ if(min(legendBreaksX)>=legendSingleValueX){
 } # Test Palette
 
   }else{
-    legendFixedBreaksX=1
+    legendBreaksnX=1
     legendBreaksX=legendBreaks
     legendLabelsX=NULL
     fillPaletteX=fillPalette
   }} else{
-    legendFixedBreaksX=legendFixedBreaks
+    legendBreaksnX=legendBreaksn
     legendBreaksX=legendBreaks
     legendLabelsX=NULL
     fillPaletteX=fillPalette
   }
     }else {
-    legendFixedBreaksX=legendFixedBreaks
+    legendBreaksnX=legendBreaksn
     legendBreaksX=legendBreaks
     legendLabelsX=NULL
     fillPaletteX=fillPalette
   }
     }else{
-    legendFixedBreaksX=legendFixedBreaks
+    legendBreaksnX=legendBreaksn
     legendBreaksX=legendBreaks
     legendLabelsX=NULL
     fillPaletteX=fillPalette
@@ -840,7 +840,7 @@ if(min(legendBreaksX)>=legendSingleValueX){
 if(is.null(legendLabelsX)){if(length(unique(legendBreaksX))==1){legendStyle="kmeans"}}
 #names(shape)[names(shape) %in% fillColumn]<-gsub(" ","_",names(shape)[names(shape) %in% fillColumn])
 map<-map + tmap::tm_fill(col=fillColumn, palette = fillPaletteX, title=legendTitle,
-                   style=legendStyle,n=legendFixedBreaksX,breaks=legendBreaksX,labels=legendLabelsX,alpha=alpha,colorNA=fillcolorNA,
+                   style=legendStyle,n=legendBreaksnX,breaks=legendBreaksX,labels=legendLabelsX,alpha=alpha,colorNA=fillcolorNA,
                    colorNULL = fillcolorNULL,
                    legend.show = legendShow, showNA=fillshowNA) +
            tmap::tm_borders(col=borderColor,lwd=lwd, lty=lty)

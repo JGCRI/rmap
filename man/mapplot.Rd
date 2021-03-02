@@ -33,7 +33,7 @@ mapplot(
   legendDigits = NULL,
   legendTitle = "Legend",
   legendStyle = "pretty",
-  legendFixedBreaks = 5,
+  legendBreaksn = 5,
   legendBreaks = NULL,
   pdfpng = "png",
   underLayer = NULL,
@@ -63,7 +63,7 @@ mapplot(
   catParam = NULL,
   innerMargins = c(0, 0, 0, 0),
   outerMargins = c(0.01, 0.01, 0.01, 0.01),
-  legendSingleColorOn = T,
+  legendSingleColorOn = F,
   legendSingleValue = NULL,
   legendSingleColor = "white",
   legendDigitsOverride = NULL,
@@ -129,7 +129,7 @@ mapplot(
 
 \item{legendStyle}{Default = "pretty",}
 
-\item{legendFixedBreaks}{Default = "5",}
+\item{legendBreaksn}{Default = "5",}
 
 \item{legendBreaks}{Default = NULL,}
 

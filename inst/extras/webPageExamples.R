@@ -251,6 +251,13 @@ rmap::map(data = data,
                   scenRef = "scen1",
                   scenDiff = c("scen3"))
 
+data = data
+folder = "multiScenario"
+cropToBoundary = T
+background = T
+scenRef = "scen1"
+scenDiff = c("scen3")
+
 
 # Multi-Year DIff
 #------------------------------------------
@@ -337,19 +344,24 @@ rmap::map(data = data,
 #------------------------------------------
 
 library(rmap)
+library(dplyr)
 
-dfParam <- rmap::exampleMapDataParam; dfParam
-dfClass <- rmap::exampleMapDataClass; dfClass
+dfParam <- rmap::exampleMapDataParam %>%
+  dplyr::filter(region %in% c("India","China","Pakistan"),
+                param %in% c("landAlloc", "elecByTechTWh","watWithdrawBySec","pop")); dfParam
+dfClass <- rmap::exampleMapDataClass%>%
+  dplyr::filter(region %in% c("India","China","Pakistan"),
+                param %in% c("landAlloc", "elecByTechTWh","watWithdrawBySec","pop")); dfClass
 
 # Plot data aggregated by param
 map(data = dfParam, folder = "GCAMbyParam",
-    cropToBoundary = T, background = T, xRange = c(2010,2020,2030,2040),
-    scenRef = "SSP3", scaleRange = data.frame(param = c("landAlloc", "elecByTechTWh","watSupRunoffBasin","pop"),
+    cropToBoundary = T, background = T, xRange = c(2020,2030,2040,2050),
+    scenRef = "SSP3", xRef = 2020, scaleRange = data.frame(param = c("landAlloc", "elecByTechTWh","watWithdrawBySec","pop"),
                                               min = c(0,0,0,0),
                                               max = c(10000,15000,2000,2000)))
 
 # Plot data aggregated by Class1
 map(data = dfClass, folder = "GCAMbyClass",
-    cropToBoundary = T, background = T, xRange = c(2010,2020,2030,2040),
-    scenRef = "SSP3")
+    cropToBoundary = T, background = T, xRange = c(2020,2030,2040,2050),
+    scenRef = "SSP3", xRef = 2020)
 

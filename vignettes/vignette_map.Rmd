@@ -490,6 +490,8 @@ map(data = data, folder ="multiScenario",
                   cropToBoundary = T, background = T, scenRef = "scen1", scenDiff = c("scen3"))
 ```
 
+<p align="center" style="font-size:18px;"> *Multi-Scenario Combined Plot* </p>
+<p align="center"> <img src="vignetteFigs/mapsProcess_multiScenarioCombined.PNG"></p>
 
 <p align="center" style="font-size:18px;"> *Multi-Scenario Diff* </p>
 <p align="center"> <img src="vignetteFigs/mapsProcess_multiScenario.PNG"></p>
@@ -665,15 +667,15 @@ map(data = data, folder ="legendCustomization",
 <p align="center"> <img src="vignetteFigs/map_legendPositionMulti.PNG"></p>
 
 <!-------------------------->
-## Legend Breaks
+## Legend Breaks Number
 <!-------------------------->
 
 
-* Number of legend breaks can be set using the ```legendFixedBreaks``` variable.
-* "Pretty" legends will choose the number of breaks closest to the value of ```legendFixedBreaks``` while ensuring "pretty" number distributions.
-* "Freescale" legends will set the number of breaks to exactly the value chosen for ```legendFixedBreaks```
-* "Kmeans" will ignore the value chosen for ```legendFixedBreaks```since it calculates the best breaks it self to highlight the distribution of the data.
-* The ```legendFixedBreaks``` will apply in the same way to Diff Plots.
+* Number of legend breaks can be set using the ```legendBreaksn``` variable.
+* "Pretty" legends will choose the number of breaks closest to the value of ```legendBreaksn``` while ensuring "pretty" number distributions.
+* "Freescale" legends will set the number of breaks to exactly the value chosen for ```legendBreaksn```
+* "Kmeans" will ignore the value chosen for ```legendBreaksn```since it calculates the best breaks it self to highlight the distribution of the data.
+* The ```legendBreaksn``` will apply in the same way to Diff Plots.
 
 
 ```{r, eval=F}
@@ -684,19 +686,46 @@ data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece"),
 
 map(data = data, folder ="legendCustomization",
                   cropToBoundary = T, background = T,
-                  legendFixedBreaks=9,
+                  legendBreaksn=9,
                   nameAppend="_legendBreaks9")
 
 map(data = data, folder ="legendCustomization",
                   cropToBoundary = T, background = T,
-                  legendFixedBreaks=3,
+                  legendBreaksn=3,
                   nameAppend="_legendBreaks3")
 
 ```
 
 
-<p align="center" style="font-size:18px;"> *Legend Customization - Legend Breaks* </p>
-<p align="center"> <img src="vignetteFigs/map_legendBreaks.PNG"></p>
+<p align="center" style="font-size:18px;"> *Legend Customization - Legend Breaks Number* </p>
+<p align="center"> <img src="vignetteFigs/map_legendsBreaks.PNG"></p>
+
+<!-------------------------->
+## Legend Fixed Breaks
+<!-------------------------->
+
+
+* Fixed legend breaks can be set using ```legendFixedBreaks```.
+* If ```legendFixedBreaks``` does not capture the full range of data, the maximum and minimum values will be appended to the data.
+
+
+
+```{r, eval=F}
+library(rmap)
+data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece"),
+                  year = rep(2010,5),
+                  value = c(32, 38, 54, 63, 24))
+
+map(data = data, folder ="legendFixedBreaks",
+                  cropToBoundary = T, background = T,
+                  legendFixedBreaks=c(20,40,50),
+                  nameAppend="_legendFixedBreaks")
+
+```
+
+
+<p align="center" style="font-size:18px;"> *Legend Customization - Legend Fixed Breaks* </p>
+<p align="center"> <img src="vignetteFigs/map_legendsFixedBreaks.PNG"></p>
 
 
 
@@ -764,20 +793,25 @@ In this example data was extracted from the preloaded GCAM output `rmap::example
 ```{r, eval=F}
 library(rmap)
 
-dfParam <- rmap::exampleMapDataParam
-dfClass1 <- rmap::exampleMapDataClass
+dfParam <- rmap::exampleMapDataParam %>%
+  dplyr::filter(region %in% c("India","China","Pakistan"),
+                param %in% c("landAlloc", "elecByTechTWh","watWithdrawBySec","pop")); dfParam
+dfClass <- rmap::exampleMapDataClass%>%
+  dplyr::filter(region %in% c("India","China","Pakistan"),
+                param %in% c("landAlloc")); dfClass
 
 # Plot data aggregated by param
-map(data = dfParam, folder = "GCAMbyParam", 
-                  cropToBoundary = T, background = T, xRange = c(2010,2020,2030,2040),
-                  scenRef = "SSP3", scaleRange = data.frame(param = c("landAlloc", "elecByTechTWh","watSupRunoffBasin","pop"),
-                                                            min = c(0,0,0,0),
-                                                            max = c(10000,15000,2000,2000)))
+map(data = dfParam, folder = "GCAMbyParam",
+    cropToBoundary = T, background = T, xRange = c(2015,2030,2040,2050),
+    scenRef = "SSP3", scaleRange = data.frame(param = c("landAlloc", "elecByTechTWh","watWithdrawBySec","pop"),
+                                              min = c(0,0,0,0),
+                                              max = c(10000,15000,2000,2000)))
 
 # Plot data aggregated by Class1
-map(data = dfClass1, folder = "GCAMbyClass", 
-                  cropToBoundary = T, background = T, xRange = c(2010,2020,2030,2040),
-                  scenRef = "SSP3")
+map(data = dfClass, folder = "GCAMbyClass",
+    cropToBoundary = T, background = T, xRange = c(2015,2030,2040,2050),
+    scenRef = "SSP3")
+
 ```
 
 
