@@ -700,6 +700,7 @@ map(data = data, folder ="legendCustomization",
 <p align="center" style="font-size:18px;"> *Legend Customization - Legend Breaks Number* </p>
 <p align="center"> <img src="vignetteFigs/map_legendsBreaks.PNG"></p>
 
+
 <!-------------------------->
 ## Legend Fixed Breaks
 <!-------------------------->

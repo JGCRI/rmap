@@ -365,3 +365,11 @@ map(data = dfClass, folder = "GCAMbyClass",
     cropToBoundary = T, background = T, xRange = c(2020,2030,2040,2050),
     scenRef = "SSP3", xRef = 2020)
 
+data = dfClass
+folder = "GCAMbyClass"
+cropToBoundary = T
+background = T
+xRange = c(2020,2030,2040,2050)
+scenRef = "SSP3"
+xRef = 2020
+
