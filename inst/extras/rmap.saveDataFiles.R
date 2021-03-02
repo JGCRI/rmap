@@ -1074,8 +1074,20 @@ dataGCAM<-metis.readgcam (dataProjFile = exampleGCAMproj,
                           paramsSelect =c("elecByTechTWh", "pop","watWithdrawBySec","watSupRunoffBasin",
                                           "landAlloc","agProdByCrop"),saveData = F)
 df <- dataGCAM$data;unique(df$scenario); unique(df$param);
-exampleMapDataParam <- dataGCAM$dataAggParam %>% dplyr::mutate(classPalette=pal_rmap)
-exampleMapDataClass <- dataGCAM$dataAggClass1 %>% dplyr::mutate(classPalette=pal_rmap)
+exampleMapDataParam <- dataGCAM$dataAggParam %>%
+  dplyr::mutate(classPalette=case_when(param=="agProdByCrop"~"pal_green",
+                                       param=="elecByTechTWh"~"pal_hot",
+                                       param=="landAlloc"~"pal_green",
+                                       param=="watWithdrawBySec"~"pal_wet",
+                                       param=="watSupRunoffBasin"~"pal_wet",
+                                       TRUE~"pal_hot"))
+exampleMapDataClass <- dataGCAM$dataAggClass1 %>%
+  dplyr::mutate(classPalette=case_when(param=="agProdByCrop"~"pal_green",
+                                       param=="elecByTechTWh"~"pal_hot",
+                                       param=="landAlloc"~"pal_green",
+                                       param=="watWithdrawBySec"~"pal_wet",
+                                       param=="watSupRunoffBasin"~"pal_wet",
+                                       TRUE~"pal_hot"))
 use_data(exampleMapDataParam, overwrite=T)
 use_data(exampleMapDataClass, overwrite=T)
 
