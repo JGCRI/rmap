@@ -611,6 +611,11 @@
 <span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, folder <span class="op">=</span><span class="st">"multiScenario"</span>, 
                   cropToBoundary <span class="op">=</span> <span class="cn">T</span>, background <span class="op">=</span> <span class="cn">T</span>, scenRef <span class="op">=</span> <span class="st">"scen1"</span>, scenDiff <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"scen3"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p align="center" style="font-size:18px;">
+<em>Multi-Scenario Combined Plot</em>
+</p>
+<p align="center">
+<img src="vignetteFigs/mapsProcess_multiScenarioCombined.PNG"></p>
+<p align="center" style="font-size:18px;">
 <em>Multi-Scenario Diff</em>
 </p>
 <p align="center">
@@ -795,17 +800,17 @@
 <!-------------------------->
 </div>
 </div>
-<div id="legend-breaks" class="section level2">
+<div id="legend-breaks-number" class="section level2">
 <h2 class="hasAnchor">
-<a href="#legend-breaks" class="anchor"></a>Legend Breaks</h2>
+<a href="#legend-breaks-number" class="anchor"></a>Legend Breaks Number</h2>
 <!-------------------------->
 <ul>
-<li>Number of legend breaks can be set using the <code>legendFixedBreaks</code> variable.</li>
-<li>“Pretty” legends will choose the number of breaks closest to the value of <code>legendFixedBreaks</code> while ensuring “pretty” number distributions.</li>
-<li>“Freescale” legends will set the number of breaks to exactly the value chosen for <code>legendFixedBreaks</code>
+<li>Number of legend breaks can be set using the <code>legendBreaksn</code> variable.</li>
+<li>“Pretty” legends will choose the number of breaks closest to the value of <code>legendBreaksn</code> while ensuring “pretty” number distributions.</li>
+<li>“Freescale” legends will set the number of breaks to exactly the value chosen for <code>legendBreaksn</code>
 </li>
-<li>“Kmeans” will ignore the value chosen for <code>legendFixedBreaks</code>since it calculates the best breaks it self to highlight the distribution of the data.</li>
-<li>The <code>legendFixedBreaks</code> will apply in the same way to Diff Plots.</li>
+<li>“Kmeans” will ignore the value chosen for <code>legendBreaksn</code>since it calculates the best breaks it self to highlight the distribution of the data.</li>
+<li>The <code>legendBreaksn</code> will apply in the same way to Diff Plots.</li>
 </ul>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>
@@ -815,18 +820,43 @@
 
 <span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, folder <span class="op">=</span><span class="st">"legendCustomization"</span>,
                   cropToBoundary <span class="op">=</span> <span class="cn">T</span>, background <span class="op">=</span> <span class="cn">T</span>,
-                  legendFixedBreaks<span class="op">=</span><span class="fl">9</span>,
+                  legendBreaksn<span class="op">=</span><span class="fl">9</span>,
                   nameAppend<span class="op">=</span><span class="st">"_legendBreaks9"</span><span class="op">)</span>
 
 <span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, folder <span class="op">=</span><span class="st">"legendCustomization"</span>,
                   cropToBoundary <span class="op">=</span> <span class="cn">T</span>, background <span class="op">=</span> <span class="cn">T</span>,
-                  legendFixedBreaks<span class="op">=</span><span class="fl">3</span>,
+                  legendBreaksn<span class="op">=</span><span class="fl">3</span>,
                   nameAppend<span class="op">=</span><span class="st">"_legendBreaks3"</span><span class="op">)</span></code></pre></div>
 <p align="center" style="font-size:18px;">
-<em>Legend Customization - Legend Breaks</em>
+<em>Legend Customization - Legend Breaks Number</em>
 </p>
 <p align="center">
-<img src="vignetteFigs/map_legendBreaks.PNG"></p>
+<img src="vignetteFigs/map_legendsBreaks.PNG"></p>
+<!-------------------------->
+</div>
+<div id="legend-fixed-breaks" class="section level2">
+<h2 class="hasAnchor">
+<a href="#legend-fixed-breaks" class="anchor"></a>Legend Fixed Breaks</h2>
+<!-------------------------->
+<ul>
+<li>Fixed legend breaks can be set using <code>legendFixedBreaks</code>.</li>
+<li>If <code>legendFixedBreaks</code> does not capture the full range of data, the maximum and minimum values will be appended to the data.</li>
+</ul>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>
+<span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>subRegion <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Austria"</span>,<span class="st">"Spain"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>,<span class="st">"Greece"</span><span class="op">)</span>,
+                  year <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fl">2010</span>,<span class="fl">5</span><span class="op">)</span>,
+                  value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">32</span>, <span class="fl">38</span>, <span class="fl">54</span>, <span class="fl">63</span>, <span class="fl">24</span><span class="op">)</span><span class="op">)</span>
+
+<span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, folder <span class="op">=</span><span class="st">"legendFixedBreaks"</span>,
+                  cropToBoundary <span class="op">=</span> <span class="cn">T</span>, background <span class="op">=</span> <span class="cn">T</span>,
+                  legendFixedBreaks<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">20</span>,<span class="fl">40</span>,<span class="fl">50</span><span class="op">)</span>,
+                  nameAppend<span class="op">=</span><span class="st">"_legendFixedBreaks"</span><span class="op">)</span></code></pre></div>
+<p align="center" style="font-size:18px;">
+<em>Legend Customization - Legend Fixed Breaks</em>
+</p>
+<p align="center">
+<img src="vignetteFigs/map_legendsFixedBreaks.PNG"></p>
 <!-------------------------->
 <!-------------------------->
 </div>
@@ -839,7 +869,7 @@
 <!-------------------------->
 <!-------------------------->
 <p>The <code>numeric2cat</code> parameter in the map function allows users to assign their own categorical legend labels for chosen ranges of numeric values.</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>
 <span class="co"># Create a list of ranges and categorical color scales for each parameter</span>
 <span class="va">numeric2Cat_param</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"param1"</span>,
@@ -887,23 +917,27 @@
 <!-------------------------->
 <p>In this example data was extracted from the preloaded GCAM output <code><a href="../reference/exampleGCAMproj.html">rmap::exampleGCAMproj</a></code> and aggregated by paramater and class into <code><a href="../reference/exampleMapDataParam.html">rmap::exampleMapDataParam</a></code> and <code><a href="../reference/exampleMapDataClass.html">rmap::exampleMapDataClass</a></code>. Users can process their own GCAM data outputs into similar tables.</p>
 <p><strong>Note: The exampleGCAMproj comes with only a few parameters: “elecByTechTWh”,“pop”,“watWithdrawBySec”,“watSupRunoffBasin”,“landAlloc” and “agProdByCrop”</strong></p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>
 
-<span class="va">dfParam</span> <span class="op">&lt;-</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/exampleMapDataParam.html">exampleMapDataParam</a></span>
-<span class="va">dfClass1</span> <span class="op">&lt;-</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/exampleMapDataClass.html">exampleMapDataClass</a></span>
+<span class="va">dfParam</span> <span class="op">&lt;-</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/exampleMapDataParam.html">exampleMapDataParam</a></span> <span class="op">%&gt;%</span>
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">region</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"India"</span>,<span class="st">"China"</span>,<span class="st">"Pakistan"</span><span class="op">)</span>,
+                <span class="va">param</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"landAlloc"</span>, <span class="st">"elecByTechTWh"</span>,<span class="st">"watWithdrawBySec"</span>,<span class="st">"pop"</span><span class="op">)</span><span class="op">)</span>; <span class="va">dfParam</span>
+<span class="va">dfClass</span> <span class="op">&lt;-</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/exampleMapDataClass.html">exampleMapDataClass</a></span><span class="op">%&gt;%</span>
+  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">region</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"India"</span>,<span class="st">"China"</span>,<span class="st">"Pakistan"</span><span class="op">)</span>,
+                <span class="va">param</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"landAlloc"</span><span class="op">)</span><span class="op">)</span>; <span class="va">dfClass</span>
 
 <span class="co"># Plot data aggregated by param</span>
-<span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">dfParam</span>, folder <span class="op">=</span> <span class="st">"GCAMbyParam"</span>, 
-                  cropToBoundary <span class="op">=</span> <span class="cn">T</span>, background <span class="op">=</span> <span class="cn">T</span>, xRange <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2010</span>,<span class="fl">2020</span>,<span class="fl">2030</span>,<span class="fl">2040</span><span class="op">)</span>,
-                  scenRef <span class="op">=</span> <span class="st">"SSP3"</span>, scaleRange <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>param <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"landAlloc"</span>, <span class="st">"elecByTechTWh"</span>,<span class="st">"watSupRunoffBasin"</span>,<span class="st">"pop"</span><span class="op">)</span>,
-                                                            min <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span>,
-                                                            max <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">10000</span>,<span class="fl">15000</span>,<span class="fl">2000</span>,<span class="fl">2000</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
+<span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">dfParam</span>, folder <span class="op">=</span> <span class="st">"GCAMbyParam"</span>,
+    cropToBoundary <span class="op">=</span> <span class="cn">T</span>, background <span class="op">=</span> <span class="cn">T</span>, xRange <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2015</span>,<span class="fl">2030</span>,<span class="fl">2040</span>,<span class="fl">2050</span><span class="op">)</span>,
+    scenRef <span class="op">=</span> <span class="st">"SSP3"</span>, scaleRange <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>param <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"landAlloc"</span>, <span class="st">"elecByTechTWh"</span>,<span class="st">"watWithdrawBySec"</span>,<span class="st">"pop"</span><span class="op">)</span>,
+                                              min <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span>,
+                                              max <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">10000</span>,<span class="fl">15000</span>,<span class="fl">2000</span>,<span class="fl">2000</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co"># Plot data aggregated by Class1</span>
-<span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">dfClass1</span>, folder <span class="op">=</span> <span class="st">"GCAMbyClass"</span>, 
-                  cropToBoundary <span class="op">=</span> <span class="cn">T</span>, background <span class="op">=</span> <span class="cn">T</span>, xRange <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2010</span>,<span class="fl">2020</span>,<span class="fl">2030</span>,<span class="fl">2040</span><span class="op">)</span>,
-                  scenRef <span class="op">=</span> <span class="st">"SSP3"</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">dfClass</span>, folder <span class="op">=</span> <span class="st">"GCAMbyClass"</span>,
+    cropToBoundary <span class="op">=</span> <span class="cn">T</span>, background <span class="op">=</span> <span class="cn">T</span>, xRange <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2015</span>,<span class="fl">2030</span>,<span class="fl">2040</span>,<span class="fl">2050</span><span class="op">)</span>,
+    scenRef <span class="op">=</span> <span class="st">"SSP3"</span><span class="op">)</span></code></pre></div>
 <p align="center" style="font-size:18px;">
 <em>GCAM Outputs Folder Structure</em>
 </p>
