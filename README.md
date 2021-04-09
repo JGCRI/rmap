@@ -1,7 +1,7 @@
 <!-- badges: start -->
 [![codecov](https://codecov.io/gh/JGCRI/rmap/branch/main/graph/badge.svg?token=XQ913U4IYM)](https://codecov.io/gh/JGCRI/rmap) 
 [![build](https://github.com/JGCRI/rmap/workflows/build/badge.svg)](https://github.com/JGCRI/rmap/workflows/build/badge.svg)
-[![docs](https://github.com/JGCRI/rmap/workflows/docs/badge.svg)](https://github.com/JGCRI/rmap/workflows/docs/badge.svg)
+[![docs](https://github.com/JGCRI/rmap/actions/workflows/pkgdown.yaml/badge.svg?branch=main)](https://github.com/JGCRI/rmap/actions/workflows/pkgdown.yaml)
   
   <!-- badges: end -->
 
