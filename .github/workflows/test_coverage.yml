@@ -1,6 +1,10 @@
-on: [push, pull_request]
-
 name: codecov
+
+on:
+  push:
+    branches:
+      - main
+      - master
 
 jobs:
   build:
