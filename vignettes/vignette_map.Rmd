@@ -38,7 +38,7 @@ vignette: >
 <!-------------------------->
 <!-------------------------->
 
-rmap comes with a set of preloaded maps. A full list of rmap maps is available at [colors, maps and params](https://jgcri.github.io/rmap/articles/vignette_colorsMapsParams/#maps-1.html). The pre-loaded maps all come with each polygon labelled in a **subRegion** column. For each map the data contained in the shapefile and the map itself can be viewed as follows:
+rmap comes with a set of preloaded maps. A full list of rmap maps is available at in the reference [maps](https://jgcri.github.io/rmap/reference/index.html). The pre-loaded maps all come with each polygon labelled in a **subRegion** column. For each map the data contained in the shapefile and the map itself can be viewed as follows:
 
 ```{r, eval=F}
 library(rmap)
