@@ -1,10 +1,10 @@
+name: docs
+
 on:
   push:
     branches:
       - main
       - master
-
-name: docs
 
 jobs:
   pkgdown:
