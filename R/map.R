@@ -21,6 +21,7 @@
 #' @param subRegCol Default ="subRegion",
 #' @param subRegType Default =NULL
 #' @param nameAppend Default =""
+#' @param legendType Default ="kmeans", Options include c("pretty","kmeans","freescale","all")
 #' @param legendOutsideSingle Default =F, Single plots by default have legends inside. This can be moved out if wanted.
 #' @param legendOutsidePosition Default = NULL, # "right","left"
 #' @param legendPosition Default = NULL, # c('RIGHT','top') - RIGHT LEFT TOP BOTTOM
@@ -70,6 +71,7 @@
 #' @param refMultiA Default = NULL , eg. "gfdl-esm2m"
 #' @param refMultiB Default = NULL , eg. "rcp2p6"
 #' @param chosenRefMeanYears Default=NULL
+#' @param mapTitle Default=NULL
 #' @param mapTitleSize Default=0.5
 #' @param facetLabelSize Default =2.5
 #' @param facetBGColor Default = NA
@@ -112,6 +114,7 @@ map <- function(data = NULL,
                 subRegCol = "subRegion",
                 subRegType = NULL,
                 nameAppend = "",
+                legendType = "kmeans",
                 legendOutsideSingle = T,
                 legendOutsidePosition = NULL,
                 legendPosition = NULL,
@@ -163,6 +166,7 @@ map <- function(data = NULL,
                 refMultiA = NULL,
                 refMultiB = NULL,
                 chosenRefMeanYears = NULL,
+                mapTitle=NULL,
                 mapTitleSize = 0.5,
                 facetBGColor = NA,
                 facetLabelColor = "black",
@@ -272,7 +276,7 @@ map <- function(data = NULL,
   # cropToBoundary=F
   # subRegType = NULL
 
-  print("Starting map...")
+  #print("Starting map...")
 
   #------------------
   # Initialize variables
@@ -352,6 +356,9 @@ map <- function(data = NULL,
         classPalettex <- classPalette
       }
 
+      if(is.null(mapTitle)){mapTitleOnx = F } else {
+        mapTitleOnx = T
+      }
       mapplot(
         dataPolygon = data,
         fillPalette=classPalettex,
@@ -359,7 +366,10 @@ map <- function(data = NULL,
         labels=labels,
         fileName = fileName,
         fillColumn = fillColumn,
-        printFig = printFig)
+        printFig = printFig,
+        mapTitle=mapTitle,
+        mapTitleOn=mapTitleOnx,
+        mapTitleSize=mapTitleSize)
     }
   } else {
 
@@ -555,7 +565,7 @@ map <- function(data = NULL,
     if(!"value" %in% names(shapeTbl)){stop("'value' column not present in polygon data provided. Need to have values. Check data.",sep="")}
 
     # Set classPalette if given
-    if(!is.null(classPaletteOrig)){shapeTbl <- shapeTbl %>% dplyr::mutate(classPalette = classPaletteOrig)}
+    #if(!is.null(classPaletteOrig)){shapeTbl <- shapeTbl %>% dplyr::mutate(classPalette = classPaletteOrig)}
 
   }}
 
@@ -1504,6 +1514,7 @@ map <- function(data = NULL,
                     legendTextSizeAnim = legendTextSizeS
                   }
 
+                if(any(grepl("all|kmean",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                 rmap::mapplot(facetsOn=T,innerMargins=innerMargins, legendDigitsOverride=legendDigitsOverride,facetLabelSize=facetLabelSize,mapTitleOn=mapTitleOn, facetCols=facetCols,numeric2Cat_list=numeric2Cat_list, catParam=param_i, underLayer=underLayer,
                           panelLabel=panelLabelAnimated,
                           dataPolygon=shapex,
@@ -1531,35 +1542,7 @@ map <- function(data = NULL,
                           pdfpng = pdfpng,
                           fileName = paste("map_","raster_",param_i,"_",x_i,"_",scenario_i,nameAppend,"_KMEANS",sep=""),
                           folder = paste(dirOutputsX,"/raster/",param_if,"/", scenario_if,"/byYear",sep = ""))
-
-                # numeric2Cat_list=numeric2Cat_list
-                # catParam=param_i
-                # underLayer=underLayer
-                # panelLabel=panelLabelAnimated
-                # dataPolygon=shapex
-                # dataGrid=mapx
-                # fillColumn = names(mapx@data)
-                # mapTitle=paste(param_i," ",scenario_i,sep="") , legendShow = T
-                # legendOutside = legendOutsideAnimated
-                # facetFreeScale = F
-                # frameShow = frameShow
-                # labels=labels
-                # labelsSize = labelsSize
-                # legendTitle =legendTitleAnimated
-                # legendTitleSize = legendTitleSizeAnim
-                # legendTextSize = legendTextSizeAnim
-                # legendStyle=legendStyleAnim
-                # legendBreaks = legendBreaksAnim
-                # legendBreaksn=legendBreaksn
-                # legendDigits = animLegendDigits
-                # legendOutsidePosition = legendOutsidePosition
-                # legendPosition = legendAnimatedPosition
-                # fillPalette = fillPalette
-                # bgColor = bgColorChosen
-                # figWidth=figWidth
-                # figHeight=figHeight
-                # fileName = paste("map_","raster_",param_i,"_",x_i,"_",scenario_i,nameAppend,"_KMEANS",sep="")
-                # folder = paste(dirOutputsX,"/raster/",param_if,"/", scenario_if,"/byYear",sep = "")
+                }
 
                 if("subRegion" %in% names(mapx@data)){countCheck=2}else{countCheck=1}
                 if(length(names(mapx@data))==countCheck){
@@ -1569,6 +1552,7 @@ map <- function(data = NULL,
                     legendBreaksAnim = animPrettyBreaksGrid
                   }
 
+                if(any(grepl("all|pretty",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                 rmap::mapplot(facetsOn=T,innerMargins=innerMargins, legendDigitsOverride=legendDigitsOverride,facetLabelSize=facetLabelSize,mapTitleOn=mapTitleOn, facetCols=facetCols,numeric2Cat_list=numeric2Cat_list, catParam=param_i, panelLabel=panelLabelAnimated,
                           underLayer=underLayer,  dataPolygon=shapex,
                           dataGrid=mapx,
@@ -1595,6 +1579,7 @@ map <- function(data = NULL,
                           pdfpng = pdfpng,
                           fileName = paste("map_","raster_",param_i,"_",x_i,"_",scenario_i,nameAppend,"_PRETTY",sep=""),
                           folder = paste(dirOutputsX,"/raster/",param_if,"/", scenario_if,"/byYear",sep = ""))
+                }
 
                 if("subRegion" %in% names(mapx@data)){countCheck=2}else{countCheck=1}
                 if(length(names(mapx@data))==countCheck){
@@ -1607,6 +1592,7 @@ map <- function(data = NULL,
                     legendTextSizeAnim = legendTextSizeI
                   }
 
+                if(any(grepl("all|free",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                 rmap::mapplot(facetsOn=T,innerMargins=innerMargins, legendDigitsOverride=legendDigitsOverride,facetLabelSize=facetLabelSize,mapTitleOn=mapTitleOn, facetCols=facetCols,numeric2Cat_list=numeric2Cat_list, catParam=param_i, panelLabel=panelLabelAnimated,
                           underLayer=underLayer,  dataPolygon=shapex,
                           dataGrid=mapx,
@@ -1632,42 +1618,13 @@ map <- function(data = NULL,
                           pdfpng = pdfpng,
                           fileName = paste("map_","raster_",param_i,"_",x_i,"_",scenario_i,nameAppend,"_FREESCALE",sep=""),
                           folder = paste(dirOutputsX,"/raster/",param_if,"/", scenario_if,"/byYear",sep = ""))
-
-                # numeric2Cat_list=numeric2Cat_list
-                # catParam=param_i
-                # panelLabel=panelLabelAnimated
-                # underLayer=underLayer
-                # dataPolygon=shapex
-                # dataGrid=mapx
-                # fillColumn = names(mapx@data)
-                # mapTitle=paste(param_i," ",scenario_i,sep="") , legendShow = T
-                # legendOutside = legendOutsideAnimated
-                # facetFreeScale = T
-                # frameShow = frameShow
-                # labels=labels
-                # labelsSize = labelsSize
-                # legendTitleSize = legendTitleSizeAnim
-                # legendTextSize = legendTextSizeAnim
-                # legendTitle = legendTitleAnimated
-                # legendStyle="kmeans"
-                # legendDigits = animLegendDigits
-                # legendBreaksn=legendBreaksn
-                # legendOutsidePosition = legendOutsidePosition
-                # legendPosition = legendAnimatedPosition
-                # fillPalette = fillPalette
-                # bgColor = bgColorChosen
-                # figWidth=figWidth
-                # figHeight=figHeight
-                # fileName = paste("map_","raster_",param_i,"_",x_i,"_",scenario_i,nameAppend,"_FREESCALE",sep="")
-                # folder = paste(dirOutputsX,"/raster/",param_if,"/", scenario_if,"/byYear",sep = "")
-
-              } # if nrow(datax) > 1
-            }# Close years loop
+                }
 
             # Animate 1 : each param: If class > 1 { (Map x Class) x Anim Years}
 
             if(animateOn==T){
 
+              if(any(grepl("all|pretty",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
               animName<-paste("anim_","raster_",param_i,"_",scenario_i,nameAppend,"_PRETTY.gif",sep="")
               animFiles <- list.files(path = paste(dirOutputsX,"/raster/",param_if,"/", scenario_if,"/byYear",sep=""),
                                       pattern = paste(".*",param_i,".*",nameAppend,".*PRETTY", ".", pdfpng,sep=""), full.names=T,ignore.case = T, include.dirs = T);
@@ -1676,13 +1633,9 @@ map <- function(data = NULL,
                                         animName,sep = ""))
               print(gsub("//","/",paste("animation saved in :",dirOutputsX,"/raster/",param_if,"/", scenario_if,"/",
                                                        animName,sep = "")))
-              # fnameTempImage=paste(dirOutputsX,"/raster/",param_if,"/", scenario_if,"/",
-              #                      animName,sep = "")
-              # tempImage<-magick::image_read(fnameTempImage)
-              # croppedImage<-magick::image_trim(tempImage,fuzz=0);
-              # magick::image_write(croppedImage,fnameTempImage)
+              }
 
-
+              if(any(grepl("all|kmean",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
               animName<-paste("anim_","raster_",param_i,"_",scenario_i,nameAppend,"_KMEANS.gif",sep="")
               animFiles <- list.files(path = paste(dirOutputsX,"/raster/",param_if,"/", scenario_if,"/byYear",sep=""),
                                       pattern = paste(".*",param_i,".*",nameAppend,".*KMEANS", ".", pdfpng,sep=""), full.names=T,ignore.case = T, include.dirs = T);
@@ -1691,13 +1644,9 @@ map <- function(data = NULL,
                                           animName,sep = ""))
               print(gsub("//","/",paste("animation saved in :",dirOutputsX,"/raster/",param_if,"/", scenario_if,"/",
                           animName,sep = "")))
-              # fnameTempImage=paste(dirOutputsX,"/raster/",param_if,"/", scenario_if,"/",
-              #                      animName,sep = "")
-              # tempImage<-magick::image_read(fnameTempImage)
-              # croppedImage<-magick::image_trim(tempImage,fuzz=0);
-              # magick::image_write(croppedImage,fnameTempImage)
+              }
 
-
+              if(any(grepl("all|free",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
               animName<-paste("anim_","raster_",param_i,"_",scenario_i,nameAppend,"_FREESCALE.gif",sep="")
               animFiles <- list.files(path = paste(dirOutputsX,"/raster/",param_if,"/", scenario_if,"/byYear",sep=""),
                                       pattern = paste(".*",param_i,".*",nameAppend,".*FREESCALE", ".", pdfpng,sep=""), full.names=T,ignore.case = T, include.dirs = T);
@@ -1706,15 +1655,7 @@ map <- function(data = NULL,
                                           animName,sep = ""))
               print(gsub("//","/",paste("animation saved in :",dirOutputsX,"/raster/",param_if,"/", scenario_if,"/",
                           animName,sep = "")))
-              # fnameTempImage=paste(dirOutputsX,"/raster/",param_if,"/", scenario_if,"/",
-              #                      animName,sep = "")
-              # tempImage<-magick::image_read(fnameTempImage)
-              # croppedImage<-magick::image_trim(tempImage,fuzz=0);
-              # magick::image_write(croppedImage,fnameTempImage)
-
-
-              #unlink(paste(dirOutputsX,"/raster/",param_if,"/", scenario_if,"/byYear/animate_",param_i,sep = ""), recursive = TRUE) #-------------- cleaning up plots and temporary variables
-            } # If Animate ON==t
+              }
 
 
             #------------------------------
@@ -1806,6 +1747,7 @@ map <- function(data = NULL,
                 mapx@data<-mapx@data%>%dplyr::select(-lat,-lon)
                 names(mapx@data)<-paste("X",names(mapx@data),sep="")
 
+                if(any(grepl("all|kmean",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                 rmap::mapplot(facetsOn=T,innerMargins=innerMargins, legendDigitsOverride=legendDigitsOverride,facetLabelSize=facetLabelSize,mapTitleOn=mapTitleOn, facetCols=facetCols,numeric2Cat_list=numeric2Cat_list, catParam=param_i, underLayer=underLayer,  dataPolygon=shapex,
                           dataGrid=mapx,
                           fillColumn = names(mapx@data),
@@ -1830,37 +1772,9 @@ map <- function(data = NULL,
                           pdfpng = pdfpng,
                           fileName = paste("map_","raster_",param_i,"_",scenario_i,nameAppend,"_KMEANS",sep=""),
                           folder = sub("/$","",paste(dirOutputsX,"/raster/",param_if,"/", scenario_if,sep = "")))
+              }
 
-
-                # numeric2Cat_list=numeric2Cat_list
-                # catParam=param_i
-                # underLayer=underLayer
-                # dataPolygon=shapex
-                # dataGrid=mapx
-                # fillColumn = names(mapx@data)
-                # mapTitle=paste(param_i," ",scenario_i,sep="") , legendShow = T
-                # legendOutside = legendOutsideSingle
-                # facetFreeScale = F
-                # frameShow = frameShow
-                # labels=labels
-                # labelsSize = labelsSize
-                # legendTitle =legendTitle
-                # legendTitleSize = legendTitleSizeS
-                # legendTextSize = legendTextSizeS
-                # legendStyle="fixed"
-                # legendBreaks = animKmeanBreaksGrid
-                # legendBreaksn=legendBreaksn
-                # legendDigits = animLegendDigits
-                # legendOutsidePosition = legendOutsidePosition
-                # legendPosition = legendPositionS
-                # fillPalette = fillPalette
-                # bgColor = bgColorChosen
-                # figWidth=figWidth
-                # figHeight=figHeight
-                # fileName = paste("map_","raster_",param_i,"_",scenario_i,nameAppend,"_KMEANS",sep="")
-                # folder = sub("/$","",paste(dirOutputsX,"/raster/",param_if,"/", scenario_if,sep = ""))
-
-
+                if(any(grepl("all|pretty",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                 rmap::mapplot(facetsOn=T,innerMargins=innerMargins, legendDigitsOverride=legendDigitsOverride,facetLabelSize=facetLabelSize,mapTitleOn=mapTitleOn, facetCols=facetCols,numeric2Cat_list=numeric2Cat_list, catParam=param_i, underLayer=underLayer,  dataPolygon=shapex,
                           dataGrid=mapx,
                           fillColumn = names(mapx@data),
@@ -1883,7 +1797,7 @@ map <- function(data = NULL,
                           figWidth=figWidth,figHeight=figHeight, pdfpng = pdfpng,
                           fileName = paste("map_","raster_",param_i,"_",scenario_i,nameAppend,"_PRETTY",sep=""),
                           folder = sub("/$","",paste(dirOutputsX,"/raster/",param_if,"/", scenario_if,sep = "")))
-
+                  }
 
                 if("subRegion" %in% names(mapx@data)){countCheck=2}else{countCheck=1}
                 if(length(names(mapx@data))==countCheck){
@@ -1895,6 +1809,7 @@ map <- function(data = NULL,
                     legendTextSizeAnim = legendTextSizeI
                   }
 
+                if(any(grepl("all|free",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                 rmap::mapplot(facetsOn=T,innerMargins=innerMargins, legendDigitsOverride=legendDigitsOverride,facetLabelSize=facetLabelSize,mapTitleOn=mapTitleOn, facetCols=facetCols,numeric2Cat_list=numeric2Cat_list, catParam=param_i, underLayer=underLayer,  dataPolygon=shapex,
                           dataGrid=mapx,
                           fillColumn = names(mapx@data),
@@ -1916,6 +1831,7 @@ map <- function(data = NULL,
                           figWidth=figWidth,figHeight=figHeight, pdfpng = pdfpng,
                           fileName = paste("map_","raster_",param_i,"_",scenario_i,nameAppend,"_FREESCALE",sep=""),
                           folder = sub("/$","",paste(dirOutputsX,"/raster/",param_if,"/", scenario_if,sep = "")))
+                }
 
               } # if(nrow(datax)>0){
 
@@ -2005,6 +1921,7 @@ map <- function(data = NULL,
                 mapx@data<-mapx@data%>%dplyr::select(-lat,-lon)
                 names(mapx@data)<-paste("X",names(mapx@data),sep="")
 
+                if(any(grepl("all|kmean",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                 rmap::mapplot(facetsOn=T,innerMargins=innerMargins, legendDigitsOverride=legendDigitsOverride,facetLabelSize=facetLabelSize,mapTitleOn=mapTitleOn, facetCols=facetCols,numeric2Cat_list=numeric2Cat_list, catParam=param_i, underLayer=underLayer,  dataPolygon=shapex,
                           dataGrid=mapx,
                           fillColumn = names(mapx@data),
@@ -2029,7 +1946,9 @@ map <- function(data = NULL,
                           figWidth=figWidth,figHeight=figHeight, pdfpng = pdfpng,
                           fileName = paste("map_","raster_",param_i,"_",scenario_i,nameAppend,"_MEAN_KMEANS",sep=""),
                           folder = sub("/$","",paste(dirOutputsX,"/raster/",param_if,"/", scenario_if,sep = "")))
+              }
 
+                if(any(grepl("all|pretty",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                 rmap::mapplot(facetsOn=T,innerMargins=innerMargins, legendDigitsOverride=legendDigitsOverride,facetLabelSize=facetLabelSize,mapTitleOn=mapTitleOn, facetCols=facetCols,numeric2Cat_list=numeric2Cat_list, catParam=param_i, underLayer=underLayer,  dataPolygon=shapex,
                           dataGrid=mapx,
                           fillColumn = names(mapx@data),
@@ -2053,6 +1972,7 @@ map <- function(data = NULL,
                           figWidth=figWidth,figHeight=figHeight, pdfpng = pdfpng,
                           fileName = paste("map_","raster_",param_i,"_",scenario_i,nameAppend,"_MEAN_PRETTY",sep=""),
                           folder = sub("/$","",paste(dirOutputsX,"/raster/",param_if,"/", scenario_if,sep = "")))
+                }
 
 
                 if("subRegion" %in% names(mapx@data)){countCheck=2}else{countCheck=1}
@@ -2065,6 +1985,7 @@ map <- function(data = NULL,
                     legendTextSizeAnim = legendTextSizeI
                   }
 
+                if(any(grepl("all|free",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                 rmap::mapplot(facetsOn=T,innerMargins=innerMargins, legendDigitsOverride=legendDigitsOverride,facetLabelSize=facetLabelSize,mapTitleOn=mapTitleOn, facetCols=facetCols,numeric2Cat_list=numeric2Cat_list, catParam=param_i, underLayer=underLayer,  dataPolygon=shapex,
                           dataGrid=mapx,
                           fillColumn = names(mapx@data),
@@ -2087,6 +2008,7 @@ map <- function(data = NULL,
                           figWidth=figWidth,figHeight=figHeight, pdfpng = pdfpng,
                           fileName = paste("map_","raster_",param_i,"_",scenario_i,nameAppend,"_MEAN_FREESCALE",sep=""),
                           folder = sub("/$","",paste(dirOutputsX,"/raster/",param_if,"/", scenario_if,sep = "")))
+                }
 
 
               } # if(nrow(datax)>0){
@@ -2105,6 +2027,10 @@ map <- function(data = NULL,
           } # close Params
       } # Close scenario loop
   } # Close if nrow gridTbl < 0
+
+        } # close Params
+      } # Close scenario loop
+    } # Close if nrow gridTbl < 0
 
     animateOn <- animateOnOrig
 
@@ -2579,6 +2505,7 @@ map <- function(data = NULL,
                       legendTitleMulti=paste(paste("Mean_",minX,"to",maxX,sep=""),"\n",legendTitle,sep="")
                       panelLabelMulti=NULL
 
+                      if(any(grepl("all|kmean",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                       rmap::mapplot(facetsOn=T,innerMargins=innerMargins, legendDigitsOverride=legendDigitsOverride,mapTitleOn=mapTitleOn, facetCols=facetCols,numeric2Cat_list=numeric2Cat_list, catParam=param_i, panelLabel=panelLabelMulti,
                                 underLayer=NULL, dataPolygon=mapx,
                                 fillColumn = names(mapx@data%>%dplyr::select(-subRegion,-multiFacetCol,-multiFacetRow)),
@@ -2606,36 +2533,7 @@ map <- function(data = NULL,
                                 multiFacetCols="multiFacetCol",
                                 fileName = paste("map_",subRegType_ix,"_",param_i,"_RefYears_",class_i,nameAppend,"_MEAN_KMEANS",sep=""),
                                 folder = paste(dirOutputsX,"/",param_if,"/compareMultiFacets",sep = ""))
-
-
-                      # panelLabel=panelLabelMulti
-                      # underLayer=NULL
-                      # dataPolygon=mapx
-                      # fillColumn = names(mapx@data%>%dplyr::select(-subRegion,-multiFacetCol,-multiFacetRow))
-                      # mapTitle=paste(param_i,sep="") , legendShow = T
-                      # legendOutside = legendOutsideMulti
-                      # facetFreeScale = F
-                      # facetLabelSize = facetLabelSizeMultiAB*max(min(1,length(unique(mapx[[multiFacetRows]]))*length(unique(mapx[[multiFacetCols]]))/10),2),
-                      # frameShow = frameShow
-                      # labels=labels
-                      # labelsSize = labelsSize
-                      # legendTitleSize = legendTitleSizeMulti
-                      # legendTextSize = legendTextSizeMulti
-                      # legendTitle =legendTitleMulti
-                      # legendStyle=legendStyleMulti
-                      # legendBreaks = animKmeanBreaksPoly
-                      # legendBreaksn=legendBreaksn
-                      # legendDigits = animLegendDigits
-                      # legendOutsidePosition = legendOutsidePosition
-                      # legendPosition = legendPositionMulti
-                      # fillPalette = fillPalette
-                      # bgColor = "white"
-                      # figWidth=figWidth*max(1,min(2,length(unique(mapx@data[[multiFacetCols]]))/2))
-                      # figHeight=figHeight*max(1,min(2,length(unique(mapx@data[[multiFacetRows]]))/2))
-                      # multiFacetRows=multiFacetRows
-                      # multiFacetCols=multiFacetCols
-                      # fileName = paste("map_",subRegType_ix,"_",param_i,"_",class_i,nameAppend,"_MEAN_KMEANS",sep="")
-                      # folder = paste(dirOutputsX,"/",param_if,"/compareMultiFacets",sep = "")
+                      }
 
 
                       if(!is.null(legendFixedBreaks)){
@@ -2669,6 +2567,7 @@ map <- function(data = NULL,
                       }
 
 
+                      if(any(grepl("all|pretty",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                       rmap::mapplot(facetsOn=T,innerMargins=innerMargins, legendDigitsOverride=legendDigitsOverride,mapTitleOn=mapTitleOn, facetCols=facetCols,numeric2Cat_list=numeric2Cat_list, catParam=param_i, panelLabel=panelLabelMulti,
                                 underLayer=NULL, dataPolygon=mapx,
                                 fillColumn = names(mapx@data%>%dplyr::select(-subRegion,-multiFacetCol,-multiFacetRow)),
@@ -2696,8 +2595,10 @@ map <- function(data = NULL,
                                 multiFacetCols="multiFacetCol",
                                 fileName = paste("map_",subRegType_ix,"_",param_i,"_RefYears_",class_i,nameAppend,"_MEAN_PRETTY",sep=""),
                                 folder = paste(dirOutputsX,"/",param_if,"/compareMultiFacets",sep = ""))
+                      }
 
 
+                      if(any(grepl("all|free",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                       rmap::mapplot(facetsOn=T,innerMargins=innerMargins, legendDigitsOverride=legendDigitsOverride,mapTitleOn=mapTitleOn, facetCols=facetCols,numeric2Cat_list=numeric2Cat_list, catParam=param_i, panelLabel=panelLabelMulti,
                                 underLayer=NULL, dataPolygon=mapx,
                                 fillColumn = names(mapx@data%>%dplyr::select(-subRegion,-multiFacetCol,-multiFacetRow)),
@@ -2724,7 +2625,7 @@ map <- function(data = NULL,
                                 multiFacetCols="multiFacetCol",
                                 fileName = paste("map_",subRegType_ix,"_",param_i,"_RefYears_",class_i,nameAppend,"_MEAN_FREESCALE",sep=""),
                                 folder = paste(dirOutputsX,"/",param_if,"/compareMultiFacets",sep = ""))
-
+                      }
 
 
                       if(!is.null(refMultiA)){
@@ -2803,6 +2704,7 @@ map <- function(data = NULL,
                           legendTitleMulti=paste(x_i,"\n",legendTitle,sep="")
                           panelLabelMulti=NULL
 
+                          if(any(grepl("all|kmean",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                           rmap::mapplot(facetsOn=T,innerMargins=innerMargins, legendDigitsOverride=legendDigitsOverride,mapTitleOn=mapTitleOn, facetCols=facetCols,numeric2Cat_list=numeric2Cat_list, catParam=param_i, panelLabel=panelLabelMulti,
                                     underLayer=NULL, dataPolygon=mapx,
                                     fillColumn = names(mapx@data%>%dplyr::select(-subRegion,-multiFacetCol,-multiFacetRow)),
@@ -2830,39 +2732,7 @@ map <- function(data = NULL,
                                     multiFacetCols="multiFacetCol",
                                     fileName = paste("map_",subRegType_ix,"_",param_i,"_",x_i,"_",class_i,nameAppend,"_KMEANS",sep=""),
                                     folder = paste(dirOutputsX,"/",param_if,"/compareMultiFacets/byYear",sep = ""))
-
-                          ##ZARRAR
-                          # numeric2Cat_list=numeric2Cat_list
-                          # catParam=param_i
-                          # panelLabel=panelLabelMulti
-                          # underLayer=NULL
-                          # dataPolygon=mapx
-                          # fillColumn = names(mapx@data%>%dplyr::select(-subRegion,-multiFacetCol,-multiFacetRow))
-                          # mapTitle=paste(param_i," ",scenario_i,sep="")
-                          # legendShow = T
-                          # legendOutside = legendOutsideMulti
-                          # facetFreeScale = F
-                          # facetLabelSize = facetLabelSizeMultiAB*max(min(1,length(unique(mapx[[multiFacetRows]]))*length(unique(mapx[[multiFacetCols]]))/10),2),
-                          # frameShow = frameShow
-                          # labels=labels
-                          # labelsSize = labelsSize
-                          # legendTitleSize = legendTitleSizeMulti
-                          # legendTextSize = legendTextSizeMulti
-                          # legendTitle =legendTitleMulti
-                          # legendStyle=legendStyleMulti
-                          # legendBreaks = animKmeanBreaksPoly
-                          # legendBreaksn=legendBreaksn
-                          # legendDigits = animLegendDigits
-                          # legendOutsidePosition = legendOutsidePosition
-                          # legendPosition = legendPositionMulti
-                          # fillPalette = fillPalette
-                          # bgColor = "white"
-                          # figWidth=figWidth*max(1,min(2,length(unique(mapx@data[[multiFacetCols]]))/2))
-                          # figHeight=figHeight*max(1,min(2,length(unique(mapx@data[[multiFacetRows]]))/2))
-                          # multiFacetRows=multiFacetRows
-                          # multiFacetCols=multiFacetCols
-                          # fileName = paste("map_",subRegType_ix,"_",param_i,"_",x_i,"_",class_i,nameAppend,"_KMEANS",sep="")
-                          # folder = paste(dirOutputsX,"/",param_if,"/compareMultiFacets/byYear",sep = "")
+                        }
 
                           if(!is.null(legendFixedBreaks)){
                             rmap::mapplot(facetsOn=T,innerMargins=innerMargins, legendDigitsOverride=legendDigitsOverride,mapTitleOn=mapTitleOn, facetCols=facetCols,numeric2Cat_list=numeric2Cat_list, catParam=param_i, panelLabel=panelLabelMulti,
@@ -2894,6 +2764,7 @@ map <- function(data = NULL,
                                           folder = paste(dirOutputsX,"/",param_if,"/compareMultiFacets/byYear",sep = ""))
                           }
 
+                          if(any(grepl("all|pretty",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                           rmap::mapplot(facetsOn=T,innerMargins=innerMargins, legendDigitsOverride=legendDigitsOverride,mapTitleOn=mapTitleOn, facetCols=facetCols,numeric2Cat_list=numeric2Cat_list, catParam=param_i, panelLabel=panelLabelMulti,
                                     underLayer=NULL, dataPolygon=mapx,
                                     fillColumn = names(mapx@data%>%dplyr::select(-subRegion,-multiFacetCol,-multiFacetRow)),
@@ -2921,8 +2792,10 @@ map <- function(data = NULL,
                                     multiFacetCols="multiFacetCol",
                                     fileName = paste("map_",subRegType_ix,"_",param_i,"_",x_i,"_",class_i,nameAppend,"_PRETTY",sep=""),
                                     folder = paste(dirOutputsX,"/",param_if,"/compareMultiFacets/byYear",sep = ""))
+                          }
 
 
+                          if(any(grepl("all|free",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                           rmap::mapplot(facetsOn=T,innerMargins=innerMargins, legendDigitsOverride=legendDigitsOverride,mapTitleOn=mapTitleOn, facetCols=facetCols,numeric2Cat_list=numeric2Cat_list, catParam=param_i, panelLabel=panelLabelMulti,
                                     underLayer=NULL, dataPolygon=mapx,
                                     fillColumn = names(mapx@data%>%dplyr::select(-subRegion,-multiFacetCol,-multiFacetRow)),
@@ -2949,8 +2822,7 @@ map <- function(data = NULL,
                                     multiFacetCols="multiFacetCol",
                                     fileName = paste("map_",subRegType_ix,"_",param_i,"_",x_i,"_",class_i,nameAppend,"_FREESCALE",sep=""),
                                     folder = paste(dirOutputsX,"/",param_if,"/compareMultiFacets/byYear",sep = ""))
-
-
+                          }
 
                         }# if(nrow(datax)>1){
                       }# Close years loop
@@ -2959,6 +2831,7 @@ map <- function(data = NULL,
 
                     if(animateOn==T){
 
+                      if(any(grepl("all|pretty",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                       animName<-paste("anim_",subRegType_ix,"_",param_i,"_",class_i,nameAppend,"_PRETTY.gif",sep="")
                       animFiles <- list.files(path = paste(dirOutputsX,"/",param_if,"/compareMultiFacets/byYear",sep=""),
                                               pattern = paste(".*",param_i,".*",nameAppend,".*PRETTY", ".", pdfpng,sep=""), full.names=T,ignore.case = T, include.dirs = T);
@@ -2967,13 +2840,10 @@ map <- function(data = NULL,
                                                   animName,sep = ""))
                       print(gsub("//","/",paste("animation saved in :",dirOutputsX,"/",param_if,"/compareMultiFacets/",
                                   animName,sep = "")))
-                      # fnameTempImage=paste(dirOutputsX,"/",param_if,"/compareMultiFacets/",
-                      #                      animName,sep = "")
-                      # tempImage<-magick::image_read(fnameTempImage)
-                      # croppedImage<-magick::image_trim(tempImage,fuzz=0);
-                      # magick::image_write(croppedImage,fnameTempImage)
+                      }
 
 
+                      if(any(grepl("all|kmean",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                       animName<-paste("anim_",subRegType_ix,"_",param_i,"_",class_i,nameAppend,"_KMEANS.gif",sep="")
                       animFiles <- list.files(path = paste(dirOutputsX,"/",param_if,"/compareMultiFacets/byYear",sep=""),
                                               pattern = paste(".*",param_i,".*",nameAppend,".*KMEANS", ".", pdfpng,sep=""), full.names=T,ignore.case = T, include.dirs = T);
@@ -2982,11 +2852,8 @@ map <- function(data = NULL,
                                                   animName,sep = ""))
                       print(gsub("//","/",paste("animation saved in :",dirOutputsX,"/",param_if,"/compareMultiFacets/",
                                   animName,sep = "")))
-                      # fnameTempImage=paste(dirOutputsX,"/",param_if,"/compareMultiFacets/",
-                      #                      animName,sep = "")
-                      # tempImage<-magick::image_read(fnameTempImage)
-                      # croppedImage<-magick::image_trim(tempImage,fuzz=0);
-                      # magick::image_write(croppedImage,fnameTempImage)
+                      }
+
 
                       if(!is.null(legendFixedBreaks)){
                         animName<-paste("anim_",subRegType_ix,"_",param_i,"_",class_i,nameAppend,"_FIXED.gif",sep="")
@@ -2997,13 +2864,9 @@ map <- function(data = NULL,
                                                             animName,sep = ""))
                         print(gsub("//","/",paste("animation saved in :",dirOutputsX,"/",param_if,"/compareMultiFacets/",
                                                   animName,sep = "")))
-                        # fnameTempImage=paste(dirOutputsX,"/",param_if,"/compareMultiFacets/",
-                        #                      animName,sep = "")
-                        # tempImage<-magick::image_read(fnameTempImage)
-                        # croppedImage<-magick::image_trim(tempImage,fuzz=0);
-                        # magick::image_write(croppedImage,fnameTempImage)
                       }
 
+                      if(any(grepl("all|free",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                       animName<-paste("anim_",subRegType_ix,"_",param_i,"_",class_i,nameAppend,"_FREESCALE.gif",sep="")
                       animFiles <- list.files(path = paste(dirOutputsX,"/",param_if,"/compareMultiFacets/byYear",sep=""),
                                               pattern = paste(".*",param_i,".*",nameAppend,".*FREESCALE", ".", pdfpng,sep=""), full.names=T,ignore.case = T, include.dirs = T);
@@ -3012,15 +2875,9 @@ map <- function(data = NULL,
                                                   animName,sep = ""))
                       print(gsub("//","/",paste("animation saved in :",dirOutputsX,"/",param_if,"/compareMultiFacets/",
                                   animName,sep = "")))
-                      # fnameTempImage=paste(dirOutputsX,"/",param_if,"/compareMultiFacets/",
-                      #                      animName,sep = "")
-                      # tempImage<-magick::image_read(fnameTempImage)
-                      # croppedImage<-magick::image_trim(tempImage,fuzz=0);
-                      # magick::image_write(croppedImage,fnameTempImage)
+                      }
 
-
-                      #unlink(paste(dirOutputsX,"/",param_if,"/byYear/animate_",param_i,sep = ""), recursive = TRUE) #-------------- cleaning up plots and temporary variables
-                    } # If Animate ON==t
+                      } # If Animate ON==t
 
 
                     # Plot For Each Year Diff
@@ -3313,7 +3170,7 @@ map <- function(data = NULL,
       } # Close if(multifacetsOn==T){
 
     # Create Multi Scenario Map
-    if(length(unique(shapeTblOrig$scenario))>1){
+  if(length(unique(shapeTblOrig$scenario))>1){
    for (param_i in unique(shapeTblOrig$param)){
 
         if(length(unique(shapeTblOrig$param))==1){param_if=NULL}else{param_if=param_i}
@@ -3681,6 +3538,7 @@ map <- function(data = NULL,
                       legendTextSizeAnim = legendTextSizeS
                     }
 
+                  if(any(grepl("all|kmean",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                   rmap::mapplot(facetsOn=T,innerMargins=innerMargins, legendDigitsOverride=legendDigitsOverride,facetLabelSize=facetLabelSize,mapTitleOn=mapTitleOn, facetCols=facetCols,numeric2Cat_list=numeric2Cat_list, catParam=param_i, panelLabel=panelLabelAnimated,
                                 underLayer=underLayer,  dataPolygon=mapx,
                                 fillColumn = names(mapx@data%>%dplyr::select(-subRegion)),
@@ -3705,6 +3563,7 @@ map <- function(data = NULL,
                                 figHeight=figHeight, pdfpng = pdfpng,
                                 fileName = paste("map_",subRegType_ix,"_",param_i,"_",x_i,"_",class_i,nameAppend,"_KMEANS",sep=""),
                                 folder = dirSaveYear)
+                }
 
                   if(!is.null(legendFixedBreaks)){
                   rmap::mapplot(facetsOn=T,innerMargins=innerMargins, legendDigitsOverride=legendDigitsOverride,facetLabelSize=facetLabelSize,mapTitleOn=mapTitleOn, facetCols=facetCols,numeric2Cat_list=numeric2Cat_list, catParam=param_i, panelLabel=panelLabelAnimated,
@@ -3734,6 +3593,7 @@ map <- function(data = NULL,
                     }
 
 
+                  if(any(grepl("all|pretty",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                   rmap::mapplot(facetsOn=T,innerMargins=innerMargins, legendDigitsOverride=legendDigitsOverride,facetLabelSize=facetLabelSize,mapTitleOn=mapTitleOn, facetCols=facetCols,numeric2Cat_list=numeric2Cat_list, catParam=param_i, panelLabel=panelLabelAnimated,
                                 underLayer=underLayer,  dataPolygon=mapx,
                                 fillColumn = names(mapx@data%>%dplyr::select(-subRegion)),
@@ -3758,6 +3618,7 @@ map <- function(data = NULL,
                                 figHeight=figHeight, pdfpng = pdfpng,
                                 fileName = paste("map_",subRegType_ix,"_",param_i,"_",x_i,"_",class_i,nameAppend,"_PRETTY",sep=""),
                                 folder = dirSaveYear)
+                  }
 
                   if("subRegion" %in% names(mapx@data)){countCheck=2}else{countCheck=1}
                   if(length(names(mapx@data))==countCheck){
@@ -3771,6 +3632,7 @@ map <- function(data = NULL,
                       legendTextSizeAnim = legendTextSizeI
                     }
 
+                  if(any(grepl("all|free",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                   rmap::mapplot(facetsOn=T,innerMargins=innerMargins, legendDigitsOverride=legendDigitsOverride,facetLabelSize=facetLabelSize,mapTitleOn=mapTitleOn, facetCols=facetCols,numeric2Cat_list=numeric2Cat_list, catParam=param_i, panelLabel= panelLabelAnimated,underLayer=underLayer,dataPolygon=mapx,
                                 fillColumn = names(mapx@data%>%dplyr::select(-subRegion)),
                                 mapTitle=paste(param_i," ",class_i,sep="") , legendShow = T,
@@ -3793,6 +3655,7 @@ map <- function(data = NULL,
                                 figHeight=figHeight, pdfpng = pdfpng,
                                 fileName = paste("map_",subRegType_ix,"_",param_i,"_",x_i,"_",class_i,nameAppend,"_FREESCALE",sep=""),
                                 folder = dirSaveYear)
+                  }
 
 
                 }# if(nrow(datax)>1){
@@ -3803,6 +3666,7 @@ map <- function(data = NULL,
               if(length(unique(shapeTbl$x))>1){
               if(animateOn==T){
 
+                if(any(grepl("all|pretty",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                 animName<-paste("anim_",subRegType_ix,"_",param_i,"_",class_i,nameAppend,"_PRETTY.gif",sep="")
                 animFiles <- list.files(path = dirSaveYear,
                                         pattern = paste(".*",param_i,".*",nameAppend,".*PRETTY", ".", pdfpng,sep=""), full.names=T,ignore.case = T, include.dirs = T);animFiles
@@ -3812,8 +3676,9 @@ map <- function(data = NULL,
                                                     animName,sep = ""))
                 print(gsub("//","/",paste("animation saved in :",dirSaveMain,"/",
                                           animName,sep = "")))
+                }
 
-
+                if(any(grepl("all|kmean",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                 animName<-paste("anim_",subRegType_ix,"_",param_i,"_",class_i,nameAppend,"_KMEANS.gif",sep="")
                 animFiles <- list.files(path = dirSaveYear,
                                         pattern = paste(".*",param_i,".*",nameAppend,".*KMEANS", ".", pdfpng,sep=""), full.names=T,ignore.case = T, include.dirs = T);animFiles
@@ -3822,6 +3687,7 @@ map <- function(data = NULL,
                                                     animName,sep = ""))
                 print(gsub("//","/",paste("animation saved in :",dirSaveMain,"/",
                                           animName,sep = "")))
+                }
 
                 if(!is.null(legendFixedBreaks)){
                 animName<-paste("anim_",subRegType_ix,"_",param_i,"_",class_i,nameAppend,"_FIXED.gif",sep="")
@@ -3834,6 +3700,7 @@ map <- function(data = NULL,
                                           animName,sep = "")))
                 }
 
+                if(any(grepl("all|kmean",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                 animName<-paste("anim_",subRegType_ix,"_",param_i,"_",class_i,nameAppend,"_FREESCALE.gif",sep="")
                 animFiles <- list.files(path = dirSaveYear,
                                         pattern = paste(".*",param_i,".*",nameAppend,".*FREESCALE", ".", pdfpng,sep=""), full.names=T,ignore.case = T, include.dirs = T);animFiles
@@ -3842,6 +3709,7 @@ map <- function(data = NULL,
                                                     animName,sep = ""))
                 print(gsub("//","/",paste("animation saved in :",dirSaveMain,"/",
                                           animName,sep = "")))
+                }
 
                 #unlink(paste(dirOutputsX,"/",param_if,"/", scenario_if,"/byYear/animate_",param_i,sep = ""), recursive = TRUE) #-------------- cleaning up plots and temporary variables
               } # If Animate ON==t
@@ -4224,6 +4092,7 @@ map <- function(data = NULL,
                         legendTextSizeAnim = legendTextSizeS
                       }
 
+                    if(any(grepl("all|kmean",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                     rmap::mapplot(facetsOn=T,innerMargins=innerMargins, legendDigitsOverride=legendDigitsOverride,facetLabelSize=facetLabelSize,mapTitleOn=mapTitleOn, facetCols=facetCols,numeric2Cat_list=numeric2Cat_list, catParam=param_i, panelLabel=panelLabelAnimated,
                                   underLayer=underLayer,  dataPolygon=mapx,
                                   fillColumn = names(mapx@data%>%dplyr::select(-subRegion)),
@@ -4248,6 +4117,7 @@ map <- function(data = NULL,
                                   figHeight=figHeight, pdfpng = pdfpng,
                                   fileName = paste("map_",subRegType_ix,"_",param_i,"_",x_i,"_",class_i,nameAppend,"_KMEANS",sep=""),
                                   folder = dirSaveYear)
+                  }
 
                     if(!is.null(legendFixedBreaks)){
                       rmap::mapplot(facetsOn=T,innerMargins=innerMargins, legendDigitsOverride=legendDigitsOverride,facetLabelSize=facetLabelSize,mapTitleOn=mapTitleOn, facetCols=facetCols,numeric2Cat_list=numeric2Cat_list, catParam=param_i, panelLabel=panelLabelAnimated,
@@ -4277,6 +4147,7 @@ map <- function(data = NULL,
                     }
 
 
+                    if(any(grepl("all|pretty",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                     rmap::mapplot(facetsOn=T,innerMargins=innerMargins, legendDigitsOverride=legendDigitsOverride,facetLabelSize=facetLabelSize,mapTitleOn=mapTitleOn, facetCols=facetCols,numeric2Cat_list=numeric2Cat_list, catParam=param_i, panelLabel=panelLabelAnimated,
                                   underLayer=underLayer,  dataPolygon=mapx,
                                   fillColumn = names(mapx@data%>%dplyr::select(-subRegion)),
@@ -4301,6 +4172,7 @@ map <- function(data = NULL,
                                   figHeight=figHeight, pdfpng = pdfpng,
                                   fileName = paste("map_",subRegType_ix,"_",param_i,"_",x_i,"_",class_i,nameAppend,"_PRETTY",sep=""),
                                   folder = dirSaveYear)
+                    }
 
                     if("subRegion" %in% names(mapx@data)){countCheck=2}else{countCheck=1}
                     if(length(names(mapx@data))==countCheck){
@@ -4314,6 +4186,7 @@ map <- function(data = NULL,
                         legendTextSizeAnim = legendTextSizeI
                       }
 
+                    if(any(grepl("all|free",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                     rmap::mapplot(facetsOn=T,innerMargins=innerMargins, legendDigitsOverride=legendDigitsOverride,facetLabelSize=facetLabelSize,mapTitleOn=mapTitleOn, facetCols=facetCols,numeric2Cat_list=numeric2Cat_list, catParam=param_i, panelLabel= panelLabelAnimated,underLayer=underLayer,dataPolygon=mapx,
                                   fillColumn = names(mapx@data%>%dplyr::select(-subRegion)),
                                   mapTitle=paste(param_i," ",class_i,sep="") , legendShow = T,
@@ -4336,6 +4209,7 @@ map <- function(data = NULL,
                                   figHeight=figHeight, pdfpng = pdfpng,
                                   fileName = paste("map_",subRegType_ix,"_",param_i,"_",x_i,"_",class_i,nameAppend,"_FREESCALE",sep=""),
                                   folder = dirSaveYear)
+                    }
 
 
                   }# if(nrow(datax)>1){
@@ -4346,6 +4220,7 @@ map <- function(data = NULL,
                 if(length(unique(shapeTbl$x))>1){
                   if(animateOn==T){
 
+                    if(any(grepl("all|pretty",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                     animName<-paste("anim_",subRegType_ix,"_",param_i,"_",class_i,nameAppend,"_PRETTY.gif",sep="")
                     animFiles <- list.files(path = dirSaveYear,
                                             pattern = paste(".*",param_i,".*",nameAppend,".*PRETTY", ".", pdfpng,sep=""), full.names=T,ignore.case = T, include.dirs = T);animFiles
@@ -4355,8 +4230,10 @@ map <- function(data = NULL,
                                                         animName,sep = ""))
                     print(gsub("//","/",paste("animation saved in :",dirSaveMain,"/",
                                               animName,sep = "")))
+                    }
 
 
+                    if(any(grepl("all|kmean",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                     animName<-paste("anim_",subRegType_ix,"_",param_i,"_",class_i,nameAppend,"_KMEANS.gif",sep="")
                     animFiles <- list.files(path = dirSaveYear,
                                             pattern = paste(".*",param_i,".*",nameAppend,".*KMEANS", ".", pdfpng,sep=""), full.names=T,ignore.case = T, include.dirs = T);animFiles
@@ -4365,6 +4242,7 @@ map <- function(data = NULL,
                                                         animName,sep = ""))
                     print(gsub("//","/",paste("animation saved in :",dirSaveMain,"/",
                                               animName,sep = "")))
+                    }
 
                     if(!is.null(legendFixedBreaks)){
                       animName<-paste("anim_",subRegType_ix,"_",param_i,"_",class_i,nameAppend,"_FIXED.gif",sep="")
@@ -4377,6 +4255,7 @@ map <- function(data = NULL,
                                                 animName,sep = "")))
                     }
 
+                    if(any(grepl("all|free",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                     animName<-paste("anim_",subRegType_ix,"_",param_i,"_",class_i,nameAppend,"_FREESCALE.gif",sep="")
                     animFiles <- list.files(path = dirSaveYear,
                                             pattern = paste(".*",param_i,".*",nameAppend,".*FREESCALE", ".", pdfpng,sep=""), full.names=T,ignore.case = T, include.dirs = T);animFiles
@@ -4385,6 +4264,7 @@ map <- function(data = NULL,
                                                         animName,sep = ""))
                     print(gsub("//","/",paste("animation saved in :",dirSaveMain,"/",
                                               animName,sep = "")))
+                    }
 
                     #unlink(paste(dirOutputsX,"/",param_if,"/", scenario_if,"/byYear/animate_",param_i,sep = ""), recursive = TRUE) #-------------- cleaning up plots and temporary variables
                   } # If Animate ON==t
@@ -4767,6 +4647,7 @@ map <- function(data = NULL,
                         legendTextSizeAnim = legendTextSizeS
                       }
 
+                    if(any(grepl("all|kmean",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                     rmap::mapplot(facetsOn=T,innerMargins=innerMargins, legendDigitsOverride=legendDigitsOverride,facetLabelSize=facetLabelSize,mapTitleOn=mapTitleOn, facetCols=facetCols,numeric2Cat_list=numeric2Cat_list, catParam=param_i, panelLabel=panelLabelAnimated,
                                   underLayer=underLayer,  dataPolygon=mapx,
                                   fillColumn = names(mapx@data%>%dplyr::select(-subRegion)),
@@ -4791,6 +4672,7 @@ map <- function(data = NULL,
                                   figHeight=figHeight, pdfpng = pdfpng,
                                   fileName = paste("map_",subRegType_ix,"_",param_i,"_",x_i,"_",class_i,nameAppend,"_KMEANS",sep=""),
                                   folder = dirSaveYear)
+                  }
 
                     if(!is.null(legendFixedBreaks)){
                       rmap::mapplot(facetsOn=T,innerMargins=innerMargins, legendDigitsOverride=legendDigitsOverride,facetLabelSize=facetLabelSize,mapTitleOn=mapTitleOn, facetCols=facetCols,numeric2Cat_list=numeric2Cat_list, catParam=param_i, panelLabel=panelLabelAnimated,
@@ -4820,6 +4702,7 @@ map <- function(data = NULL,
                     }
 
 
+                    if(any(grepl("all|pretty",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                     rmap::mapplot(facetsOn=T,innerMargins=innerMargins, legendDigitsOverride=legendDigitsOverride,facetLabelSize=facetLabelSize,mapTitleOn=mapTitleOn, facetCols=facetCols,numeric2Cat_list=numeric2Cat_list, catParam=param_i, panelLabel=panelLabelAnimated,
                                   underLayer=underLayer,  dataPolygon=mapx,
                                   fillColumn = names(mapx@data%>%dplyr::select(-subRegion)),
@@ -4844,6 +4727,7 @@ map <- function(data = NULL,
                                   figHeight=figHeight, pdfpng = pdfpng,
                                   fileName = paste("map_",subRegType_ix,"_",param_i,"_",x_i,"_",class_i,nameAppend,"_PRETTY",sep=""),
                                   folder = dirSaveYear)
+                    }
 
                     if("subRegion" %in% names(mapx@data)){countCheck=2}else{countCheck=1}
                     if(length(names(mapx@data))==countCheck){
@@ -4857,6 +4741,7 @@ map <- function(data = NULL,
                         legendTextSizeAnim = legendTextSizeI
                       }
 
+                    if(any(grepl("all|free",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                     rmap::mapplot(facetsOn=T,innerMargins=innerMargins, legendDigitsOverride=legendDigitsOverride,facetLabelSize=facetLabelSize,mapTitleOn=mapTitleOn, facetCols=facetCols,numeric2Cat_list=numeric2Cat_list, catParam=param_i, panelLabel= panelLabelAnimated,underLayer=underLayer,dataPolygon=mapx,
                                   fillColumn = names(mapx@data%>%dplyr::select(-subRegion)),
                                   mapTitle=paste(param_i," ",class_i,sep="") , legendShow = T,
@@ -4879,6 +4764,7 @@ map <- function(data = NULL,
                                   figHeight=figHeight, pdfpng = pdfpng,
                                   fileName = paste("map_",subRegType_ix,"_",param_i,"_",x_i,"_",class_i,nameAppend,"_FREESCALE",sep=""),
                                   folder = dirSaveYear)
+                    }
 
 
                   }# if(nrow(datax)>1){
@@ -4889,6 +4775,7 @@ map <- function(data = NULL,
                 if(length(unique(shapeTbl$x))>1){
                   if(animateOn==T){
 
+                    if(any(grepl("all|pretty",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                     animName<-paste("anim_",subRegType_ix,"_",param_i,"_",class_i,nameAppend,"_PRETTY.gif",sep="")
                     animFiles <- list.files(path = dirSaveYear,
                                             pattern = paste(".*",param_i,".*",nameAppend,".*PRETTY", ".", pdfpng,sep=""), full.names=T,ignore.case = T, include.dirs = T);animFiles
@@ -4898,8 +4785,9 @@ map <- function(data = NULL,
                                                         animName,sep = ""))
                     print(gsub("//","/",paste("animation saved in :",dirSaveMain,"/",
                                               animName,sep = "")))
+                    }
 
-
+                    if(any(grepl("all|kmean",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                     animName<-paste("anim_",subRegType_ix,"_",param_i,"_",class_i,nameAppend,"_KMEANS.gif",sep="")
                     animFiles <- list.files(path = dirSaveYear,
                                             pattern = paste(".*",param_i,".*",nameAppend,".*KMEANS", ".", pdfpng,sep=""), full.names=T,ignore.case = T, include.dirs = T);animFiles
@@ -4908,6 +4796,7 @@ map <- function(data = NULL,
                                                         animName,sep = ""))
                     print(gsub("//","/",paste("animation saved in :",dirSaveMain,"/",
                                               animName,sep = "")))
+                    }
 
                     if(!is.null(legendFixedBreaks)){
                       animName<-paste("anim_",subRegType_ix,"_",param_i,"_",class_i,nameAppend,"_FIXED.gif",sep="")
@@ -4920,6 +4809,7 @@ map <- function(data = NULL,
                                                 animName,sep = "")))
                     }
 
+                    if(any(grepl("all|free",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                     animName<-paste("anim_",subRegType_ix,"_",param_i,"_",class_i,nameAppend,"_FREESCALE.gif",sep="")
                     animFiles <- list.files(path = dirSaveYear,
                                             pattern = paste(".*",param_i,".*",nameAppend,".*FREESCALE", ".", pdfpng,sep=""), full.names=T,ignore.case = T, include.dirs = T);animFiles
@@ -4928,6 +4818,7 @@ map <- function(data = NULL,
                                                         animName,sep = ""))
                     print(gsub("//","/",paste("animation saved in :",dirSaveMain,"/",
                                               animName,sep = "")))
+                    }
 
                     #unlink(paste(dirOutputsX,"/",param_if,"/", scenario_if,"/byYear/animate_",param_i,sep = ""), recursive = TRUE) #-------------- cleaning up plots and temporary variables
                   } # If Animate ON==t
@@ -5309,6 +5200,7 @@ map <- function(data = NULL,
                       legendTextSizeAnim = legendTextSizeS
                     }
 
+                  if(any(grepl("all|kmean",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                   rmap::mapplot(facetsOn=T,innerMargins=innerMargins, legendDigitsOverride=legendDigitsOverride,facetLabelSize=facetLabelSize,mapTitleOn=mapTitleOn, facetCols=facetCols,numeric2Cat_list=numeric2Cat_list, catParam=param_i, panelLabel=panelLabelAnimated,
                             underLayer=underLayer,  dataPolygon=mapx,
                             fillColumn = names(mapx@data%>%dplyr::select(-subRegion)),
@@ -5333,38 +5225,7 @@ map <- function(data = NULL,
                             figHeight=figHeight, pdfpng = pdfpng,
                             fileName = paste("map_",subRegType_ix,"_",param_i,"_",x_i,"_",scenario_i,nameAppend,"_KMEANS",sep=""),
                             folder = paste(dirOutputsX,"/",param_if,"/", scenario_if,"/byYear",sep = ""))
-
-                  # legendSingleColorOn=legendSingleColorOn
-                  # legendSingleValue=legendSingleValue
-                  # legendSingleColor=legendSingleColor
-                  # numeric2Cat_list=numeric2Cat_list
-                  # catParam=param_i
-                  # panelLabel=panelLabelAnimated
-                  # underLayer=underLayer
-                  # dataPolygon=mapx
-                  # fillColumn = names(mapx@data%>%dplyr::select(-subRegion))
-                  # mapTitle=paste(param_i," ",scenario_i,sep="")
-                  # legendShow = T
-                  # legendOutside = legendOutsideAnimated
-                  # facetFreeScale = F
-                  # frameShow = frameShow
-                  # labels=labels
-                  # labelsSize = labelsSize
-                  # legendTitleSize = legendTitleSizeAnim
-                  # legendTextSize = legendTextSizeAnim
-                  # legendTitle =legendTitleAnimated
-                  # legendStyle=legendStyleAnim
-                  # legendBreaks = animKmeanBreaksPoly
-                  # legendBreaksn=legendBreaksn
-                  # legendDigits = animLegendDigits
-                  # legendOutsidePosition = legendOutsidePosition
-                  # legendPosition = legendAnimatedPosition
-                  # fillPalette = fillPalette
-                  # bgColor = bgColorChosen
-                  # figWidth=figWidth
-                  # figHeight=figHeight
-                  # fileName = paste("map_",subRegType_ix,"_",param_i,"_",x_i,"_",scenario_i,nameAppend,"_KMEANS",sep="")
-                  # folder = paste(dirOutputsX,"/",param_if,"/", scenario_if,"/byYear",sep = "")
+                }
 
                   if(!is.null(legendFixedBreaks)){
                   rmap::mapplot(facetsOn=T,innerMargins=innerMargins, legendDigitsOverride=legendDigitsOverride,facetLabelSize=facetLabelSize,mapTitleOn=mapTitleOn, facetCols=facetCols,numeric2Cat_list=numeric2Cat_list, catParam=param_i, panelLabel=panelLabelAnimated,
@@ -5393,6 +5254,7 @@ map <- function(data = NULL,
                                 folder = paste(dirOutputsX,"/",param_if,"/", scenario_if,"/byYear",sep = ""))
                   }
 
+                  if(any(grepl("all|pretty",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                   rmap::mapplot(facetsOn=T,innerMargins=innerMargins, legendDigitsOverride=legendDigitsOverride,facetLabelSize=facetLabelSize,mapTitleOn=mapTitleOn, facetCols=facetCols,numeric2Cat_list=numeric2Cat_list, catParam=param_i, panelLabel=panelLabelAnimated,
                             underLayer=underLayer,  dataPolygon=mapx,
                             fillColumn = names(mapx@data%>%dplyr::select(-subRegion)),
@@ -5417,35 +5279,7 @@ map <- function(data = NULL,
                             figHeight=figHeight, pdfpng = pdfpng,
                             fileName = paste("map_",subRegType_ix,"_",param_i,"_",x_i,"_",scenario_i,nameAppend,"_PRETTY",sep=""),
                             folder = paste(dirOutputsX,"/",param_if,"/", scenario_if,"/byYear",sep = ""))
-#
-                  # numeric2Cat_list=numeric2Cat_list
-                  # catParam=param_i
-                  # panelLabel=panelLabelAnimated
-                  # underLayer=underLayer
-                  # dataPolygon=mapx
-                  # fillColumn = names(mapx@data%>%dplyr::select(-subRegion))
-                  # mapTitle=paste(param_i," ",scenario_i,sep="") , legendShow = T
-                  # legendOutside = legendOutsideAnimated
-                  # facetFreeScale = F
-                  # frameShow = frameShow
-                  # labels=labels
-                  # labelsSize = labelsSize
-                  # legendTitle =legendTitleAnimated
-                  # legendTitleSize = legendTitleSizeAnim
-                  # legendTextSize = legendTextSizeAnim
-                  # legendStyle="fixed"
-                  # legendBreaks = animPrettyBreaksPoly
-                  # legendBreaksn=legendBreaksn
-                  # legendDigits = animLegendDigits
-                  # legendOutsidePosition = legendOutsidePosition
-                  # legendPosition = legendAnimatedPosition
-                  # fillPalette = fillPalette
-                  # bgColor = bgColorChosen
-                  # figWidth=figWidth
-                  # figHeight=figHeight
-                  # pdfpng = pdfpng
-                  # fileName = paste("map_",subRegType_ix,"_",param_i,"_",x_i,"_",scenario_i,nameAppend,"_PRETTY",sep="")
-                  # folder = paste(dirOutputsX,"/",param_if,"/", scenario_if,"/byYear",sep = "")
+                  }
 
                   if("subRegion" %in% names(mapx@data)){countCheck=2}else{countCheck=1}
                   if(length(names(mapx@data))==countCheck){
@@ -5459,6 +5293,7 @@ map <- function(data = NULL,
                       legendTextSizeAnim = legendTextSizeI
                     }
 
+                  if(any(grepl("all|free",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                   rmap::mapplot(facetsOn=T,innerMargins=innerMargins, legendDigitsOverride=legendDigitsOverride,facetLabelSize=facetLabelSize,mapTitleOn=mapTitleOn, facetCols=facetCols,numeric2Cat_list=numeric2Cat_list, catParam=param_i, panelLabel= panelLabelAnimated,underLayer=underLayer,dataPolygon=mapx,
                             fillColumn = names(mapx@data%>%dplyr::select(-subRegion)),
                             mapTitle=paste(param_i," ",scenario_i,sep="") , legendShow = T,
@@ -5481,47 +5316,7 @@ map <- function(data = NULL,
                             figHeight=figHeight, pdfpng = pdfpng,
                             fileName = paste("map_",subRegType_ix,"_",param_i,"_",x_i,"_",scenario_i,nameAppend,"_FREESCALE",sep=""),
                             folder = paste(dirOutputsX,"/",param_if,"/", scenario_if,"/byYear",sep = ""))
-
-                  # innerMargins=innerMargins
-                  # legendDigitsOverride=legendDigitsOverride
-                  # facetLabelSize=facetLabelSize
-                  # mapTitleOn=mapTitleOn
-                  # facetCols=facetCols
-                  # numeric2Cat_list=numeric2Cat_list
-                  # catParam=param_i
-                  # panelLabel= panelLabelAnimated
-                  # underLayer=underLayer
-                  # dataPolygon=mapx
-                  # fillColumn = names(mapx@data%>%dplyr::select(-subRegion))
-                  # mapTitle=paste(param_i," ",scenario_i,sep="")
-                  # legendShow = T
-                  # legendOutside = legendOutsideAnimated
-                  # facetFreeScale = T
-                  # frameShow = frameShow
-                  # legendSingleColorOn=legendSingleColorOn
-                  # legendSingleValue=legendSingleValue
-                  # legendSingleColor=legendSingleColor
-                  # labels=labels
-                  # fillcolorNA=fillcolorNA
-                  # fillshowNA=fillshowNA
-                  # fillcolorNULL=fillcolorNULL
-                  # labelsSize = labelsSize
-                  # legendTitle =legendTitleAnimated
-                  # legendTitleSize = legendTitleSizeAnim
-                  # legendTextSize = legendTextSizeAnim
-                  # legendStyle="kmeans"
-                  # legendBreaksn=legendBreaksn
-                  # legendDigits = NULL
-                  # legendOutsidePosition = legendOutsidePosition
-                  # legendPosition = legendAnimatedPosition
-                  # fillPalette = fillPalette
-                  # bgColor = bgColorChosen
-                  # figWidth=figWidth
-                  # figHeight=figHeight
-                  # pdfpng = pdfpng
-                  # fileName = paste("map_",subRegType_ix,"_",param_i,"_",x_i,"_",scenario_i,nameAppend,"_FREESCALE",sep="")
-                  # folder = paste(dirOutputsX,"/",param_if,"/", scenario_if,"/byYear",sep = "")
-
+                  }
 
                 }# if(nrow(datax)>1){
               }# Close years loop
@@ -5530,6 +5325,7 @@ map <- function(data = NULL,
 
               if(animateOn==T){
 
+                if(any(grepl("all|pretty",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                 animName<-paste("anim_",subRegType_ix,"_",param_i,"_",scenario_i,nameAppend,"_PRETTY.gif",sep="")
                 animFiles <- list.files(path = paste(dirOutputsX,"/",param_if,"/", scenario_if,"/byYear",sep=""),
                                         pattern = paste(".*",param_i,".*",nameAppend,".*PRETTY", ".", pdfpng,sep=""), full.names=T,ignore.case = T, include.dirs = T);animFiles
@@ -5539,14 +5335,10 @@ map <- function(data = NULL,
                                             animName,sep = ""))
                 print(gsub("//","/",paste("animation saved in :",dirOutputsX,"/",param_if,"/", scenario_if,"/",
                             animName,sep = "")))
-                # fnameTempImage=paste(dirOutputsX,"/",param_if,"/", scenario_if,"/",
-                #                      animName,sep = "")
-                # tempImage<-magick::image_read(fnameTempImage)
-                # croppedImage<-magick::image_trim(tempImage,fuzz=0);
-                # magick::image_write(croppedImage,fnameTempImage)
+                }
 
 
-
+                if(any(grepl("all|kmean",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                 animName<-paste("anim_",subRegType_ix,"_",param_i,"_",scenario_i,nameAppend,"_KMEANS.gif",sep="")
                 animFiles <- list.files(path = paste(dirOutputsX,"/",param_if,"/", scenario_if,"/byYear",sep=""),
                                         pattern = paste(".*",param_i,".*",nameAppend,".*KMEANS", ".", pdfpng,sep=""), full.names=T,ignore.case = T, include.dirs = T);animFiles
@@ -5555,11 +5347,7 @@ map <- function(data = NULL,
                                             animName,sep = ""))
                 print(gsub("//","/",paste("animation saved in :",dirOutputsX,"/",param_if,"/", scenario_if,"/",
                             animName,sep = "")))
-                # fnameTempImage=paste(dirOutputsX,"/",param_if,"/", scenario_if,"/",
-                #                      animName,sep = "")
-                # tempImage<-magick::image_read(fnameTempImage)
-                # croppedImage<-magick::image_trim(tempImage,fuzz=0);
-                # magick::image_write(croppedImage,fnameTempImage)
+                }
 
                 if(!is.null(legendFixedBreaks)){
                 animName<-paste("anim_",subRegType_ix,"_",param_i,"_",scenario_i,nameAppend,"_FIXED.gif",sep="")
@@ -5572,7 +5360,7 @@ map <- function(data = NULL,
                                           animName,sep = "")))
                 }
 
-
+                if(any(grepl("all|free",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                 animName<-paste("anim_",subRegType_ix,"_",param_i,"_",scenario_i,nameAppend,"_FREESCALE.gif",sep="")
                 animFiles <- list.files(path = paste(dirOutputsX,"/",param_if,"/", scenario_if,"/byYear",sep=""),
                                         pattern = paste(".*",param_i,".*",nameAppend,".*FREESCALE", ".", pdfpng,sep=""), full.names=T,ignore.case = T, include.dirs = T);animFiles
@@ -5581,12 +5369,7 @@ map <- function(data = NULL,
                                             animName,sep = ""))
                 print(gsub("//","/",paste("animation saved in :",dirOutputsX,"/",param_if,"/", scenario_if,"/",
                             animName,sep = "")))
-                # fnameTempImage=paste(dirOutputsX,"/",param_if,"/", scenario_if,"/",
-                #                      animName,sep = "")
-                # tempImage<-magick::image_read(fnameTempImage)
-                # croppedImage<-magick::image_trim(tempImage,fuzz=0);
-                # magick::image_write(croppedImage,fnameTempImage)
-
+                }
 
                 #unlink(paste(dirOutputsX,"/",param_if,"/", scenario_if,"/byYear/animate_",param_i,sep = ""), recursive = TRUE) #-------------- cleaning up plots and temporary variables
               } # If Animate ON==t
@@ -5692,6 +5475,7 @@ map <- function(data = NULL,
                   mapx@data<-mapx@data%>%dplyr::left_join(datax)%>%
                     dplyr::select(names(datax))
 
+                  if(any(grepl("all|kmean",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                   rmap::mapplot(facetsOn=T,innerMargins=innerMargins, legendDigitsOverride=legendDigitsOverride,facetLabelSize=facetLabelSize,mapTitleOn=mapTitleOn, facetCols=facetCols,numeric2Cat_list=numeric2Cat_list, catParam=param_i, underLayer=underLayer,  dataPolygon=mapx,
                             fillColumn = names(mapx@data%>%dplyr::select(-subRegion)),
                             mapTitle=paste(param_i," ",scenario_i,sep="") , legendShow = T,
@@ -5712,33 +5496,7 @@ map <- function(data = NULL,
                             bgColor = bgColorChosen,figWidth=figWidth,figHeight=figHeight, pdfpng = pdfpng,
                             fileName = paste("map_",subRegType_ix,"_",param_i,"_",scenario_i,nameAppend,"_KMEANS",sep=""),
                             folder = sub("/$","",paste(dirOutputsX,"/",param_if,"/", scenario_if,sep = "")))
-
-                  # numeric2Cat_list=numeric2Cat_list
-                  # catParam=param_i
-                  # underLayer=underLayer
-                  # dataPolygon=mapx
-                  # fillColumn = names(mapx@data%>%dplyr::select(-subRegion))
-                  # mapTitle=paste(param_i," ",scenario_i,sep="") , legendShow = T
-                  # legendOutside = legendOutsideSingle
-                  # facetFreeScale = F
-                  # frameShow = frameShow
-                  # labels=labels
-                  # labelsSize = labelsSize
-                  # legendTitle =legendTitle
-                  # legendTitleSize = legendTitleSizeS
-                  # legendTextSize = legendTextSizeS
-                  # legendStyle="fixed"
-                  # legendBreaks = animKmeanBreaksPoly
-                  # legendBreaksn=legendBreaksn
-                  # legendDigits = animLegendDigits
-                  # legendOutsidePosition = legendOutsidePosition
-                  # legendPosition = NULL
-                  # fillPalette = fillPalette
-                  # bgColor = bgColorChosen
-                  # figWidth=figWidth
-                  # figHeight=figHeight
-                  # fileName = paste("map_",subRegType_ix,"_",param_i,"_",scenario_i,nameAppend,"_KMEANS",sep="")
-                  # folder = sub("/$","",paste(dirOutputsX,"/",param_if,"/", scenario_if,sep = ""))
+                }
 
                   if(!is.null(legendFixedBreaks)){
                   rmap::mapplot(facetsOn=T,innerMargins=innerMargins, legendDigitsOverride=legendDigitsOverride,facetLabelSize=facetLabelSize,mapTitleOn=mapTitleOn, facetCols=facetCols,numeric2Cat_list=numeric2Cat_list, catParam=param_i, underLayer=underLayer,  dataPolygon=mapx,
@@ -5763,6 +5521,7 @@ map <- function(data = NULL,
                                 folder = sub("/$","",paste(dirOutputsX,"/",param_if,"/", scenario_if,sep = "")))
                   }
 
+                  if(any(grepl("all|pretty",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                   rmap::mapplot(facetsOn=T,innerMargins=innerMargins, legendDigitsOverride=legendDigitsOverride,facetLabelSize=facetLabelSize,mapTitleOn=mapTitleOn, facetCols=facetCols,numeric2Cat_list=numeric2Cat_list, catParam=param_i, underLayer=underLayer,  dataPolygon=mapx,
                             fillColumn = names(mapx@data%>%dplyr::select(-subRegion)),
                             mapTitle=paste(param_i," ",scenario_i,sep="") , legendShow = T,
@@ -5783,6 +5542,7 @@ map <- function(data = NULL,
                             bgColor = bgColorChosen,figWidth=figWidth,figHeight=figHeight, pdfpng = pdfpng,
                             fileName = paste("map_",subRegType_ix,"_",param_i,"_",scenario_i,nameAppend,"_PRETTY",sep=""),
                             folder = sub("/$","",paste(dirOutputsX,"/",param_if,"/", scenario_if,sep = "")))
+                  }
 
 
                   if("subRegion" %in% names(mapx@data)){countCheck=2}else{countCheck=1}
@@ -5795,6 +5555,7 @@ map <- function(data = NULL,
                       legendTextSizeAnim = legendTextSizeI
                     }
 
+                  if(any(grepl("all|free",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                   rmap::mapplot(facetsOn=T,innerMargins=innerMargins, legendDigitsOverride=legendDigitsOverride,facetLabelSize=facetLabelSize,mapTitleOn=mapTitleOn, facetCols=facetCols,numeric2Cat_list=numeric2Cat_list, catParam=param_i, underLayer=underLayer,  dataPolygon=mapx,
                             fillColumn = names(mapx@data%>%dplyr::select(-subRegion)),
                             mapTitle=paste(param_i," ",scenario_i,sep="") , legendShow = T,
@@ -5814,6 +5575,7 @@ map <- function(data = NULL,
                             bgColor = bgColorChosen,figWidth=figWidth,figHeight=figHeight, pdfpng = pdfpng,
                             fileName = paste("map_",subRegType_ix,"_",param_i,"_",scenario_i,nameAppend,"_FREESCALE",sep=""),
                             folder = sub("/$","",paste(dirOutputsX,"/",param_if,"/", scenario_if,sep = "")))
+                  }
 
                   # Animate 2 : each param: If class == 1 { (Map x Anim Years}
 
@@ -5886,6 +5648,7 @@ map <- function(data = NULL,
                     mapx@data<-mapx@data%>%dplyr::left_join(datax)%>%
                       dplyr::select(names(datax))
 
+                    if(any(grepl("all|kmean",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                     rmap::mapplot(facetsOn=T,innerMargins=innerMargins, legendDigitsOverride=legendDigitsOverride,facetLabelSize=facetLabelSize,mapTitleOn=mapTitleOn, facetCols=facetCols,numeric2Cat_list=numeric2Cat_list, catParam=param_i, underLayer=underLayer, dataPolygon=mapx,
                               fillColumn = names(mapx@data%>%dplyr::select(-subRegion)),
                               mapTitle=paste(param_i," ",scenario_i,sep="") , legendShow = T,
@@ -5908,29 +5671,8 @@ map <- function(data = NULL,
                               bgColor = bgColorChosen,figWidth=figWidth,figHeight=figHeight, pdfpng = pdfpng,
                               fileName = paste("map_",subRegType_ix,"_",param_i,"_",scenario_i,nameAppend,"_MEAN_KMEANS",sep=""),
                               folder = sub("/$","",paste(dirOutputsX,"/",param_if,"/", scenario_if,sep = "")))
+                  }
 
-                    # numeric2Cat_list=numeric2Cat_list; catParam=param_i; underLayer=underLayer; dataPolygon=mapx;
-                    # fillColumn = names(mapx@data%>%dplyr::select(-subRegion))
-                    # mapTitle=paste(param_i," ",scenario_i,sep="");legendShow = T
-                    # legendOutside = legendOutsideSingle;
-                    # facetFreeScale = F;
-                    # frameShow = frameShow;
-                    # legendSingleColorOn=legendSingleColorOn;legendSingleValue=legendSingleValue;legendSingleColor=legendSingleColor;
-                    # labels=labels;fillcolorNA=fillcolorNA;fillshowNA=fillshowNA;fillcolorNULL=fillcolorNULL;
-                    # labelsSize = labelsSize;
-                    # panelLabel = paste((names(datax%>%dplyr::select(-subRegion))[!names(datax%>%dplyr::select(-subRegion)) %in% c("lat","lon")]),sep="")
-                    # legendTitle =paste(legendTitle,sep="")
-                    # legendTitleSize = legendTitleSizeS;legendTextSize = legendTextSizeS;
-                    # legendStyle="fixed";
-                    # legendBreaks = animKmeanBreaksPoly;
-                    # legendBreaksn=legendBreaksn;
-                    # legendDigits = animLegendDigits;
-                    # legendOutsidePosition = legendOutsidePosition;
-                    # legendPosition = legendPositionS;
-                    # fillPalette = fillPalette;
-                    # bgColor = bgColorChosen;figWidth=figWidth;figHeight=figHeight; pdfpng = pdfpng
-                    # fileName = paste("map_",subRegType_ix,"_",param_i,"_",scenario_i,nameAppend,"_MEAN_KMEANS",sep="")
-                    # folder = sub("/$","",paste(dirOutputsX,"/",param_if,"/", scenario_if,sep = ""))
 
                     if(!is.null(legendFixedBreaks)){
                     rmap::mapplot(facetsOn=T,innerMargins=innerMargins, legendDigitsOverride=legendDigitsOverride,facetLabelSize=facetLabelSize,mapTitleOn=mapTitleOn, facetCols=facetCols,numeric2Cat_list=numeric2Cat_list, catParam=param_i, underLayer=underLayer, dataPolygon=mapx,
@@ -5957,6 +5699,7 @@ map <- function(data = NULL,
                                   folder = sub("/$","",paste(dirOutputsX,"/",param_if,"/", scenario_if,sep = "")))
                   }
 
+                    if(any(grepl("all|pretty",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                     rmap::mapplot(facetsOn=T,innerMargins=innerMargins, legendDigitsOverride=legendDigitsOverride,facetLabelSize=facetLabelSize,mapTitleOn=mapTitleOn, facetCols=facetCols,numeric2Cat_list=numeric2Cat_list, catParam=param_i, underLayer=underLayer,  dataPolygon=mapx,
                               fillColumn = names(mapx@data%>%dplyr::select(-subRegion)),
                               mapTitle=paste(param_i," ",scenario_i,sep="") , legendShow = T,
@@ -5979,6 +5722,7 @@ map <- function(data = NULL,
                               bgColor = bgColorChosen,figWidth=figWidth,figHeight=figHeight, pdfpng = pdfpng,
                               fileName = paste("map_",subRegType_ix,"_",param_i,"_",scenario_i,nameAppend,"_MEAN_PRETTY",sep=""),
                               folder = sub("/$","",paste(dirOutputsX,"/",param_if,"/", scenario_if,sep = "")))
+                    }
 
                     if("subRegion" %in% names(mapx@data)){countCheck=2}else{countCheck=1}
                     if(length(names(mapx@data))==countCheck){
@@ -5990,6 +5734,7 @@ map <- function(data = NULL,
                         legendTextSizeAnim = legendTextSizeI
                       }
 
+                    if(any(grepl("all|free",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                     rmap::mapplot(facetsOn=T,innerMargins=innerMargins, legendDigitsOverride=legendDigitsOverride,facetLabelSize=facetLabelSize,mapTitleOn=mapTitleOn, facetCols=facetCols,numeric2Cat_list=numeric2Cat_list, catParam=param_i, underLayer=underLayer,  dataPolygon=mapx,
                               fillColumn = names(mapx@data%>%dplyr::select(-subRegion)),
                               mapTitle=paste(param_i," ",scenario_i,sep="") , legendShow = T,
@@ -6011,6 +5756,7 @@ map <- function(data = NULL,
                               bgColor = bgColorChosen,figWidth=figWidth,figHeight=figHeight, pdfpng = pdfpng,
                               fileName = paste("map_",subRegType_ix,"_",param_i,"_",scenario_i,nameAppend,"_MEAN_FREESCALE",sep=""),
                               folder = sub("/$","",paste(dirOutputsX,"/",param_if,"/", scenario_if,sep = "")))
+                  }
 
 
                     # Animate 2 : each param: If class == 1 { (Map x Anim Years}

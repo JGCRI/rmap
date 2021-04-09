@@ -41,8 +41,11 @@ List of Color Palettes
 }
 \examples{
 library(rmap)
-a<-colors()
-pie(rep(1,length(a$pal_Basic)),label=names(a$pal_Basic),col=a$pal_Basic)
+# To see all available palettes
+names(rmap::colors())
+# To use as vector
+a <- rmap::colors()$pal_Basic
+b <- rmap::colors()[["pal_Basic"]]
 }
 \keyword{colors,}
 \keyword{palette}

@@ -30,8 +30,11 @@
 #' @export
 #' @examples
 #' library(rmap)
-#' a<-colors()
-#' pie(rep(1,length(a$pal_Basic)),label=names(a$pal_Basic),col=a$pal_Basic)
+#' # To see all available palettes
+#' names(rmap::colors())
+#' # To use as vector
+#' a <- rmap::colors()$pal_Basic
+#' b <- rmap::colors()[["pal_Basic"]]
 
 
 colors <- function(palx=NULL) {
@@ -59,15 +62,15 @@ colors <- function(palx=NULL) {
   }
 
     # General purpose color scheme where sequentail colors do not clash too much
-    pal_16 <- rep(c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7",
-        "#333333", "#FFCC00", "#CC6600", "#006600", "#3333CC", "#CC0033", "#0099CC", "#999966"),100)
+    pal_16 <- c("#999999", "#E69F00", "#56B4E9", "#009E73", "#F0E442", "#0072B2", "#D55E00", "#CC79A7",
+        "#333333", "#FFCC00", "#CC6600", "#006600", "#3333CC", "#CC0033", "#0099CC", "#999966")
 
     # Spectral colors
-    pal_spectral <- rep(c("#9E0142", "#D53E4F", "#F46D43", "#FDAE61", "#FEE08B", "#FFFFBF", "#E6F598",
-                          "#ABDDA4", "#66C2A5", "#3288BD", "#5E4FA2"),100)
+    pal_spectral <- c("#9E0142", "#D53E4F", "#F46D43", "#FDAE61", "#FEE08B", "#FFFFBF", "#E6F598",
+                          "#ABDDA4", "#66C2A5", "#3288BD", "#5E4FA2")
 
     # Basic Colors
-    pal_Basic <- add.alpha(rep(c("firebrick3","dodgerblue3","forestgreen","black","darkgoldenrod3","darkorchid3","gray50", "darkturquoise"),100),alpha=0.8)
+    pal_Basic <- add.alpha(c("firebrick3","dodgerblue3","forestgreen","black","darkgoldenrod3","darkorchid3","gray50", "darkturquoise"),alpha=0.8)
 
     pal_hot <- c('#ffffcc','#ffeda0','#fed976','#feb24c','#fd8d3c','#fc4e2a','#e31a1c','#bd0026','#800026',"#4d0000")
     pal_wet <- c('#f7fbff','#deebf7','#c6dbef','#9ecae1','#6baed6','#4292c6','#2171b5','#08519c','#08306b','#00004d')
@@ -83,7 +86,11 @@ colors <- function(palx=NULL) {
 
     pal_seq <- c('lemonchiffon1','burlywood1','orange1','red1','purple4','black')
 
-    pal_rmap <- c(`a Coal` = "gray40",  `c coal` = "gray40", `3 coal` = "gray40", coal = "gray40", `coal (conv pul)` = "gray40",
+    pal_rmap <- c(
+                #---------------
+                # Energy
+                #--------------
+                 `a Coal` = "gray40",  `c coal` = "gray40", `3 coal` = "gray40", coal = "gray40", `coal (conv pul)` = "gray40",
                  Coal = "gray40",
                  `b Coal w/CCS` = "gray20", `c coal CCS` = "gray20", `Coal CCS` = "gray20",
                  `coal (IGCC CCS)` = "#c0237c",
@@ -241,6 +248,7 @@ colors <- function(palx=NULL) {
       if(palx=="pal_Basic" | palx=="pal_16"){a<-a[1:(length(a)/100)]}
       pie(rep(1,length(a)),label=names(a),col=a)
       print(a)
+
     }}
 
     rmapPalettes <-list(pal_rmap=pal_rmap,pal_16 = pal_16,pal_seq=pal_seq,pal_Basic = pal_Basic,

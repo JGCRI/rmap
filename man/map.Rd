@@ -20,6 +20,7 @@ map(
   subRegCol = "subRegion",
   subRegType = NULL,
   nameAppend = "",
+  legendType = "kmeans",
   legendOutsideSingle = T,
   legendOutsidePosition = NULL,
   legendPosition = NULL,
@@ -71,6 +72,7 @@ map(
   refMultiA = NULL,
   refMultiB = NULL,
   chosenRefMeanYears = NULL,
+  mapTitle = NULL,
   mapTitleSize = 0.5,
   facetBGColor = NA,
   facetLabelColor = "black",
@@ -124,6 +126,8 @@ map(
 \item{subRegType}{Default =NULL}
 
 \item{nameAppend}{Default =""}
+
+\item{legendType}{Default ="kmeans", Options include c("pretty","kmeans","freescale","all")}
 
 \item{legendOutsideSingle}{Default =F, Single plots by default have legends inside. This can be moved out if wanted.}
 
@@ -226,6 +230,8 @@ map(
 \item{refMultiB}{Default = NULL , eg. "rcp2p6"}
 
 \item{chosenRefMeanYears}{Default=NULL}
+
+\item{mapTitle}{Default=NULL}
 
 \item{mapTitleSize}{Default=0.5}
 

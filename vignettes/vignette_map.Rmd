@@ -11,7 +11,6 @@ vignette: >
 <!-------------------------->
 <!-------------------------->
 # Key Links
-<p align="center"> <img src="vignetteFigs/rmapHeaderThick.PNG"></p>
 <!-------------------------->
 <!-------------------------->
 
@@ -22,7 +21,6 @@ vignette: >
 <!-------------------------->
 <!-------------------------->
 # Folder Structure & Inputs
-<p align="center"> <img src="vignetteFigs/rmapHeaderThick.PNG"></p>
 <!-------------------------->
 <!-------------------------->
 
@@ -36,7 +34,7 @@ vignette: >
 <!-------------------------->
 <!-------------------------->
 # Maps Available
-<p align="center"> <img src="vignetteFigs/rmapHeaderThick.PNG"></p>
+
 <!-------------------------->
 <!-------------------------->
 
@@ -57,13 +55,13 @@ rmap::map(mapUS49, labels=T)
 <!-------------------------->
 <!-------------------------->
 # Plot Data on Maps
-<p align="center"> <img src="vignetteFigs/rmapHeaderThick.PNG"></p>
+
 <!-------------------------->
 <!-------------------------->
 
 ## Auto Map Find
 
-`map` will search through the list of [pre-loaded rmap maps](https://jgcri.github.io/rmap/articles/vignette_colorsMapsParams.html) to see if it can find the "subRegions" provided in the data and then plot the data on those maps. Some examples are provided below:
+`map` will search through the list of [maps](https://jgcri.github.io/rmap/reference/index.html) to see if it can find the "subRegions" provided in the data and then plot the data on those maps. Some examples are provided below:
 
 ### US 49
 
@@ -285,7 +283,7 @@ map(data,
 <!-------------------------->
 <!-------------------------->
 # Create Custom Map Shape
-<p align="center"> <img src="vignetteFigs/rmapHeaderThick.PNG"></p>
+
 <!-------------------------->
 <!-------------------------->
 
@@ -357,7 +355,7 @@ map(data,
 <!-------------------------->
 <!-------------------------->
 # Crop to Boundary
-<p align="center"> <img src="vignetteFigs/rmapHeaderThick.PNG"></p>
+
 <!-------------------------->
 <!-------------------------->
 
@@ -378,7 +376,7 @@ map(data = data, mapTitleOn = F, folder = "vignetteMaps", cropToBoundary=T,
 <!-------------------------->
 <!-------------------------->
 # Plot Background
-<p align="center"> <img src="vignetteFigs/rmapHeaderThick.PNG"></p>
+
 <!-------------------------->
 <!-------------------------->
 
@@ -403,7 +401,7 @@ map(data = data, mapTitleOn = F, folder = "vignetteMaps",
 <!-------------------------->
 <!-------------------------->
 # Multi-Year & Animations
-<p align="center"> <img src="vignetteFigs/rmapHeaderThick.PNG"></p>
+
 <!-------------------------->
 <!-------------------------->
 
@@ -437,7 +435,7 @@ map(data = data, folder ="multiYear",
 <!-------------------------->
 <!-------------------------->
 # Multi-Class
-<p align="center"> <img src="vignetteFigs/rmapHeaderThick.PNG"></p>
+
 <!-------------------------->
 <!-------------------------->
 
@@ -468,7 +466,7 @@ map(data = data, folder ="multiClass",
 <!-------------------------->
 <!-------------------------->
 # Multi-Scenario Diff plots
-<p align="center"> <img src="vignetteFigs/rmapHeaderThick.PNG"></p>
+
 <!-------------------------->
 <!-------------------------->
 
@@ -503,7 +501,7 @@ map(data = data, folder ="multiScenario",
 <!-------------------------->
 <!-------------------------->
 # Multi-Year Diff plots
-<p align="center"> <img src="vignetteFigs/rmapHeaderThick.PNG"></p>
+
 <!-------------------------->
 <!-------------------------->
 
@@ -532,7 +530,7 @@ map(data = data, folder = "multiYear",
 <!-------------------------->
 <!-------------------------->
 # Scale Range
-<p align="center"> <img src="vignetteFigs/rmapHeaderThick.PNG"></p>
+
 <!-------------------------->
 <!-------------------------->
 
@@ -558,7 +556,7 @@ map(data = data, folder = "scaleRange",
 <!-------------------------->
 <!-------------------------->
 # Color Palettes
-<p align="center"> <img src="vignetteFigs/rmapHeaderThick.PNG"></p>
+
 <!-------------------------->
 <!-------------------------->
 
@@ -586,12 +584,11 @@ map(data = data, folder ="colorPalettes",
 <!-------------------------->
 <!-------------------------->
 # Legend Customization
-<p align="center"> <img src="vignetteFigs/rmapHeaderThick.PNG"></p>
+
 <!-------------------------->
 <!-------------------------->
 
 There are several options to customize your legend as shown below:
-
 
 <!-------------------------->
 ## Legend Position
@@ -702,13 +699,13 @@ map(data = data, folder ="legendCustomization",
 
 
 <!-------------------------->
-## Legend Fixed Breaks
+## Legend Type
 <!-------------------------->
 
-
+* There are four types of legend options (`legendType`): "kmeans", "pretty", "freescale" and "fixed".
+* The default is "kmeans". Users can set `legendType = "all"` or any combination of `legendType = c("kmeans","pretty","freescale")`
 * Fixed legend breaks can be set using ```legendFixedBreaks```.
 * If ```legendFixedBreaks``` does not capture the full range of data, the maximum and minimum values will be appended to the data.
-
 
 
 ```{r, eval=F}
@@ -717,10 +714,20 @@ data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece"),
                   year = rep(2010,5),
                   value = c(32, 38, 54, 63, 24))
 
-map(data = data, folder ="legendFixedBreaks",
+map(data = data, folder ="legendType",
                   cropToBoundary = T, background = T,
                   legendFixedBreaks=c(20,40,50),
                   nameAppend="_legendFixedBreaks")
+
+map(data = data, folder ="legendType",
+                  cropToBoundary = T, background = T,
+                  legendType=c("kmeans"),
+                  nameAppend="_legendTypeKmeans")
+
+map(data = data, folder ="legendType",
+                  cropToBoundary = T, background = T,
+                  legendType=c("kmeans","pretty"),
+                  nameAppend="_legendTypeKmeansPretty")
 
 ```
 
@@ -734,7 +741,7 @@ map(data = data, folder ="legendFixedBreaks",
 <!-------------------------->
 <!-------------------------->
 # Numeric2Cat
-<p align="center"> <img src="vignetteFigs/rmapHeaderThick.PNG"></p>
+
 <!-------------------------->
 <!-------------------------->
 
@@ -782,7 +789,7 @@ rmap::map(data = data,
 <!-------------------------->
 <!-------------------------->
 # GCAM Results
-<p align="center"> <img src="vignetteFigs/rmapHeaderThick.PNG"></p>
+
 <!-------------------------->
 <!-------------------------->
 
