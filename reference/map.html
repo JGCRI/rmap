@@ -107,7 +107,7 @@ Each figure is accompanied with a csv table." />
   </a>
 </li>
 <li>
-  <a href="https://github.com/JGCRI/rmap/blob/main/rmapCheatsheet.pdf">cheatsheet</a>
+  <a href="https://jgcri.github.io/rmap/vignettes/vignetteFigs/rmapCheatsheet.pdf">cheatsheet</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -156,6 +156,7 @@ Each figure is accompanied with a csv table.</p>
   subRegCol <span class='op'>=</span> <span class='st'>"subRegion"</span>,
   subRegType <span class='op'>=</span> <span class='cn'>NULL</span>,
   nameAppend <span class='op'>=</span> <span class='st'>""</span>,
+  legendType <span class='op'>=</span> <span class='st'>"kmeans"</span>,
   legendOutsideSingle <span class='op'>=</span> <span class='cn'>T</span>,
   legendOutsidePosition <span class='op'>=</span> <span class='cn'>NULL</span>,
   legendPosition <span class='op'>=</span> <span class='cn'>NULL</span>,
@@ -207,6 +208,7 @@ Each figure is accompanied with a csv table.</p>
   refMultiA <span class='op'>=</span> <span class='cn'>NULL</span>,
   refMultiB <span class='op'>=</span> <span class='cn'>NULL</span>,
   chosenRefMeanYears <span class='op'>=</span> <span class='cn'>NULL</span>,
+  mapTitle <span class='op'>=</span> <span class='cn'>NULL</span>,
   mapTitleSize <span class='op'>=</span> <span class='fl'>0.5</span>,
   facetBGColor <span class='op'>=</span> <span class='cn'>NA</span>,
   facetLabelColor <span class='op'>=</span> <span class='st'>"black"</span>,
@@ -292,6 +294,10 @@ Each figure is accompanied with a csv table.</p>
     <tr>
       <th>nameAppend</th>
       <td><p>Default =""</p></td>
+    </tr>
+    <tr>
+      <th>legendType</th>
+      <td><p>Default ="kmeans", Options include c("pretty","kmeans","freescale","all")</p></td>
     </tr>
     <tr>
       <th>legendOutsideSingle</th>
@@ -495,6 +501,10 @@ Each figure is accompanied with a csv table.</p>
     </tr>
     <tr>
       <th>chosenRefMeanYears</th>
+      <td><p>Default=NULL</p></td>
+    </tr>
+    <tr>
+      <th>mapTitle</th>
       <td><p>Default=NULL</p></td>
     </tr>
     <tr>
