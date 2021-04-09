@@ -16,7 +16,7 @@ vignette: >
 
 - Github: https://github.com/JGCRI/rmap
 - Webpage: https://jgcri.github.io/rmap/
-- Cheatsheet: https://github.com/JGCRI/rmap/blob/master/rmapCheatsheet.pdf
+- Cheatsheet: https://jgcri.github.io/rmap/rmapCheatsheet.pdf
 
 <!-------------------------->
 <!-------------------------->
