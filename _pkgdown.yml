@@ -15,7 +15,7 @@ navbar:
       text: "News"
       href: news/index.html
     - text: cheatsheet
-      href: https://jgcri.github.io/rmap/vignettes/vignetteFigs/rmapCheatsheet.pdf
+      href: https://jgcri.github.io/rmap/rmapCheatsheet.pdf
       
 toc:
   depth: 2

@@ -28,7 +28,7 @@
 
 - Github: https://github.com/JGCRI/rmap
 - Webpage: https://jgcri.github.io/rmap/
-- Cheatsheet: https://jgcri.github.io/rmap/vignettes/vignetteFigs/rmapCheatsheet.pdf
+- Cheatsheet: https://jgcri.github.io/rmap/rmapCheatsheet.pdf
 
 <!-- ------------------------>
 <!-- ------------------------>
