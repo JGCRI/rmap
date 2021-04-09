@@ -71,6 +71,7 @@
 #' @keywords charts, diffplots
 #' @return Returns the formatted data used to produce chart
 #' @importFrom rlang :=
+#' @importFrom jgcricolors jgcricol
 #' @export
 
 mapplot<-function(dataPolygon=NULL,
