@@ -214,6 +214,7 @@ mapplot<-function(dataPolygon=NULL,
 # -----------------
 
 NULL->raster->shape->map->checkFacets->catBreaks->catLabels->catPalette->legendSinglecolorOn->legendLabelsX->singleValLoc
+if(is.null(bgColor)){bgColor="white"}
 
 legendTitle=gsub(" ","\n",legendTitle)
 suppressMessages(tmap::tmap_mode(mode = c("plot")))
@@ -377,7 +378,7 @@ utils::assignInNamespace(x="process_facet_layout", value=process_facet_layout, n
 # Create Directories
 # -----------------
 
-if(printFig!=F){
+if(printFig){
 
   if(is.null(folder)){
     folder <- paste(getwd(),"/output",sep="")
@@ -431,8 +432,8 @@ if(length(fillPalette)==1){
     fillPalette<-jgcricolors::jgcricol()[[fillPalette]]}else{
       if(!is.na(RColorBrewer::brewer.pal.info[fillPalette,]$maxcolors)){
         fillPalette <- RColorBrewer::brewer.pal(RColorBrewer::brewer.pal.info[fillPalette,]$maxcolors,fillPalette)}else{
-          print(paste0("Palette chosen: ",fillPalette," does not exist. Using default palette Spectral."))
-          fillPalette <- RColorBrewer::brewer.pal(RColorBrewer::brewer.pal.info["Spectral",]$maxcolors,"Spectral")
+          # print(paste0("Palette chosen: ",fillPalette," does not exist. Using default palette Spectral."))
+          # fillPalette <- RColorBrewer::brewer.pal(RColorBrewer::brewer.pal.info["Spectral",]$maxcolors,"Spectral")
         }
     }};
 

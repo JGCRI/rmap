@@ -210,6 +210,23 @@ map(data,
 <p align="center" style="font-size:18px;"> *World States* </p>
 <p align="center"> <img src="vignetteFigs/mapsProcess_worldStates.PNG"></p>
 
+### Gridded Data
+
+```{r, eval=F}
+library(rmap); library(dplyr); library(tidyr)
+
+# Load example data set from NASA SEDAC world population and reshape
+# https://sedac.ciesin.columbia.edu/data/collection/gpw-v4
+grid = rmap::grid_pop_GPWv4To2015 %>% 
+  tidyr::gather(key="x", value="value",-lat,-lon) %>%
+  dplyr::mutate(units="million",
+                value=value/1000000)
+  
+# Need to assign the gird data to the "grid" argument
+map(grid=grid,folder = "vignetteMaps_Grid", mapTitleOn = F, background=T)
+```
+
+
 
 ## Select Map
 

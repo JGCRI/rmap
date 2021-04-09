@@ -190,6 +190,7 @@ map <- function(data = NULL,
                 classPalette = NULL,
                 classPaletteDiff = "pal_div_BluRd") {
 
+  # mapTitle=NULL
   # data=NULL
   # fillColumn=NULL
   # grid=NULL
@@ -275,6 +276,7 @@ map <- function(data = NULL,
   # classPaletteDiff = "pal_div_BrGn"
   # cropToBoundary=F
   # subRegType = NULL
+  # legendType = "kmeans"
 
   #print("Starting map...")
 
@@ -289,7 +291,7 @@ map <- function(data = NULL,
     shapeTblDiff -> gridTblDiff -> shapeTblDiffx -> gridTblDiffx -> shapeTblMultiOrig->countCheck->
       multiFacetCol -> multiFacetRow->classPaletteOrig->
       xLabel->vintage->aggregate->query->subRegNotInShape ->gridTblOrig -> shapeTblOrig -> subRegionAlt -> subRegion1 ->
-      paramsGrid -> paramsShape -> scaleRange_i -> boundaryRegShapeLimits
+      paramsGrid -> paramsShape -> scaleRange_i -> boundaryRegShapeLimits->shapex->bgColorChosen
 
   expandPercent_i=expandPercent
 
@@ -347,8 +349,9 @@ map <- function(data = NULL,
   # Run mapplot directly if a shpefile is provided
   # -----------------
 
-  if(all(!class(data) %in% c("tbl_df","tbl","data.frame"))){
-    if(class(data)!="character"){
+  if(all(!class(data) %in% c("tbl_df","tbl","data.frame")) &
+     all(!class(grid) %in% c("tbl_df","tbl","data.frame"))){
+    if((class(data)!="character")){
 
        if (is.null(classPalette)) {
         classPalettex = "Spectral"
@@ -1149,20 +1152,17 @@ map <- function(data = NULL,
     }
   }
 
-
   # -------------------
   # Create Raster Plots
   # -------------------
 
-  if(T){
-
+  if(T){ # Raster Plots
   if(!is.null(gridTbl)){
     if(nrow(gridTbl)>0){
 
       gridTblOrig <- gridTbl
 
       if(!length(unique(gridTblOrig$x))>1){animateOn=F}
-
 
       for (scenario_i in unique(gridTblOrig$scenario)){
         for (param_i in unique(gridTblOrig$param)){
@@ -1196,198 +1196,27 @@ map <- function(data = NULL,
                       dir.create(paste(dirOutputsX, "/raster/",param_if,"/",scenario_if,"/byYear",sep = ""))}
           } # Create grid table folder if needed
 
-
           #------------------
           # Read in shapex files
           #------------------
 
-            if(!is.null(shapeTbl) & nrow(shapeTbl)>0){
-
-              shape <- NULL
-
-              if(all(is.null(subRegShapeOrig) & is.null(subRegShpFileOrig))){
-
-                runSection = T
-                if(is.null(shape)){
-                  print(paste("For the selected param: ", param_i," and scenario: ", scenario_i,sep=""))
-                  print("None of the pre-loaded shapefiles contain all the subRgions specified in a single shapefile.")
-                  print(paste("subRegions missing from shapefile: ",
-                              paste(unique((shapeTbl%>%dplyr::filter(param==param_i,scenario==scenario_i))$subRegion)[
-                                !unique((shapeTbl%>%dplyr::filter(param==param_i,scenario==scenario_i))$subRegion) %in%
-                                  unique(shape@data$subRegion)
-                              ],collapse=", "),sep=""))
-                  print(paste("Skipping map for param: ", param_i," and scenario: ", scenario_i,sep=""))
-                  print("Please load a shape directly for your region of interest.")
-                  runSection = F
-                }
-
-              } else {
-                if(nrow(shapeTbl%>%dplyr::filter(param==param_i,scenario==scenario_i))>0){
-                  subRegType_ix <- unique((shapeTbl%>%dplyr::filter(param==param_i,scenario==scenario_i))$subRegType)
-                }else{subRegType_ix="subRegion"}
-                shape <- subRegShapeOrig
-              }
-
-              if(runSection){
-
-                if(is.null(boundaryRegShapeOrig)){
-                  if(!is.null(boundaryRegShpFolderOrig) & !is.null(boundaryRegShpFileOrig)){
-                    if(!dir.exists(boundaryRegShpFolderOrig)){
-                      stop("Shapefile folder: ", boundaryRegShpFolderOrig ," is incorrect or doesn't exist.",sep="")}
-                    if(!file.exists(paste(boundaryRegShpFolderOrig,"/",boundaryRegShpFileOrig,".shp",sep=""))){
-                      stop("Shape file: ", paste(boundaryRegShpFolderOrig,"/",boundaryRegShpFileOrig,".shp",sep="")," is incorrect or doesn't exist.",sep="")}
-                    boundaryRegShape=rgdal::readOGR(dsn=boundaryRegShpFolderOrig,layer=boundaryRegShpFileOrig,use_iconv=T,encoding='UTF-8')
-                    print(paste("Sub Reg Shape : ",boundaryRegShpFolderOrig,"/",boundaryRegShpFileOrig,".shp",sep=""))
-                    print(raster::head(boundaryRegShape))
-                  } else {
-                    # If only boundary regionsSelect have been chosen then try and find a shapefile with those regions
-                    if(!is.null(boundaryRegionsSelect)){
-                      mapFound <- mapFind(data.frame(subRegion=boundaryRegionsSelect))
-                      boundaryRegShape <- mapFound$subRegShapeFound
-                      boundaryRegionsSelect <- unique(mapFound$dataTblFound$subRegion)
-                    }else{
-                      mapFound <- mapFind(data.frame(subRegion=unique(shapeTbl$subRegion)))
-                      boundaryRegShape <- mapFound$subRegShapeFound
-                    }
-                  }
-                }
-
-
-            if(is.null(shape)){
-              if(!is.null(subRegShpFolderOrig) & !is.null(subRegShpFileOrig)){
-                if(!dir.exists(subRegShpFolderOrig)){
-                  stop("Shapefile folder: ", subRegShpFolderOrig ," is incorrect or doesn't exist.",sep="")}
-                if(!file.exists(paste(subRegShpFolderOrig,"/",subRegShpFileOrig,".shp",sep=""))){
-                  stop("Shape file: ", paste(subRegShpFolderOrig,"/",subRegShpFileOrig,".shp",sep="")," is incorrect or doesn't exist.",sep="")}
-                shape=rgdal::readOGR(dsn=subRegShpFolderOrig,layer=subRegShpFileOrig,use_iconv=T,encoding='UTF-8')
-                print(paste("Sub Reg Shape : ",subRegShpFolderOrig,"/",subRegShpFileOrig,".shp",sep=""))
-                print(raster::head(shape))
-              } # if(!is.null(subRegShpFolder) & !is.null(subRegShpFile)){
-            }
-
-
-            if(is.null(shape)){
-              stop("No valid subregional shapex file available")}
-
-            if(!subRegCol %in% names(shape)){stop(paste("subRegCol: ",subRegColOrig," not present in shape",sep=""))}
-
-            if(!is.null(shape)){
-              shape@data[[subRegCol]] <- as.character(shape@data[[subRegCol]])
-              if(!all(unique((shapeTbl%>%dplyr::filter(param==param_i,scenario==scenario_i))$subRegion) %in% unique(shape@data[[subRegCol]]))){
-                print(paste("Removing subRegions not present in shapefile from datatable: ",
-                            paste(unique((shapeTbl%>%dplyr::filter(param==param_i,scenario==scenario_i))$subRegion)[!unique((shapeTbl%>%dplyr::filter(param==param_i,scenario==scenario_i))$subRegion) %in% unique(shape@data[[subRegCol]])],collapse=", "),sep=""))
-                shapeTbl <- shapeTbl%>%dplyr::filter(param==param_i,scenario==scenario_i)%>% dplyr::filter(subRegion %in% unique(shape@data[[subRegCol]]))
-                print(paste("Remaining subRegions in dataTable are: ",paste(unique(shapeTbl$subRegion),collapse=", "),sep=""))}
-            }
-
-            if(!any(unique((shapeTbl%>%dplyr::filter(param==param_i,scenario==scenario_i))$subRegion) %in% unique(shape@data[[subRegCol]]))){
-              print(paste("None of the subRegions in data provided for param: ", param_i,"and scenario: ",scenario_i,
-                          " match subRegions in the shapefile provided or available.",sep=""))
-            }
-
-            shape@data<-shape@data%>%dplyr::mutate(subRegion=get(subRegCol))
-
-            #----------------
-            # Create Boundary and subRegional shapefiles
-            #---------------
-            if(!is.null(boundaryRegShape) & !is.null(shape)){
-              if(!is.null(boundaryRegionsSelect)){
-                if(any(boundaryRegionsSelect %in% unique(boundaryRegShape@data[[boundaryRegCol]]))){
-                  boundaryRegShapeLimits <- boundaryRegShape[boundaryRegShape@data[[boundaryRegCol]] %in% boundaryRegionsSelect,]
-                  boundaryRegShapeLimits@data <- droplevels(boundaryRegShapeLimits@data)
-                  bbox1<-as.data.frame(sp::bbox(boundaryRegShapeLimits))
-                  bbox1$min;bbox1$max
-                  rangeX<-abs(range(bbox1$min[1],bbox1$max[1])[2]-range(bbox1$min[1],bbox1$max[1])[1])
-                  rangeY<-abs(range(bbox1$min[2],bbox1$max[2])[2]-range(bbox1$min[2],bbox1$max[2])[1])
-                  bbox1$min[1]<-min(180,max(-180,(-rangeX*expandPercent/100)+bbox1$min[1]));
-                  bbox1$min[2]<-min(90,max(-90,(-rangeY*expandPercent/100)+bbox1$min[2]));
-                  bbox1$max[1]<-max(-180,min(180,(rangeX*expandPercent/100)+bbox1$max[1]));
-                  bbox1$max[2]<-max(-90,min(90,(rangeY*expandPercent/100)+bbox1$max[2]));
-                  bbox1$min;bbox1$max;
-                  bbox1<-methods::as(raster::extent(as.vector(t(bbox1))), "SpatialPolygons")
-                  sp::proj4string(bbox1)<-sp::CRS(projX) # ASSIGN COORDINATE SYSTEM
-                  boundaryRegShape <- sp::spTransform(boundaryRegShape,sp::CRS(projX))
-                  boundaryRegShape<-raster::crop(boundaryRegShape, bbox1)
-                  boundaryRegShape@bbox <- bbox1@bbox
-                  boundaryRegShape@data <- droplevels(boundaryRegShape@data)
-                  print("Map cropped to regions with data. To plot full map extent set crop2Boundary = F.")
-                  shape <- sp::spTransform(shape,raster::crs(boundaryRegShape))
-                  shape <- raster::crop(shape,boundaryRegShape)
-                  print("Scale will still include all data from original shape extents")
-                  expandPercent_i = 0 # Preventing extension for doubling expansion
-                } else {
-                  print(paste("boundaryRegionsSelect chosen are not available in the boundaryRegShapeFile.",paste(boundaryRegionsSelect,collapse=", "),sep=""))}
-              }else{
-                boundaryRegShape <- sp::spTransform(boundaryRegShape,raster::crs(shape))
-                shape <- raster::crop(shape,boundaryRegShape)
-                shape@data <- droplevels(shape@data)
-              }
-            }
-
-            shapex<-shape
-
-            if(!subRegCol %in% names(shapex)){stop(paste("subRegCol: ",subRegColOrig," not present in shapex",sep=""))}
-
-            shapex@data<-shapex@data%>%dplyr::mutate(subRegion=get(subRegCol), subRegion=as.character(subRegion))
-
-
             #----------------
             # Create Boundary Extension
             #---------------
-
-            bgColorChosen="white"
-
-
             if(background==T){
 
               frameShow=T;facetLabelBorderLwd=0.1;facetBGColor="grey30";facetLabelColor = "white"
 
-              if(is.null(extendedShape)){
+              # gridShape <- rmap::mapCountries
+              #
+              # underLayer<-rmap::mapplot(facetsOn=F,innerMargins=innerMargins, legendDigitsOverride=legendDigitsOverride,facetLabelSize=facetLabelSize,mapTitleOn=mapTitleOn, facetCols=facetCols,fillcolorNA=fillcolorNA,fillshowNA=fillshowNA,fillcolorNULL=fillcolorNULL, dataPolygon=gridShape, printFig=F,labelsAutoPlace = F,
+              #                       fillColumn = extendedShapeCol,labels=extendedLabels, fillPalette = extendedFillColor,legendShow=F,
+              #                       bgColor = extendedBGColor, frameShow=T,facetLabelBorderLwd=facetLabelBorderLwd,labelsSize=extdendedLabelSize, labelsColor=extendedLabelsColor,
+              #                       figWidth=figWidth,figHeight=figHeight, pdfpng = pdfpng)
 
-                extendedBoundary <- rmap::mapCountries
-                bbox1<-as.data.frame(sp::bbox(shapex))
-                extendedShapeCol<-subRegCol
+              bgColorChosen= extendedBGColor
 
-                if(!is.null(bbox1)){
-                  bbox1$min;bbox1$max
-                  rangeX<-abs(range(bbox1$min[1],bbox1$max[1])[2]-range(bbox1$min[1],bbox1$max[1])[1])
-                  rangeY<-abs(range(bbox1$min[2],bbox1$max[2])[2]-range(bbox1$min[2],bbox1$max[2])[1])
-                  bbox1$min[1]<-min(180,max(-180,(-rangeX*expandPercent_i/100)+bbox1$min[1]));
-                  bbox1$min[2]<-min(90,max(-90,(-rangeY*expandPercent_i/100)+bbox1$min[2]));
-                  bbox1$max[1]<-max(-180,min(180,(rangeX*expandPercent_i/100)+bbox1$max[1]));
-                  bbox1$max[2]<-max(-90,min(90,(rangeY*expandPercent_i/100)+bbox1$max[2]));
-                  bbox1$min;bbox1$max;
-                  bbox1<-methods::as(raster::extent(as.vector(t(bbox1))), "SpatialPolygons")
-                  sp::proj4string(bbox1)<-sp::CRS(projX) # ASSIGN COORDINATE SYSTEM
-                  boundaryRegShape <- sp::spTransform(boundaryRegShape,sp::CRS(projX))
-                  print("Creating extended boundary...")
-                  extendedShape<-raster::crop(extendedBoundary, bbox1)
-                  extendedShape@bbox <- bbox1@bbox
-                  if(!is.null(boundaryRegShape)){extendedShape<-raster::crop(extendedShape, boundaryRegShape)}
-                  extendedBGColor="lightblue1"
-                }else{print("No extended boundary.")}
-              }
-
-              if(!is.null(extendedShape)){
-                if(extendedShapeCol %in% names(extendedShape)){
-                  underLayer<-rmap::mapplot(facetsOn=F,innerMargins=innerMargins, legendDigitsOverride=legendDigitsOverride,facetLabelSize=facetLabelSize,mapTitleOn=mapTitleOn, facetCols=facetCols,fillcolorNA=fillcolorNA,fillshowNA=fillshowNA,fillcolorNULL=fillcolorNULL, dataPolygon=extendedShape, printFig=F,labelsAutoPlace = F,
-                                        fillColumn = extendedShapeCol,labels=extendedLabels, fillPalette = extendedFillColor,legendShow=F,
-                                        bgColor = extendedBGColor, frameShow=T,facetLabelBorderLwd=facetLabelBorderLwd,labelsSize=extdendedLabelSize, labelsColor=extendedLabelsColor,
-                                        figWidth=figWidth,figHeight=figHeight, pdfpng = pdfpng)
-                  bgColorChosen= extendedBGColor
-                }
-              }
             }
-          } # Close shapefiles
-
-
-          # Crop gridTbl data to shapex
-          if(!is.null(gridTbl) & !is.null(shapex)){
-            if(nrow(gridTbl)>0){
-
-             #NEED TO UPDATE THIS FROM METIS gridTbl <- metis.gridByPoly(grid = gridTbl,shapex=shapex,colName=subRegCol)
-             stop("Need to bring in metis.gridByPoly to rmap to use this.")
-            }}
 
 
           if(nrow(gridTbl%>%dplyr::filter(scenario==scenario_i,param==param_i))>0){
@@ -1396,6 +1225,7 @@ map <- function(data = NULL,
             # Save Map related Data Table
             #-------------------
 
+            if(printFig){
             if(nrow(gridTbl %>% dplyr::filter(scenario==scenario_i,param==param_i))>0){
               data.table::fwrite(gridTbl %>% dplyr::filter(scenario==scenario_i,param==param_i)%>%
                                    dplyr::select(scenario,lat,lon,param,class,x,value,units),
@@ -1404,10 +1234,10 @@ map <- function(data = NULL,
               print(paste("Map data table written to ",dirOutputsX,"/raster/",param_if,"/", scenario_if,
                           "/","map_","raster_",param_i,"_",scenario_i,nameAppend,".csv",sep = ""))
             }
+              }
 
-
-
-
+            # Set Legends
+            if(T){
             animScaleGrid<-(gridTbl %>% dplyr::filter(scenario==scenario_i,param==param_i) %>%
                               dplyr::filter(!is.na(value),!is.infinite(value),!is.nan(value)))$value
 
@@ -1470,6 +1300,8 @@ map <- function(data = NULL,
                 if(mean(animScaleGridRange,na.rm = T)<1 & mean(animScaleGridRange,na.rm = T)>(-1)){animLegendDigits<-3}else{
                   if(mean(animScaleGridRange,na.rm = T)<10 & mean(animScaleGridRange,na.rm = T)>(-10)){animLegendDigits<-2}else{animLegendDigits<-1}}}}
 
+            }
+
             # Figure 1 : each param: If class > 1 { (Map x Class) x Selected Years}
 
             gridTblx<-gridTbl%>%dplyr::filter(scenario==scenario_i,param==param_i)
@@ -1487,15 +1319,12 @@ map <- function(data = NULL,
                   tidyr::spread(key=class,value=value)
 
                 rasterx<-sp::SpatialPointsDataFrame(sp::SpatialPoints(coords=(cbind(datax$lon,datax$lat))),data=datax)
-                sp::proj4string(rasterx)<-sp::proj4string(shapex)
+                if(!is.null(shapex)){if(!is.null(shapex)){sp::proj4string(rasterx)<-sp::proj4string(shapex)}}
                 sp::gridded(rasterx)<-T
 
                 mapx<-rasterx
                 mapx@data<-mapx@data%>%dplyr::select(-lat,-lon)
 
-
-                if("subRegion" %in% names(mapx@data)){countCheck=2}else{countCheck=1}
-                if(length(names(mapx@data))==countCheck){
                   legendOutsideAnimated=legendOutsideSingle
                   legendTitleAnimated=legendTitle
                   panelLabelAnimated=paste(x_i)
@@ -1503,16 +1332,7 @@ map <- function(data = NULL,
                   legendTitleSizeAnim = legendTitleSizeS
                   legendTextSizeAnim = legendTextSizeS
                   legendBreaksAnim = animKmeanBreaksGrid
-                  legendStyleAnim="fixed"}else{
-                    legendStyleAnim="fixed"
-                    legendBreaksAnim = animKmeanBreaksGrid
-                    legendOutsideAnimated=legendOutsideSingle
-                    legendTitleAnimated=paste(x_i,"\n",legendTitle,sep="")
-                    panelLabelAnimated=NULL
-                    legendAnimatedPosition=legendPositionS
-                    legendTitleSizeAnim = legendTitleSizeS
-                    legendTextSizeAnim = legendTextSizeS
-                  }
+                  legendStyleAnim="fixed"
 
                 if(any(grepl("all|kmean",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                 rmap::mapplot(facetsOn=T,innerMargins=innerMargins, legendDigitsOverride=legendDigitsOverride,facetLabelSize=facetLabelSize,mapTitleOn=mapTitleOn, facetCols=facetCols,numeric2Cat_list=numeric2Cat_list, catParam=param_i, underLayer=underLayer,
@@ -1542,6 +1362,52 @@ map <- function(data = NULL,
                           pdfpng = pdfpng,
                           fileName = paste("map_","raster_",param_i,"_",x_i,"_",scenario_i,nameAppend,"_KMEANS",sep=""),
                           folder = paste(dirOutputsX,"/raster/",param_if,"/", scenario_if,"/byYear",sep = ""))
+
+                  # facetsOn=T
+                  # innerMargins=innerMargins
+                  # legendDigitsOverride=legendDigitsOverride
+                  # facetLabelSize=facetLabelSize
+                  # mapTitleOn=mapTitleOn
+                  # facetCols=facetCols
+                  # numeric2Cat_list=numeric2Cat_list
+                  # catParam=param_i
+                  # underLayer=underLayer
+                  # panelLabel=panelLabelAnimated
+                  # dataPolygon=shapex
+                  # dataGrid=mapx
+                  # fillColumn = names(mapx@data)
+                  # mapTitle=paste(param_i," ",scenario_i,sep="")
+                  # legendShow = T
+                  # legendOutside = legendOutsideAnimated
+                  # facetFreeScale = F
+                  # frameShow = frameShow
+                  # facetLabelBorderLwd=facetLabelBorderLwd
+                  # facetBGColor=facetBGColor
+                  # facetLabelColor=facetLabelColor
+                  # legendSingleColorOn=legendSingleColorOn
+                  # legendSingleValue=legendSingleValue
+                  # legendSingleColor=legendSingleColor
+                  # labels=labels
+                  # fillcolorNA=fillcolorNA
+                  # fillshowNA=fillshowNA
+                  # fillcolorNULL=fillcolorNULL
+                  # labelsSize = labelsSize
+                  # legendTitle =legendTitleAnimated
+                  # legendTitleSize = legendTitleSizeAnim
+                  # legendTextSize = legendTextSizeAnim
+                  # legendStyle=legendStyleAnim
+                  # legendBreaks = legendBreaksAnim
+                  # legendBreaksn=legendBreaksn
+                  # legendDigits = animLegendDigits
+                  # legendOutsidePosition = legendOutsidePosition
+                  # legendPosition = legendAnimatedPosition
+                  # fillPalette = fillPalette
+                  # bgColor = bgColorChosen
+                  # figWidth=figWidth
+                  # figHeight=figHeight
+                  # pdfpng = pdfpng
+                  # fileName = paste("map_","raster_",param_i,"_",x_i,"_",scenario_i,nameAppend,"_KMEANS",sep="")
+                  # folder = paste(dirOutputsX,"/raster/",param_if,"/", scenario_if,"/byYear",sep = "")
                 }
 
                 if("subRegion" %in% names(mapx@data)){countCheck=2}else{countCheck=1}
@@ -1620,6 +1486,8 @@ map <- function(data = NULL,
                           folder = paste(dirOutputsX,"/raster/",param_if,"/", scenario_if,"/byYear",sep = ""))
                 }
 
+              }} # Close years x_i loop
+
             # Animate 1 : each param: If class > 1 { (Map x Class) x Anim Years}
 
             if(animateOn==T){
@@ -1656,6 +1524,7 @@ map <- function(data = NULL,
               print(gsub("//","/",paste("animation saved in :",dirOutputsX,"/raster/",param_if,"/", scenario_if,"/",
                           animName,sep = "")))
               }
+            }
 
 
             #------------------------------
@@ -1740,7 +1609,7 @@ map <- function(data = NULL,
                   tidyr::spread(key=x,value=value)
 
                 rasterx<-sp::SpatialPointsDataFrame(sp::SpatialPoints(coords=(cbind(datax$lon,datax$lat))),data=datax)
-                sp::proj4string(rasterx)<-sp::proj4string(shapex)
+                if(!is.null(shapex)){sp::proj4string(rasterx)<-sp::proj4string(shapex)}
                 sp::gridded(rasterx)<-T
 
                 mapx<-rasterx
@@ -1914,7 +1783,7 @@ map <- function(data = NULL,
 
 
                 rasterx<-sp::SpatialPointsDataFrame(sp::SpatialPoints(coords=(cbind(datax$lon,datax$lat))),data=datax)
-                sp::proj4string(rasterx)<-sp::proj4string(shapex)
+                if(!is.null(shapex)){sp::proj4string(rasterx)<-sp::proj4string(shapex)}
                 sp::gridded(rasterx)<-T
 
                 mapx<-rasterx
@@ -2015,19 +1884,10 @@ map <- function(data = NULL,
             }# If no multiple years
             } # If number of classes == 1
 
-          } # If nrow greater than 0
-
-
-        }# close run Section
-          }# Close gridTbl nrow > 0
-
-
           gridTblReturn <- gridTblReturn %>% dplyr::bind_rows(gridTbl)
 
-          } # close Params
-      } # Close scenario loop
-  } # Close if nrow gridTbl < 0
-
+          } # Close if nrow gridTbl < 0
+          }# Close if nrow gridTbl < 0
         } # close Params
       } # Close scenario loop
     } # Close if nrow gridTbl < 0
