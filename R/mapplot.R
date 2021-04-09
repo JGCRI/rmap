@@ -424,6 +424,19 @@ if(!is.null(dataGrid)){
    }
 }
 
+# Set FillPalette
+if(length(fillPalette)==1){
+  if(fillPalette %in% names(jgcricolors::jgcricol())){
+    fillPalette<-jgcricolors::jgcricol()[[fillPalette]]}else{
+      if(!is.na(RColorBrewer::brewer.pal.info[fillPalette,]$maxcolors)){
+        fillPalette <- RColorBrewer::brewer.pal(RColorBrewer::brewer.pal.info[fillPalette,]$maxcolors,fillPalette)}else{
+          print(paste0("Palette chosen: ",fillPalette," does not exist. Using default palette Spectral."))
+          fillPalette <- RColorBrewer::brewer.pal(RColorBrewer::brewer.pal.info["Spectral",]$maxcolors,"Spectral")
+        }
+    }};
+
+#graphics::pie(rep(1,length(fillPalette)),label=names(fillPalette),col=fillPalette)
+
 
 if(!is.null(numeric2Cat_list)){
      if(all(c("numeric2Cat_param","numeric2Cat_breaks","numeric2Cat_labels","numeric2Cat_palette","numeric2Cat_legendTextSize") %in% names(numeric2Cat_list))){
@@ -439,7 +452,6 @@ if(!is.null(numeric2Cat_list)){
        }
      } else {print("numerc2Cat_list does not contain the appropriate sublists: 'numeric2Cat_param','numeric2Cat_breaks','numeric2Cat_labels','numeric2Cat_catPalette'. Skipping conversion to Categorical")}
    } # else {print("numerc2Cat_list is not a list. Skipping conversion to Categorical")}
-
 
 # If categorical data then set as factor
 if(!is.null(raster)){
@@ -512,17 +524,6 @@ if(!is.null(shape)){
   }
 }
 }
-
-
-
-if(length(fillPalette)==1){
- if(fillPalette %in% names(rmap::colors())){
-            fillPalette<-rmap::colors()[[fillPalette]]}else{
-              if(!is.na(RColorBrewer::brewer.pal.info[fillPalette,]$maxcolors)){
-                fillPalette <- RColorBrewer::brewer.pal(RColorBrewer::brewer.pal.info[fillPalette,]$maxcolors,fillPalette)}
-
-            }}; graphics::pie(rep(1,length(fillPalette)),label=names(fillPalette),col=fillPalette)
-
 
 
 #-----------------
@@ -709,13 +710,13 @@ if(min(legendBreaksX)>=legendSingleValueX){
   # Fill palette
   if(T){
     # Split Palettes into halves (to split diverging palettes when range is only one side of 0)
-    graphics::pie(rep(1,length(fillPalette)),label=names(fillPalette),col=fillPalette);fillPalette
+    #graphics::pie(rep(1,length(fillPalette)),label=names(fillPalette),col=fillPalette);fillPalette
     fillColUp<-fillPalette[(round(length(fillPalette)/2,0)+2):length(fillPalette)];fillColUp
     fillColUp <- grDevices::colorRampPalette(c("white",fillColUp))(11)[-1];fillColUp
-    graphics::pie(rep(1,length(fillColUp)),label=names(fillColUp),col=fillColUp)
+    #graphics::pie(rep(1,length(fillColUp)),label=names(fillColUp),col=fillColUp)
     fillColDown<-rev(fillPalette[1:(round(length(fillPalette)/2,0)-1)])
     fillColDown <- grDevices::colorRampPalette(c("white",fillColDown))(11)[-1];fillColDown
-    graphics::pie(rep(1,length(fillColDown)),label=names(fillColDown),col=fillColDown)
+    #graphics::pie(rep(1,length(fillColDown)),label=names(fillColDown),col=fillColDown)
 
     # If all less than single color chosen then colDown, if vice versa then colUp else full palette
     if(max(legendBreaksX)<=legendSingleValueX){
@@ -741,8 +742,9 @@ if(min(legendBreaksX)>=legendSingleValueX){
       }
 
     # Visualize Palette
-    if(length(fillPaletteX)>0){
-    graphics::pie(rep(1,length(fillPaletteX)),label=names(fillPaletteX),col=fillPaletteX)}
+    #if(length(fillPaletteX)>0){
+    #graphics::pie(rep(1,length(fillPaletteX)),label=names(fillPaletteX),col=fillPaletteX)
+    #  }
 
    # Add in the singleColor
    if(min(legendBreaksX)>=legendSingleValueX){
@@ -758,7 +760,7 @@ if(min(legendBreaksX)>=legendSingleValueX){
         }
       }
 
-    fillPaletteX;graphics::pie(rep(1,length(fillPaletteX)),label=1:length(fillPaletteX),col=fillPaletteX)
+    fillPaletteX;#graphics::pie(rep(1,length(fillPaletteX)),label=1:length(fillPaletteX),col=fillPaletteX)
 
     }
 
@@ -809,7 +811,7 @@ if(min(legendBreaksX)>=legendSingleValueX){
     }else{
       fillPaletteX=fillPalette
     }
-    graphics::pie(rep(1,length(fillPaletteX)),label=names(fillPaletteX),col=fillPaletteX)
+    #graphics::pie(rep(1,length(fillPaletteX)),label=names(fillPaletteX),col=fillPaletteX)
     }else{fillPaletteX=fillPalette}
 } # Test Palette
 
@@ -977,6 +979,8 @@ if(!dir.exists(folder)){
                     figWidth=figWidth,
                     figHeight=figHeight,
                     pdfpng=pdfpng)
+  print(map)
+
   }else{
 rmap::printPdfPng(figure=map,
                 dir=folder,
@@ -984,12 +988,13 @@ rmap::printPdfPng(figure=map,
                 figWidth=figWidth,
                 figHeight=figHeight,
                 pdfpng=pdfpng)
+    print(map)
 
   }}else{
-    print("printFig set to F so no figure will be saved.")
+    #print("printFig set to F so no figure will be saved.")
     print(map)}
 
 
-  return(map)
+  invisible(map)
 
 }

@@ -1,7 +1,7 @@
 <!-- badges: start -->
-  [![codecov](https://codecov.io/gh/JGCRI/rmap/branch/main/graph/badge.svg?token=XQ913U4IYM)](https://codecov.io/gh/JGCRI/rmap) 
-  ![build](https://github.com/JGCRI/rmap/workflows/build/badge.svg) 
-  ![docs](https://github.com/JGCRI/rmap/workflows/docs/badge.svg)
+[![codecov](https://codecov.io/gh/JGCRI/rmap/branch/main/graph/badge.svg?token=XQ913U4IYM)](https://codecov.io/gh/JGCRI/rmap) 
+[![build](https://github.com/JGCRI/rmap/workflows/build/badge.svg)](https://github.com/JGCRI/rmap/workflows/build/badge.svg)
+[![docs](https://github.com/JGCRI/rmap/workflows/docs/badge.svg)](https://github.com/JGCRI/rmap/workflows/docs/badge.svg)
   
   <!-- badges: end -->
 
@@ -28,10 +28,8 @@
 
 - Github: https://github.com/JGCRI/rmap
 - Webpage: https://jgcri.github.io/rmap/
-- Cheatsheet: https://github.com/JGCRI/rmap/blob/master/rmapCheatsheet.pdf
+- Cheatsheet: https://jgcri.github.io/rmap/vignettes/vignetteFigs/rmapCheatsheet.pdf
 
-
-  
 <!-- ------------------------>
 <!-- ------------------------>
 # <a name="Introduction"></a>Introduction

@@ -22,7 +22,7 @@ mapFind <- function(dataTbl) {
     if(T){
     NULL -> subRegShapeFoundx -> subRegShapeTypeFoundx -> subRegNotInShapeFoundx ->
       dataTblFound -> subRegionShapex -> mapStatesx -> subRegionAlt -> subRegion -> mapFindx -> subRegion1 ->
-        subRegNum-> subRegionMap}
+        subRegNum-> subRegionBasinMap}
 
   #......................................................
   # Check columns and map subRegions to rmap shape regions
@@ -45,13 +45,22 @@ mapFind <- function(dataTbl) {
     subRegShapeTblOrig <- unique(dataTbl$subRegion)
 
     # Map subRegions to rmap regions
+    dataTblOrig <- dataTbl
     dataTbl <- dataTbl %>%
-      dplyr::left_join(rmap::mappings("subRegionMap"),by="subRegion")%>%
-      dplyr::mutate(subRegion=dplyr::case_when(!is.na(subRegionMap)~subRegionMap,
+      dplyr::left_join(rmap::mappings("subRegionBasinMap"),by="subRegion")%>%
+      dplyr::mutate(subRegion=dplyr::case_when(!is.na(subRegionBasinMap)~subRegionBasinMap,
                                         TRUE~subRegion))%>%
-      dplyr::select(-subRegionMap)
+      dplyr::select(-subRegionBasinMap)
 
     subRegShapeTbl <- gsub("-", "_", tolower(unique(dataTbl$subRegion)))
+    subRegShapeTblOrigLower <- gsub("-", "_", tolower(unique(subRegShapeTblOrig)))
+
+    if(!all(subRegShapeTblOrigLower %in% subRegShapeTbl)){
+      print(paste0("Some subRegions in data have been re-mapped to rmap basin names."))
+      print(paste0("Original names were : ", subRegShapeTblOrigLower[!subRegShapeTblOrigLower %in% subRegShapeTbl]))
+      print(paste0("New names are : ", subRegShapeTbl[!subRegShapeTbl %in% subRegShapeTblOrigLower]))
+      print("If the final map chosen is not a GCAM Basin map then these will be re-mapped back to the original names.")
+    }
 
   }
 
@@ -340,7 +349,21 @@ mapFind <- function(dataTbl) {
 
       subRegChosen <- (mapMax %>%
                          dplyr::filter(rank == min(rank)))$map
-      subRegChosen
+
+      print(paste0("Map chosen: ",subRegChosen))
+
+      # If not using basin file then use original subRegions since some countries also map to GCAm Basins
+      if(!grepl("GCAMBasin", subRegChosen, ignore.case = T)){
+
+        if(!all(subRegShapeTblOrigLower %in% subRegShapeTbl)){
+        print("Final map chosen is not a GCAM Basin map so modified regions being re-mapped back to the original names.")
+        print(paste0("Original names were : ", subRegShapeTblOrigLower[!subRegShapeTblOrigLower %in% subRegShapeTbl]))
+        print(paste0("New names are : ", subRegShapeTbl[!subRegShapeTbl %in% subRegShapeTblOrigLower]))
+        subRegShapeTbl <- subRegShapeTblOrigLower
+        dataTbl <- dataTblOrig
+        }
+      }
+
     }
 
     #.....................................................

@@ -258,6 +258,39 @@ background = T
 scenRef = "scen1"
 scenDiff = c("scen3")
 
+# Multi-Scenario Class Diff
+#------------------------------------------
+data = data.frame(subRegion = rep(c("Austria","Spain", "Italy", "Germany","Greece"),18),
+                  scenario = rep(c("scen1","scen1","scen1","scen1","scen1",
+                               "scen2","scen2","scen2","scen2","scen2",
+                               "scen3","scen3","scen3","scen3","scen3"),6),
+                  year = c(rep(2010,30),rep(2050,30),rep(2100,30)),
+                  class = rep(c(rep("coal",15),rep("solar",15)),3),
+                  value = c(32, 38, 54, 63, 24,
+                            37, 53, 23, 12, 45,
+                            40, 44, 12, 30, 99,
+                            37, 53, 23, 12, 45,
+                            40, 44, 12, 30, 99,
+                            32, 38, 54, 63, 24,
+                            c(32, 38, 54, 63, 24)*1.5,
+                            c(37, 53, 23, 12, 45)*1.7,
+                            c(40, 44, 12, 30, 99)*1.9,
+                            c(37, 53, 23, 12, 45)*2.5,
+                            c(40, 44, 12, 30, 99)*3,
+                            c(32, 38, 54, 63, 24)*3.5,
+                            c(32, 38, 54, 63, 24)*4,
+                            c(37, 53, 23, 12, 45)*6,
+                            c(40, 44, 12, 30, 99)*8,
+                            c(37, 53, 23, 12, 45)*10,
+                            c(40, 44, 12, 30, 99)*12,
+                            c(32, 38, 54, 63, 24)*14))
+rmap::map(data = data,
+          folder = "multiClassScenYear",
+          cropToBoundary = T,
+          background = T,
+          scenRef = "scen1",
+          xRef = 2010)
+
 
 # Multi-Year DIff
 #------------------------------------------
@@ -372,4 +405,32 @@ background = T
 xRange = c(2020,2030,2040,2050)
 scenRef = "SSP3"
 xRef = 2020
+
+
+# Colors
+library(ggplot2)
+library(rmap)
+library(dplyr)
+
+outputdir = paste0(getwd(),"/colorPalettes")
+if(!dir.exists(outputdir)){dir.create(outputdir)}
+
+for(pal_i in names(rmap::colors())){
+
+a<- rmap::colors()[[pal_i]];a
+if(is.null(names(a))){names(a)<-a};a
+a1 <-data.frame(color=as.vector(a),label=names(a)) %>% distinct();a1
+a2 <- expand.grid(X=1:ceiling(sqrt(nrow(a1))),Y=1:ceiling(sqrt(nrow(a1)))) %>% as.data.frame();a2
+a3 <- a2[1:nrow(a1),] %>% bind_cols(a1); a3
+
+ggplot(a3,aes(x=X,y=Y, fill=label))+
+  scale_fill_manual(values=a)+
+  geom_tile()+
+  geom_label(aes(label=label),fill="white",alpha=0.8) +
+  coord_fixed(ratio=1)+
+  theme_void()+ theme(legend.position = "none")+
+  ggtitle(paste0(pal_i))->p; p
+
+ggsave(plot=p, file=paste0(outputdir,"/",pal_i,".png"),width=max(7,min(0.5*nrow(a1),30)),height=max(7,min(0.5*nrow(a1),30)),units="in")
+}
 
