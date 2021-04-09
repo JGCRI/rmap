@@ -2,8 +2,6 @@ pandoc: 2.7.3
 pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
-  vignette_Maps: vignette_Maps.html
-  vignette_colors: vignette_colors.html
   vignette_map: vignette_map.html
-last_built: 2021-04-09T14:57Z
+last_built: 2021-04-09T15:18Z
 
