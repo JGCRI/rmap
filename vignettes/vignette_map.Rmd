@@ -560,7 +560,7 @@ map(data = data, folder = "scaleRange",
 <!-------------------------->
 <!-------------------------->
 
-Can use any [R color palette](https://www.nceas.ucsb.edu/sites/default/files/2020-04/colorPaletteCheatsheet.pdf) or choose from a list of rmap color palettes at [colors, maps and params](https://jgcri.github.io/rmap/articles/vignette_colorsMapsParams.html#color-palettes-1).
+Can use any [R color palette](https://www.nceas.ucsb.edu/sites/default/files/2020-04/colorPaletteCheatsheet.pdf) or choose from a list of colors from the [jgcricolors package](https://jgcri.github.io/jgcricolors/articles/vignette_examples.html).
 
 ```{r, eval=F}
 library(rmap)

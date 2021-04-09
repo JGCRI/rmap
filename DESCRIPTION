@@ -33,7 +33,8 @@ Imports:
 	magrittr (>= 1.5),
 	knitr (>= 1.20),
 	RColorBrewer (>= 1.1.2),
-	magick (>= 2.1)
+	magick (>= 2.1),
+	jgcricolors
 Remotes: github::JGCRI/jgcricolors
 Suggests: 
     rmarkdown
