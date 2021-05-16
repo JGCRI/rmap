@@ -34,6 +34,8 @@ Imports:
 	knitr (>= 1.20),
 	RColorBrewer (>= 1.1.2),
 	magick (>= 2.1),
+	stringr,
+	ggplot2,
 	jgcricolors
 Remotes: github::JGCRI/jgcricolors
 Suggests: 
