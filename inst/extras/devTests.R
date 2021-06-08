@@ -22,7 +22,7 @@ dataGrid$x%>%unique()
 
 fillColumn = "value"
 
-theme_custom = theme(strip.background = element_rect(size =1, fill="lightblue1"),
+theme_custom = theme(panel.background = element_rect(size =1, fill="red"),
       strip.text = element_text(size=15, color="blue"))
 
 theme_ggplot = ggplot2::theme_dark()
@@ -92,14 +92,53 @@ rmap::map(grid=dataGrid,
           scenRef = "scenario1",
           xRef = "1990"
 )
+
+rmap::map(grid=dataGrid %>%
+            filter(x %in% c(2015)) %>%
+            rename(multiFacet1=class,
+                   multiFacet2=scenario),
+          folder = "rmapTEST_MultiFacet",
+          facetCols = "multiFacet1",
+          facetRows = "multiFacet2"
+          #theme_rmap = F,
+          #theme_custom=theme_custom,
+          #theme_ggplot = theme_ggplot,
+          #scenRef = "scenario1"
+)
+
+rmap::map(grid=dataGrid %>%
+            filter(x %in% c(2015),
+                   scenario %in% c("scenario1"),
+                   class %in% c("class1")) %>%
+            head(10000),
+          folder = "rmapTEST_background",
+          background =F,
+          alpha = 1,
+          #zoom = 1,
+          #theme =theme_dark(),
+          #underLayer = rmap::mapCountries,
+          overLayer = rmap::mapUS52,
+          overLayerFill = "red",
+          overLayerAlpha = 0.3
+          #printFig = F
+)
+
+# grid=dataGrid %>%
+#   filter(x %in% c(2015),
+#          scenario %in% c("scenario1"),
+#          class %in% c("class1"))
+# folder = "rmapTEST_background"
+# background =
+# alpha = 1
+# theme = ggplot2::theme_dark()
+
 }
 
-# grid=dataGrid %>% filter(x %in% c(1990,2015))
-# folder = "rmapTESTOUTPUTS"
-# theme_rmap = F
-# #theme_custom=theme_custom,
-# #theme_ggplot = theme_ggplot,
-# scenRef = "scenario1"
+grid=dataGrid %>%
+    filter(x %in% c(2015),
+           scenario %in% c("scenario1"),
+           class %in% c("class1"))
+  folder = "rmapTEST_background"
 
 
 # Example

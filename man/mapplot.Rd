@@ -8,200 +8,140 @@ mapplot(
   dataPolygon = NULL,
   fillColumn = NULL,
   dataGrid = NULL,
-  dataRaster = NULL,
   shpFolder = NULL,
   shpFile = NULL,
+  theme = NULL,
   fillPalette = "Spectral",
-  borderColor = "gray20",
-  lwd = 0.1,
-  lty = 1,
-  bgColor = "white",
-  frameShow = F,
   labels = F,
-  labelsSize = 1,
-  labelsColor = "black",
-  labelsAutoPlace = F,
-  figWidth = 9,
-  figHeight = 7,
-  legendWidth = -1,
+  width = 9,
+  height = 7,
   legendShow = F,
-  legendOutside = F,
-  legendTextSize = 0.6,
-  legendTitleSize = 1,
-  legendOutsidePosition = NULL,
-  legendPosition = NULL,
-  legendDigits = NULL,
-  legendTitle = "Legend",
-  legendStyle = "pretty",
+  legendTitle = NULL,
   legendBreaksn = 5,
   legendBreaks = NULL,
   pdfpng = "png",
   underLayer = NULL,
+  underLayerColor = "gray40",
+  underLayerFill = "gray40",
+  underLayerLwd = 0.5,
+  underLayerAlpha = 1,
   overLayer = NULL,
+  overLayerColor = "gray40",
+  overLayerFill = NA,
+  overLayerLwd = 0.5,
+  overLayerAlpha = 0,
+  zoom = -1,
+  zoomx = NULL,
+  zoomy = NULL,
   printFig = T,
   fileName = "map",
   folder = paste(getwd(), "/outputs", sep = ""),
-  facetFreeScale = F,
-  facetRows = NA,
-  facetCols = 4,
-  facetBGColor = NA,
-  facetLabelColor = "black",
-  facetLabelSize = 1,
-  facetLabelBorderLwd = NA_real_,
-  alpha = 1,
-  fillcolorNA = "gray",
-  fillshowNA = NA,
-  fillcolorNULL = "gray",
-  facetsOn = F,
-  panelLabel = NULL,
-  multiFacetRows = NULL,
-  multiFacetCols = NULL,
-  mapTitleOn = F,
+  facetRows = NULL,
+  facetCols = NULL,
   mapTitle = NULL,
-  mapTitleSize = 0.5,
   numeric2Cat_list = NULL,
-  catParam = NULL,
-  innerMargins = c(0, 0, 0, 0),
-  outerMargins = c(0.01, 0.01, 0.01, 0.01),
-  legendSingleColorOn = F,
-  legendSingleValue = NULL,
-  legendSingleColor = "white",
+  legendDigits = NULL,
   legendDigitsOverride = NULL,
-  compassScale = F,
-  scalePos = c("right", "bottom"),
-  compassPos = c("left", "bottom")
+  legendSingleColor = "white",
+  legendSingleValue = NULL,
+  colorNA = "gray50",
+  showNA = F,
+  ncol = 3,
+  size = 12,
+  alpha = 1,
+  background = F
 )
 }
 \arguments{
-\item{dataPolygon}{Default = NULL,}
+\item{dataPolygon}{Default = NULL}
 
-\item{fillColumn}{Default = NULL, # Or give column data with}
+\item{fillColumn}{Default = NULL # Or give column with data}
 
-\item{dataGrid}{Default = NULL,}
+\item{dataGrid}{Default = NULL}
 
-\item{dataRaster}{Default = NULL,}
+\item{shpFolder}{Default = paste(getwd(),"/dataFiles/gis/admin_gadm36_1",sep Default = "")}
 
-\item{shpFolder}{Default = paste(getwd(),"/dataFiles/gis/admin_gadm36_1",sep Default = ""),}
+\item{shpFile}{Default = paste("gadm36_1",sep Default = "")}
 
-\item{shpFile}{Default = paste("gadm36_1",sep Default = ""),}
+\item{theme}{Default = NULL}
 
-\item{fillPalette}{Default = "Spectral",}
+\item{fillPalette}{Default = "Spectral"}
 
-\item{borderColor}{Default = "gray20",}
+\item{labels}{Default = FALSE}
 
-\item{lwd}{Default = 0.1,}
+\item{width}{Default = 9}
 
-\item{lty}{Default = 1,}
+\item{height}{Default = 7}
 
-\item{bgColor}{Default = "white",}
+\item{legendShow}{Default = F}
 
-\item{frameShow}{Default = F,}
+\item{legendTitle}{Default = NULL}
 
-\item{labels}{Default = F,}
+\item{legendBreaksn}{Default = "5"}
 
-\item{labelsSize}{Default = 1.2,}
+\item{legendBreaks}{Default = NULL}
 
-\item{labelsColor}{Default = "black",}
+\item{pdfpng}{Default = "png"}
 
-\item{labelsAutoPlace}{Default = F,}
+\item{underLayer}{Default = NULL}
 
-\item{figWidth}{Default = 9,}
+\item{underLayerColor}{Default = "gray40"}
 
-\item{figHeight}{Default = 7,}
+\item{underLayerFill}{Default = "gray40"}
 
-\item{legendWidth}{Default = -1,}
+\item{underLayerLwd}{Default = 0.5}
 
-\item{legendShow}{Default = F,}
+\item{underLayerAlpha}{Default = 1}
 
-\item{legendOutside}{Default = T,}
+\item{overLayer}{Default = NULL}
 
-\item{legendTextSize}{Default = 0.8,}
+\item{overLayerColor}{Default = "gray40"}
 
-\item{legendTitleSize}{Default = 1,}
+\item{overLayerFill}{Default = NA}
 
-\item{legendOutsidePosition}{Default = NULL, # "right","left","top","bottom", "center"}
+\item{overLayerLwd}{Default = 0.5}
 
-\item{legendPosition}{Default = NULL, # c("RIGHT','top') - RIGHT LEFT TOP BOTTOM}
+\item{overLayerAlpha}{Default = 0}
 
-\item{legendDigits}{Default = NULL,}
+\item{zoom}{Default =-1. Zoom into or out of map. Positive values zoom in and negative out.}
 
-\item{legendTitle}{Default = "Legend",}
+\item{zoomx}{Default = NULL. Zoom into or out of map along x. Positive values zoom in and negative out.}
 
-\item{legendStyle}{Default = "pretty",}
+\item{zoomy}{Default = NULL. Zoom into or out of map along y. Positive values zoom in and negative out.}
 
-\item{legendBreaksn}{Default = "5",}
+\item{printFig}{Default = T}
 
-\item{legendBreaks}{Default = NULL,}
+\item{fileName}{Default = "map"}
 
-\item{pdfpng}{Default = "png",}
+\item{folder}{Default = paste(getwd(),"/outputs",sep Default = "")}
 
-\item{underLayer}{Default = NULL,}
+\item{facetRows}{Default=NULL}
 
-\item{overLayer}{Default = NULL,}
-
-\item{printFig}{Default = T,}
-
-\item{fileName}{Default = "map",}
-
-\item{folder}{Default = paste(getwd(),"/outputs",sep Default = ""),}
-
-\item{facetFreeScale}{Default = F,}
-
-\item{facetRows}{Default = NA,}
-
-\item{facetCols}{Default = 3,}
-
-\item{facetBGColor}{Default = NA}
-
-\item{facetLabelColor}{Default = "black",}
-
-\item{facetLabelSize}{Default = 1.5,}
-
-\item{facetLabelBorderLwd}{Default=NA_real_,}
-
-\item{alpha}{Default = 1}
-
-\item{fillcolorNA}{Default =NULL}
-
-\item{fillshowNA}{Default =NA}
-
-\item{fillcolorNULL}{Default =NULL}
-
-\item{facetsOn}{Default =F,}
-
-\item{panelLabel}{Default = NULL,}
-
-\item{multiFacetRows}{Default=NULL,}
-
-\item{multiFacetCols}{Default=NULL,}
-
-\item{mapTitleOn}{Default=T}
+\item{facetCols}{Default=NULL}
 
 \item{mapTitle}{Default=NULL}
 
-\item{mapTitleSize}{Default=1}
+\item{numeric2Cat_list}{Default=NULL}
 
-\item{numeric2Cat_list}{Default=NULL,}
-
-\item{catParam}{Default=NULL}
-
-\item{innerMargins}{Default =c(0,0,0,0), # bottom, left, top, right}
-
-\item{outerMargins}{Default =c(0.01,0.01,0.01,0.01) # bottom, left, top, right}
-
-\item{legendSingleColorOn}{Default=F}
-
-\item{legendSingleValue}{Default=NULL}
-
-\item{legendSingleColor}{Default="white"}
+\item{legendDigits}{Default = NULL}
 
 \item{legendDigitsOverride}{Default=NULL}
 
-\item{compassScale}{Default=F}
+\item{legendSingleColor}{Default="white"}
 
-\item{scalePos}{Default = c("RIGHT","BOTTOM")}
+\item{legendSingleValue}{Default=NULL}
 
-\item{compassPos}{Default = c("LEFT","BOTTOM")}
+\item{colorNA}{Default = "gray50"}
+
+\item{showNA}{Default = T}
+
+\item{ncol}{Default = 3.  Number of columns to wrap maps}
+
+\item{size}{Default = 12. Text size of plots.}
+
+\item{alpha}{Default = 1. Transparency of fill colors.}
+
+\item{background}{Default = F. Add background water color, border and default underlayer map.}
 }
 \value{
 Returns the formatted data used to produce chart

@@ -10,9 +10,7 @@
 #' @param shpFile Default = paste("gadm36_1",sep Default = "")
 #' @param folder Default = paste(getwd(),"/outputs",sep Default = "")
 #' @param fillPalette Default = "Spectral"
-#' @param theme_ggplot Default = ggplot2::theme_bw()
-#' @param theme_custom Default = NULL
-#' @param theme_rmap Default = TRUE
+#' @param theme Default = NULL
 #' @param fillColumn Default = NULL # Or give column with data
 #' @param width Default = 9
 #' @param height Default = 7
@@ -24,9 +22,21 @@
 #' @param labels Default = FALSE
 #' @param pdfpng Default = "png"
 #' @param underLayer Default = NULL
+#' @param underLayerColor Default = "gray40"
+#' @param underLayerFill Default = "gray40"
+#' @param underLayerLwd Default = 0.5
+#' @param underLayerAlpha Default = 1
+#' @param overLayer Default = NULL
+#' @param overLayerColor Default = "gray40"
+#' @param overLayerFill Default = NA
+#' @param overLayerLwd Default = 0.5
+#' @param overLayerAlpha Default = 0
+#' @param zoom Default =-1. Zoom into or out of map. Positive values zoom in and negative out.
+#' @param zoomx Default = NULL. Zoom into or out of map along x. Positive values zoom in and negative out.
+#' @param zoomy Default = NULL. Zoom into or out of map along y. Positive values zoom in and negative out.
 #' @param printFig Default = T
-#' @param multiFacetRows Default=NULL
-#' @param multiFacetCols Default=NULL
+#' @param facetRows Default=NULL
+#' @param facetCols Default=NULL
 #' @param mapTitle Default=NULL
 #' @param numeric2Cat_list Default=NULL
 #' @param legendDigitsOverride Default=NULL
@@ -36,6 +46,8 @@
 #' @param showNA Default = T
 #' @param ncol Default = 3.  Number of columns to wrap maps
 #' @param size Default = 12. Text size of plots.
+#' @param alpha Default = 1. Transparency of fill colors.
+#' @param background Default = F. Add background water color, border and default underlayer map.
 #' @keywords charts, diffplots
 #' @return Returns the formatted data used to produce chart
 #' @importFrom rlang :=
@@ -47,9 +59,7 @@ mapplot<-function(dataPolygon=NULL,
                   dataGrid=NULL,
                   shpFolder=NULL,
                   shpFile=NULL,
-                  theme_ggplot = ggplot2::theme_bw(),
-                  theme_custom = NULL,
-                  theme_rmap = T,
+                  theme = NULL,
                   fillPalette="Spectral",
                   labels=F,
                   width=9,
@@ -59,12 +69,24 @@ mapplot<-function(dataPolygon=NULL,
                   legendBreaksn=5,
                   legendBreaks=NULL,
                   pdfpng="png",
-                  underLayer=NULL,
+                  underLayer = NULL,
+                  underLayerColor = "gray40",
+                  underLayerFill = "gray40",
+                  underLayerLwd = 0.5,
+                  underLayerAlpha = 1,
+                  overLayer = NULL,
+                  overLayerColor = "gray40",
+                  overLayerFill = NA,
+                  overLayerLwd = 0.5,
+                  overLayerAlpha = 0,
+                  zoom = -1,
+                  zoomx = NULL,
+                  zoomy = NULL,
                   printFig=T,
                   fileName="map",
                   folder=paste(getwd(),"/outputs",sep=""),
-                  multiFacetRows=NULL,
-                  multiFacetCols=NULL,
+                  facetRows=NULL,
+                  facetCols=NULL,
                   mapTitle=NULL,
                   numeric2Cat_list=NULL,
                   legendDigits = NULL,
@@ -74,7 +96,9 @@ mapplot<-function(dataPolygon=NULL,
                   colorNA = "gray50",
                   showNA = F,
                   ncol = 3,
-                  size = 12
+                  size = 12,
+                  alpha = 1,
+                  background = F
                   ){
 
   # dataPolygon=NULL
@@ -82,9 +106,7 @@ mapplot<-function(dataPolygon=NULL,
   # dataGrid=NULL
   # shpFolder=NULL
   # shpFile=NULL
-  # theme_ggplot = ggplot2::theme_bw()
-  # theme_custom = NULL
-  # theme_rmap = T
+  # theme = ggplot2::theme_bw()
   # fillPalette="Spectral"
   # labels=F
   # width=9
@@ -98,8 +120,8 @@ mapplot<-function(dataPolygon=NULL,
   # printFig=T
   # fileName="map"
   # folder=paste(getwd(),"/outputs",sep="")
-  # multiFacetRows=NULL
-  # multiFacetCols=NULL
+  # facetRows=NULL
+  # facetCols=NULL
   # mapTitle=NULL
   # numeric2Cat_list=NULL
   # legendDigits = NULL
@@ -116,7 +138,7 @@ mapplot<-function(dataPolygon=NULL,
 
 if(T){ # Initialize
   NULL->raster->shape->map->checkFacets->catBreaks->catLabels->catPalette->legendLabelsX->
-    singleValLoc->label->catParam
+    singleValLoc->label->catParam->long->lat->group
 
   legendTitle=gsub(" ","\n",legendTitle)
   legendBreaks<-sort(legendBreaks)
@@ -127,22 +149,11 @@ if(T){ # Initialize
 
   fillPaletteOrig <- fillPalette
 
-  if(is.null(theme_custom)){
-    theme_custom = ggplot2::theme()
-  }
-
-  if(theme_rmap){
-    theme_rmapx =  ggplot2::theme(
-      panel.grid.major = ggplot2::element_blank(),
-      panel.grid.minor = ggplot2::element_blank(),
-      axis.text = ggplot2::element_blank(),
-      axis.ticks = ggplot2::element_blank(),
-      panel.background = ggplot2::element_rect(fill="lightblue1"),
-      strip.text = ggplot2::element_text(size = 12))
-  } else {
-    theme_rmapx = ggplot2::theme()
-  }
-
+  if(!is.null(theme)){
+  if(!any(grepl("theme",class(theme),ignore.case = T))){
+    print("Theme provide is not a ggplot theme. Ignoring theme.")
+    theme = NULL
+  }}
 
 
 
@@ -588,7 +599,7 @@ if(T){
     # Add NA Value Colors
     if(showNA){
     datax1 <- datax1 %>%
-      mutate(label=if_else(is.na(label),"NA",label))
+      dplyr::mutate(label=dplyr::if_else(is.na(label),"NA",label))
     fillPaletteX <- c(fillPaletteX,"NA"=colorNA)
     }
   }
@@ -604,19 +615,49 @@ if(!is.null(datax)){
   # Convert labels to factors
   if(T){
     datax1 <- datax1 %>%
-      mutate(label = factor(label,levels=unique(names(fillPaletteX))))
+      dplyr::mutate(label = factor(label,levels=unique(names(fillPaletteX))))
   }
 
   # UnderLayer
+  if(T){
   if(is.null(underLayer)){
     underLayer <- ggplot2::ggplot()
   }
 
+  if(any(grepl("SpatialPolygonsDataFrame",class(underLayer)))){
+    underLayer <- ggplot2::ggplot() +
+      ggplot2::geom_polygon(data = underLayer,
+                   ggplot2::aes(x = long, y = lat, group = group),
+                   colour = underLayerColor,
+                   fill = underLayerFill,
+                   lwd= underLayerLwd,
+                   alpha = underLayerAlpha) +
+      ggplot2::coord_fixed(ratio = 1.0)
+  }
+
+  if(any(grepl("gg",class(underLayer)))){
+    underLayer <- underLayer
+  }
+  }
+
   # If grid
   if(!is.null(dataGrid)){
+
+  # Zoom out
+  if(is.null(zoomx)){zoomx = zoom}
+  if(is.null(zoomy)){zoomy = zoom}
+  lonLimMin <- min(datax1$lon)-abs(min(datax1$lon))*(-1)*zoomx/10;lonLimMin
+  lonLimMax <- max(datax1$lon)+abs(max(datax1$lon))*(-1)*zoomx/10;lonLimMax
+  latLimMin <- min(datax1$lat)-abs(min(datax1$lat))*(-1)*zoomy/10;latLimMin
+  latLimMax <- max(datax1$lat)+abs(max(datax1$lat))*(-1)*zoomy/10;latLimMax
+
+
   map <- underLayer +
-    ggplot2::geom_tile(data=datax1, ggplot2::aes_string(x="lon", y="lat", fill="label")) +
-    ggplot2::coord_fixed(ratio = 1.0) +
+    ggplot2::geom_tile(data=datax1, ggplot2::aes_string(x="lon", y="lat", fill="label"), alpha=alpha) +
+    ggplot2::coord_fixed(ratio = 1.0,
+                         ylim=c(max(latLimMin,-90),min(latLimMax,90)),
+                         xlim=c(max(-180,lonLimMin),min(lonLimMax,180)),
+                         expand = c(0, 0)) +
     ggplot2::scale_fill_manual(breaks=names(fillPaletteX), values=fillPaletteX, drop=F,
                                name = legendTitle)
   }
@@ -634,93 +675,108 @@ if(!is.null(datax)){
   # Multi Facet
   if(T){ # Multi Facet
 
-  if((!is.null(multiFacetRows) & !is.null(multiFacetCols))){
-    if((all(multiFacetRows %in% names(datax1)) & all(multiFacetCols %in% names(datax1)))){
+  if((!is.null(facetRows) & !is.null(facetCols))){
+    if((all(facetRows %in% names(datax1)) & all(facetCols %in% names(datax1)))){
 
       # Single Col and upto three rows
       # Upto three multifacet rows
-      if(length(multiFacetCols)==1){
-      if(length(multiFacetRows)==1){
+      if(length(facetCols)==1){
+      if(length(facetRows)==1){
         map <- map +
-          ggplot2::facet_grid(get(multiFacetRows[1]) ~ get(multiFacetCols[1]))}
+          ggplot2::facet_grid(get(facetRows[1]) ~ get(facetCols[1]))}
 
-      if(length(multiFacetRows)==2){
+      if(length(facetRows)==2){
         map <- map +
-          ggplot2::facet_grid(get(multiFacetRows[1]) + get(multiFacetRows[2]) ~ get(multiFacetCols[1]))}
+          ggplot2::facet_grid(get(facetRows[1]) + get(facetRows[2]) ~ get(facetCols[1]))}
 
-      if(length(multiFacetRows)==3){
+      if(length(facetRows)==3){
         map <- map +
-          ggplot2::facet_grid(get(multiFacetRows[1])+ get(multiFacetRows[2])+ get(multiFacetRows[3]) ~ get(multiFacetCols[1]))}
+          ggplot2::facet_grid(get(facetRows[1])+ get(facetRows[2])+ get(facetRows[3]) ~ get(facetCols[1]))}
       }
 
-      if(length(multiFacetCols)==2){
-        if(length(multiFacetRows)==1){
+      if(length(facetCols)==2){
+        if(length(facetRows)==1){
           map <- map +
-            ggplot2::facet_grid(get(multiFacetRows[1]) ~ get(multiFacetCols[1]) +  get(multiFacetCols[2]))}
+            ggplot2::facet_grid(get(facetRows[1]) ~ get(facetCols[1]) +  get(facetCols[2]))}
 
-        if(length(multiFacetRows)==2){
+        if(length(facetRows)==2){
           map <- map +
-            ggplot2::facet_grid(get(multiFacetRows[1]) + get(multiFacetRows[2]) ~ get(multiFacetCols[1]) +  get(multiFacetCols[2]))}
+            ggplot2::facet_grid(get(facetRows[1]) + get(facetRows[2]) ~ get(facetCols[1]) +  get(facetCols[2]))}
 
-        if(length(multiFacetRows)==3){
+        if(length(facetRows)==3){
           map <- map +
-            ggplot2::facet_grid(get(multiFacetRows[1])+ get(multiFacetRows[2])+ get(multiFacetRows[3]) ~ get(multiFacetCols[1]) +  get(multiFacetCols[2]))}
+            ggplot2::facet_grid(get(facetRows[1])+ get(facetRows[2])+ get(facetRows[3]) ~ get(facetCols[1]) +  get(facetCols[2]))}
       }
 
-      if(length(multiFacetCols)==3){
-        if(length(multiFacetRows)==1){
+      if(length(facetCols)==3){
+        if(length(facetRows)==1){
           map <- map +
-            ggplot2::facet_grid(get(multiFacetRows[1]) ~ get(multiFacetCols[1]) +  get(multiFacetCols[2]) + get(multiFacetCols[3]))}
+            ggplot2::facet_grid(get(facetRows[1]) ~ get(facetCols[1]) +  get(facetCols[2]) + get(facetCols[3]))}
 
-        if(length(multiFacetRows)==2){
+        if(length(facetRows)==2){
           map <- map +
-            ggplot2::facet_grid(get(multiFacetRows[1]) + get(multiFacetRows[2]) ~ get(multiFacetCols[1]) +  get(multiFacetCols[2]) + get(multiFacetCols[3]))}
+            ggplot2::facet_grid(get(facetRows[1]) + get(facetRows[2]) ~ get(facetCols[1]) +  get(facetCols[2]) + get(facetCols[3]))}
 
-        if(length(multiFacetRows)==3){
+        if(length(facetRows)==3){
           map <- map +
-            ggplot2::facet_grid(get(multiFacetRows[1])+ get(multiFacetRows[2])+ get(multiFacetRows[3]) ~ get(multiFacetCols[1]) +  get(multiFacetCols[2]) + get(multiFacetCols[3]))}
+            ggplot2::facet_grid(get(facetRows[1])+ get(facetRows[2])+ get(facetRows[3]) ~ get(facetCols[1]) +  get(facetCols[2]) + get(facetCols[3]))}
       }
 
 
     }}
 
-    if((!is.null(multiFacetRows) & is.null(multiFacetCols))){
-    if((multiFacetRows %in% names(datax1))){
+    if((!is.null(facetRows) & is.null(facetCols))){
+    if((facetRows %in% names(datax1))){
 
       # Upto three multifacet rows
-      if(length(multiFacetRows)==1){
+      if(length(facetRows)==1){
         map <- map +
-          ggplot2::facet_grid(get(multiFacetRows[1]) ~ ., ncol = ncol)}
+          ggplot2::facet_grid(get(facetRows[1]) ~ ., ncol = ncol)}
 
-      if(length(multiFacetRows)==2){
+      if(length(facetRows)==2){
         map <- map +
-          ggplot2::facet_grid(get(multiFacetRows[1]) + get(multiFacetRows[2]) ~ .)}
+          ggplot2::facet_grid(get(facetRows[1]) + get(facetRows[2]) ~ .)}
 
-      if(length(multiFacetRows)==3){
+      if(length(facetRows)==3){
         map <- map +
-          ggplot2::facet_grid(get(multiFacetRows[1])+ get(multiFacetRows[2])+ get(multiFacetRows[3]) ~ .)}
+          ggplot2::facet_grid(get(facetRows[1])+ get(facetRows[2])+ get(facetRows[3]) ~ .)}
 
     }
     }
 
-    if((is.null(multiFacetRows) & !is.null(multiFacetCols))){
-    if((multiFacetCols %in% names(datax1))){
+    if((is.null(facetRows) & !is.null(facetCols))){
+    if((facetCols %in% names(datax1))){
 
      # Upto three multifacet columns
-     if(length(multiFacetCols)==1){
+     if(length(facetCols)==1){
       map <- map +
-        ggplot2::facet_wrap(. ~ get(multiFacetCols[1]), ncol = ncol)}
+        ggplot2::facet_wrap(. ~ get(facetCols[1]), ncol = ncol)}
 
-      if(length(multiFacetCols)==2){
+      if(length(facetCols)==2){
         map <- map +
-          ggplot2::facet_grid(. ~ get(multiFacetCols[1]) + get(multiFacetCols[2]))}
+          ggplot2::facet_grid(. ~ get(facetCols[1]) + get(facetCols[2]))}
 
-      if(length(multiFacetCols)==3){
+      if(length(facetCols)==3){
         map <- map +
-          ggplot2::facet_grid(. ~ get(multiFacetCols[1]) + get(multiFacetCols[2]) + get(multiFacetCols[3]))}
+          ggplot2::facet_grid(. ~ get(facetCols[1]) + get(facetCols[2]) + get(facetCols[3]))}
 
 
     }
+    }
+  }
+
+  # OverLayer
+  if(T){
+    if(!is.null(overLayer)){
+    if(any(grepl("SpatialPolygonsDataFrame",class(overLayer)))){
+      map <- map +
+        ggplot2::geom_polygon(data = overLayer,
+                     ggplot2::aes(x = long, y = lat, group = group),
+                     colour = overLayerColor,
+                     fill = overLayerFill,
+                     lwd= overLayerLwd,
+                     alpha = overLayerAlpha)
+      }
     }
   }
 
@@ -738,18 +794,30 @@ if(!is.null(datax)){
 #....................
 
 if(T){
-map <- map +
-  theme_ggplot +
-  theme_rmapx +
-  theme_custom
 
-if(theme_rmap){
-  map <- map + ggplot2::xlab(NULL) + ggplot2::ylab(NULL)
+map <- map +
+  ggplot2::theme(
+    panel.grid.major = ggplot2::element_blank(),
+    panel.grid.minor = ggplot2::element_blank(),
+    axis.text = ggplot2::element_blank(),
+    axis.ticks = ggplot2::element_blank(),
+    panel.border = ggplot2::element_blank(),
+    strip.text = ggplot2::element_text(size = 12),
+    panel.background = ggplot2::element_blank()) +
+  ggplot2::xlab(NULL) + ggplot2::ylab(NULL) +
+  theme
+
+
+if(background){
+  map = map +
+    ggplot2::theme(
+    panel.border = ggplot2::element_rect(color="black",size=0.1, fill = NA),
+    panel.background = ggplot2::element_rect(fill="lightcyan2"))
 }
 
 map <- map +
-  ggplot2::guides(fill = guide_legend(override.aes = list(colour = "black", lwd=0.1))) +
-  theme(text=element_text(size=size))
+  ggplot2::guides(fill = ggplot2::guide_legend(override.aes = list(colour = "black", lwd=0.1))) +
+  theme(text=ggplot2::element_text(size=size))
 
 }
 
