@@ -5,7 +5,7 @@ navbar:
   left:
     - icon: fa-home
       href: index.html
-    - text: "How-to"
+    - text: "User Guide"
       icon: fas fa-book
       href: articles/vignette_map.html
     - icon: fa-file-code-o

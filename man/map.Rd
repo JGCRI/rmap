@@ -8,36 +8,43 @@ map(
   data = NULL,
   fillColumn = NULL,
   fileName = "map",
-  printFig = T,
-  grid = NULL,
+  save = T,
   theme = NULL,
   folder = paste(getwd(), "/outputs", sep = ""),
   labels = F,
-  shape = NULL,
-  subRegShpFolder = NULL,
-  subRegShpFile = NULL,
+  labelForce = 0,
+  labelColor = "black",
+  labelSize = 3,
+  labelAlpha = 1,
+  labelFill = NA,
+  labelBorderSize = NA,
+  shapeFolder = NULL,
+  shapeFile = NULL,
   subRegCol = "subRegion",
-  subRegType = NULL,
   nameAppend = "",
+  legendTitle = NULL,
   legendType = "kmeans",
   legendBreaksn = 5,
   legendFixedBreaks = NULL,
   animateOn = T,
   fps = 1,
-  cropToBoundary = F,
+  cropToBoundary = T,
   underLayer = NULL,
   underLayerColor = "gray40",
   underLayerFill = "gray90",
-  underLayerLwd = 0.5,
+  underLayerLwd = 0.1,
   underLayerAlpha = 1,
+  underLayerLabels = F,
+  overLayerLabels = F,
   overLayer = NULL,
   overLayerColor = "gray40",
   overLayerFill = NA,
-  overLayerLwd = 0.5,
+  overLayerLwd = 0.2,
   overLayerAlpha = 0,
   zoom = -1,
   zoomx = NULL,
   zoomy = NULL,
+  asp = 1.2,
   projX = "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0",
   width = 7,
   height = 8,
@@ -65,7 +72,9 @@ map(
   ncol = 3,
   size = 12,
   alpha = 1,
-  background = F
+  background = F,
+  transparent = T,
+  legendShow = T
 )
 }
 \arguments{
@@ -75,9 +84,7 @@ map(
 
 \item{fileName}{(Optional). Default = "map". Only for direct map plotting.}
 
-\item{printFig}{(Optional). Default = T. Only for direct map plotting.}
-
-\item{grid}{Default = NULL,}
+\item{save}{(Optional). Default = T. Only for direct map plotting.}
 
 \item{theme}{Default = NULL,}
 
@@ -85,17 +92,27 @@ map(
 
 \item{labels}{Default = F,}
 
-\item{shape}{Default = NULL,}
+\item{labelForce}{Default = 0,}
 
-\item{subRegShpFolder}{Default = paste(getwd(),"/dataFiles/gis/admin_gadm36",sep=""),}
+\item{labelColor}{Default = "black",}
 
-\item{subRegShpFile}{Default = paste("gadm36_1",sep=""),}
+\item{labelSize}{Default = 3}
+
+\item{labelAlpha}{Default = 0.7,}
+
+\item{labelFill}{Default = NA,}
+
+\item{labelBorderSize}{Default = NA}
+
+\item{shapeFolder}{Default = paste(getwd(),"/dataFiles/gis/admin_gadm36",sep=""),}
+
+\item{shapeFile}{Default = paste("gadm36_1",sep=""),}
 
 \item{subRegCol}{Default ="subRegion",}
 
-\item{subRegType}{Default =NULL}
-
 \item{nameAppend}{Default =""}
+
+\item{legendTitle}{Default = NULL}
 
 \item{legendType}{Default ="kmeans", Options include c("pretty","kmeans","freescale","all")}
 
@@ -107,7 +124,7 @@ map(
 
 \item{fps}{Default = 1,}
 
-\item{cropToBoundary}{Default = T}
+\item{cropToBoundary}{Default = F}
 
 \item{underLayer}{Default = NULL}
 
@@ -118,6 +135,10 @@ map(
 \item{underLayerLwd}{Default = 0.5}
 
 \item{underLayerAlpha}{Default = 1}
+
+\item{underLayerLabels}{Default = F}
+
+\item{overLayerLabels}{Default = F}
 
 \item{overLayer}{Default = NULL}
 
@@ -134,6 +155,8 @@ map(
 \item{zoomx}{Default = NULL. Zoom into or out of map along x. Positive values zoom in and negative out.}
 
 \item{zoomy}{Default = NULL. Zoom into or out of map along y. Positive values zoom in and negative out.}
+
+\item{asp}{Default = 1.2. Aspect ratio of lat and lon.}
 
 \item{projX}{Default = projX="+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"}
 
@@ -190,11 +213,15 @@ map(
 \item{alpha}{Default = 1. Transparency of fill colors.}
 
 \item{background}{Default = F. Add background water color, border and default underlayer map.}
+
+\item{transparent}{Default = T. To make map background transparent for maps without backgrounds.}
+
+\item{legendShow}{Default = T}
 }
 \value{
 Returns the formatted data used to produce chart
 
-A list with the gridTbl and shapeTbl used to plot the data if any.
+A list of maps
 }
 \description{
 This function produce different kinds of maps for the rmap package.

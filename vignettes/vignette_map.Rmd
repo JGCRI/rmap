@@ -1,8 +1,8 @@
 ---
-title: "map"
+title: "User Guide"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{map}
+  %\VignetteIndexEntry{User Guide}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -71,7 +71,7 @@ library(rmap)
 data = data.frame(subRegion = c("CA","FL","ID","MO","TX","WY"),
                   x = c(2050,2050,2050,2050,2050,2050),
                   value = c(5,10,15,34,2,7))
-map(data,folder = "vignetteMaps", mapTitleOn = F)
+map(data,folder = "vignetteMaps", mapTitle = F)
 ```
 
 <p align="center" style="font-size:18px;"> *US49* </p>
@@ -89,8 +89,7 @@ library(rmap)
 data = data.frame(subRegion = c("AK","FL","ID","MO","TX","WY"),
                   x = c(2050,2050,2050,2050,2050,2050),
                   value = c(5,10,15,34,2,7))
-map(data,
-                  folder = "vignetteMaps", mapTitleOn = F)
+map(data, folder = "vignetteMaps", mapTitle = F)
 ```
 
 
@@ -111,7 +110,7 @@ data = data.frame(subRegion = c("Pender_NC","Larue_KY","Jim Wells_TX","Orange_IN
 map(data,
                   folder = "vignetteMaps",
                   nameAppend = "_Alt",
-                  mapTitleOn = F)
+                  mapTitle = F)
 ```
 
 
@@ -131,7 +130,7 @@ data = data.frame(subRegion = c("Aleutians West_AK","Sabana Grande_PR","Kalawao_
 map(data,
                   folder = "vignetteMaps",
                   nameAppend = "_Alt",
-                  mapTitleOn = F)
+                  mapTitle = F)
 ```
 
 
@@ -150,7 +149,7 @@ data = data.frame(subRegion = c("Colombia","China","EU-12","Pakistan","Middle Ea
                   value = c(5,10,15,34,2,7))
 map(data,
                   folder = "vignetteMaps",
-                  mapTitleOn = F)
+                  mapTitle = F)
 ```
 
 <p align="center" style="font-size:18px;"> *GCAM 32 Regions* </p>
@@ -167,7 +166,7 @@ data = data.frame(subRegion = c("Negro","La_plata","Great","New_England","Indus"
                   value = c(5,10,15,34,2,7))
 map(data,
                   folder = "vignetteMaps",
-                  mapTitleOn = F)
+                  mapTitle = F)
 ```
 
 <p align="center" style="font-size:18px;"> *GCAM Basins* </p>
@@ -186,7 +185,7 @@ data = data.frame(subRegion = c("Colombia","China","India","Spain","Ghana","Iran
                   value = c(5,10,15,34,2,7))
 map(data,
                   folder = "vignetteMaps",
-                  mapTitleOn = F)
+                  mapTitle = F)
 ```
 
 <p align="center" style="font-size:18px;"> *World Countries* </p>
@@ -204,7 +203,7 @@ data = data.frame(subRegion = c("Punjab","FL","TX","Faryab","Assam","Lac"),
                   value = c(5,10,15,34,2,7))
 map(data,
                   folder = "vignetteMaps",
-                  mapTitleOn = F)
+                  mapTitle = F)
 ```
 
 <p align="center" style="font-size:18px;"> *World States* </p>
@@ -223,7 +222,7 @@ grid = rmap::grid_pop_GPWv4To2015 %>%
                 value=value/1000000)
   
 # Need to assign the gird data to the "grid" argument
-map(grid=grid,folder = "vignetteMaps_Grid", mapTitleOn = F, background=T)
+map(grid=grid,folder = "vignetteMaps_Grid", mapTitle = F, background=T)
 ```
 
 
@@ -243,14 +242,14 @@ data = data.frame(subRegion = c("Colombia","China","India"),
 # Auto selection by rmap will choose rmap::mapCountries
 map(data,
                   folder = "vignetteChooseMap",
-                  mapTitleOn = F)
+                  mapTitle = F)
 
 # User can specify that they want to plot this data on rmap::mapGCAMReg32
 map(data,
                   shape = rmap::mapGCAMReg32,
                   folder = "vignetteChooseMap",
                   nameAppend = "Chosen",
-                  mapTitleOn = F)
+                  mapTitle = F)
 
 ```
 
@@ -269,7 +268,7 @@ data = data.frame(subRegion = c("AK","HI","PR","MO","TX","WY"),
                   value = c(5,10,15,34,2,7))
 map(data,
                   shape = rmap::mapUS52Compact,
-                  folder = "vignetteMaps", mapTitleOn = F)
+                  folder = "vignetteMaps", mapTitle = F)
 ```
 
 <p align="center" style="font-size:18px;"> *US52Compact* </p>
@@ -289,7 +288,7 @@ map(data,
                   shape = rmap::mapUS52CountyCompact,
                   folder = "vignetteMaps",
                   nameAppend = "_Alt",
-                  mapTitleOn = F)
+                  mapTitle = F)
 ```
 
 <p align="center" style="font-size:18px;"> *US52 Counties Compact* </p>
@@ -328,7 +327,7 @@ map(data,
                   subRegCol = "states",
                   subRegType = "ColombiaStates",
                   folder = "vignetteMaps_shapeSubset",
-                  mapTitleOn = F)
+                  mapTitle = F)
 
 ```
 
@@ -362,7 +361,7 @@ map(data,
                   subRegCol = "county",
                   subRegType = "TexasCounties",
                   folder = "vignetteMaps_shapeCrop",
-                  mapTitleOn = F)
+                  mapTitle = F)
 
 ```
 
@@ -381,8 +380,8 @@ By setting the **cropToBoundary** argument to **T** the function will crop your 
 ```{r, eval=F}
 library(rmap)
 data = data.frame(subRegion = c("India","China"), year = c(2010,2010),value = c(32,54))
-map(data = data, mapTitleOn = F, folder = "vignetteMaps", cropToBoundary=F, )
-map(data = data, mapTitleOn = F, folder = "vignetteMaps", cropToBoundary=T, 
+map(data = data, mapTitle = F, folder = "vignetteMaps", cropToBoundary=F, )
+map(data = data, mapTitle = F, folder = "vignetteMaps", cropToBoundary=T, 
                   nameAppend="Cropped")
 ```
 
@@ -402,12 +401,12 @@ By turning on **background** a background layer will be added to any shape map.
 ```{r, eval=F}
 library(rmap)
 data = data.frame(subRegion = c("India","China"), year = c(2010,2010), value = c(32,54))
-map(data = data, mapTitleOn = F, folder = "vignetteMaps", 
+map(data = data, mapTitle = F, folder = "vignetteMaps", 
                   cropToBoundary = T,
                   background = T, nameAppend = "Extended")
 
 # Can increase the extnded boundaries by using expandPercent
-map(data = data, mapTitleOn = F, folder = "vignetteMaps", 
+map(data = data, mapTitle = F, folder = "vignetteMaps", 
                   cropToBoundary = T,
                   background = T, nameAppend = "Extended10", expandPercent = 50)
 ```

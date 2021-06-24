@@ -1,4 +1,4 @@
-#' mapFind
+#' map_find
 #'
 #' Given a data.frame with a subRegion column, this function searches for an appropriate map from the pre-loaded rmap maps.
 #'
@@ -10,10 +10,10 @@
 #' @examples
 #' library(rmap)
 #' data = data.frame(subRegion=c("FL","ID","MO"),value=c(-2,3,14))
-#' rmap::mapFind(data)
+#' rmap::map_find(data)
 
 
-mapFind <- function(dataTbl) {
+map_find <- function(dataTbl) {
 
   #......................................................
   # Initialize
@@ -21,8 +21,8 @@ mapFind <- function(dataTbl) {
 
     if(T){
     NULL -> subRegShapeFoundx -> subRegShapeTypeFoundx -> subRegNotInShapeFoundx ->
-      dataTblFound -> subRegionShapex -> mapStatesx -> subRegionAlt -> subRegion -> mapFindx -> subRegion1 ->
-        subRegNum-> subRegionBasinMap}
+      dataTblFound -> subRegionShapex -> mapStatesx -> subRegionAlt -> subRegion -> map_findx -> subRegion1 ->
+        subRegNum-> subRegionMap}
 
   #......................................................
   # Check columns and map subRegions to rmap shape regions
@@ -47,10 +47,10 @@ mapFind <- function(dataTbl) {
     # Map subRegions to rmap regions
     dataTblOrig <- dataTbl
     dataTbl <- dataTbl %>%
-      dplyr::left_join(rmap::mappings("subRegionBasinMap"),by="subRegion")%>%
-      dplyr::mutate(subRegion=dplyr::case_when(!is.na(subRegionBasinMap)~subRegionBasinMap,
+      dplyr::left_join(rmap::mappings("mappingGCAMBasins"),by="subRegion")%>%
+      dplyr::mutate(subRegion=dplyr::case_when(!is.na(subRegionMap)~subRegionMap,
                                         TRUE~subRegion))%>%
-      dplyr::select(-subRegionBasinMap)
+      dplyr::select(-subRegionMap)
 
     subRegShapeTbl <- gsub("-", "_", tolower(unique(dataTbl$subRegion)))
     subRegShapeTblOrigLower <- gsub("-", "_", tolower(unique(subRegShapeTblOrig)))
@@ -809,13 +809,13 @@ mapFind <- function(dataTbl) {
     # Return Map
     #.....................................................
 
-    mapFindx <- list(
+    map_findx <- list(
       dataTblFound = dataTblFound,
       subRegShapeFound = subRegShapeFoundx,
       subRegShapeTypeFound = subRegShapeTypeFoundx,
       subRegNotInShapeFound = subRegNotInShapeFoundx
     )
 
-    invisible(mapFindx)
+    invisible(map_findx)
 
   } # CLose map finding function

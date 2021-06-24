@@ -8,17 +8,21 @@
 #' @param data Default = NULL,
 #' @param fillColumn (Optional). Default = NULL. Only for direct map plotting.
 #' @param fileName (Optional). Default = "map". Only for direct map plotting.
-#' @param printFig (Optional). Default = T. Only for direct map plotting.
-#' @param grid Default = NULL,
+#' @param save (Optional). Default = T. Only for direct map plotting.
 #' @param theme Default = NULL,
 #' @param folder Default = paste(getwd(),"/outputs",sep=""),
 #' @param labels Default = F,
-#' @param shape Default = NULL,
-#' @param subRegShpFolder Default = paste(getwd(),"/dataFiles/gis/admin_gadm36",sep=""),
-#' @param subRegShpFile Default = paste("gadm36_1",sep=""),
+#' @param labelForce Default = 0,
+#' @param labelColor Default = "black",
+#' @param labelSize Default = 3
+#' @param labelAlpha Default = 0.7,
+#' @param labelFill Default = NA,
+#' @param labelBorderSize Default = NA
+#' @param shapeFolder Default = paste(getwd(),"/dataFiles/gis/admin_gadm36",sep=""),
+#' @param shapeFile Default = paste("gadm36_1",sep=""),
 #' @param subRegCol Default ="subRegion",
-#' @param subRegType Default =NULL
 #' @param nameAppend Default =""
+#' @param legendTitle Default = NULL
 #' @param legendType Default ="kmeans", Options include c("pretty","kmeans","freescale","all")
 #' @param legendBreaksn Default = "5",
 #' @param legendFixedBreaks Default = NULL,
@@ -45,6 +49,8 @@
 #' @param underLayerFill Default = "gray90"
 #' @param underLayerLwd Default = 0.5
 #' @param underLayerAlpha Default = 1
+#' @param underLayerLabels Default = F
+#' @param overLayerLabels Default = F
 #' @param overLayer Default = NULL
 #' @param overLayerColor Default = "gray40"
 #' @param overLayerFill Default = NA
@@ -53,20 +59,23 @@
 #' @param zoom Default =-1. Zoom into or out of map. Positive values zoom in and negative out.
 #' @param zoomx Default = NULL. Zoom into or out of map along x. Positive values zoom in and negative out.
 #' @param zoomy Default = NULL. Zoom into or out of map along y. Positive values zoom in and negative out.
+#' @param asp Default = 1.2. Aspect ratio of lat and lon.
 #' @param pdfpng Save IO figures as pdf or png. Type=String. Options: 'pdf' or 'png'. Default = 'png'
 #' @param legendSingleValue Default =NULL,
 #' @param legendSingleColor Default="white"
 #' @param legendDigitsOverride Default=NULL
 #' @param classPalette Default = NULL
 #' @param classPaletteDiff Default = "pal_div_BrGn"
-#' @param cropToBoundary Default = T
+#' @param cropToBoundary Default = F
 #' @param colorNA Default = "gray50"
 #' @param showNA Default = T
 #' @param ncol Default = 3. Number of columns to wrap maps
 #' @param size Default = 12. Text size of plots.
 #' @param alpha Default = 1. Transparency of fill colors.
 #' @param background Default = F. Add background water color, border and default underlayer map.
-#' @return A list with the gridTbl and shapeTbl used to plot the data if any.
+#' @param transparent Default = T. To make map background transparent for maps without backgrounds.
+#' @param legendShow Default = T
+#' @return A list of maps
 #' @importFrom rlang :=
 #' @export
 
@@ -74,36 +83,43 @@
 map <- function(data = NULL,
                 fillColumn = NULL,
                 fileName = "map",
-                printFig=T,
-                grid = NULL,
+                save=T,
                 theme = NULL,
                 folder = paste(getwd(), "/outputs", sep = ""),
                 labels = F,
-                shape = NULL,
-                subRegShpFolder = NULL,
-                subRegShpFile = NULL,
+                labelForce = 0,
+                labelColor = "black",
+                labelSize = 3,
+                labelAlpha = 1,
+                labelFill = NA,
+                labelBorderSize = NA,
+                shapeFolder = NULL,
+                shapeFile = NULL,
                 subRegCol = "subRegion",
-                subRegType = NULL,
                 nameAppend = "",
+                legendTitle = NULL,
                 legendType ="kmeans",
                 legendBreaksn = 5,
                 legendFixedBreaks = NULL,
                 animateOn = T,
                 fps = 1,
-                cropToBoundary = F,
+                cropToBoundary = T,
                 underLayer = NULL,
                 underLayerColor = "gray40",
                 underLayerFill = "gray90",
-                underLayerLwd = 0.5,
+                underLayerLwd = 0.1,
                 underLayerAlpha = 1,
+                underLayerLabels= F,
+                overLayerLabels = F,
                 overLayer = NULL,
                 overLayerColor = "gray40",
                 overLayerFill = NA,
-                overLayerLwd = 0.5,
+                overLayerLwd = 0.2,
                 overLayerAlpha = 0,
                 zoom = -1,
                 zoomx = NULL,
                 zoomy = NULL,
+                asp = 1.2,
                 projX = "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0",
                 width = 7,
                 height = 8,
@@ -131,21 +147,20 @@ map <- function(data = NULL,
                 ncol = 3,
                 size = 12,
                 alpha = 1,
-                background = F) {
+                background = F,
+                transparent = T,
+                legendShow = T) {
 
   # data = NULL
   # fillColumn = NULL
   # fileName = "map"
-  # printFig=T
-  # grid = NULL
+  # save=T
   # theme = NULL
   # folder = paste(getwd(), "/outputs", sep = "")
   # labels = F
-  # shape = NULL
-  # subRegShpFolder = NULL
-  # subRegShpFile = NULL
+  # shapeFolder = NULL
+  # shapeFile = NULL
   # subRegCol = "subRegion"
-  # subRegType = NULL
   # nameAppend = ""
   # legendType ="kmeans"
   # legendBreaksn = 5
@@ -153,9 +168,22 @@ map <- function(data = NULL,
   # animateOn = T
   # fps = 1
   # cropToBoundary = F
+  # underLayer = NULL
+  # underLayerColor = "gray40"
+  # underLayerFill = "gray90"
+  # underLayerLwd = 0.5
+  # underLayerAlpha = 1
+  # overLayer = NULL
+  # overLayerColor = "gray40"
+  # overLayerFill = NA
+  # overLayerLwd = 0.5
+  # overLayerAlpha = 0
+  # zoom = -1
+  # zoomx = NULL
+  # zoomy = NULL
   # projX = "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"
-  # width = 6
-  # height = 7
+  # width = 7
+  # height = 8
   # scenRef = NULL
   # scenDiff = NULL
   # scaleRange = NULL
@@ -175,9 +203,13 @@ map <- function(data = NULL,
   # legendSingleValue =NULL
   # classPalette = NULL
   # classPaletteDiff = "pal_div_BluRd"
-  # size = 12
+  # colorNA = "gray50"
   # showNA = F
   # ncol = 3
+  # size = 12
+  # alpha = 1
+  # background = F
+  # asp = 1.2
 
   #print("Starting map...")
 
@@ -186,25 +218,24 @@ map <- function(data = NULL,
   # .................
 
   if(T){
-  NULL->lat->lon->param->region->scenario->subRegion->value ->
-    x->year->gridID->maxScale->minScale->
-    valueDiff->rowid->include->Var1->Var2->Var3->maxX->minX->shapeTblScenMultiABRef->
-    shapeTblDiff -> gridTblDiff -> shapeTblDiffx -> gridTblDiffx -> shapeTblMultiOrig->countCheck->
+
+    NULL->lat->lon->param->region->scenario->subRegion->value ->
+      x->year->gridID->maxScale->minScale->
+      valueDiff->rowid->catParam->include->Var1->Var2->Var3->maxX->minX->
+      dataTblDiff -> dataTblDiffx -> countCheck->
       multiFacetCol -> multiFacetRow->classPaletteOrig->
-      xLabel->vintage->aggregate->query->subRegNotInShape ->gridTblOrig -> shapeTblOrig -> subRegionAlt -> subRegion1 ->
-      paramsGrid -> paramsShape -> scaleRange_i ->shapex
+      xLabel->vintage->aggregate->query->subRegNotInShape ->dataTblOrig -> subRegionAlt -> subRegion1 ->
+      paramsGrid -> paramsShape -> scaleRange_i -> boundaryRegShapeLimits -> dataTbl -> subRegType
 
-    return_i = 1; # Index for return maps list
-    mapsReturn = list(); # Return maps list
-
-  tibble::tibble() -> gridTblReturn -> shapeTblReturn
+  return_i = 1; # Index for return maps list
+  mapsReturn = list(); # Return maps list
 
   classPaletteOrig <- classPalette
   subRegColOrig <- subRegCol
-  subRegShapeOrig <- shape
-  subRegShpFileOrig <- subRegShpFile
-  subRegShpFolderOrig <- subRegShpFolder
+  shapeFileOrig <- shapeFile
+  shapeFolderOrig <- shapeFolder
   animateOnOrig <- animateOn
+  legendTitleOrig <- legendTitle
 
   if(!is.null(legendFixedBreaks)){
     # Must be a vector of more than one number
@@ -218,51 +249,84 @@ map <- function(data = NULL,
 
   }
 
-  if(!dir.exists(folder)){dir.create(folder)}
+  }
 
-  dirOutputsX <- folder;
-
-}
-
-
-  if(!is.null(subRegShapeOrig)){
-    if(is.null(subRegType)){
-      if(class(subRegShapeOrig)=="SpatialPolygonsDataFrame"){
-        if(any("subRegionType" %in% names(subRegShapeOrig@data))){
-          subRegType = unique(subRegShapeOrig@data$subRegionType)
-        }
-      }
-    }
-  }; subRegType
 
   #.................-
-  # Run mapplot directly if a shpefile is provided
+  # Check for Shape files
   # .................
 
-  if(F){
-    if((class(data)!="character")){
+  if(!is.null(shapeFolder) & !is.null(shapeFile)){
+    if(!dir.exists(shapeFolder)){
+      stop("Shapefile folder: ", shapeFolder ," is incorrect or doesn't exist.",sep="")}
+    if(!file.exists(paste(shapeFolder,"/",shapeFile,".shp",sep=""))){
+      stop("Shape file: ", paste(shapeFolder,"/",shapeFile,".shp",sep="")," is incorrect or doesn't exist.",sep="")}
+    data=rgdal::readOGR(dsn=shapeFolder,layer=shapeFile,use_iconv=T,encoding='UTF-8')
+    print(paste("Shape file read : ",shapeFolder,"/",shapeFile,".shp",sep=""))
+    print(raster::head(data@data))
+  }
 
-       if(is.null(classPalette)) {
-        classPalettex = "Spectral"
-      }else{
-        classPalettex <- classPalette
-      }
+  if(any(grepl("SpatialPolygonsDataFrame",class(data)))){
+    data <- shape_to_df(data)
+  }
 
-      colm=1
-      rowm=1
+  #.................-
+  # Run map_plot directly if a shpefile is provided
+  # .................
 
-      rmap::mapplot(overLayer=overLayer, overLayerColor=overLayerColor, overLayerFill = overLayerFill, overLayerLwd = overLayerLwd, overLayerAlpha = overLayerAlpha, underLayerColor, underLayerFill = underLayerFill, underLayerLwd = underLayerLwd, underLayerAlpha = underLayerAlpha, background=background, zoom=zoom, zoomx = zoomx, zoomy=zoomy, alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)), theme = theme, legendTitle=legendTitle,
-        underLayer=underLayer,
-        dataPolygon = data,
-        fillPalette=classPalettex,
-        folder=folder,
-        labels=labels,
-        fileName = fileName,
-        fillColumn = fillColumn,
-        printFig = printFig,
-        mapTitle=mapTitle) ->
-        mapsReturn[[return_i]]; names(mapsReturn)[return_i] <- fileName; return_i = return_i + 1
+  if(any(grepl("tbl_df|tbl|data.frame",class(data))) &
+     !"value" %in% names(data)){
+
+     if(is.null(classPalette)) {
+      classPalettex = "Spectral"
+    }else{
+      classPalettex <- classPalette
     }
+
+    colm=1
+    rowm=1
+
+    rmap::map_plot(
+      overLayer=overLayer,
+      overLayerColor=overLayerColor,
+      overLayerFill = overLayerFill,
+      overLayerLwd = overLayerLwd,
+      overLayerAlpha = overLayerAlpha,
+      underLayerColor,
+      underLayerFill = underLayerFill,
+      underLayerLwd = underLayerLwd,
+      underLayerAlpha = underLayerAlpha,
+      background=background,
+      zoom=zoom, zoomx = zoomx, zoomy=zoomy, asp=asp, legendShow=legendShow,  cropToBoundary = cropToBoundary, transparent=transparent,
+      alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)),
+      theme = theme,
+      legendTitle=NULL,
+      underLayer=underLayer,
+      data = data,
+      fillPalette=classPalettex,
+      folder=folder,
+      labels=labels, labelForce=labelForce, underLayerLabels=underLayerLabels, overLayerLabels=overLayerLabels,
+      labelColor=labelColor,
+      labelSize=labelSize,
+      labelAlpha=labelAlpha,
+      labelFill=labelFill,
+      labelBorderSize=labelBorderSize,
+      fileName = fileName,
+      fillColumn = fillColumn,
+      save = save,
+      width = width,
+      height = height,
+      mapTitle=mapTitle) ->
+      mapsReturn[[return_i]]; names(mapsReturn)[return_i] <- fileName; return_i = return_i + 1
+
+    # .................
+    # Return Data
+    # .................
+
+    print("map run completed.")
+
+    invisible(mapsReturn)
+
   } else {
 
   #.................-
@@ -339,8 +403,8 @@ map <- function(data = NULL,
   }
 
 
-  if(is.null(grid) & is.null(data)){
-    stop ("Both grid and data are Null. Need to provide atleast one of the two.")
+  if(is.null(data)){
+    stop ("Data is NULL. Need to provide valid data.")
   }
 
 
@@ -352,129 +416,61 @@ map <- function(data = NULL,
 
   if(T){
 
-  if(!dir.exists(dirOutputsX)){dir.create(dirOutputsX)}
+  if(!dir.exists(folder)){dir.create(folder)}
   } # Close create folders
 
   #.................-
-  # Read in grid Tables (Either csv tables or an R Table)
+  # Read in data Tables (Either csv tables or an R Table)
   #.................-
 
   if(T){
 
-  gridTbl<-tibble::tibble()
+  dataTbl<-tibble::tibble()
 
-
-  if(!is.null(grid)){
-
-    if(all(!class(grid) %in% c("tbl_df","tbl","data.frame"))){
-
-      for(grid_i in grid){
-        if(file.exists(grid_i)){
-          gridTblNew<-data.table::fread(paste(grid_i),encoding="Latin-1")%>%tibble::as_tibble()
-          gridTbl<-dplyr::bind_rows(gridTbl,gridTblNew)
-          rm(gridTblNew)
-        } else {stop(paste(grid_i," does not exist"))}
-      }
-
-      # Join relevant colors and classes using the mapping file if it exists
-      if(!"classPalette" %in% names(gridTbl)){
-        if(file.exists(paste(getwd(),"/dataFiles/mapping/template_subRegional_mapping.csv", sep = ""))){
-          map<-data.table::fread(paste(getwd(),"/dataFiles/mapping/template_subRegional_mapping.csv", sep = ""),encoding="Latin-1")%>%tibble::as_tibble()
-          gridTbl<-gridTbl%>%dplyr::left_join(map,by=c("param","units","class"))
-        }}
-
-    }else{gridTbl<-grid}
-
-  }else{gridTbl=grid}
-
-
-  if(!is.null(gridTbl)){
-  if(nrow(gridTbl)>0){
-
-    # Add missing columns
-    gridTbl<-addMissing(gridTbl)
-
-    if(!"value" %in% names(gridTbl)){stop("'value' column not present in grid data provided. Need to have values. Check data.",sep="")}
-    if(!"lat" %in% names(gridTbl)){stop("'lat' column not present in grid data provided. Need to have lat. Check data.",sep="")}
-    if(!"lon" %in% names(gridTbl)){stop("'lon' column not present in grid data provided. Need to have lat. Check data.",sep="")}
-
-
-    # Set classPalette if given
-    if(!is.null(classPaletteOrig) & (length(classPaletteOrig)==1)){
-    gridTbl <- gridTbl %>% dplyr::mutate(classPalette = classPaletteOrig)
-    }
-
-  }}
-
-  if(!is.null(gridTbl)){
-    if(nrow(gridTbl)==0){
-      gridTbl = NULL
-    } else {
-      gridTbl_scenariosOrig <- unique(gridTbl$scenario)
-    }
-  }
-
-  } # Close read in Grid Tables
-
-  #.................-
-  # Read in shapex Tables (Either csv tables or R table
-  #.................-
-
-  if(T){
-
-  shapeTbl<-tibble::tibble()
 
   if(!is.null(data)){
 
     if(all(!class(data) %in% c("tbl_df","tbl","data.frame"))){
-      if(class(data)!="character"){
-        stop("data neither .csv file path nor dataframe or tibble")}
-      for(i in data){
-        if(file.exists(i)){
-          shapeTblNew<-data.table::fread(paste(i),encoding="Latin-1")%>%tibble::as_tibble()
 
-          # Join relevant colors and classes using the mapping file if it exists
-          if(!"classPalette" %in% names(shapeTblNew)){
-            if(file.exists(paste(getwd(),"/dataFiles/mapping/template_subRegional_mapping.csv", sep = ""))){
-              map<-data.table::fread(paste(getwd(),"/dataFiles/mapping/template_subRegional_mapping.csv", sep = ""),encoding="Latin-1")%>%tibble::as_tibble()
-              shapeTblNew<-shapeTblNew%>%dplyr::left_join(map,by=c("param","units","class"))
-            }else{"subregional mapping not found. Using defaults."}}
-
-          shapeTbl<-dplyr::bind_rows(shapeTbl,shapeTblNew)
-
-          if(!"subRegion" %in% names(shapeTbl)){stop(paste("Column subRegion not present in data ",i,sep=""))}
-
-        } else {stop(paste(i," does not exist"))}
+      for(data_i in data){
+        if(file.exists(data_i)){
+          dataTblNew<-data.table::fread(paste(data_i),encoding="Latin-1")%>%tibble::as_tibble()
+          dataTbl<-dplyr::bind_rows(dataTbl,dataTblNew)
+          rm(dataTblNew)
+        } else {stop(paste(data_i," does not exist"))}
       }
 
-    }else{shapeTbl<-data}
-    }
+    }else{dataTbl<-data}
+
+  }else{dataTbl=data}
 
 
-  if(!is.null(shapeTbl)){
-    if(nrow(shapeTbl)>0){
+  if(!is.null(dataTbl)){
+  if(nrow(dataTbl)>0){
 
-      if(!subRegCol %in% names(shapeTbl)){
-        stop("Please rename polygon column in data 'subRegion' or provide a subRegCol name.")
-      }
+    # Add missing columns
+    dataTbl<-addMissing(dataTbl)
 
-      # Add missing columns
-      shapeTbl<-addMissing(shapeTbl)
-
-    if(!"value" %in% names(shapeTbl)){stop("'value' column not present in polygon data provided. Need to have values. Check data.",sep="")}
+    if(!"value" %in% names(dataTbl)){stop("'value' column not present in data provided. Check data.")}
+    if(!"lat" %in% names(dataTbl) &
+       !"lon" %in% names(dataTbl) &
+       !subRegCol %in% names(dataTbl)){
+      stop(paste0("Must have atleast either 'lat' and 'lon columns or subRegion column :", subRegCol, " in data."))}
 
     # Set classPalette if given
-    #if(!is.null(classPaletteOrig)){shapeTbl <- shapeTbl %>% dplyr::mutate(classPalette = classPaletteOrig)}
+    if(!is.null(classPaletteOrig) & (length(classPaletteOrig)==1)){
+    dataTbl <- dataTbl %>% dplyr::mutate(classPalette = classPaletteOrig)
+    }
 
   }}
 
-  if(!is.null(shapeTbl)){
-    if(nrow(shapeTbl)==0){
-      shapeTbl = NULL
+  if(!is.null(dataTbl)){
+    if(nrow(dataTbl)==0){
+      dataTbl = NULL
     }
   }
 
-  } # Read in SHape Tables
+  } # Close read in data Tables
 
   #.................-
   # Subset Data
@@ -482,28 +478,15 @@ map <- function(data = NULL,
 
   if(T){
 
-
   # Remove NA's & Keep only Unique Values
-  if(!is.null(gridTbl)){
-    if(nrow(gridTbl)>0){
-    #print("Removing NA's and keeping only unique values in gridTbl...")
-    gridTbl<-gridTbl%>%dplyr::filter(!is.na(value))%>%dplyr::mutate(value = signif(value,10))%>%dplyr::ungroup()%>%dplyr::distinct()
+  if(!is.null(dataTbl)){
+    if(nrow(dataTbl)>0){
+    #print("Removing NA's and keeping only unique values in dataTbl...")
+    dataTbl<-dataTbl%>%dplyr::filter(!is.na(value))%>%dplyr::mutate(value = signif(value,10))%>%dplyr::ungroup()%>%dplyr::distinct()
     #print("Complete.")
     }
   }
 
-  if(!is.null(shapeTbl)){
-    if(nrow(shapeTbl)>0){
-    #print("Removing NA's and keeping only unique values in shapeTbl...")
-    shapeTbl<-shapeTbl%>%
-      dplyr::filter(!is.na(value))%>%
-      dplyr::filter(!is.na(!!subRegCol))%>%
-      dplyr::mutate(value = signif(value,10))%>%
-      dplyr::ungroup()%>%
-      dplyr::distinct()
-    #print("Complete.")
-    }
-  }
   } # Subset data
 
   #.................-
@@ -511,12 +494,8 @@ map <- function(data = NULL,
   #.................-
 
   if(T){
-    if(!is.null(shapeTbl) & !is.null(gridTbl)){
-      xRange = unique(c(unique(shapeTbl$x),unique(gridTbl$x)))
-    } else if(!is.null(shapeTbl)){
-      xRange = unique(c(unique(shapeTbl$x)))
-    } else if(!is.null(gridTbl)){
-      xRange = unique(c(unique(gridTbl$x)))
+    if(!is.null(dataTbl)){
+      xRange = unique(c(unique(dataTbl$x)))
     }
   }
 
@@ -525,29 +504,16 @@ map <- function(data = NULL,
   #.................-
 
   if(T){
+
   # Get Params and Scenarios
-  if(!is.null(shapeTbl) & !is.null(gridTbl)){
-    if(nrow(shapeTbl)>0 & nrow(gridTbl)>0){
-      params <- unique(c(unique(shapeTbl$param),unique(gridTbl$param)))
-      scenarios <- unique(c(unique(shapeTbl$scenario),unique(gridTbl$scenario)))
-    }
-  }else{
-    if(!is.null(shapeTbl)){
-      if(nrow(shapeTbl)>0){
-        params <- unique(c(unique(shapeTbl$param)))
-        scenarios <- unique(c(unique(shapeTbl$scenario)))
-      }
-    } else {
-      if(!is.null(gridTbl)){
-        if(nrow(gridTbl)>0){
-          params <- unique(c(unique(gridTbl$param)))
-          scenarios <- unique(c(unique(gridTbl$scenario)))
+  if(!is.null(dataTbl)){
+        if(nrow(dataTbl)>0){
+          params <- unique(c(unique(dataTbl$param)))
+          scenarios <- unique(c(unique(dataTbl$scenario)))
         }
       }
-    }
-  }
 
-    if(length(scenarios)>1){
+  if(length(scenarios)>1){
     if(!is.null(scenRef)){
 
       if(!any(scenRef %in% scenarios)){
@@ -570,8 +536,7 @@ map <- function(data = NULL,
         }
       }
 
-      shapeTblDiff <- tibble::tibble()
-      gridTblDiff <- tibble::tibble()
+      dataTblDiff <- tibble::tibble()
 
       for(i in 1:length(params)){
 
@@ -583,101 +548,53 @@ map <- function(data = NULL,
 
         if(!is.null(param_i) & !is.null(scenRef_i) & !is.null(scenDiff_i)){
 
-    # Compare Gridded Data
-    if(!is.null(gridTbl)){
+    # Compare  Data
+    if(!is.null(dataTbl)){
 
-      gridTblDiffa <- gridTbl %>% dplyr::filter(param==param_i & (scenario %in% c(scenRef_i,scenDiff_i)))
+      dataTblDiffa <- dataTbl %>% dplyr::filter(param==param_i & (scenario %in% c(scenRef_i,scenDiff_i)))
 
-      if(length(unique(gridTblDiffa$scenario))>1){
+      if(length(unique(dataTblDiffa$scenario))>1){
 
-        if(scenRef_i %in% unique(gridTblDiffa$scenario)){
+        if(scenRef_i %in% unique(dataTblDiffa$scenario)){
           print(paste("Ref scenario chosen for param: ", param_i, " is ", paste(scenRef_i,collapse=", "),sep=""))
-        if(any(scenDiff_i %in% unique(gridTblDiffa$scenario))){
+        if(any(scenDiff_i %in% unique(dataTblDiffa$scenario))){
           print(paste("Diff scenarios chosen for param: ", param_i, " are ",
-                      paste(scenDiff_i[scenDiff_i %in% unique(gridTblDiffa$scenario)],collapse=", "),sep=""))}
+                      paste(scenDiff_i[scenDiff_i %in% unique(dataTblDiffa$scenario)],collapse=", "),sep=""))}
 
 
-        scenDiff_i <- scenDiff_i[scenDiff_i %in% unique(gridTblDiffa$scenario)]
+        scenDiff_i <- scenDiff_i[scenDiff_i %in% unique(dataTblDiffa$scenario)]
 
        # Calculate Diff Values
 
-      gridTblDiffb<-gridTblDiffa%>%dplyr::filter(param==param_i, scenario %in% dplyr::all_of(c(scenRef_i,scenDiff_i)))%>%
+      dataTblDiffb<-dataTblDiffa%>%dplyr::filter(param==param_i, scenario %in% dplyr::all_of(c(scenRef_i,scenDiff_i)))%>%
         dplyr::select(lat,lon,subRegType,param,x,xLabel,vintage,units,aggregate,classPalette,class,scenario,value)%>%
         tidyr::spread(scenario,value)
 
 
-      for (scenario_i in unique(gridTblDiffa$scenario)[unique(gridTblDiffa$scenario) %in% scenDiff_i]){
-        tbl_temp1 <-gridTblDiffb%>%
+      for (scenario_i in unique(dataTblDiffa$scenario)[unique(dataTblDiffa$scenario) %in% scenDiff_i]){
+        tbl_temp1 <-dataTblDiffb%>%
           dplyr::mutate(!!paste("DiffAbs_",scenario_i,"_",scenRef_i,sep=""):=get(scenario_i)-get(scenRef_i),
                         classPalette=classPaletteDiff)%>%
-          dplyr::select(-dplyr::one_of(as.vector(unique(gridTblDiffa$scenario))))
+          dplyr::select(-dplyr::one_of(as.vector(unique(dataTblDiffa$scenario))))
         tbl_temp1<-tbl_temp1%>%
           tidyr::gather(key=scenario,value=value,
                         -c(names(tbl_temp1)[!names(tbl_temp1) %in% paste("DiffAbs_",scenario_i,"_",scenRef_i,sep="")]))%>%
           dplyr::filter(!is.na(value))
 
-        tbl_temp2 <-gridTblDiffb%>%
+        tbl_temp2 <-dataTblDiffb%>%
           dplyr::mutate(!!paste("DiffPrcnt_",scenario_i,"_",scenRef_i,sep=""):=((get(scenario_i)-get(scenRef_i))*100/get(scenRef_i)),
                         classPalette=classPaletteDiff)%>%
-          dplyr::select(-dplyr::one_of(as.vector(unique(gridTblDiffa$scenario))))
+          dplyr::select(-dplyr::one_of(as.vector(unique(dataTblDiffa$scenario))))
         tbl_temp2<-tbl_temp2%>%
           tidyr::gather(key=scenario,value=value,
                         -c(names(tbl_temp2)[!names(tbl_temp2) %in% paste("DiffPrcnt_",scenario_i,"_",scenRef_i,sep="")]))%>%
           dplyr::filter(!is.na(value))
 
-        gridTblDiff<-dplyr::bind_rows(gridTblDiff,tbl_temp1,tbl_temp2)
+        dataTblDiff<-dplyr::bind_rows(dataTblDiff,tbl_temp1,tbl_temp2)
       }
     }}
   }
 
-
-  # Compare Shape Data
-
-  if(!is.null(shapeTbl)){
-    if(nrow(shapeTbl)>0){
-
-      shapeTblDiffa <- shapeTbl %>% dplyr::filter(param==param_i & (scenario %in% c(scenRef_i,scenDiff_i)));shapeTblDiffa
-
-      if(length(unique(shapeTblDiffa$scenario))>1){
-      # Calculate Diff Values
-
-        if(scenRef_i %in% unique(shapeTblDiffa$scenario)){
-          print(paste("Ref scenario chosen for param: ", param_i, " is ", paste(scenRef_i,collapse=", "),sep=""))
-        if(any(scenDiff_i %in% unique(shapeTblDiffa$scenario))){
-          print(paste("Diff scenarios chosen for param: ", param_i, " are ",
-                      paste(scenDiff_i[scenDiff_i %in% unique(shapeTblDiffa$scenario)],collapse=", "),sep=""))}
-
-        scenDiff_i <- scenDiff_i[scenDiff_i %in% unique(shapeTblDiffa$scenario)]
-
-      shapeTblDiffb<-shapeTbl%>%dplyr::filter(param==param_i, scenario %in% c(scenRef_i,scenDiff_i))%>%
-        dplyr::select(region,subRegion,subRegType,param,x,xLabel,vintage,units,aggregate,classPalette,class,scenario,value)%>%
-        tidyr::spread(scenario,value);shapeTblDiffb%>%as.data.frame(); names(shapeTblDiffb)
-
-      for (scenario_i in unique(shapeTbl$scenario)[(unique(shapeTbl$scenario) %in% scenDiff_i)]){
-        tbl_temp1 <-shapeTblDiffb%>%
-          dplyr::mutate(!!paste("DiffAbs_",scenario_i,"_",scenRef_i,sep=""):=get(scenario_i)-get(scenRef_i),
-                        classPalette=classPaletteDiff)%>%
-          dplyr::select(-dplyr::one_of(as.vector(unique(shapeTblDiffa$scenario)[unique(shapeTblDiffa$scenario) %in% c(scenRef_i,scenDiff_i)])))
-        tbl_temp1<-tbl_temp1%>%
-          tidyr::gather(key=scenario,value=value,
-                        -c(names(tbl_temp1)[!names(tbl_temp1) %in% paste("DiffAbs_",scenario_i,"_",scenRef_i,sep="")]))%>%
-          dplyr::filter(!is.na(value))
-
-        tbl_temp2 <-shapeTblDiffb%>%
-          dplyr::mutate(!!paste("DiffPrcnt_",scenario_i,"_",scenRef_i,sep=""):=((get(scenario_i)-get(scenRef_i))*100/get(scenRef_i)),
-                        classPalette=classPaletteDiff)%>%
-          dplyr::select(-dplyr::one_of(as.vector(unique(shapeTblDiffa$scenario)[unique(shapeTblDiffa$scenario) %in% c(scenRef_i,scenDiff_i)])))
-        tbl_temp2<-tbl_temp2%>%
-          tidyr::gather(key=scenario,value=value,
-                        -c(names(tbl_temp2)[!names(tbl_temp2) %in% paste("DiffPrcnt_",scenario_i,"_",scenRef_i,sep="")]))%>%
-          dplyr::filter(!is.na(value))
-
-        shapeTblDiff<-dplyr::bind_rows(shapeTblDiff,tbl_temp1,tbl_temp2)
-      }
-        }
-      }
-  }}
-        }
       }
 
     }
@@ -705,8 +622,7 @@ map <- function(data = NULL,
         }
       }
 
-      shapeTblDiffx <- tibble::tibble()
-      gridTblDiffx <- tibble::tibble()
+      dataTblDiffx <- tibble::tibble()
 
       for(i in 1:length(params)){
 
@@ -718,93 +634,36 @@ map <- function(data = NULL,
 
         if(!is.null(param_i) & !is.null(xRef_i) & !is.null(xDiff_i)){
 
-          # Compare Shape Data
-          if(!is.null(shapeTbl)){
-            if(nrow(shapeTbl)>0){
 
-            shapeTblDiffa <- shapeTbl %>% dplyr::filter(param==param_i & (x %in% c(xRef_i,xDiff_i)));shapeTblDiffa
+          # Compare Data
+          if(!is.null(dataTbl)){
+            if(nrow(dataTbl)>0){
 
-            if(nrow(shapeTblDiffa)>0){
-              # Calculate Diff Values
+              dataTblDiffa <- dataTbl %>% dplyr::filter(param==param_i & (x %in% c(xRef_i,xDiff_i)));dataTblDiffa
 
-              if(xRef_i %in% unique(shapeTblDiffa$x)){
-                print(paste("Ref x chosen for param: ", param_i, " is ", paste(xRef_i,collapse=", "),sep=""))
-              if(any(xDiff_i %in% unique(shapeTblDiffa$x))){
-                print(paste("Diff x chosen for param: ", param_i, " are ",
-                            paste(xDiff_i[xDiff_i %in% unique(shapeTblDiffa$x)],collapse=", "),sep=""))}
-
-              xDiff_i <- xDiff_i[xDiff_i %in% unique(shapeTblDiffa$x)]
-
-              colsx <- c("region","subRegion","subRegType","param","x","xLabel","units","aggregate","classPalette","class","scenario","value")
-              colsx1 <- names(shapeTbl)[names(shapeTbl) %in% colsx]; colsx1
-              colsx2 <- colsx1[!colsx1 %in% "value"]; colsx2
-              shapeTblDiffb<-shapeTbl%>%dplyr::filter(param==param_i, x %in% c(xRef_i,xDiff_i))%>%
-                dplyr::select(dplyr::all_of(colsx1))%>%
-                dplyr::group_by_at(colsx2)%>%
-                dplyr::summarize(value=sum(value,na.rm=T))%>%
-                tidyr::spread(x,value);shapeTblDiffb%>%as.data.frame(); names(shapeTblDiffb)
-
-              for (scen_i in scenarios){
-              for (x_i in unique(shapeTbl$x)[(unique(shapeTbl$x) %in% xDiff_i)]){
-                tbl_temp1 <-shapeTblDiffb%>%
-                  dplyr::filter(scenario==scen_i)%>%
-                  dplyr::mutate(!!paste(scen_i,"_DiffxAbs_",xRef_i,sep=""):=(!!as.name(x_i)-!!as.name(xRef_i)),
-                                classPalette=classPaletteDiff)%>%
-                  dplyr::select(-!!as.name(xDiff_i),-!!as.name(xRef_i))
-                tbl_temp1<-tbl_temp1%>%
-                  tidyr::gather(key=scenario,value=value,
-                                -c(names(tbl_temp1)[!names(tbl_temp1) %in% paste(scen_i,"_DiffxAbs_",xRef_i,sep="")]))%>%
-                  dplyr::filter(!is.na(value))%>%
-                  dplyr::mutate(x=x_i)
-
-                tbl_temp2 <-shapeTblDiffb%>%
-                  dplyr::filter(scenario==scen_i)%>%
-                  dplyr::mutate(!!paste(scen_i,"_DiffxPrcnt_",xRef_i,sep=""):=((!!as.name(x_i)-!!as.name(xRef_i))*100/!!as.name(x_i)),
-                                classPalette=classPaletteDiff)%>%
-                  dplyr::select(-!!as.name(xDiff_i),-!!as.name(xRef_i))
-                tbl_temp2<-tbl_temp2%>%
-                  tidyr::gather(key=scenario,value=value,
-                                -c(names(tbl_temp2)[!names(tbl_temp2) %in% paste(scen_i,"_DiffxPrcnt_",xRef_i,sep="")]))%>%
-                  dplyr::filter(!is.na(value))%>%
-                  dplyr::mutate(x=x_i)
-
-                shapeTblDiffx<-dplyr::bind_rows(shapeTblDiffx,tbl_temp1,tbl_temp2)
-              }
-            }# Close Scenario
-              }
-              }
-            }
-          }
-
-          # Compare Grid Data
-          if(!is.null(gridTbl)){
-            if(nrow(gridTbl)>0){
-
-              gridTblDiffa <- gridTbl %>% dplyr::filter(param==param_i & (x %in% c(xRef_i,xDiff_i)));gridTblDiffa
-
-              if(nrow(gridTblDiffa)>0){
+              if(nrow(dataTblDiffa)>0){
                 # Calculate Diff Values
 
-                if(xRef_i %in% unique(gridTblDiffa$x)){
+                if(xRef_i %in% unique(dataTblDiffa$x)){
                   print(paste("Ref x chosen for param: ", param_i, " is ", paste(xRef_i,collapse=", "),sep=""))
-                  if(any(xDiff_i %in% unique(gridTblDiffa$x))){
+                  if(any(xDiff_i %in% unique(dataTblDiffa$x))){
                     print(paste("Diff x chosen for param: ", param_i, " are ",
-                                paste(xDiff_i[xDiff_i %in% unique(gridTblDiffa$x)],collapse=", "),sep=""))}
+                                paste(xDiff_i[xDiff_i %in% unique(dataTblDiffa$x)],collapse=", "),sep=""))}
 
-                  xDiff_i <- xDiff_i[xDiff_i %in% unique(gridTblDiffa$x)]
+                  xDiff_i <- xDiff_i[xDiff_i %in% unique(dataTblDiffa$x)]
 
                   colsx <- c("region","lat","lon","subRegType","param","x","xLabel","units","aggregate","classPalette","class","scenario","value")
-                  colsx1 <- names(gridTbl)[names(gridTbl) %in% colsx]; colsx1
+                  colsx1 <- names(dataTbl)[names(dataTbl) %in% colsx]; colsx1
                   colsx2 <- colsx1[!colsx1 %in% "value"]; colsx2
-                  gridTblDiffb<-gridTbl%>%dplyr::filter(param==param_i, x %in% c(xRef_i,xDiff_i))%>%
+                  dataTblDiffb<-dataTbl%>%dplyr::filter(param==param_i, x %in% c(xRef_i,xDiff_i))%>%
                     dplyr::select(dplyr::all_of(colsx1))%>%
                     dplyr::group_by_at(colsx2)%>%
                     dplyr::summarize(value=sum(value,na.rm=T))%>%
-                    tidyr::spread(x,value);gridTblDiffb%>%as.data.frame(); names(gridTblDiffb)
+                    tidyr::spread(x,value);dataTblDiffb%>%as.data.frame(); names(dataTblDiffb)
 
                   for (scen_i in scenarios){
-                    for (x_i in unique(gridTbl$x)[(unique(gridTbl$x) %in% xDiff_i)]){
-                      tbl_temp1 <-gridTblDiffb%>%
+                    for (x_i in unique(dataTbl$x)[(unique(dataTbl$x) %in% xDiff_i)]){
+                      tbl_temp1 <-dataTblDiffb%>%
                         dplyr::filter(scenario==scen_i)%>%
                         dplyr::mutate(!!paste(scen_i,"_DiffxAbs_",xRef_i,sep=""):=(!!as.name(x_i)-!!as.name(xRef_i)),
                                       classPalette=classPaletteDiff)%>%
@@ -815,7 +674,7 @@ map <- function(data = NULL,
                         dplyr::filter(!is.na(value))%>%
                         dplyr::mutate(x=x_i)
 
-                      tbl_temp2 <-gridTblDiffb%>%
+                      tbl_temp2 <-dataTblDiffb%>%
                         dplyr::filter(scenario==scen_i)%>%
                         dplyr::mutate(!!paste(scen_i,"_DiffxPrcnt_",xRef_i,sep=""):=((!!as.name(x_i)-!!as.name(xRef_i))*100/!!as.name(x_i)),
                                       classPalette=classPaletteDiff)%>%
@@ -826,7 +685,7 @@ map <- function(data = NULL,
                         dplyr::filter(!is.na(value))%>%
                         dplyr::mutate(x=x_i)
 
-                      gridTblDiffx<-dplyr::bind_rows(gridTblDiffx,tbl_temp1,tbl_temp2)
+                      dataTblDiffx<-dplyr::bind_rows(dataTblDiffx,tbl_temp1,tbl_temp2)
                     }
                   } # Close Scenario
                 }
@@ -839,11 +698,11 @@ map <- function(data = NULL,
 
     }
 
-  shapeTbl <- shapeTbl %>% dplyr::bind_rows(shapeTblDiffx)%>% dplyr::bind_rows(shapeTblDiff) %>% dplyr::ungroup() %>% dplyr::distinct();
-  gridTbl <- gridTbl %>% dplyr::bind_rows(gridTblDiffx)%>% dplyr::bind_rows(gridTblDiff) %>% dplyr::ungroup() %>% dplyr::distinct();
+  dataTbl <- dataTbl %>% dplyr::bind_rows(dataTblDiffx)%>% dplyr::bind_rows(dataTblDiff) %>% dplyr::ungroup() %>% dplyr::distinct();
 
 } # Compare Scenarios
 
+  }
 
   #.................-
   # Check MultiFacet Columns
@@ -853,15 +712,15 @@ map <- function(data = NULL,
 
   # Shape Table
 
-  # Grid table
-  if(!is.null(gridTbl)){
+  # data table
+  if(!is.null(dataTbl)){
 
-    if(!facetCols %in% names(gridTbl)){
+    if(!facetCols %in% names(dataTbl)){
       print(paste0("facetCols chosen: ",  facetCols ,"do not exist:"))
       facetCols <- NULL
     }
 
-    if(!facetRows %in% names(gridTbl)){
+    if(!facetRows %in% names(dataTbl)){
       print(paste0("facetRows chosen: ",  facetRows ,"do not exist:"))
       facetRows <- NULL
     }
@@ -876,10 +735,9 @@ map <- function(data = NULL,
 
   if(T){
 
-    # Get list of params in grid or shapex data
-    if(!is.null(gridTbl)){if(nrow(gridTbl)>0){paramsGrid <- unique(gridTbl$param)}}
-    if(!is.null(shapeTbl)){if(nrow(shapeTbl)>0){paramsShape <- unique(shapeTbl$param)}}
-    paramsRange <- unique(c(paramsGrid,paramsShape)); paramsRange
+    # Get list of params in data or shapex data
+    if(!is.null(dataTbl)){if(nrow(dataTbl)>0){paramsdata <- unique(dataTbl$param)}}
+    paramsRange <- unique(c(paramsdata)); paramsRange
 
 
     if(!is.null(scaleRange)){
@@ -905,7 +763,7 @@ map <- function(data = NULL,
       }
     }
 
-      # Scale Range Diff Abs
+    # Scale Range Diff Abs
     if(!is.null(scaleRangeDiffAbs)){
 
       scaleRangeDiffAbs[is.na(scaleRangeDiffAbs)]<-NA_real_
@@ -951,9 +809,8 @@ map <- function(data = NULL,
       }
   }
 
-    # Scale Range Diff Abs
+    # Scale Range Diff X Abs
     if(!is.null(scaleRangeDiffxAbs)){
-
       scaleRangeDiffxAbs[is.na(scaleRangeDiffxAbs)]<-NA_real_
       scaleRangeDiffxAbs[scaleRangeDiffxAbs=="NA"]<-NA_real_
       # If scale range is a vector of two numbers set as limits for all params
@@ -974,8 +831,8 @@ map <- function(data = NULL,
       }
     }
 
+    # Scale Range Diff X Prcnt
     if(!is.null(scaleRangeDiffxPrcnt)){
-      # Scale Range Diff Prcnt
       scaleRangeDiffxPrcnt[is.na(scaleRangeDiffxPrcnt)]<-NA_real_
       scaleRangeDiffxPrcnt[scaleRangeDiffxPrcnt=="NA"]<-NA_real_
       # If scale range is a vector of two numbers set as limits for all params
@@ -1000,95 +857,80 @@ map <- function(data = NULL,
     }# Close Check Scale Range
 
 
-  #....................
-  # Crop To Boundary
-  #....................
-
-  if(cropToBoundary){
-    if(is.null(boundaryRegionsSelect)){
-      if(!is.null(shapeTbl)){
-        if(nrow(shapeTbl)>0){
-          boundaryRegionsSelect <- unique(shapeTbl$subRegion)
-        }
-      }
-    }
-  }
-
   #.................-
-  # Rename SubRegions and SubRegtype
+  # Rename SubRegions
   #.................-
 
   if(T){
-    if(!is.null(shapeTbl)){
-      if(nrow(shapeTbl)>0){
+    if(!is.null(dataTbl)){
+      if(nrow(dataTbl)>0){
         if(!is.null(subRegCol)){
-        shapeTbl <- shapeTbl %>% dplyr::rename(subRegion=!!as.name(subRegCol))
+        dataTbl <- dataTbl %>% dplyr::rename("subRegion"=!!as.name(subRegCol))
         subRegCol <- "subRegion"
         }
-        if(!is.null(subRegType)){
-          shapeTbl <- shapeTbl %>% dplyr::mutate(subRegType=!!subRegType)
-        }
-
       }
     }
   }
 
+
   # .................--
-  # Create Raster Plots
+  # Create Plots
   # .................--
 
-  if(T){ # Raster Plots
-  if(!is.null(gridTbl)){
-    if(nrow(gridTbl)>0){
+  if(T){ # Create Plots
 
-      gridTblOrig <- gridTbl
+  if(!is.null(dataTbl)){
+    if(nrow(dataTbl)>0){
 
-      if(!length(unique(gridTblOrig$x))>1){animateOn=F}
+      dataTblOrig <- dataTbl
+      dataTbl_scenariosOrig <- unique(dataTbl$scenario)
 
-      for (param_i in unique(gridTblOrig$param)){
+      if(!length(unique(dataTblOrig$x))>1){animateOn=F}
+
+      for (param_i in unique(dataTblOrig$param)){
 
         # Combined Scenarios
-        if(length(gridTbl_scenariosOrig)>1){
+        if(length(dataTbl_scenariosOrig)>1){
 
-            if(length(unique(gridTblOrig$param))==1){param_if=NULL}else{param_if=param_i}
+            if(length(unique(dataTblOrig$param))==1){param_if=NULL}else{param_if=param_i}
 
-            if(nrow(gridTblOrig%>%dplyr::filter(param==param_i))>0){
+            if(nrow(dataTblOrig%>%dplyr::filter(param==param_i))>0){
 
-              gridTblx <- gridTblOrig%>%dplyr::filter(param==param_i,
+              dataTblx <- dataTblOrig%>%dplyr::filter(param==param_i,
                                                      scenario %in% scenarios)
 
-                if(nrow(gridTblx)>0){
+                if(nrow(dataTblx)>0){
 
               #.................-
-              # Create Grid Table Folders If Needed
+              # Create data Table Folders If Needed
               #.................-
               if(T){
 
-                if(!dir.exists(paste(dirOutputsX,"/",sep = ""))){
-                  dir.create(paste(dirOutputsX,"/",sep = ""))}
+                if(!dir.exists(paste(folder,"/",sep = ""))){
+                  dir.create(paste(folder,"/",sep = ""))}
 
-                if(!dir.exists(paste(dirOutputsX,"/",param_if,sep = ""))){
-                  dir.create(paste(dirOutputsX,"/",param_if,sep = ""))}
+                if(!dir.exists(paste(folder,"/",param_if,sep = ""))){
+                  dir.create(paste(folder,"/",param_if,sep = ""))}
 
-                if(!dir.exists(paste(dirOutputsX,"/",param_if,"/combScenario",sep = ""))){
-                  dir.create(paste(dirOutputsX, "/",param_if,"/combScenario",sep = ""))}
+                if(!dir.exists(paste(folder,"/",param_if,"/combScenario",sep = ""))){
+                  dir.create(paste(folder, "/",param_if,"/combScenario",sep = ""))}
 
-                if(length(unique(gridTblx$x))>1){
-                if(!dir.exists(paste(dirOutputsX,"/",param_if,"/combScenario/byYear",sep = ""))){
-                  dir.create(paste(dirOutputsX, "/",param_if,"/combScenario/byYear",sep = ""))}
+                if(length(unique(dataTblx$x))>1){
+                if(!dir.exists(paste(folder,"/",param_if,"/combScenario/byYear",sep = ""))){
+                  dir.create(paste(folder, "/",param_if,"/combScenario/byYear",sep = ""))}
                 }
-              } # Create grid table folder if needed
+              } # Create data table folder if needed
 
               #.................--
               # Save Map related Data Table
               #.................--
 
-              if(printFig){
-                if(nrow(gridTblx %>% dplyr::filter(param==param_i))>0){
-                  data.table::fwrite(gridTblx %>% dplyr::filter(param==param_i)%>%
+              if(save){
+                if(nrow(dataTblx %>% dplyr::filter(param==param_i))>0){
+                  data.table::fwrite(dataTblx %>% dplyr::filter(param==param_i)%>%
                                        dplyr::select(scenario,lat,lon,param,class,x,value,units),
-                                     paste(dirOutputsX,"/",param_if,"/combScenario/","map_","raster_",param_i,nameAppend,".csv",sep = ""))
-                  print(paste("Map data table written to ",dirOutputsX,"/",param_if,"/combScenario/","map_","raster_",param_i,nameAppend,".csv",sep = ""))
+                                     paste(folder,"/",param_if,"/combScenario/","map_",param_i,nameAppend,".csv",sep = ""))
+                  print(paste("Map data table written to ",folder,"/",param_if,"/combScenario/","map_",param_i,nameAppend,".csv",sep = ""))
                 }
               }
 
@@ -1098,59 +940,59 @@ map <- function(data = NULL,
 
               # Set Legends
               if(T){
-                animScaleGrid<-gridTblx$value
-                animScaleGrid <- animScaleGrid[!is.infinite(animScaleGrid)]
-                animScaleGrid <- animScaleGrid[!is.nan(animScaleGrid)]
-                animScaleGrid <- animScaleGrid[!is.na(animScaleGrid)]
+                animScale<-dataTblx$value
+                animScale <- animScale[!is.infinite(animScale)]
+                animScale <- animScale[!is.nan(animScale)]
+                animScale <- animScale[!is.na(animScale)]
 
                 # Choose correct scaleRange
                 scaleRange_i=scaleRange
 
                 if(!is.null(scaleRange_i)){
                   if(any(param_i %in% unique(scaleRange_i$param))){
-                    if(max(animScaleGrid) < (scaleRange_i %>% dplyr::filter(param==param_i))$maxScale){
-                      animScaleGrid<-c(animScaleGrid,(scaleRange_i %>% dplyr::filter(param==param_i))$maxScale)} else {
-                        animScaleGrid <- c((scaleRange_i %>% dplyr::filter(param==param_i))$maxScale,
-                                           animScaleGrid[animScaleGrid<(scaleRange_i %>% dplyr::filter(param==param_i))$maxScale])
+                    if(max(animScale) < (scaleRange_i %>% dplyr::filter(param==param_i))$maxScale){
+                      animScale<-c(animScale,(scaleRange_i %>% dplyr::filter(param==param_i))$maxScale)} else {
+                        animScale <- c((scaleRange_i %>% dplyr::filter(param==param_i))$maxScale,
+                                           animScale[animScale<(scaleRange_i %>% dplyr::filter(param==param_i))$maxScale])
                       }
-                    if(min(animScaleGrid) > (scaleRange_i %>% dplyr::filter(param==param_i))$minScale){
-                      animScaleGrid<-c(animScaleGrid,(scaleRange_i %>% dplyr::filter(param==param_i))$minScale)} else {
-                        animScaleGrid <-  c((scaleRange_i %>% dplyr::filter(param==param_i))$minScale,
-                                            animScaleGrid[animScaleGrid>(scaleRange_i %>% dplyr::filter(param==param_i))$minScale])
+                    if(min(animScale) > (scaleRange_i %>% dplyr::filter(param==param_i))$minScale){
+                      animScale<-c(animScale,(scaleRange_i %>% dplyr::filter(param==param_i))$minScale)} else {
+                        animScale <-  c((scaleRange_i %>% dplyr::filter(param==param_i))$minScale,
+                                            animScale[animScale>(scaleRange_i %>% dplyr::filter(param==param_i))$minScale])
                       }
                   }
                 }
-                animPrettyBreaksGrid<-scales::pretty_breaks(n=legendBreaksn)(animScaleGrid); animPrettyBreaksGrid
-                animKmeanBreaksGrid<-sort(as.vector((stats::kmeans(animScaleGrid,
-                                                                   centers=max(1,min(length(unique(animScaleGrid))-1,(legendBreaksn-1)))))$centers[,1]));animKmeanBreaksGrid
-                if(!min(animScaleGrid) %in% animKmeanBreaksGrid){
-                  animKmeanBreaksGrid <- sort(c(min(animScaleGrid),animKmeanBreaksGrid))}
-                if(!max(animScaleGrid) %in% animKmeanBreaksGrid){
-                  animKmeanBreaksGrid <- sort(c(animKmeanBreaksGrid,max(animScaleGrid)))};animKmeanBreaksGrid
+                animPrettyBreaks<-scales::pretty_breaks(n=legendBreaksn)(animScale); animPrettyBreaks
+                animKmeanBreaks<-sort(as.vector((stats::kmeans(animScale,
+                                                                   centers=max(1,min(length(unique(animScale))-1,(legendBreaksn-1)))))$centers[,1]));animKmeanBreaks
+                if(!min(animScale) %in% animKmeanBreaks){
+                  animKmeanBreaks <- sort(c(min(animScale),animKmeanBreaks))}
+                if(!max(animScale) %in% animKmeanBreaks){
+                  animKmeanBreaks <- sort(c(animKmeanBreaks,max(animScale)))};animKmeanBreaks
 
 
-                if((max(range(animScaleGrid))-min(range(animScaleGrid)))<1E-10 &
-                   (max(range(animScaleGrid))-min(range(animScaleGrid)))>-1E-10){animScaleGridRange=min(animScaleGrid)}else{
-                     animScaleGridRange=range(animScaleGrid)
+                if((max(range(animScale))-min(range(animScale)))<1E-10 &
+                   (max(range(animScale))-min(range(animScale)))>-1E-10){animScaleRange=min(animScale)}else{
+                     animScaleRange=range(animScale)
                    }
 
-                if(abs(min(animScaleGridRange,na.rm = T))==abs(max(animScaleGridRange,na.rm = T))){animScaleGridRange=abs(min(animScaleGridRange,na.rm = T))}
-                if(mean(animScaleGridRange,na.rm = T)<0.01 & mean(animScaleGridRange,na.rm = T)>(-0.01)){animLegendDigits<-5}else{
-                  if(mean(animScaleGridRange,na.rm = T)<0.1 & mean(animScaleGridRange,na.rm = T)>(-0.1)){animLegendDigits<-4}else{
-                    if(mean(animScaleGridRange,na.rm = T)<1 & mean(animScaleGridRange,na.rm = T)>(-1)){animLegendDigits<-3}else{
-                      if(mean(animScaleGridRange,na.rm = T)<10 & mean(animScaleGridRange,na.rm = T)>(-10)){animLegendDigits<-2}else{animLegendDigits<-1}}}}
+                if(abs(min(animScaleRange,na.rm = T))==abs(max(animScaleRange,na.rm = T))){animScaleRange=abs(min(animScaleRange,na.rm = T))}
+                if(mean(animScaleRange,na.rm = T)<0.01 & mean(animScaleRange,na.rm = T)>(-0.01)){animLegendDigits<-5}else{
+                  if(mean(animScaleRange,na.rm = T)<0.1 & mean(animScaleRange,na.rm = T)>(-0.1)){animLegendDigits<-4}else{
+                    if(mean(animScaleRange,na.rm = T)<1 & mean(animScaleRange,na.rm = T)>(-1)){animLegendDigits<-3}else{
+                      if(mean(animScaleRange,na.rm = T)<10 & mean(animScaleRange,na.rm = T)>(-10)){animLegendDigits<-2}else{animLegendDigits<-1}}}}
 
               }
 
               # By Year
-              if(length(unique(gridTblx$x))>1){
+              if(length(unique(dataTblx$x))>1){
 
-              for (x_i in unique(gridTblx$x)){
+              for (x_i in unique(dataTblx$x)){
 
-                datax<-gridTblx%>%dplyr::filter(x==x_i)
+                datax<-dataTblx%>%dplyr::filter(x==x_i)
 
                 if(nrow(datax)>0){
-                  legendTitle<-unique(datax$units)
+                  if(is.null(legendTitleOrig)){legendTitle<-unique(datax$units)}
                   fillPalette<-as.character(unique(datax$classPalette))
 
                   # Set Facets
@@ -1201,33 +1043,45 @@ map <- function(data = NULL,
                   # Check for Duplicates
                   if(duplicated(datax %>%
                                 dplyr::select(lat,lon,x,dplyr::all_of(multiFacetRowsx),dplyr::all_of(multiFacetColsx))) %>%
-                     any()){stop("Input grid data has multiple values for the same lat and lon. Please check your data.")}
+                     any()){stop("Input data data has multiple values for the same lat and lon. Please check your data.")}
 
 
                   if(any(grepl("all|kmean",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
-                    rmap::mapplot(printFig=printFig, overLayer=overLayer, overLayerColor=overLayerColor, overLayerFill = overLayerFill, overLayerLwd = overLayerLwd, overLayerAlpha = overLayerAlpha, underLayerColor, underLayerFill = underLayerFill, underLayerLwd = underLayerLwd, underLayerAlpha = underLayerAlpha, background=background, zoom=zoom, zoomx = zoomx, zoomy=zoomy, alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)), ncol=ncol, showNA=showNA, colorNA=colorNA,
+                    rmap::map_plot(save=save, overLayer=overLayer, overLayerColor=overLayerColor,
+                                  overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
+                                  overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
+                                  underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
+                                  underLayerAlpha = underLayerAlpha, background=background,
+                                  zoom=zoom, zoomx = zoomx, zoomy=zoomy, asp=asp, legendShow=legendShow,
+                                  cropToBoundary = cropToBoundary, transparent=transparent,
+                                  alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)),
+                                  ncol=ncol, showNA=showNA, colorNA=colorNA,
                                   theme = theme, legendTitle=legendTitle,
                                   legendDigitsOverride=legendDigitsOverride,
                                   numeric2Cat_list=numeric2Cat_list,
                                   underLayer=underLayer,
-                                  dataPolygon=shapex,
-                                  dataGrid=datax,
+                                  data=datax,
+                                  labelColor=labelColor,
+                                  labelSize=labelSize,
+                                  labelAlpha=labelAlpha,
+                                  labelFill=labelFill,
+                                  labelBorderSize=labelBorderSize,
                                   legendBreaksn=legendBreaksn,
                                   legendDigits = animLegendDigits,
                                   fillPalette = fillPalette,
                                   width=width*max(1,colm/1),
                                   height=height*max(1,rowm/1),
                                   pdfpng = pdfpng, legendSingleColor = legendSingleColor, legendSingleValue =  legendSingleValue,
-                                  labels=labels,
-                                  legendBreaks = animKmeanBreaksGrid,
+                                  labels=labels, labelForce=labelForce, underLayerLabels=underLayerLabels, overLayerLabels=overLayerLabels,
+                                  legendBreaks = animKmeanBreaks,
                                   fillColumn = "value",
                                   facetCols = multiFacetColsx,
                                   facetRows = multiFacetRowsx,
                                   mapTitle=paste(param_i," ",x_i,sep="") ,
-                                  fileName = paste("map_","raster_",param_i,"_",x_i,nameAppend,"_KMEANS",sep=""),
-                                  folder = paste(dirOutputsX,"/",param_if,"/combScenario/byYear",sep = "")) ->
+                                  fileName = paste("map_",param_i,"_",x_i,nameAppend,"_KMEANS",sep=""),
+                                  folder = paste(folder,"/",param_if,"/combScenario/byYear",sep = "")) ->
                       mapsReturn[[return_i]];
-                      names(mapsReturn)[return_i] <- paste("map_","raster_",param_i,"_",x_i,nameAppend,"_KMEANS",sep="");
+                      names(mapsReturn)[return_i] <- paste("map_",param_i,"_",x_i,nameAppend,"_KMEANS",sep="");
                       return_i = return_i + 1
 
                       # theme_ggplot = theme_ggplot
@@ -1236,8 +1090,7 @@ map <- function(data = NULL,
                       # legendDigitsOverride=legendDigitsOverride
                       # numeric2Cat_list=numeric2Cat_list
                       # underLayer=underLayer
-                      # dataPolygon=shapex
-                      # dataGrid=datax
+                      # data=datax
                       # legendBreaksn=legendBreaksn
                       # legendDigits = animLegendDigits
                       # fillPalette = fillPalette
@@ -1247,67 +1100,91 @@ map <- function(data = NULL,
                       # legendSingleColor = legendSingleColor
                       # legendSingleValue =  legendSingleValue
                       # labels=labels
-                      # legendBreaks = animKmeanBreaksGrid
+                      # legendBreaks = animKmeanBreaks
                       # fillColumn = "value"
                       # facetCols = multiFacetColsx
                       # facetRows = multiFacetRowsx
                       # mapTitle=paste(param_i," ",x_i,sep="")
-                      # fileName = paste("map_","raster_",param_i,"_",x_i,nameAppend,"_KMEANS",sep="")
-                      # folder = paste(dirOutputsX,"/",param_if,"/combScenario/byYear",sep = "")
+                      # fileName = paste("map_",param_i,"_",x_i,nameAppend,"_KMEANS",sep="")
+                      # folder = paste(folder,"/",param_if,"/combScenario/byYear",sep = "")
 
                     }
 
                   if(any(grepl("all|pretty",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
-                    rmap::mapplot(printFig=printFig, overLayer=overLayer, overLayerColor=overLayerColor, overLayerFill = overLayerFill, overLayerLwd = overLayerLwd, overLayerAlpha = overLayerAlpha, underLayerColor, underLayerFill = underLayerFill, underLayerLwd = underLayerLwd, underLayerAlpha = underLayerAlpha, background=background, zoom=zoom, zoomx = zoomx, zoomy=zoomy, alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)), ncol=ncol, showNA=showNA, colorNA=colorNA,
+                    rmap::map_plot(save=save, overLayer=overLayer, overLayerColor=overLayerColor,
+                                   overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
+                                   overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
+                                   underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
+                                   underLayerAlpha = underLayerAlpha, background=background,
+                                   zoom=zoom, zoomx = zoomx, zoomy=zoomy, asp=asp, legendShow=legendShow,
+                                   cropToBoundary = cropToBoundary, transparent=transparent,
+                                   alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)), ncol=ncol,
+                                   showNA=showNA, colorNA=colorNA,
+                                   labelColor=labelColor,
+                                   labelSize=labelSize,
+                                   labelAlpha=labelAlpha,
+                                   labelFill=labelFill,
+                                   labelBorderSize=labelBorderSize,
                                   theme = theme, legendTitle=legendTitle,
                                   legendDigitsOverride=legendDigitsOverride,
                                   numeric2Cat_list=numeric2Cat_list,
                                   underLayer=underLayer,
-                                  dataPolygon=shapex,
-                                  dataGrid=datax,
+                                  data=datax,
                                   legendBreaksn=legendBreaksn,
                                   legendDigits = animLegendDigits,
                                   fillPalette = fillPalette,
                                   width=width*max(1,colm/1),
                                   height=height*max(1,rowm/1),
                                   pdfpng = pdfpng, legendSingleColor = legendSingleColor, legendSingleValue =  legendSingleValue,
-                                  labels=labels,
-                                  legendBreaks = animPrettyBreaksGrid,
+                                  labels=labels, labelForce=labelForce, underLayerLabels=underLayerLabels, overLayerLabels=overLayerLabels,
+                                  legendBreaks = animPrettyBreaks,
                                   fillColumn = "value",
                                   facetCols = multiFacetColsx,
                                   facetRows = multiFacetRowsx,
                                   mapTitle=paste(param_i," ",x_i,sep="") ,
-                                  fileName = paste("map_","raster_",param_i,"_",x_i,nameAppend,"_PRETTY",sep=""),
-                                  folder = paste(dirOutputsX,"/",param_if,"/combScenario/byYear",sep = "")) ->
+                                  fileName = paste("map_",param_i,"_",x_i,nameAppend,"_PRETTY",sep=""),
+                                  folder = paste(folder,"/",param_if,"/combScenario/byYear",sep = "")) ->
                       mapsReturn[[return_i]];
-                    names(mapsReturn)[return_i] <- paste("map_","raster_",param_i,"_",x_i,nameAppend,"_PRETTY",sep="");
+                    names(mapsReturn)[return_i] <- paste("map_",param_i,"_",x_i,nameAppend,"_PRETTY",sep="");
                     return_i = return_i + 1
                   }
 
                   if(!is.null(legendFixedBreaks)){
-                    rmap::mapplot(printFig=printFig, overLayer=overLayer, overLayerColor=overLayerColor, overLayerFill = overLayerFill, overLayerLwd = overLayerLwd, overLayerAlpha = overLayerAlpha, underLayerColor, underLayerFill = underLayerFill, underLayerLwd = underLayerLwd, underLayerAlpha = underLayerAlpha, background=background, zoom=zoom, zoomx = zoomx, zoomy=zoomy, alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)), ncol=ncol, showNA=showNA, colorNA=colorNA,
+                    rmap::map_plot(save=save, overLayer=overLayer, overLayerColor=overLayerColor,
+                                   overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
+                                   overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
+                                   underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
+                                   underLayerAlpha = underLayerAlpha, background=background,
+                                   zoom=zoom, zoomx = zoomx, zoomy=zoomy, asp=asp, legendShow=legendShow,
+                                   cropToBoundary = cropToBoundary, transparent=transparent,
+                                   alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)), ncol=ncol,
+                                   showNA=showNA, colorNA=colorNA,
+                                   labelColor=labelColor,
+                                   labelSize=labelSize,
+                                   labelAlpha=labelAlpha,
+                                   labelFill=labelFill,
+                                   labelBorderSize=labelBorderSize,
                                   theme = theme, legendTitle=legendTitle,
                                   legendDigitsOverride=legendDigitsOverride,
                                   numeric2Cat_list=numeric2Cat_list,
                                   underLayer=underLayer,
-                                  dataPolygon=shapex,
-                                  dataGrid=datax,
+                                  data=datax,
                                   legendBreaksn=legendBreaksn,
                                   legendDigits = animLegendDigits,
                                   fillPalette = fillPalette,
                                   width=width*max(1,colm/1),
                                   height=height*max(1,rowm/1),
                                   pdfpng = pdfpng, legendSingleColor = legendSingleColor, legendSingleValue =  legendSingleValue,
-                                  labels=labels,
+                                  labels=labels, labelForce=labelForce, underLayerLabels=underLayerLabels, overLayerLabels=overLayerLabels,
                                   legendBreaks = legendFixedBreaks,
                                   fillColumn = "value",
                                   facetCols = multiFacetColsx,
                                   facetRows = multiFacetRowsx,
                                   mapTitle=paste(param_i," ",x_i,sep="") ,
-                                  fileName = paste("map_","raster_",param_i,"_",x_i,nameAppend,"_FIXED",sep=""),
-                                  folder = paste(dirOutputsX,"/",param_if,"/combScenario/byYear",sep = "")) ->
+                                  fileName = paste("map_",param_i,"_",x_i,nameAppend,"_FIXED",sep=""),
+                                  folder = paste(folder,"/",param_if,"/combScenario/byYear",sep = "")) ->
                       mapsReturn[[return_i]];
-                    names(mapsReturn)[return_i] <- paste("map_","raster_",param_i,"_",x_i,nameAppend,"_FIXED",sep="");
+                    names(mapsReturn)[return_i] <- paste("map_",param_i,"_",x_i,nameAppend,"_FIXED",sep="");
                     return_i = return_i + 1
                   }
 
@@ -1318,35 +1195,35 @@ map <- function(data = NULL,
               if(animateOn==T){
 
                 if(any(grepl("all|pretty",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
-                  animName<-paste("anim_","raster_",param_i,nameAppend,"_PRETTY.gif",sep="")
-                  animFiles <- list.files(path = paste(dirOutputsX,"/",param_if,"/combScenario/byYear",sep=""),
+                  animName<-paste("anim_",param_i,nameAppend,"_PRETTY.gif",sep="")
+                  animFiles <- list.files(path = paste(folder,"/",param_if,"/combScenario/byYear",sep=""),
                                           pattern = paste(".*",param_i,".*",nameAppend,".*PRETTY", ".", pdfpng,sep=""), full.names=T,ignore.case = T, include.dirs = T);
                   animation <- magick::image_animate(magick::image_join(lapply(animFiles, magick::image_read)),fps=fps)
-                  magick::image_write(animation,paste(dirOutputsX,"/",param_if,"/combScenario/",
+                  magick::image_write(animation,paste(folder,"/",param_if,"/combScenario/",
                                                       animName,sep = ""))
-                  print(gsub("//","/",paste("animation saved in :",dirOutputsX,"/",param_if,"/combScenario/",
+                  print(gsub("//","/",paste("animation saved in :",folder,"/",param_if,"/combScenario/",
                                             animName,sep = "")))
                 }
 
                 if(any(grepl("all|kmean",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
-                  animName<-paste("anim_","raster_",param_i,nameAppend,"_KMEANS.gif",sep="")
-                  animFiles <- list.files(path = paste(dirOutputsX,"/",param_if,"/combScenario/byYear",sep=""),
+                  animName<-paste("anim_",param_i,nameAppend,"_KMEANS.gif",sep="")
+                  animFiles <- list.files(path = paste(folder,"/",param_if,"/combScenario/byYear",sep=""),
                                           pattern = paste(".*",param_i,".*",nameAppend,".*KMEANS", ".", pdfpng,sep=""), full.names=T,ignore.case = T, include.dirs = T);
                   animation <- magick::image_animate(magick::image_join(lapply(animFiles, magick::image_read)),fps=fps)
-                  magick::image_write(animation,paste(dirOutputsX,"/",param_if,"/combScenario/",
+                  magick::image_write(animation,paste(folder,"/",param_if,"/combScenario/",
                                                       animName,sep = ""))
-                  print(gsub("//","/",paste("animation saved in :",dirOutputsX,"/",param_if,"/combScenario/",
+                  print(gsub("//","/",paste("animation saved in :",folder,"/",param_if,"/combScenario/",
                                             animName,sep = "")))
                 }
 
                 if(!is.null(legendFixedBreaks)){
-                  animName<-paste("anim_","raster_",param_i,nameAppend,"_FIXED.gif",sep="")
-                  animFiles <- list.files(path = paste(dirOutputsX,"/",param_if,"/combScenario/byYear",sep=""),
+                  animName<-paste("anim_",param_i,nameAppend,"_FIXED.gif",sep="")
+                  animFiles <- list.files(path = paste(folder,"/",param_if,"/combScenario/byYear",sep=""),
                                           pattern = paste(".*",param_i,".*",nameAppend,".*FIXED", ".", pdfpng,sep=""), full.names=T,ignore.case = T, include.dirs = T);
                   animation <- magick::image_animate(magick::image_join(lapply(animFiles, magick::image_read)),fps=fps)
-                  magick::image_write(animation,paste(dirOutputsX,"/",param_if,"/combScenario/",
+                  magick::image_write(animation,paste(folder,"/",param_if,"/combScenario/",
                                                       animName,sep = ""))
-                  print(gsub("//","/",paste("animation saved in :",dirOutputsX,"/",param_if,"/combScenario/",
+                  print(gsub("//","/",paste("animation saved in :",folder,"/",param_if,"/combScenario/",
                                             animName,sep = "")))
                 }
 
@@ -1354,17 +1231,17 @@ map <- function(data = NULL,
               }
 
               # Multi-Year-Single Chart
-              datax<-gridTblx%>%dplyr::filter(param==param_i)
+              datax<-dataTblx%>%dplyr::filter(param==param_i)
 
               if(nrow(datax)>0){
 
-                legendTitle<-unique(datax$units)
+                if(is.null(legendTitleOrig)){legendTitle<-unique(datax$units)}
                 fillPalette<-as.character(unique(datax$classPalette))
 
-                animScaleGrid<-datax$value
-                animScaleGrid <- animScaleGrid[!is.infinite(animScaleGrid)]
-                animScaleGrid <- animScaleGrid[!is.nan(animScaleGrid)]
-                animScaleGrid <- animScaleGrid[!is.na(animScaleGrid)]
+                animScale<-datax$value
+                animScale <- animScale[!is.infinite(animScale)]
+                animScale <- animScale[!is.nan(animScale)]
+                animScale <- animScale[!is.na(animScale)]
 
                 # Choose correct scaleRange
                 if(T){
@@ -1372,35 +1249,35 @@ map <- function(data = NULL,
 
                   if(!is.null(scaleRange_i)){
                     if(any(param_i %in% unique(scaleRange_i$param))){
-                      if(max(animScaleGrid) < (scaleRange_i %>% dplyr::filter(param==param_i))$maxScale){
-                        animScaleGrid<-c(animScaleGrid,(scaleRange_i %>% dplyr::filter(param==param_i))$maxScale)} else {
-                          animScaleGrid <- c((scaleRange_i %>% dplyr::filter(param==param_i))$maxScale,
-                                             animScaleGrid[animScaleGrid<(scaleRange_i %>% dplyr::filter(param==param_i))$maxScale])
+                      if(max(animScale) < (scaleRange_i %>% dplyr::filter(param==param_i))$maxScale){
+                        animScale<-c(animScale,(scaleRange_i %>% dplyr::filter(param==param_i))$maxScale)} else {
+                          animScale <- c((scaleRange_i %>% dplyr::filter(param==param_i))$maxScale,
+                                             animScale[animScale<(scaleRange_i %>% dplyr::filter(param==param_i))$maxScale])
                         }
-                      if(min(animScaleGrid) > (scaleRange_i %>% dplyr::filter(param==param_i))$minScale){
-                        animScaleGrid<-c(animScaleGrid,(scaleRange_i %>% dplyr::filter(param==param_i))$minScale)} else {
-                          animScaleGrid <-  c((scaleRange_i %>% dplyr::filter(param==param_i))$minScale,
-                                              animScaleGrid[animScaleGrid>(scaleRange_i %>% dplyr::filter(param==param_i))$minScale])
+                      if(min(animScale) > (scaleRange_i %>% dplyr::filter(param==param_i))$minScale){
+                        animScale<-c(animScale,(scaleRange_i %>% dplyr::filter(param==param_i))$minScale)} else {
+                          animScale <-  c((scaleRange_i %>% dplyr::filter(param==param_i))$minScale,
+                                              animScale[animScale>(scaleRange_i %>% dplyr::filter(param==param_i))$minScale])
                         }
                     }
                   }
-                  animPrettyBreaksGrid<-scales::pretty_breaks(n=legendBreaksn)(animScaleGrid)
-                  animKmeanBreaksGrid<-sort(as.vector((stats::kmeans(animScaleGrid,
-                                                                     centers=max(1,min(length(unique(animScaleGrid))-1,(legendBreaksn-1)))))$centers[,1]))
-                  if(!min(animScaleGrid) %in% animKmeanBreaksGrid){
-                    animKmeanBreaksGrid <- sort(c(min(animScaleGrid),animKmeanBreaksGrid))}
-                  if(!max(animScaleGrid) %in% animKmeanBreaksGrid){
-                    animKmeanBreaksGrid <- sort(c(animKmeanBreaksGrid,max(animScaleGrid)))}
+                  animPrettyBreaks<-scales::pretty_breaks(n=legendBreaksn)(animScale)
+                  animKmeanBreaks<-sort(as.vector((stats::kmeans(animScale,
+                                                                     centers=max(1,min(length(unique(animScale))-1,(legendBreaksn-1)))))$centers[,1]))
+                  if(!min(animScale) %in% animKmeanBreaks){
+                    animKmeanBreaks <- sort(c(min(animScale),animKmeanBreaks))}
+                  if(!max(animScale) %in% animKmeanBreaks){
+                    animKmeanBreaks <- sort(c(animKmeanBreaks,max(animScale)))}
 
-                  if((max(range(animScaleGrid))-min(range(animScaleGrid)))<1E-10 &
-                     (max(range(animScaleGrid))-min(range(animScaleGrid)))>-1E-10){animScaleGridRange=min(animScaleGrid)}else{
-                       animScaleGridRange=range(animScaleGrid)
+                  if((max(range(animScale))-min(range(animScale)))<1E-10 &
+                     (max(range(animScale))-min(range(animScale)))>-1E-10){animScaleRange=min(animScale)}else{
+                       animScaleRange=range(animScale)
                      }
-                  if(abs(min(animScaleGridRange,na.rm = T))==abs(max(animScaleGridRange,na.rm = T))){animScaleGridRange=abs(min(animScaleGridRange,na.rm = T))}
-                  if(mean(animScaleGridRange,na.rm = T)<0.01 & mean(animScaleGridRange,na.rm = T)>(-0.01)){animLegendDigits<-5}else{
-                    if(mean(animScaleGridRange,na.rm = T)<0.1 & mean(animScaleGridRange,na.rm = T)>(-0.1)){animLegendDigits<-4}else{
-                      if(mean(animScaleGridRange,na.rm = T)<1 & mean(animScaleGridRange,na.rm = T)>(-1)){animLegendDigits<-3}else{
-                        if(mean(animScaleGridRange,na.rm = T)<10 & mean(animScaleGridRange,na.rm = T)>(-10)){animLegendDigits<-2}else{animLegendDigits<-1}}}}
+                  if(abs(min(animScaleRange,na.rm = T))==abs(max(animScaleRange,na.rm = T))){animScaleRange=abs(min(animScaleRange,na.rm = T))}
+                  if(mean(animScaleRange,na.rm = T)<0.01 & mean(animScaleRange,na.rm = T)>(-0.01)){animLegendDigits<-5}else{
+                    if(mean(animScaleRange,na.rm = T)<0.1 & mean(animScaleRange,na.rm = T)>(-0.1)){animLegendDigits<-4}else{
+                      if(mean(animScaleRange,na.rm = T)<1 & mean(animScaleRange,na.rm = T)>(-1)){animLegendDigits<-3}else{
+                        if(mean(animScaleRange,na.rm = T)<10 & mean(animScaleRange,na.rm = T)>(-10)){animLegendDigits<-2}else{animLegendDigits<-1}}}}
                 }
 
                 # Set Facets
@@ -1471,103 +1348,182 @@ map <- function(data = NULL,
                   } else { multiFacetRowsx <- facetRows; rowm <- length(facetRows)}
                 }
 
-
-
                 # Check for Duplicates
                 if(duplicated(datax %>%
-                              dplyr::select(lat,lon,x,dplyr::all_of(multiFacetRowsx),dplyr::all_of(multiFacetColsx))) %>%
-                   any()){stop("Input grid data has multiple values for the same lat and lon. Please check your data.")}
+                              dplyr::select(subRegion,lat,lon,x,dplyr::all_of(multiFacetRowsx),dplyr::all_of(multiFacetColsx))) %>%
+                   any()){stop("Input data data has multiple values for the same lat and lon. Please check your data.")}
 
                 if(any(grepl("all|kmean",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
-                  rmap::mapplot(printFig=printFig, overLayer=overLayer, overLayerColor=overLayerColor, overLayerFill = overLayerFill, overLayerLwd = overLayerLwd, overLayerAlpha = overLayerAlpha, underLayerColor, underLayerFill = underLayerFill, underLayerLwd = underLayerLwd, underLayerAlpha = underLayerAlpha, background=background, zoom=zoom, zoomx = zoomx, zoomy=zoomy, alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)), ncol=ncol, showNA=showNA, colorNA=colorNA,
+                  rmap::map_plot(save=save, overLayer=overLayer, overLayerColor=overLayerColor,
+                                 overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
+                                 overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
+                                 underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
+                                 underLayerAlpha = underLayerAlpha, background=background, zoom=zoom,
+                                 zoomx = zoomx, zoomy=zoomy, asp=asp, legendShow=legendShow,
+                                 cropToBoundary = cropToBoundary, transparent=transparent,
+                                 alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)), ncol=ncol,
+                                 showNA=showNA, colorNA=colorNA,
+                                 labelColor=labelColor,
+                                 labelSize=labelSize,
+                                 labelAlpha=labelAlpha,
+                                 labelFill=labelFill,
+                                 labelBorderSize=labelBorderSize,
                                 theme = theme, legendTitle=legendTitle,
                                 legendDigitsOverride=legendDigitsOverride,
                                 numeric2Cat_list=numeric2Cat_list,
                                 underLayer=underLayer,
-                                dataPolygon=shapex,
-                                dataGrid=datax,
+                                data=datax,
                                 legendBreaksn=legendBreaksn,
                                 legendDigits = animLegendDigits,
                                 fillPalette = fillPalette,
                                 width=width*max(1,colm/1),
                                 height=height*max(1,rowm/1),
                                 pdfpng = pdfpng, legendSingleColor = legendSingleColor, legendSingleValue =  legendSingleValue,
-                                labels=labels,
-                                legendBreaks = animKmeanBreaksGrid,
+                                labels=labels, labelForce=labelForce, underLayerLabels=underLayerLabels, overLayerLabels=overLayerLabels,
+                                legendBreaks = animKmeanBreaks,
                                 fillColumn = "value",
                                 facetCols = multiFacetColsx,
                                 facetRows = multiFacetRowsx,
                                 mapTitle=paste(param_i,sep=""),
-                                fileName = paste("map_","raster_",param_i,nameAppend,"_KMEANS",sep=""),
-                                folder = sub("/$","",paste(dirOutputsX,"/",param_if,"/combScenario",sep = ""))) ->
+                                fileName = paste("map_",param_i,nameAppend,"_KMEANS",sep=""),
+                                folder = sub("/$","",paste(folder,"/",param_if,"/combScenario",sep = ""))) ->
                     mapsReturn[[return_i]];
-                  names(mapsReturn)[return_i] <- paste("map_","raster_",param_i,nameAppend,"_KMEANS",sep="");
+                  names(mapsReturn)[return_i] <- paste("map_",param_i,nameAppend,"_KMEANS",sep="");
                   return_i = return_i + 1
+
+
+                  # save=save
+                  # overLayer=overLayer
+                  # overLayerColor=overLayerColor
+                  # overLayerFill = overLayerFill
+                  # overLayerLwd = overLayerLwd
+                  # overLayerAlpha = overLayerAlpha
+                  # underLayerColor = underLayerColor
+                  # underLayerFill = underLayerFill
+                  # underLayerLwd = underLayerLwd
+                  # underLayerAlpha = underLayerAlpha
+                  # background=background
+                  # zoom=zoom
+                  # zoomx = zoomx
+                  # zoomy=zoomy
+                  # alpha = alpha
+                  # size=max(1,(size+(colm+rowm)*3 - 12))
+                  # ncol=ncol
+                  # showNA=showNA
+                  # colorNA=colorNA
+                  # theme = theme
+                  # legendTitle=legendTitle
+                  # legendDigitsOverride=legendDigitsOverride
+                  # numeric2Cat_list=numeric2Cat_list
+                  # underLayer=underLayer
+                  # data=datax
+                  # legendBreaksn=legendBreaksn
+                  # legendDigits = animLegendDigits
+                  # fillPalette = fillPalette
+                  # width=width*max(1,colm/1)
+                  # height=height*max(1,rowm/1)
+                  # pdfpng = pdfpng
+                  # legendSingleColor = legendSingleColor
+                  # legendSingleValue =  legendSingleValue
+                  # labels=labels
+                  # legendBreaks = animKmeanBreaks
+                  # fillColumn = "value"
+                  # facetCols = multiFacetColsx
+                  # facetRows = multiFacetRowsx
+                  # mapTitle=paste(param_i,sep="")
+                  # fileName = paste("map_",param_i,nameAppend,"_KMEANS",sep="")
+                  # folder = sub("/$","",paste(folder,"/",param_if,"/combScenario",sep = ""))
+
                   }
 
                 if(any(grepl("all|pretty",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
-                  rmap::mapplot(printFig=printFig, overLayer=overLayer, overLayerColor=overLayerColor, overLayerFill = overLayerFill, overLayerLwd = overLayerLwd, overLayerAlpha = overLayerAlpha, underLayerColor, underLayerFill = underLayerFill, underLayerLwd = underLayerLwd, underLayerAlpha = underLayerAlpha, background=background, zoom=zoom, zoomx = zoomx, zoomy=zoomy, alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)), ncol=ncol, showNA=showNA, colorNA=colorNA,
+                  rmap::map_plot(save=save, overLayer=overLayer, overLayerColor=overLayerColor,
+                                 overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
+                                 overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
+                                 underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
+                                 underLayerAlpha = underLayerAlpha, background=background,
+                                 zoom=zoom, zoomx = zoomx, zoomy=zoomy, asp=asp, legendShow=legendShow,
+                                 cropToBoundary = cropToBoundary, transparent=transparent,
+                                 alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)), ncol=ncol,
+                                 showNA=showNA, colorNA=colorNA,
+                                 labelColor=labelColor,
+                                 labelSize=labelSize,
+                                 labelAlpha=labelAlpha,
+                                 labelFill=labelFill,
+                                 labelBorderSize=labelBorderSize,
                                 theme = theme, legendTitle=legendTitle,
                                 legendDigitsOverride=legendDigitsOverride,
                                 numeric2Cat_list=numeric2Cat_list,
                                 underLayer=underLayer,
-                                dataPolygon=shapex,
-                                dataGrid=datax,
+                                data=datax,
                                 legendBreaksn=legendBreaksn,
                                 legendDigits = animLegendDigits,
                                 fillPalette = fillPalette,
                                 width=width*max(1,colm/1),
                                 height=height*max(1,rowm/1),
                                 pdfpng = pdfpng, legendSingleColor = legendSingleColor, legendSingleValue =  legendSingleValue,
-                                labels=labels,
-                                legendBreaks = animPrettyBreaksGrid,
+                                labels=labels, labelForce=labelForce, underLayerLabels=underLayerLabels, overLayerLabels=overLayerLabels,
+                                legendBreaks = animPrettyBreaks,
                                 fillColumn = "value",
                                 facetCols = multiFacetColsx,
                                 facetRows = multiFacetRowsx,
                                 mapTitle=paste(param_i,sep=""),
-                                fileName = paste("map_","raster_",param_i,nameAppend,"_PRETTY",sep=""),
-                                folder = sub("/$","",paste(dirOutputsX,"/",param_if,"/combScenario",sep = ""))) ->
+                                fileName = paste("map_",param_i,nameAppend,"_PRETTY",sep=""),
+                                folder = sub("/$","",paste(folder,"/",param_if,"/combScenario",sep = ""))) ->
                     mapsReturn[[return_i]];
-                  names(mapsReturn)[return_i] <- paste("map_","raster_",param_i,nameAppend,"_PRETTY",sep="");
+                  names(mapsReturn)[return_i] <- paste("map_",param_i,nameAppend,"_PRETTY",sep="");
                   return_i = return_i + 1
                   }
 
                 if(!is.null(legendFixedBreaks)){
-                  rmap::mapplot(printFig=printFig, overLayer=overLayer, overLayerColor=overLayerColor, overLayerFill = overLayerFill, overLayerLwd = overLayerLwd, overLayerAlpha = overLayerAlpha, underLayerColor, underLayerFill = underLayerFill, underLayerLwd = underLayerLwd, underLayerAlpha = underLayerAlpha, background=background, zoom=zoom, zoomx = zoomx, zoomy=zoomy, alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)), ncol=ncol, showNA=showNA, colorNA=colorNA,
+                  rmap::map_plot(save=save, overLayer=overLayer, overLayerColor=overLayerColor,
+                                 overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
+                                 overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
+                                 underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
+                                 underLayerAlpha = underLayerAlpha, background=background,
+                                 zoom=zoom, zoomx = zoomx, zoomy=zoomy, asp=asp, legendShow=legendShow,
+                                 cropToBoundary = cropToBoundary, transparent=transparent,
+                                 alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)), ncol=ncol,
+                                 showNA=showNA, colorNA=colorNA,
+                                 labelColor=labelColor,
+                                 labelSize=labelSize,
+                                 labelAlpha=labelAlpha,
+                                 labelFill=labelFill,
+                                 labelBorderSize=labelBorderSize,
                                 theme = theme, legendTitle=legendTitle,
                                 legendDigitsOverride=legendDigitsOverride,
                                 numeric2Cat_list=numeric2Cat_list,
                                 underLayer=underLayer,
-                                dataPolygon=shapex,
-                                dataGrid=datax,
+                                data=datax,
                                 legendBreaksn=legendBreaksn,
                                 legendDigits = animLegendDigits,
                                 fillPalette = fillPalette,
                                 width=width*max(1,colm/1),
                                 height=height*max(1,rowm/1),
                                 pdfpng = pdfpng, legendSingleColor = legendSingleColor, legendSingleValue =  legendSingleValue,
-                                labels=labels,
+                                labels=labels, labelForce=labelForce, underLayerLabels=underLayerLabels, overLayerLabels=overLayerLabels,
                                 legendBreaks = legendFixedBreaks,
                                 fillColumn = "value",
                                 facetCols = multiFacetColsx,
                                 facetRows = multiFacetRowsx,
                                 mapTitle=paste(param_i,sep=""),
-                                fileName = paste("map_","raster_",param_i,nameAppend,"_FIXED",sep=""),
-                                folder = sub("/$","",paste(dirOutputsX,"/",param_if,"/combScenario",sep = ""))) ->
+                                fileName = paste("map_",param_i,nameAppend,"_FIXED",sep=""),
+                                folder = sub("/$","",paste(folder,"/",param_if,"/combScenario",sep = ""))) ->
                     mapsReturn[[return_i]];
-                  names(mapsReturn)[return_i] <- paste("map_","raster_",param_i,nameAppend,"_FIXED",sep="");
+                  names(mapsReturn)[return_i] <- paste("map_",param_i,nameAppend,"_FIXED",sep="");
                   return_i = return_i + 1
                 }
 
               } # if(nrow(datax)>0){
 
               # Mean for all years provided
-              datax<-gridTblx%>%dplyr::filter(param==param_i)
+              datax<-dataTblx%>%dplyr::filter(param==param_i)
 
               if(length(unique(datax$x))>1){
 
                 if(nrow(datax)>0){
-                  legendTitle<-unique(datax$units)
+
+                  if(is.null(legendTitleOrig)){legendTitle<-unique(datax$units)}
                   fillPalette<-as.character(unique(datax$classPalette))
 
                   meanCol = paste("Mean_",min(datax$x),"to",max(datax$x),sep="")
@@ -1577,10 +1533,10 @@ map <- function(data = NULL,
                     dplyr::summarize(!!meanCol:=mean(value))%>%
                     dplyr::ungroup()
 
-                  animScaleGrid<-datax[[meanCol]];animScaleGrid
-                  animScaleGrid <- animScaleGrid[!is.infinite(animScaleGrid)]
-                  animScaleGrid <- animScaleGrid[!is.nan(animScaleGrid)]
-                  animScaleGrid <- animScaleGrid[!is.na(animScaleGrid)]
+                  animScale<-datax[[meanCol]];animScale
+                  animScale <- animScale[!is.infinite(animScale)]
+                  animScale <- animScale[!is.nan(animScale)]
+                  animScale <- animScale[!is.na(animScale)]
 
                   # Choose correct scaleRange
                   if(T){
@@ -1588,35 +1544,35 @@ map <- function(data = NULL,
 
                   if(!is.null(scaleRange_i)){
                     if(any(param_i %in% unique(scaleRange_i$param))){
-                      if(max(animScaleGrid) < (scaleRange_i %>% dplyr::filter(param==param_i))$maxScale){
-                        animScaleGrid<-c(animScaleGrid,(scaleRange_i %>% dplyr::filter(param==param_i))$maxScale)} else {
-                          animScaleGrid <- c((scaleRange_i %>% dplyr::filter(param==param_i))$maxScale,
-                                             animScaleGrid[animScaleGrid<(scaleRange_i %>% dplyr::filter(param==param_i))$maxScale])
+                      if(max(animScale) < (scaleRange_i %>% dplyr::filter(param==param_i))$maxScale){
+                        animScale<-c(animScale,(scaleRange_i %>% dplyr::filter(param==param_i))$maxScale)} else {
+                          animScale <- c((scaleRange_i %>% dplyr::filter(param==param_i))$maxScale,
+                                             animScale[animScale<(scaleRange_i %>% dplyr::filter(param==param_i))$maxScale])
                         }
-                      if(min(animScaleGrid) > (scaleRange_i %>% dplyr::filter(param==param_i))$minScale){
-                        animScaleGrid<-c(animScaleGrid,(scaleRange_i %>% dplyr::filter(param==param_i))$minScale)} else {
-                          animScaleGrid <-  c((scaleRange_i %>% dplyr::filter(param==param_i))$minScale,
-                                              animScaleGrid[animScaleGrid>(scaleRange_i %>% dplyr::filter(param==param_i))$minScale])
+                      if(min(animScale) > (scaleRange_i %>% dplyr::filter(param==param_i))$minScale){
+                        animScale<-c(animScale,(scaleRange_i %>% dplyr::filter(param==param_i))$minScale)} else {
+                          animScale <-  c((scaleRange_i %>% dplyr::filter(param==param_i))$minScale,
+                                              animScale[animScale>(scaleRange_i %>% dplyr::filter(param==param_i))$minScale])
                         }
                     }
                   }
-                  animPrettyBreaksGrid<-scales::pretty_breaks(n=legendBreaksn)(animScaleGrid)
-                  animKmeanBreaksGrid<-sort(as.vector((stats::kmeans(animScaleGrid,
-                                                                     centers=max(1,min(length(unique(animScaleGrid))-1,(legendBreaksn-1)))))$centers[,1]))
-                  if(!min(animScaleGrid) %in% animKmeanBreaksGrid){
-                    animKmeanBreaksGrid <- sort(c(min(animScaleGrid),animKmeanBreaksGrid))}
-                  if(!max(animScaleGrid) %in% animKmeanBreaksGrid){
-                    animKmeanBreaksGrid <- sort(c(animKmeanBreaksGrid,max(animScaleGrid)))}
+                  animPrettyBreaks<-scales::pretty_breaks(n=legendBreaksn)(animScale)
+                  animKmeanBreaks<-sort(as.vector((stats::kmeans(animScale,
+                                                                     centers=max(1,min(length(unique(animScale))-1,(legendBreaksn-1)))))$centers[,1]))
+                  if(!min(animScale) %in% animKmeanBreaks){
+                    animKmeanBreaks <- sort(c(min(animScale),animKmeanBreaks))}
+                  if(!max(animScale) %in% animKmeanBreaks){
+                    animKmeanBreaks <- sort(c(animKmeanBreaks,max(animScale)))}
 
-                  if((max(range(animScaleGrid))-min(range(animScaleGrid)))<1E-10 &
-                     (max(range(animScaleGrid))-min(range(animScaleGrid)))>-1E-10){animScaleGridRange=min(animScaleGrid)}else{
-                       animScaleGridRange=range(animScaleGrid)
+                  if((max(range(animScale))-min(range(animScale)))<1E-10 &
+                     (max(range(animScale))-min(range(animScale)))>-1E-10){animScaleRange=min(animScale)}else{
+                       animScaleRange=range(animScale)
                      }
-                  if(abs(min(animScaleGridRange,na.rm = T))==abs(max(animScaleGridRange,na.rm = T))){animScaleGridRange=abs(min(animScaleGridRange,na.rm = T))}
-                  if(mean(animScaleGridRange,na.rm = T)<0.01 & mean(animScaleGridRange,na.rm = T)>(-0.01)){animLegendDigits<-5}else{
-                    if(mean(animScaleGridRange,na.rm = T)<0.1 & mean(animScaleGridRange,na.rm = T)>(-0.1)){animLegendDigits<-4}else{
-                      if(mean(animScaleGridRange,na.rm = T)<1 & mean(animScaleGridRange,na.rm = T)>(-1)){animLegendDigits<-3}else{
-                        if(mean(animScaleGridRange,na.rm = T)<10 & mean(animScaleGridRange,na.rm = T)>(-10)){animLegendDigits<-2}else{animLegendDigits<-1}}}}
+                  if(abs(min(animScaleRange,na.rm = T))==abs(max(animScaleRange,na.rm = T))){animScaleRange=abs(min(animScaleRange,na.rm = T))}
+                  if(mean(animScaleRange,na.rm = T)<0.01 & mean(animScaleRange,na.rm = T)>(-0.01)){animLegendDigits<-5}else{
+                    if(mean(animScaleRange,na.rm = T)<0.1 & mean(animScaleRange,na.rm = T)>(-0.1)){animLegendDigits<-4}else{
+                      if(mean(animScaleRange,na.rm = T)<1 & mean(animScaleRange,na.rm = T)>(-1)){animLegendDigits<-3}else{
+                        if(mean(animScaleRange,na.rm = T)<10 & mean(animScaleRange,na.rm = T)>(-10)){animLegendDigits<-2}else{animLegendDigits<-1}}}}
                 }
 
                   # Set Facets
@@ -1668,144 +1624,180 @@ map <- function(data = NULL,
                   # Check for Duplicates
                   if(duplicated(datax %>%
                                 dplyr::select(lat,lon,x,dplyr::all_of(multiFacetRowsx),dplyr::all_of(multiFacetColsx))) %>%
-                     any()){stop("Input grid data has multiple values for the same lat and lon. Please check your data.")}
+                     any()){stop("Input data data has multiple values for the same lat and lon. Please check your data.")}
 
                   if(any(grepl("all|kmean",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
-                    rmap::mapplot(printFig=printFig, overLayer=overLayer, overLayerColor=overLayerColor, overLayerFill = overLayerFill, overLayerLwd = overLayerLwd, overLayerAlpha = overLayerAlpha, underLayerColor, underLayerFill = underLayerFill, underLayerLwd = underLayerLwd, underLayerAlpha = underLayerAlpha, background=background, zoom=zoom, zoomx = zoomx, zoomy=zoomy, alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)), ncol=ncol, showNA=showNA, colorNA=colorNA,
+                    rmap::map_plot(save=save, overLayer=overLayer, overLayerColor=overLayerColor,
+                                   overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
+                                   overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
+                                   underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
+                                   underLayerAlpha = underLayerAlpha, background=background,
+                                   zoom=zoom, zoomx = zoomx, zoomy=zoomy, asp=asp, legendShow=legendShow,
+                                   cropToBoundary = cropToBoundary, transparent=transparent,
+                                   alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)),
+                                   ncol=ncol, showNA=showNA, colorNA=colorNA,
+                                   labelColor=labelColor,
+                                   labelSize=labelSize,
+                                   labelAlpha=labelAlpha,
+                                   labelFill=labelFill,
+                                   labelBorderSize=labelBorderSize,
                                   theme = theme, legendTitle=legendTitle,
                                   legendDigitsOverride=legendDigitsOverride,
                                   numeric2Cat_list=numeric2Cat_list,
                                   underLayer=underLayer,
-                                  dataPolygon=shapex,
-                                  dataGrid=datax,
+                                  data=datax,
                                   legendBreaksn=legendBreaksn,
                                   legendDigits = animLegendDigits,
                                   fillPalette = fillPalette,
                                   width=width*max(1,colm/1),
                                   height=height*max(1,rowm/1),
                                   pdfpng = pdfpng, legendSingleColor = legendSingleColor, legendSingleValue =  legendSingleValue,
-                                  labels=labels,
-                                  legendBreaks = animKmeanBreaksGrid,
+                                  labels=labels, labelForce=labelForce, underLayerLabels=underLayerLabels, overLayerLabels=overLayerLabels,
+                                  legendBreaks = animKmeanBreaks,
                                   fillColumn = meanCol,
                                   facetCols = multiFacetColsx,
                                   facetRows = multiFacetRowsx,
                                   mapTitle=paste(param_i," ",meanCol,sep=""),
-                                  fileName = paste("map_","raster_",param_i,nameAppend,"_MEAN_KMEANS",sep=""),
-                                  folder = sub("/$","",paste(dirOutputsX,"/",param_if,"/combScenario",sep = ""))) ->
+                                  fileName = paste("map_",param_i,nameAppend,"_MEAN_KMEANS",sep=""),
+                                  folder = sub("/$","",paste(folder,"/",param_if,"/combScenario",sep = ""))) ->
                       mapsReturn[[return_i]];
-                    names(mapsReturn)[return_i] <- paste("map_","raster_",param_i,nameAppend,"_MEAN_KMEANS",sep="");
+                    names(mapsReturn)[return_i] <- paste("map_",param_i,nameAppend,"_MEAN_KMEANS",sep="");
                     return_i = return_i + 1
                     }
 
                   if(any(grepl("all|pretty",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
-                    rmap::mapplot(printFig=printFig, overLayer=overLayer, overLayerColor=overLayerColor, overLayerFill = overLayerFill, overLayerLwd = overLayerLwd, overLayerAlpha = overLayerAlpha, underLayerColor, underLayerFill = underLayerFill, underLayerLwd = underLayerLwd, underLayerAlpha = underLayerAlpha, background=background, zoom=zoom, zoomx = zoomx, zoomy=zoomy, alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)), ncol=ncol, showNA=showNA, colorNA=colorNA,
+                    rmap::map_plot(save=save, overLayer=overLayer, overLayerColor=overLayerColor,
+                                   overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
+                                   overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
+                                   underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
+                                   underLayerAlpha = underLayerAlpha, background=background,
+                                   zoom=zoom, zoomx = zoomx, zoomy=zoomy, asp=asp,
+                                   legendShow=legendShow,  cropToBoundary = cropToBoundary,
+                                   transparent=transparent,alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)),
+                                   ncol=ncol, showNA=showNA, colorNA=colorNA,
+                                   labelColor=labelColor,
+                                   labelSize=labelSize,
+                                   labelAlpha=labelAlpha,
+                                   labelFill=labelFill,
+                                   labelBorderSize=labelBorderSize,
                                   theme = theme, legendTitle=legendTitle,
                                   legendDigitsOverride=legendDigitsOverride,
                                   numeric2Cat_list=numeric2Cat_list,
                                   underLayer=underLayer,
-                                  dataPolygon=shapex,
-                                  dataGrid=datax,
+                                  data=datax,
                                   legendBreaksn=legendBreaksn,
                                   legendDigits = animLegendDigits,
                                   fillPalette = fillPalette,
                                   width=width*max(1,colm/1),
                                   height=height*max(1,rowm/1),
                                   pdfpng = pdfpng, legendSingleColor = legendSingleColor, legendSingleValue =  legendSingleValue,
-                                  labels=labels,
-                                  legendBreaks = animPrettyBreaksGrid,
+                                  labels=labels, labelForce=labelForce, underLayerLabels=underLayerLabels, overLayerLabels=overLayerLabels,
+                                  legendBreaks = animPrettyBreaks,
                                   fillColumn = meanCol,
                                   facetCols = multiFacetColsx,
                                   facetRows = multiFacetRowsx,
                                   mapTitle=paste(param_i," ",meanCol,sep=""),
-                                  fileName = paste("map_","raster_",param_i,nameAppend,"_MEAN_PRETTY",sep=""),
-                                  folder = sub("/$","",paste(dirOutputsX,"/",param_if,"/combScenario",sep = ""))) ->
+                                  fileName = paste("map_",param_i,nameAppend,"_MEAN_PRETTY",sep=""),
+                                  folder = sub("/$","",paste(folder,"/",param_if,"/combScenario",sep = ""))) ->
                       mapsReturn[[return_i]];
-                    names(mapsReturn)[return_i] <- paste("map_","raster_",param_i,nameAppend,"_MEAN_PRETTY",sep="");
+                    names(mapsReturn)[return_i] <- paste("map_",param_i,nameAppend,"_MEAN_PRETTY",sep="");
                     return_i = return_i + 1
                     }
 
                   if(!is.null(legendFixedBreaks)){
-                    rmap::mapplot(printFig=printFig, overLayer=overLayer, overLayerColor=overLayerColor, overLayerFill = overLayerFill, overLayerLwd = overLayerLwd, overLayerAlpha = overLayerAlpha, underLayerColor, underLayerFill = underLayerFill, underLayerLwd = underLayerLwd, underLayerAlpha = underLayerAlpha, background=background, zoom=zoom, zoomx = zoomx, zoomy=zoomy, alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)), ncol=ncol, showNA=showNA, colorNA=colorNA,
+                    rmap::map_plot(save=save, overLayer=overLayer, overLayerColor=overLayerColor,
+                                   overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
+                                   overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
+                                   underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
+                                   underLayerAlpha = underLayerAlpha, background=background,
+                                   zoom=zoom, zoomx = zoomx, zoomy=zoomy, asp=asp, legendShow=legendShow,
+                                   cropToBoundary = cropToBoundary, transparent=transparent,
+                                   alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)), ncol=ncol,
+                                   showNA=showNA, colorNA=colorNA,
+                                   labelColor=labelColor,
+                                   labelSize=labelSize,
+                                   labelAlpha=labelAlpha,
+                                   labelFill=labelFill,
+                                   labelBorderSize=labelBorderSize,
                                   theme = theme, legendTitle=legendTitle,
                                   legendDigitsOverride=legendDigitsOverride,
                                   numeric2Cat_list=numeric2Cat_list,
                                   underLayer=underLayer,
-                                  dataPolygon=shapex,
-                                  dataGrid=datax,
+                                  data=datax,
                                   legendBreaksn=legendBreaksn,
                                   legendDigits = animLegendDigits,
                                   fillPalette = fillPalette,
                                   width=width*max(1,colm/1),
                                   height=height*max(1,rowm/1),
                                   pdfpng = pdfpng, legendSingleColor = legendSingleColor, legendSingleValue =  legendSingleValue,
-                                  labels=labels,
+                                  labels=labels, labelForce=labelForce, underLayerLabels=underLayerLabels, overLayerLabels=overLayerLabels,
                                   legendBreaks = legendFixedBreaks,
                                   fillColumn = meanCol,
                                   facetCols = multiFacetColsx,
                                   facetRows = multiFacetRowsx,
                                   mapTitle=paste(param_i," ",meanCol,sep=""),
-                                  fileName = paste("map_","raster_",param_i,nameAppend,"_MEAN_FIXED",sep=""),
-                                  folder = sub("/$","",paste(dirOutputsX,"/",param_if,"/combScenario",sep = ""))) ->
+                                  fileName = paste("map_",param_i,nameAppend,"_MEAN_FIXED",sep=""),
+                                  folder = sub("/$","",paste(folder,"/",param_if,"/combScenario",sep = ""))) ->
                       mapsReturn[[return_i]];
-                    names(mapsReturn)[return_i] <- paste("map_","raster_",param_i,nameAppend,"_MEAN_FIXED",sep="");
+                    names(mapsReturn)[return_i] <- paste("map_",param_i,nameAppend,"_MEAN_FIXED",sep="");
                     return_i = return_i + 1
                   }
 
                 } # if(nrow(datax)>0){
               }# If multiple years
 
-            } # if nrow of gridTblx dplyr::filtered for Diff scenarios
+            } # if nrow of dataTblx dplyr::filtered for Diff scenarios
 
-              }# Close if nrow gridTbl < 0
+              }# Close if nrow dataTbl < 0
         } # Close Combined Scenario
 
         # By Scenario
-        for (scenario_i in unique(gridTblOrig$scenario)){
+        for (scenario_i in unique(dataTblOrig$scenario)){
 
-          if(length(unique(gridTblOrig$scenario))==1){scenario_if=NULL}else{scenario_if = scenario_i}
-          if(length(unique(gridTblOrig$param))==1){param_if=NULL}else{param_if=param_i}
+          if(length(unique(dataTblOrig$scenario))==1){scenario_if=NULL}else{scenario_if = scenario_i}
+          if(length(unique(dataTblOrig$param))==1){param_if=NULL}else{param_if=param_i}
 
-          if(nrow(gridTblOrig%>%dplyr::filter(param==param_i,scenario==scenario_i))>0){
+          if(nrow(dataTblOrig%>%dplyr::filter(param==param_i,scenario==scenario_i))>0){
 
-          gridTbl <- gridTblOrig%>%dplyr::filter(param==param_i,scenario==scenario_i)
+          dataTbl <- dataTblOrig%>%dplyr::filter(param==param_i,scenario==scenario_i)
 
           #.................-
-          # Create Grid Table Folders If Needed
+          # Create data Table Folders If Needed
           #.................-
           if(T){
 
-                if(!dir.exists(paste(dirOutputsX,"/",sep = ""))){
-                  dir.create(paste(dirOutputsX,"/",sep = ""))}
+                if(!dir.exists(paste(folder,"/",sep = ""))){
+                  dir.create(paste(folder,"/",sep = ""))}
 
-                  if(!dir.exists(paste(dirOutputsX,"/",param_if,sep = ""))){
-                    dir.create(paste(dirOutputsX,"/",param_if,sep = ""))}
+                  if(!dir.exists(paste(folder,"/",param_if,sep = ""))){
+                    dir.create(paste(folder,"/",param_if,sep = ""))}
 
-                    if(!dir.exists(gsub("//","/",paste(dirOutputsX,"/",param_if,"/",scenario_if,sep = "")))){
-                      dir.create(paste(dirOutputsX, "/",param_if,"/",scenario_if,sep = ""))}
+                    if(!dir.exists(gsub("//","/",paste(folder,"/",param_if,"/",scenario_if,sep = "")))){
+                      dir.create(paste(folder, "/",param_if,"/",scenario_if,sep = ""))}
 
-            if(length(unique(gridTbl$x))>1){
-                    if(!dir.exists(paste(dirOutputsX,"/",param_if,"/",scenario_if,"/byYear",sep = ""))){
-                      dir.create(paste(dirOutputsX, "/",param_if,"/",scenario_if,"/byYear",sep = ""))}
+            if(length(unique(dataTbl$x))>1){
+                    if(!dir.exists(paste(folder,"/",param_if,"/",scenario_if,"/byYear",sep = ""))){
+                      dir.create(paste(folder, "/",param_if,"/",scenario_if,"/byYear",sep = ""))}
             }
-          } # Create grid table folder if needed
+          } # Create data table folder if needed
 
           #................
           # Plot mapsReturn
           #.............--
-          if(nrow(gridTbl)>0){
+          if(nrow(dataTbl)>0){
 
             #.................--
             # Save Map related Data Table
             #.................--
 
-            if(printFig){
-            if(nrow(gridTbl %>% dplyr::filter(scenario==scenario_i,param==param_i))>0){
-              data.table::fwrite(gridTbl %>% dplyr::filter(scenario==scenario_i,param==param_i)%>%
-                                   dplyr::select(scenario,lat,lon,param,class,x,value,units),
-                                 paste(dirOutputsX,"/",param_if,"/", scenario_if,
-                                       "/","map_","raster_",param_i,"_",scenario_i,nameAppend,".csv",sep = ""))
-              print(paste("Map data table written to ",dirOutputsX,"/",param_if,"/", scenario_if,
-                          "/","map_","raster_",param_i,"_",scenario_i,nameAppend,".csv",sep = ""))
+            if(save){
+            if(nrow(dataTblOrig %>% dplyr::filter(scenario==scenario_i,param==param_i))>0){
+              data.table::fwrite(dataTblOrig %>% dplyr::filter(scenario==scenario_i,param==param_i)%>%
+                                   dplyr::select(scenario,subRegion,lat,lon,param,class,x,value,units),
+                                 paste(folder,"/",param_if,"/", scenario_if,
+                                       "/","map_",param_i,"_",scenario_i,nameAppend,".csv",sep = ""))
+              print(paste("Map data table written to ",folder,"/",param_if,"/", scenario_if,
+                          "/","map_",param_i,"_",scenario_i,nameAppend,".csv",sep = ""))
             }
               }
 
@@ -1813,27 +1805,27 @@ map <- function(data = NULL,
             # By Year
             #.............................
 
-            gridTblx<-gridTbl%>%dplyr::filter(scenario==scenario_i,param==param_i)
+            dataTblx<-dataTblOrig%>%dplyr::filter(scenario==scenario_i,param==param_i)
 
             # Set Legends
             if(T){
-              animScaleGrid<-gridTbl$value
-              animScaleGrid <- animScaleGrid[!is.infinite(animScaleGrid)]
-              animScaleGrid <- animScaleGrid[!is.nan(animScaleGrid)]
-              animScaleGrid <- animScaleGrid[!is.na(animScaleGrid)]
+              animScale<-dataTblOrig$value
+              animScale <- animScale[!is.infinite(animScale)]
+              animScale <- animScale[!is.nan(animScale)]
+              animScale <- animScale[!is.na(animScale)]
 
               # Choose correct scaleRange
               scaleRange_i=scaleRange
               if(grepl("DiffPrcnt",scenario_i)){
                 scaleRange_i=scaleRangeDiffPrcnt
-                gridTbl <- gridTbl %>% dplyr::mutate(units="Percent")
+                dataTblx <- dataTblx %>% dplyr::mutate(units="Percent")
               }
               if(grepl("DiffAbs",scenario_i)){
                 scaleRange_i=scaleRangeDiffAbs
               }
               if(grepl("DiffxPrcnt",scenario_i)){
                 scaleRange_i=scaleRangeDiffxPrcnt
-                gridTbl <- gridTbl %>% dplyr::mutate(units="Percent")
+                dataTblx <- dataTblx %>% dplyr::mutate(units="Percent")
               }
               if(grepl("DiffxAbs",scenario_i)){
                 scaleRange_i=scaleRangeDiffxAbs
@@ -1841,53 +1833,52 @@ map <- function(data = NULL,
 
               if(!is.null(scaleRange_i)){
                 if(any(param_i %in% unique(scaleRange_i$param))){
-                  if(max(animScaleGrid) < (scaleRange_i %>% dplyr::filter(param==param_i))$maxScale){
-                    animScaleGrid<-c(animScaleGrid,(scaleRange_i %>% dplyr::filter(param==param_i))$maxScale)} else {
-                      animScaleGrid <- c((scaleRange_i %>% dplyr::filter(param==param_i))$maxScale,
-                                         animScaleGrid[animScaleGrid<(scaleRange_i %>% dplyr::filter(param==param_i))$maxScale])
+                  if(max(animScale) < (scaleRange_i %>% dplyr::filter(param==param_i))$maxScale){
+                    animScale<-c(animScale,(scaleRange_i %>% dplyr::filter(param==param_i))$maxScale)} else {
+                      animScale <- c((scaleRange_i %>% dplyr::filter(param==param_i))$maxScale,
+                                         animScale[animScale<(scaleRange_i %>% dplyr::filter(param==param_i))$maxScale])
                     }
-                  if(min(animScaleGrid) > (scaleRange_i %>% dplyr::filter(param==param_i))$minScale){
-                    animScaleGrid<-c(animScaleGrid,(scaleRange_i %>% dplyr::filter(param==param_i))$minScale)} else {
-                      animScaleGrid <-  c((scaleRange_i %>% dplyr::filter(param==param_i))$minScale,
-                                          animScaleGrid[animScaleGrid>(scaleRange_i %>% dplyr::filter(param==param_i))$minScale])
+                  if(min(animScale) > (scaleRange_i %>% dplyr::filter(param==param_i))$minScale){
+                    animScale<-c(animScale,(scaleRange_i %>% dplyr::filter(param==param_i))$minScale)} else {
+                      animScale <-  c((scaleRange_i %>% dplyr::filter(param==param_i))$minScale,
+                                          animScale[animScale>(scaleRange_i %>% dplyr::filter(param==param_i))$minScale])
                     }
                 }
               }
-              animPrettyBreaksGrid<-scales::pretty_breaks(n=legendBreaksn)(animScaleGrid); animPrettyBreaksGrid
-              animKmeanBreaksGrid<-sort(as.vector((stats::kmeans(animScaleGrid,
-                                                                 centers=max(1,min(length(unique(animScaleGrid))-1,(legendBreaksn-1)))))$centers[,1]));animKmeanBreaksGrid
-              if(!min(animScaleGrid) %in% animKmeanBreaksGrid){
-                animKmeanBreaksGrid <- sort(c(min(animScaleGrid),animKmeanBreaksGrid))}
-              if(!max(animScaleGrid) %in% animKmeanBreaksGrid){
-                animKmeanBreaksGrid <- sort(c(animKmeanBreaksGrid,max(animScaleGrid)))};animKmeanBreaksGrid
+              animPrettyBreaks<-scales::pretty_breaks(n=legendBreaksn)(animScale); animPrettyBreaks
+              animKmeanBreaks<-sort(as.vector((stats::kmeans(animScale,
+                                                                 centers=max(1,min(length(unique(animScale))-1,(legendBreaksn-1)))))$centers[,1]));animKmeanBreaks
+              if(!min(animScale) %in% animKmeanBreaks){
+                animKmeanBreaks <- sort(c(min(animScale),animKmeanBreaks))}
+              if(!max(animScale) %in% animKmeanBreaks){
+                animKmeanBreaks <- sort(c(animKmeanBreaks,max(animScale)))};animKmeanBreaks
 
 
-              if((max(range(animScaleGrid))-min(range(animScaleGrid)))<1E-10 &
-                 (max(range(animScaleGrid))-min(range(animScaleGrid)))>-1E-10){animScaleGridRange=min(animScaleGrid)}else{
-                   animScaleGridRange=range(animScaleGrid)
+              if((max(range(animScale))-min(range(animScale)))<1E-10 &
+                 (max(range(animScale))-min(range(animScale)))>-1E-10){animScaleRange=min(animScale)}else{
+                   animScaleRange=range(animScale)
                  }
 
-              if(abs(min(animScaleGridRange,na.rm = T))==abs(max(animScaleGridRange,na.rm = T))){animScaleGridRange=abs(min(animScaleGridRange,na.rm = T))}
-              if(mean(animScaleGridRange,na.rm = T)<0.01 & mean(animScaleGridRange,na.rm = T)>(-0.01)){animLegendDigits<-5}else{
-                if(mean(animScaleGridRange,na.rm = T)<0.1 & mean(animScaleGridRange,na.rm = T)>(-0.1)){animLegendDigits<-4}else{
-                  if(mean(animScaleGridRange,na.rm = T)<1 & mean(animScaleGridRange,na.rm = T)>(-1)){animLegendDigits<-3}else{
-                    if(mean(animScaleGridRange,na.rm = T)<10 & mean(animScaleGridRange,na.rm = T)>(-10)){animLegendDigits<-2}else{animLegendDigits<-1}}}}
+              if(abs(min(animScaleRange,na.rm = T))==abs(max(animScaleRange,na.rm = T))){animScaleRange=abs(min(animScaleRange,na.rm = T))}
+              if(mean(animScaleRange,na.rm = T)<0.01 & mean(animScaleRange,na.rm = T)>(-0.01)){animLegendDigits<-5}else{
+                if(mean(animScaleRange,na.rm = T)<0.1 & mean(animScaleRange,na.rm = T)>(-0.1)){animLegendDigits<-4}else{
+                  if(mean(animScaleRange,na.rm = T)<1 & mean(animScaleRange,na.rm = T)>(-1)){animLegendDigits<-3}else{
+                    if(mean(animScaleRange,na.rm = T)<10 & mean(animScaleRange,na.rm = T)>(-10)){animLegendDigits<-2}else{animLegendDigits<-1}}}}
 
             }
 
-
             # By Year
-            if(length(unique(gridTblx$x))>1){
-            for (x_i in unique(gridTblx$x)){
+            if(length(unique(dataTblx$x))>1){
+            for (x_i in unique(dataTblx$x)){
 
-              datax<-gridTblx%>%dplyr::filter(x==x_i)
+              datax<-dataTblx%>%dplyr::filter(x==x_i)
               if(nrow(datax)>0){
 
-                legendTitle<-unique(datax$units)
+                if(is.null(legendTitleOrig)){legendTitle<-unique(datax$units)}
                 fillPalette<-as.character(unique(datax$classPalette))
 
                 # Set Facets
-                if(length(unique(gridTblx$class))>1){
+                if(length(unique(dataTblx$class))>1){
                   multiFacetColsx = "class"
                   colm <- length(unique(datax$class))
                   rowm <- 1
@@ -1912,37 +1903,47 @@ map <- function(data = NULL,
                   } else { multiFacetRowsx <- facetRows; rowm <- length(facetRows)}
                 }
 
-
-
                 # Check for Duplicates
                 if(duplicated(datax %>%
                               dplyr::select(lat,lon,x,dplyr::all_of(multiFacetRowsx),dplyr::all_of(multiFacetColsx))) %>%
-                   any()){stop("Input grid data has multiple values for the same lat and lon. Please check your data.")}
+                   any()){stop("Input data data has multiple values for the same lat and lon. Please check your data.")}
 
 
                 if(any(grepl("all|kmean",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
-                  rmap::mapplot(printFig=printFig, overLayer=overLayer, overLayerColor=overLayerColor, overLayerFill = overLayerFill, overLayerLwd = overLayerLwd, overLayerAlpha = overLayerAlpha, underLayerColor, underLayerFill = underLayerFill, underLayerLwd = underLayerLwd, underLayerAlpha = underLayerAlpha, background=background, zoom=zoom, zoomx = zoomx, zoomy=zoomy, alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)), ncol=ncol, showNA=showNA, colorNA=colorNA,
+                  rmap::map_plot(save=save, overLayer=overLayer, overLayerColor=overLayerColor,
+                                 overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
+                                 overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
+                                 underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
+                                 underLayerAlpha = underLayerAlpha, background=background,
+                                 zoom=zoom, zoomx = zoomx, zoomy=zoomy, asp=asp, legendShow=legendShow,
+                                 cropToBoundary = cropToBoundary, transparent=transparent,
+                                 alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)), ncol=ncol,
+                                 showNA=showNA, colorNA=colorNA,
+                                 labelColor=labelColor,
+                                 labelSize=labelSize,
+                                 labelAlpha=labelAlpha,
+                                 labelFill=labelFill,
+                                 labelBorderSize=labelBorderSize,
                                 theme = theme, legendTitle=legendTitle,
                                 legendDigitsOverride=legendDigitsOverride,
                                 numeric2Cat_list=numeric2Cat_list,
                                 underLayer=underLayer,
-                                dataPolygon=shapex,
-                                dataGrid=datax,
+                                data=datax,
                                 legendBreaksn=legendBreaksn,
                                 legendDigits = animLegendDigits,
                                 fillPalette = fillPalette,
                                 width=width*max(1,colm/1),
                                 height=height,
                                 pdfpng = pdfpng, legendSingleColor = legendSingleColor, legendSingleValue =  legendSingleValue,
-                                labels=labels,
-                                legendBreaks = animKmeanBreaksGrid,
+                                labels=labels, labelForce=labelForce, underLayerLabels=underLayerLabels, overLayerLabels=overLayerLabels,
+                                legendBreaks = animKmeanBreaks,
                                 fillColumn = "value",
                                 facetCols = multiFacetColsx,
                                 mapTitle=paste(param_i," ",scenario_i," ",x_i,sep=""),
-                                fileName = paste("map_","raster_",param_i,"_",x_i,"_",scenario_i,nameAppend,"_KMEANS",sep=""),
-                                folder = paste(dirOutputsX,"/",param_if,"/", scenario_if,"/byYear",sep = "")) ->
+                                fileName = paste("map_",param_i,"_",x_i,"_",scenario_i,nameAppend,"_KMEANS",sep=""),
+                                folder = paste(folder,"/",param_if,"/", scenario_if,"/byYear",sep = "")) ->
                     mapsReturn[[return_i]];
-                  names(mapsReturn)[return_i] <- paste("map_","raster_",param_i,"_",x_i,"_",scenario_i,nameAppend,"_KMEANS",sep="");
+                  names(mapsReturn)[return_i] <- paste("map_",param_i,"_",x_i,"_",scenario_i,nameAppend,"_KMEANS",sep="");
                   return_i = return_i + 1
                   }
 
@@ -1953,8 +1954,7 @@ map <- function(data = NULL,
                 # legendDigitsOverride=legendDigitsOverride
                 # numeric2Cat_list=numeric2Cat_list
                 # underLayer=underLayer
-                # dataPolygon=shapex
-                # dataGrid=datax
+                # data=datax
                 # legendBreaksn=legendBreaksn
                 # legendDigits = animLegendDigits
                 # fillPalette = fillPalette
@@ -1964,63 +1964,87 @@ map <- function(data = NULL,
                 # legendSingleColor = legendSingleColor
                 # legendSingleValue =  legendSingleValue
                 # labels=labels
-                # legendBreaks = animKmeanBreaksGrid
+                # legendBreaks = animKmeanBreaks
                 # fillColumn = "value"
                 # facetCols = multiFacetColsx
                 # mapTitle=paste(param_i," ",scenario_i," ",x_i,sep="")
-                # fileName = paste("map_","raster_",param_i,"_",x_i,"_",scenario_i,nameAppend,"_KMEANS",sep="")
-                # folder = paste(dirOutputsX,"/",param_if,"/", scenario_if,"/byYear",sep = "")
+                # fileName = paste("map_",param_i,"_",x_i,"_",scenario_i,nameAppend,"_KMEANS",sep="")
+                # folder = paste(folder,"/",param_if,"/", scenario_if,"/byYear",sep = "")
 
                 if(any(grepl("all|pretty",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
-                  rmap::mapplot(printFig=printFig, overLayer=overLayer, overLayerColor=overLayerColor, overLayerFill = overLayerFill, overLayerLwd = overLayerLwd, overLayerAlpha = overLayerAlpha, underLayerColor, underLayerFill = underLayerFill, underLayerLwd = underLayerLwd, underLayerAlpha = underLayerAlpha, background=background, zoom=zoom, zoomx = zoomx, zoomy=zoomy, alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)), ncol=ncol, showNA=showNA, colorNA=colorNA,
+                  rmap::map_plot(save=save, overLayer=overLayer, overLayerColor=overLayerColor,
+                                 overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
+                                 overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
+                                 underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
+                                 underLayerAlpha = underLayerAlpha, background=background,
+                                 zoom=zoom, zoomx = zoomx, zoomy=zoomy, asp=asp, legendShow=legendShow,
+                                 cropToBoundary = cropToBoundary, transparent=transparent,
+                                 alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)),
+                                 ncol=ncol, showNA=showNA, colorNA=colorNA,
+                                 labelColor=labelColor,
+                                 labelSize=labelSize,
+                                 labelAlpha=labelAlpha,
+                                 labelFill=labelFill,
+                                 labelBorderSize=labelBorderSize,
                                 theme = theme, legendTitle=legendTitle,
                                 legendDigitsOverride=legendDigitsOverride,
                                 numeric2Cat_list=numeric2Cat_list,
                                 underLayer=underLayer,
-                                dataPolygon=shapex,
-                                dataGrid=datax,
+                                data=datax,
                                 legendBreaksn=legendBreaksn,
                                 legendDigits = animLegendDigits,
                                 fillPalette = fillPalette,
                                 width=width*max(1,colm/1),
                                 height=height,
                                 pdfpng = pdfpng, legendSingleColor = legendSingleColor, legendSingleValue =  legendSingleValue,
-                                labels=labels,
-                                legendBreaks = animPrettyBreaksGrid,
+                                labels=labels, labelForce=labelForce, underLayerLabels=underLayerLabels, overLayerLabels=overLayerLabels,
+                                legendBreaks = animPrettyBreaks,
                                 fillColumn = "value",
                                 facetCols = multiFacetColsx,
                                 mapTitle=paste(param_i," ",scenario_i," ",x_i,sep=""),
-                                fileName = paste("map_","raster_",param_i,"_",x_i,"_",scenario_i,nameAppend,"_PRETTY",sep=""),
-                                folder = paste(dirOutputsX,"/",param_if,"/", scenario_if,"/byYear",sep = "")) ->
+                                fileName = paste("map_",param_i,"_",x_i,"_",scenario_i,nameAppend,"_PRETTY",sep=""),
+                                folder = paste(folder,"/",param_if,"/", scenario_if,"/byYear",sep = "")) ->
                     mapsReturn[[return_i]];
-                  names(mapsReturn)[return_i] <- paste("map_","raster_",param_i,"_",x_i,"_",scenario_i,nameAppend,"_PRETTY",sep="");
+                  names(mapsReturn)[return_i] <- paste("map_",param_i,"_",x_i,"_",scenario_i,nameAppend,"_PRETTY",sep="");
                   return_i = return_i + 1
                   }
 
 
                   if(!is.null(legendFixedBreaks)){
-                    rmap::mapplot(printFig=printFig, overLayer=overLayer, overLayerColor=overLayerColor, overLayerFill = overLayerFill, overLayerLwd = overLayerLwd, overLayerAlpha = overLayerAlpha, underLayerColor, underLayerFill = underLayerFill, underLayerLwd = underLayerLwd, underLayerAlpha = underLayerAlpha, background=background, zoom=zoom, zoomx = zoomx, zoomy=zoomy, alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)), ncol=ncol, showNA=showNA, colorNA=colorNA,
+                    rmap::map_plot(save=save, overLayer=overLayer, overLayerColor=overLayerColor,
+                                   overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
+                                   overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
+                                   underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
+                                   underLayerAlpha = underLayerAlpha, background=background,
+                                   zoom=zoom, zoomx = zoomx, zoomy=zoomy, asp=asp, legendShow=legendShow,
+                                   cropToBoundary = cropToBoundary, transparent=transparent,
+                                   alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)),
+                                   ncol=ncol, showNA=showNA, colorNA=colorNA,
+                                   labelColor=labelColor,
+                                   labelSize=labelSize,
+                                   labelAlpha=labelAlpha,
+                                   labelFill=labelFill,
+                                   labelBorderSize=labelBorderSize,
                                   theme = theme, legendTitle=legendTitle,
                                   legendDigitsOverride=legendDigitsOverride,
                                   numeric2Cat_list=numeric2Cat_list,
                                   underLayer=underLayer,
-                                  dataPolygon=shapex,
-                                  dataGrid=datax,
+                                  data=datax,
                                   legendBreaksn=legendBreaksn,
                                   legendDigits = animLegendDigits,
                                   fillPalette = fillPalette,
                                   width=width*max(1,colm/1),
                                   height=height,
                                   pdfpng = pdfpng, legendSingleColor = legendSingleColor, legendSingleValue =  legendSingleValue,
-                                  labels=labels,
+                                  labels=labels, labelForce=labelForce, underLayerLabels=underLayerLabels, overLayerLabels=overLayerLabels,
                                   legendBreaks = legendFixedBreaks,
                                   fillColumn = "value",
                                   facetCols = multiFacetColsx,
                                   mapTitle=paste(param_i," ",scenario_i," ",x_i,sep=""),
-                                  fileName = paste("map_","raster_",param_i,"_",x_i,"_",scenario_i,nameAppend,"_FIXED",sep=""),
-                                  folder = paste(dirOutputsX,"/",param_if,"/", scenario_if,"/byYear",sep = "")) ->
+                                  fileName = paste("map_",param_i,"_",x_i,"_",scenario_i,nameAppend,"_FIXED",sep=""),
+                                  folder = paste(folder,"/",param_if,"/", scenario_if,"/byYear",sep = "")) ->
                       mapsReturn[[return_i]];
-                    names(mapsReturn)[return_i] <- paste("map_","raster_",param_i,"_",x_i,"_",scenario_i,nameAppend,"_FIXED",sep="");
+                    names(mapsReturn)[return_i] <- paste("map_",param_i,"_",x_i,"_",scenario_i,nameAppend,"_FIXED",sep="");
                     return_i = return_i + 1
                   }
 
@@ -2032,54 +2056,57 @@ map <- function(data = NULL,
             if(animateOn==T){
 
               if(any(grepl("all|pretty",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
-              animName<-paste("anim_","raster_",param_i,"_",scenario_i,nameAppend,"_PRETTY.gif",sep="")
-              animFiles <- list.files(path = paste(dirOutputsX,"/",param_if,"/", scenario_if,"/byYear",sep=""),
+              animName<-paste("anim_",param_i,"_",scenario_i,nameAppend,"_PRETTY.gif",sep="")
+              animFiles <- list.files(path = paste(folder,"/",param_if,"/", scenario_if,"/byYear",sep=""),
                                       pattern = paste(".*",param_i,".*",nameAppend,".*PRETTY", ".", pdfpng,sep=""), full.names=T,ignore.case = T, include.dirs = T);
               animation <- magick::image_animate(magick::image_join(lapply(animFiles, magick::image_read)),fps=fps)
-              magick::image_write(animation,paste(dirOutputsX,"/",param_if,"/", scenario_if,"/",
+              magick::image_write(animation,paste(folder,"/",param_if,"/", scenario_if,"/",
                                         animName,sep = ""))
-              print(gsub("//","/",paste("animation saved in :",dirOutputsX,"/",param_if,"/", scenario_if,"/",
+              print(gsub("//","/",paste("animation saved in :",folder,"/",param_if,"/", scenario_if,"/",
                                                        animName,sep = "")))
               }
 
               if(any(grepl("all|kmean",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
-              animName<-paste("anim_","raster_",param_i,"_",scenario_i,nameAppend,"_KMEANS.gif",sep="")
-              animFiles <- list.files(path = paste(dirOutputsX,"/",param_if,"/", scenario_if,"/byYear",sep=""),
+              animName<-paste("anim_",param_i,"_",scenario_i,nameAppend,"_KMEANS.gif",sep="")
+              animFiles <- list.files(path = paste(folder,"/",param_if,"/", scenario_if,"/byYear",sep=""),
                                       pattern = paste(".*",param_i,".*",nameAppend,".*KMEANS", ".", pdfpng,sep=""), full.names=T,ignore.case = T, include.dirs = T);
               animation <- magick::image_animate(magick::image_join(lapply(animFiles, magick::image_read)),fps=fps)
-              magick::image_write(animation,paste(dirOutputsX,"/",param_if,"/", scenario_if,"/",
+              magick::image_write(animation,paste(folder,"/",param_if,"/", scenario_if,"/",
                                           animName,sep = ""))
-              print(gsub("//","/",paste("animation saved in :",dirOutputsX,"/",param_if,"/", scenario_if,"/",
+              print(gsub("//","/",paste("animation saved in :",folder,"/",param_if,"/", scenario_if,"/",
                           animName,sep = "")))
               }
 
               if(!is.null(legendFixedBreaks)){
-                animName<-paste("anim_","raster_",param_i,"_",scenario_i,nameAppend,"_FIXED.gif",sep="")
-                animFiles <- list.files(path = paste(dirOutputsX,"/",param_if,"/", scenario_if,"/byYear",sep=""),
+                animName<-paste("anim_",param_i,"_",scenario_i,nameAppend,"_FIXED.gif",sep="")
+                animFiles <- list.files(path = paste(folder,"/",param_if,"/", scenario_if,"/byYear",sep=""),
                                         pattern = paste(".*",param_i,".*",nameAppend,".*FIXED", ".", pdfpng,sep=""), full.names=T,ignore.case = T, include.dirs = T);
                 animation <- magick::image_animate(magick::image_join(lapply(animFiles, magick::image_read)),fps=fps)
-                magick::image_write(animation,paste(dirOutputsX,"/",param_if,"/", scenario_if,"/",
+                magick::image_write(animation,paste(folder,"/",param_if,"/", scenario_if,"/",
                                                     animName,sep = ""))
-                print(gsub("//","/",paste("animation saved in :",dirOutputsX,"/",param_if,"/", scenario_if,"/",
+                print(gsub("//","/",paste("animation saved in :",folder,"/",param_if,"/", scenario_if,"/",
                                           animName,sep = "")))
               }
             }
             }
 
+            #.............................
+            # Multi Columns
+            #.............................
 
-            # Multi-Columns
+              # Each years provided
 
-              datax<-gridTbl%>%dplyr::filter(scenario==scenario_i,param==param_i)
+              datax<-dataTblOrig%>%dplyr::filter(scenario==scenario_i,param==param_i)
 
               if(nrow(datax)>0){
 
-                legendTitle<-unique(datax$units)
+                if(is.null(legendTitleOrig)){legendTitle<-unique(datax$units)}
                 fillPalette<-as.character(unique(datax$classPalette))
 
-                animScaleGrid<-datax$value
-                animScaleGrid <- animScaleGrid[!is.infinite(animScaleGrid)]
-                animScaleGrid <- animScaleGrid[!is.nan(animScaleGrid)]
-                animScaleGrid <- animScaleGrid[!is.na(animScaleGrid)]
+                animScale<-datax$value
+                animScale <- animScale[!is.infinite(animScale)]
+                animScale <- animScale[!is.nan(animScale)]
+                animScale <- animScale[!is.na(animScale)]
 
                 # Choose correct scaleRange
                 if(T){
@@ -2101,35 +2128,35 @@ map <- function(data = NULL,
 
                 if(!is.null(scaleRange_i)){
                    if(any(param_i %in% unique(scaleRange_i$param))){
-                    if(max(animScaleGrid) < (scaleRange_i %>% dplyr::filter(param==param_i))$maxScale){
-                      animScaleGrid<-c(animScaleGrid,(scaleRange_i %>% dplyr::filter(param==param_i))$maxScale)} else {
-                        animScaleGrid <- c((scaleRange_i %>% dplyr::filter(param==param_i))$maxScale,
-                                           animScaleGrid[animScaleGrid<(scaleRange_i %>% dplyr::filter(param==param_i))$maxScale])
+                    if(max(animScale) < (scaleRange_i %>% dplyr::filter(param==param_i))$maxScale){
+                      animScale<-c(animScale,(scaleRange_i %>% dplyr::filter(param==param_i))$maxScale)} else {
+                        animScale <- c((scaleRange_i %>% dplyr::filter(param==param_i))$maxScale,
+                                           animScale[animScale<(scaleRange_i %>% dplyr::filter(param==param_i))$maxScale])
                       }
-                    if(min(animScaleGrid) > (scaleRange_i %>% dplyr::filter(param==param_i))$minScale){
-                      animScaleGrid<-c(animScaleGrid,(scaleRange_i %>% dplyr::filter(param==param_i))$minScale)} else {
-                        animScaleGrid <-  c((scaleRange_i %>% dplyr::filter(param==param_i))$minScale,
-                                            animScaleGrid[animScaleGrid>(scaleRange_i %>% dplyr::filter(param==param_i))$minScale])
+                    if(min(animScale) > (scaleRange_i %>% dplyr::filter(param==param_i))$minScale){
+                      animScale<-c(animScale,(scaleRange_i %>% dplyr::filter(param==param_i))$minScale)} else {
+                        animScale <-  c((scaleRange_i %>% dplyr::filter(param==param_i))$minScale,
+                                            animScale[animScale>(scaleRange_i %>% dplyr::filter(param==param_i))$minScale])
                       }
                   }
                 }
-                animPrettyBreaksGrid<-scales::pretty_breaks(n=legendBreaksn)(animScaleGrid)
-                animKmeanBreaksGrid<-sort(as.vector((stats::kmeans(animScaleGrid,
-                                                                   centers=max(1,min(length(unique(animScaleGrid))-1,(legendBreaksn-1)))))$centers[,1]))
-                if(!min(animScaleGrid) %in% animKmeanBreaksGrid){
-                  animKmeanBreaksGrid <- sort(c(min(animScaleGrid),animKmeanBreaksGrid))}
-                if(!max(animScaleGrid) %in% animKmeanBreaksGrid){
-                  animKmeanBreaksGrid <- sort(c(animKmeanBreaksGrid,max(animScaleGrid)))}
+                animPrettyBreaks<-scales::pretty_breaks(n=legendBreaksn)(animScale)
+                animKmeanBreaks<-sort(as.vector((stats::kmeans(animScale,
+                                                                   centers=max(1,min(length(unique(animScale))-1,(legendBreaksn-1)))))$centers[,1]))
+                if(!min(animScale) %in% animKmeanBreaks){
+                  animKmeanBreaks <- sort(c(min(animScale),animKmeanBreaks))}
+                if(!max(animScale) %in% animKmeanBreaks){
+                  animKmeanBreaks <- sort(c(animKmeanBreaks,max(animScale)))}
 
-                if((max(range(animScaleGrid))-min(range(animScaleGrid)))<1E-10 &
-                   (max(range(animScaleGrid))-min(range(animScaleGrid)))>-1E-10){animScaleGridRange=min(animScaleGrid)}else{
-                     animScaleGridRange=range(animScaleGrid)
+                if((max(range(animScale))-min(range(animScale)))<1E-10 &
+                   (max(range(animScale))-min(range(animScale)))>-1E-10){animScaleRange=min(animScale)}else{
+                     animScaleRange=range(animScale)
                    }
-                if(abs(min(animScaleGridRange,na.rm = T))==abs(max(animScaleGridRange,na.rm = T))){animScaleGridRange=abs(min(animScaleGridRange,na.rm = T))}
-                if(mean(animScaleGridRange,na.rm = T)<0.01 & mean(animScaleGridRange,na.rm = T)>(-0.01)){animLegendDigits<-5}else{
-                  if(mean(animScaleGridRange,na.rm = T)<0.1 & mean(animScaleGridRange,na.rm = T)>(-0.1)){animLegendDigits<-4}else{
-                    if(mean(animScaleGridRange,na.rm = T)<1 & mean(animScaleGridRange,na.rm = T)>(-1)){animLegendDigits<-3}else{
-                      if(mean(animScaleGridRange,na.rm = T)<10 & mean(animScaleGridRange,na.rm = T)>(-10)){animLegendDigits<-2}else{animLegendDigits<-1}}}}
+                if(abs(min(animScaleRange,na.rm = T))==abs(max(animScaleRange,na.rm = T))){animScaleRange=abs(min(animScaleRange,na.rm = T))}
+                if(mean(animScaleRange,na.rm = T)<0.01 & mean(animScaleRange,na.rm = T)>(-0.01)){animLegendDigits<-5}else{
+                  if(mean(animScaleRange,na.rm = T)<0.1 & mean(animScaleRange,na.rm = T)>(-0.1)){animLegendDigits<-4}else{
+                    if(mean(animScaleRange,na.rm = T)<1 & mean(animScaleRange,na.rm = T)>(-1)){animLegendDigits<-3}else{
+                      if(mean(animScaleRange,na.rm = T)<10 & mean(animScaleRange,na.rm = T)>(-10)){animLegendDigits<-2}else{animLegendDigits<-1}}}}
                   }
 
                 # Set Facets
@@ -2176,52 +2203,59 @@ map <- function(data = NULL,
                   } else { multiFacetRowsx <- facetRows; rowm <- length(facetRows)}
                 }
 
-
-
                 # Check for Duplicates
                 if(duplicated(datax %>%
-                              dplyr::select(lat,lon,x,dplyr::all_of(multiFacetRowsx),dplyr::all_of(multiFacetColsx))) %>%
-                   any()){stop("Input grid data has multiple values for the same lat and lon. Please check your data.")}
+                              dplyr::select(subRegion,lat,lon,x,dplyr::all_of(multiFacetRowsx),dplyr::all_of(multiFacetColsx))) %>%
+                   any()){stop("Input data data has multiple values for the same lat and lon. Please check your data.")}
 
                 if(any(grepl("all|kmean",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
-                  rmap::mapplot(printFig=printFig, overLayer=overLayer, overLayerColor=overLayerColor, overLayerFill = overLayerFill, overLayerLwd = overLayerLwd, overLayerAlpha = overLayerAlpha, underLayerColor, underLayerFill = underLayerFill, underLayerLwd = underLayerLwd, underLayerAlpha = underLayerAlpha, background=background, zoom=zoom, zoomx = zoomx, zoomy=zoomy, alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)), ncol=ncol, showNA=showNA, colorNA=colorNA,
+                  rmap::map_plot(save=save, overLayer=overLayer, overLayerColor=overLayerColor,
+                                 overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
+                                 overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
+                                 underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
+                                 underLayerAlpha = underLayerAlpha, background=background,
+                                 zoom=zoom, zoomx = zoomx, zoomy=zoomy, asp=asp, legendShow=legendShow,
+                                 cropToBoundary = cropToBoundary, transparent=transparent,
+                                 alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)),
+                                 ncol=ncol, showNA=showNA, colorNA=colorNA,
+                                 labelColor=labelColor,
+                                 labelSize=labelSize,
+                                 labelAlpha=labelAlpha,
+                                 labelFill=labelFill,
+                                 labelBorderSize=labelBorderSize,
                                 theme = theme, legendTitle=legendTitle,
                                 legendDigitsOverride=legendDigitsOverride,
                                 numeric2Cat_list=numeric2Cat_list,
                                 underLayer=underLayer,
-                                dataPolygon=shapex,
-                                dataGrid=datax,
+                                data=datax,
                                 legendBreaksn=legendBreaksn,
                                 legendDigits = animLegendDigits,
                                 fillPalette = fillPalette,
                                 width=width*max(1,colm/1),
                                 height=height*max(1,rowm/1),
                                 pdfpng = pdfpng, legendSingleColor = legendSingleColor, legendSingleValue =  legendSingleValue,
-                                labels=labels,
-                                legendBreaks = animKmeanBreaksGrid,
+                                labels=labels, labelForce=labelForce, underLayerLabels=underLayerLabels, overLayerLabels=overLayerLabels,
+                                legendBreaks = animKmeanBreaks,
                                 fillColumn = "value",
                                 facetCols = multiFacetColsx,
                                 facetRows = multiFacetRowsx,
                                 mapTitle=paste(param_i," ",scenario_i,sep=""),
-                                fileName = paste("map_","raster_",param_i,"_",scenario_i,nameAppend,"_KMEANS",sep=""),
-                                folder = sub("/$","",paste(dirOutputsX,"/",param_if,"/", scenario_if,sep = ""))) ->
+                                fileName = paste("map_",param_i,"_",scenario_i,nameAppend,"_KMEANS",sep=""),
+                                folder = sub("/$","",paste(folder,"/",param_if,"/", scenario_if,sep = ""))) ->
                     mapsReturn[[return_i]];
-                  names(mapsReturn)[return_i] <- paste("map_","raster_",param_i,"_",scenario_i,nameAppend,"_KMEANS",sep="");
+                  names(mapsReturn)[return_i] <- paste("map_",param_i,"_",scenario_i,nameAppend,"_KMEANS",sep="");
                   return_i = return_i + 1
 
                       # size=max(1,(size+(colm+rowm)*3 - 12))
                       # ncol=ncol
                       # showNA=showNA
                       # colorNA=colorNA
-                      # theme_ggplot = theme_ggplot
-                      # theme_custom = theme_custom
-                      # theme_rmap = theme_rmap
+                      # theme = NULL
                       # legendTitle=legendTitle
                       # legendDigitsOverride=legendDigitsOverride
                       # numeric2Cat_list=numeric2Cat_list
                       # underLayer=underLayer
-                      # dataPolygon=shapex
-                      # dataGrid=datax
+                      # data=datax
                       # legendBreaksn=legendBreaksn
                       # legendDigits = animLegendDigits
                       # fillPalette = fillPalette
@@ -2231,68 +2265,92 @@ map <- function(data = NULL,
                       # legendSingleColor = legendSingleColor
                       # legendSingleValue =  legendSingleValue
                       # labels=labels
-                      # legendBreaks = animKmeanBreaksGrid
+                      # legendBreaks = animKmeanBreaks
                       # fillColumn = "value"
                       # facetCols = multiFacetColsx
                       # facetRows = multiFacetRowsx
                       # mapTitle=paste(param_i," ",scenario_i,sep="")
-                      # fileName = paste("map_","raster_",param_i,"_",scenario_i,nameAppend,"_KMEANS",sep="")
-                      # folder = sub("/$","",paste(dirOutputsX,"/",param_if,"/", scenario_if,sep = ""))
+                      # fileName = paste("map_",param_i,"_",scenario_i,nameAppend,"_KMEANS",sep="")
+                      # folder = sub("/$","",paste(folder,"/",param_if,"/", scenario_if,sep = ""))
 
                   }
 
                 if(any(grepl("all|pretty",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
-                  rmap::mapplot(printFig=printFig, overLayer=overLayer, overLayerColor=overLayerColor, overLayerFill = overLayerFill, overLayerLwd = overLayerLwd, overLayerAlpha = overLayerAlpha, underLayerColor, underLayerFill = underLayerFill, underLayerLwd = underLayerLwd, underLayerAlpha = underLayerAlpha, background=background, zoom=zoom, zoomx = zoomx, zoomy=zoomy, alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)), ncol=ncol, showNA=showNA, colorNA=colorNA,
+                  rmap::map_plot(save=save, overLayer=overLayer, overLayerColor=overLayerColor,
+                                 overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
+                                 overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
+                                 underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
+                                 underLayerAlpha = underLayerAlpha, background=background,
+                                 zoom=zoom, zoomx = zoomx, zoomy=zoomy, asp=asp, legendShow=legendShow,
+                                 cropToBoundary = cropToBoundary, transparent=transparent,
+                                 alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)),
+                                 ncol=ncol, showNA=showNA, colorNA=colorNA,
+                                 labelColor=labelColor,
+                                 labelSize=labelSize,
+                                 labelAlpha=labelAlpha,
+                                 labelFill=labelFill,
+                                 labelBorderSize=labelBorderSize,
                                 theme = theme, legendTitle=legendTitle,
                                 legendDigitsOverride=legendDigitsOverride,
                                 numeric2Cat_list=numeric2Cat_list,
                                 underLayer=underLayer,
-                                dataPolygon=shapex,
-                                dataGrid=datax,
+                                data=datax,
                                 legendBreaksn=legendBreaksn,
                                 legendDigits = animLegendDigits,
                                 fillPalette = fillPalette,
                                 width=width*max(1,colm/1),
                                 height=height*max(1,rowm/1),
                                 pdfpng = pdfpng, legendSingleColor = legendSingleColor, legendSingleValue =  legendSingleValue,
-                                labels=labels,
-                                legendBreaks = animPrettyBreaksGrid,
+                                labels=labels, labelForce=labelForce, underLayerLabels=underLayerLabels, overLayerLabels=overLayerLabels,
+                                legendBreaks = animPrettyBreaks,
                                 fillColumn = "value",
                                 facetCols = multiFacetColsx,
                                 facetRows = multiFacetRowsx,
                                 mapTitle=paste(param_i," ",scenario_i,sep=""),
-                                fileName = paste("map_","raster_",param_i,"_",scenario_i,nameAppend,"_PRETTY",sep=""),
-                                folder = sub("/$","",paste(dirOutputsX,"/",param_if,"/", scenario_if,sep = ""))) ->
+                                fileName = paste("map_",param_i,"_",scenario_i,nameAppend,"_PRETTY",sep=""),
+                                folder = sub("/$","",paste(folder,"/",param_if,"/", scenario_if,sep = ""))) ->
                     mapsReturn[[return_i]];
-                  names(mapsReturn)[return_i] <- paste("map_","raster_",param_i,"_",scenario_i,nameAppend,"_PRETTY",sep="");
+                  names(mapsReturn)[return_i] <- paste("map_",param_i,"_",scenario_i,nameAppend,"_PRETTY",sep="");
                   return_i = return_i + 1
                 }
 
 
                 if(!is.null(legendFixedBreaks)){
-                  rmap::mapplot(printFig=printFig, overLayer=overLayer, overLayerColor=overLayerColor, overLayerFill = overLayerFill, overLayerLwd = overLayerLwd, overLayerAlpha = overLayerAlpha, underLayerColor, underLayerFill = underLayerFill, underLayerLwd = underLayerLwd, underLayerAlpha = underLayerAlpha, background=background, zoom=zoom, zoomx = zoomx, zoomy=zoomy, alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)), ncol=ncol, showNA=showNA, colorNA=colorNA,
+                  rmap::map_plot(save=save, overLayer=overLayer, overLayerColor=overLayerColor,
+                                 overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
+                                 overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
+                                 underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
+                                 underLayerAlpha = underLayerAlpha, background=background,
+                                 zoom=zoom, zoomx = zoomx, zoomy=zoomy, asp=asp,
+                                 legendShow=legendShow,  cropToBoundary = cropToBoundary,
+                                 transparent=transparent,alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)),
+                                 ncol=ncol, showNA=showNA, colorNA=colorNA,
+                                 labelColor=labelColor,
+                                 labelSize=labelSize,
+                                 labelAlpha=labelAlpha,
+                                 labelFill=labelFill,
+                                 labelBorderSize=labelBorderSize,
                                 theme = theme, legendTitle=legendTitle,
                                 legendDigitsOverride=legendDigitsOverride,
                                 numeric2Cat_list=numeric2Cat_list,
                                 underLayer=underLayer,
-                                dataPolygon=shapex,
-                                dataGrid=datax,
+                                data=datax,
                                 legendBreaksn=legendBreaksn,
                                 legendDigits = animLegendDigits,
                                 fillPalette = fillPalette,
                                 width=width*max(1,colm/1),
                                 height=height*max(1,rowm/1),
                                 pdfpng = pdfpng, legendSingleColor = legendSingleColor, legendSingleValue =  legendSingleValue,
-                                labels=labels,
+                                labels=labels, labelForce=labelForce, underLayerLabels=underLayerLabels, overLayerLabels=overLayerLabels,
                                 legendBreaks = legendFixedBreaks,
                                 fillColumn = "value",
                                 facetCols = multiFacetColsx,
                                 facetRows = multiFacetRowsx,
                                 mapTitle=paste(param_i," ",scenario_i,sep=""),
-                                fileName = paste("map_","raster_",param_i,"_",scenario_i,nameAppend,"_FIXED",sep=""),
-                                folder = sub("/$","",paste(dirOutputsX,"/",param_if,"/", scenario_if,sep = ""))) ->
+                                fileName = paste("map_",param_i,"_",scenario_i,nameAppend,"_FIXED",sep=""),
+                                folder = sub("/$","",paste(folder,"/",param_if,"/", scenario_if,sep = ""))) ->
                     mapsReturn[[return_i]];
-                  names(mapsReturn)[return_i] <- paste("map_","raster_",param_i,"_",scenario_i,nameAppend,"_FIXED",sep="");
+                  names(mapsReturn)[return_i] <- paste("map_",param_i,"_",scenario_i,nameAppend,"_FIXED",sep="");
                   return_i = return_i + 1
                 }
 
@@ -2300,12 +2358,12 @@ map <- function(data = NULL,
 
               # Mean for all years provided
 
-              datax<-gridTbl%>%dplyr::filter(scenario==scenario_i,param==param_i)
+              datax<-dataTblOrig%>%dplyr::filter(scenario==scenario_i,param==param_i)
 
               if(length(unique(datax$x))>1){
 
               if(nrow(datax)>0){
-                legendTitle<-unique(datax$units)
+                if(is.null(legendTitleOrig)){legendTitle<-unique(datax$units)}
                 fillPalette<-as.character(unique(datax$classPalette))
 
                 meanCol = paste("Mean_",min(datax$x),"to",max(datax$x),sep="")
@@ -2315,10 +2373,10 @@ map <- function(data = NULL,
                   dplyr::summarize(!!meanCol:=mean(value))%>%
                   dplyr::ungroup()
 
-                  animScaleGrid<-datax[[meanCol]];animScaleGrid
-                  animScaleGrid <- animScaleGrid[!is.infinite(animScaleGrid)]
-                  animScaleGrid <- animScaleGrid[!is.nan(animScaleGrid)]
-                  animScaleGrid <- animScaleGrid[!is.na(animScaleGrid)]
+                  animScale<-datax[[meanCol]];animScale
+                  animScale <- animScale[!is.infinite(animScale)]
+                  animScale <- animScale[!is.nan(animScale)]
+                  animScale <- animScale[!is.na(animScale)]
 
                   # Choose correct scaleRange
                   if(T){
@@ -2340,36 +2398,36 @@ map <- function(data = NULL,
 
                   if(!is.null(scaleRange_i)){
                      if(any(param_i %in% unique(scaleRange_i$param))){
-                      if(max(animScaleGrid) < (scaleRange_i %>% dplyr::filter(param==param_i))$maxScale){
-                        animScaleGrid<-c(animScaleGrid,(scaleRange_i %>% dplyr::filter(param==param_i))$maxScale)} else {
-                          animScaleGrid <- c((scaleRange_i %>% dplyr::filter(param==param_i))$maxScale,
-                                             animScaleGrid[animScaleGrid<(scaleRange_i %>% dplyr::filter(param==param_i))$maxScale])
+                      if(max(animScale) < (scaleRange_i %>% dplyr::filter(param==param_i))$maxScale){
+                        animScale<-c(animScale,(scaleRange_i %>% dplyr::filter(param==param_i))$maxScale)} else {
+                          animScale <- c((scaleRange_i %>% dplyr::filter(param==param_i))$maxScale,
+                                             animScale[animScale<(scaleRange_i %>% dplyr::filter(param==param_i))$maxScale])
                         }
-                      if(min(animScaleGrid) > (scaleRange_i %>% dplyr::filter(param==param_i))$minScale){
-                        animScaleGrid<-c(animScaleGrid,(scaleRange_i %>% dplyr::filter(param==param_i))$minScale)} else {
-                          animScaleGrid <-  c((scaleRange_i %>% dplyr::filter(param==param_i))$minScale,
-                                              animScaleGrid[animScaleGrid>(scaleRange_i %>% dplyr::filter(param==param_i))$minScale])
+                      if(min(animScale) > (scaleRange_i %>% dplyr::filter(param==param_i))$minScale){
+                        animScale<-c(animScale,(scaleRange_i %>% dplyr::filter(param==param_i))$minScale)} else {
+                          animScale <-  c((scaleRange_i %>% dplyr::filter(param==param_i))$minScale,
+                                              animScale[animScale>(scaleRange_i %>% dplyr::filter(param==param_i))$minScale])
                         }
                     }
                   }
-                  animPrettyBreaksGrid<-scales::pretty_breaks(n=legendBreaksn)(animScaleGrid)
-                  animKmeanBreaksGrid<-sort(as.vector((stats::kmeans(animScaleGrid,
-                                                                     centers=max(1,min(length(unique(animScaleGrid))-1,(legendBreaksn-1)))))$centers[,1]))
-                  if(!min(animScaleGrid) %in% animKmeanBreaksGrid){
-                    animKmeanBreaksGrid <- sort(c(min(animScaleGrid),animKmeanBreaksGrid))}
-                  if(!max(animScaleGrid) %in% animKmeanBreaksGrid){
-                    animKmeanBreaksGrid <- sort(c(animKmeanBreaksGrid,max(animScaleGrid)))}
+                  animPrettyBreaks<-scales::pretty_breaks(n=legendBreaksn)(animScale)
+                  animKmeanBreaks<-sort(as.vector((stats::kmeans(animScale,
+                                                                     centers=max(1,min(length(unique(animScale))-1,(legendBreaksn-1)))))$centers[,1]))
+                  if(!min(animScale) %in% animKmeanBreaks){
+                    animKmeanBreaks <- sort(c(min(animScale),animKmeanBreaks))}
+                  if(!max(animScale) %in% animKmeanBreaks){
+                    animKmeanBreaks <- sort(c(animKmeanBreaks,max(animScale)))}
 
 
-                  if((max(range(animScaleGrid))-min(range(animScaleGrid)))<1E-10 &
-                     (max(range(animScaleGrid))-min(range(animScaleGrid)))>-1E-10){animScaleGridRange=min(animScaleGrid)}else{
-                       animScaleGridRange=range(animScaleGrid)
+                  if((max(range(animScale))-min(range(animScale)))<1E-10 &
+                     (max(range(animScale))-min(range(animScale)))>-1E-10){animScaleRange=min(animScale)}else{
+                       animScaleRange=range(animScale)
                      }
-                  if(abs(min(animScaleGridRange,na.rm = T))==abs(max(animScaleGridRange,na.rm = T))){animScaleGridRange=abs(min(animScaleGridRange,na.rm = T))}
-                  if(mean(animScaleGridRange,na.rm = T)<0.01 & mean(animScaleGridRange,na.rm = T)>(-0.01)){animLegendDigits<-5}else{
-                    if(mean(animScaleGridRange,na.rm = T)<0.1 & mean(animScaleGridRange,na.rm = T)>(-0.1)){animLegendDigits<-4}else{
-                      if(mean(animScaleGridRange,na.rm = T)<1 & mean(animScaleGridRange,na.rm = T)>(-1)){animLegendDigits<-3}else{
-                        if(mean(animScaleGridRange,na.rm = T)<10 & mean(animScaleGridRange,na.rm = T)>(-10)){animLegendDigits<-2}else{animLegendDigits<-1}}}}
+                  if(abs(min(animScaleRange,na.rm = T))==abs(max(animScaleRange,na.rm = T))){animScaleRange=abs(min(animScaleRange,na.rm = T))}
+                  if(mean(animScaleRange,na.rm = T)<0.01 & mean(animScaleRange,na.rm = T)>(-0.01)){animLegendDigits<-5}else{
+                    if(mean(animScaleRange,na.rm = T)<0.1 & mean(animScaleRange,na.rm = T)>(-0.1)){animLegendDigits<-4}else{
+                      if(mean(animScaleRange,na.rm = T)<1 & mean(animScaleRange,na.rm = T)>(-1)){animLegendDigits<-3}else{
+                        if(mean(animScaleRange,na.rm = T)<10 & mean(animScaleRange,na.rm = T)>(-10)){animLegendDigits<-2}else{animLegendDigits<-1}}}}
                   }
 
                   # Set Facets
@@ -2398,109 +2456,184 @@ map <- function(data = NULL,
                     } else { multiFacetRowsx <- facetRows; rowm <- length(facetRows)}
                   }
 
-
-
                   # Check for Duplicates
                   if(duplicated(datax %>%
                                 dplyr::select(lat,lon,x,dplyr::all_of(multiFacetRowsx),dplyr::all_of(multiFacetColsx))) %>%
-                     any()){stop("Input grid data has multiple values for the same lat and lon. Please check your data.")}
+                     any()){stop("Input data data has multiple values for the same lat and lon. Please check your data.")}
 
 
                 if(any(grepl("all|kmean",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
-                  rmap::mapplot(printFig=printFig, overLayer=overLayer, overLayerColor=overLayerColor, overLayerFill = overLayerFill, overLayerLwd = overLayerLwd, overLayerAlpha = overLayerAlpha, underLayerColor, underLayerFill = underLayerFill, underLayerLwd = underLayerLwd, underLayerAlpha = underLayerAlpha, background=background, zoom=zoom, zoomx = zoomx, zoomy=zoomy, alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)), ncol=ncol, showNA=showNA, colorNA=colorNA,
+                  rmap::map_plot(save=save, overLayer=overLayer, overLayerColor=overLayerColor,
+                                 overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
+                                 overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
+                                 underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
+                                 underLayerAlpha = underLayerAlpha, background=background,
+                                 zoom=zoom, zoomx = zoomx, zoomy=zoomy, asp=asp, legendShow=legendShow,
+                                 cropToBoundary = cropToBoundary, transparent=transparent,
+                                 alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)), ncol=ncol,
+                                 showNA=showNA, colorNA=colorNA,
+                                 labelColor=labelColor,
+                                 labelSize=labelSize,
+                                 labelAlpha=labelAlpha,
+                                 labelFill=labelFill,
+                                 labelBorderSize=labelBorderSize,
                                 theme = theme, legendTitle=legendTitle,
                                 legendDigitsOverride=legendDigitsOverride,
                                 numeric2Cat_list=numeric2Cat_list,
                                 underLayer=underLayer,
-                                dataPolygon=shapex,
-                                dataGrid=datax,
+                                data=datax,
                                 legendBreaksn=legendBreaksn,
                                 legendDigits = animLegendDigits,
                                 fillPalette = fillPalette,
                                 width=width*max(1,colm/1),
                                 height=height,
                                 pdfpng = pdfpng, legendSingleColor = legendSingleColor, legendSingleValue =  legendSingleValue,
-                                labels=labels,
-                                legendBreaks = animKmeanBreaksGrid,
+                                labels=labels, labelForce=labelForce, underLayerLabels=underLayerLabels, overLayerLabels=overLayerLabels,
+                                legendBreaks = animKmeanBreaks,
                                 fillColumn = meanCol,
                                 facetCols = multiFacetColsx,
                                 mapTitle=paste(param_i," ",scenario_i," ",meanCol,sep=""),
-                                fileName = paste("map_","raster_",param_i,"_",scenario_i,nameAppend,"_MEAN_KMEANS",sep=""),
-                                folder = sub("/$","",paste(dirOutputsX,"/",param_if,"/", scenario_if,sep = ""))) ->
+                                fileName = paste("map_",param_i,"_",scenario_i,nameAppend,"_MEAN_KMEANS",sep=""),
+                                folder = sub("/$","",paste(folder,"/",param_if,"/", scenario_if,sep = ""))) ->
                     mapsReturn[[return_i]];
-                  names(mapsReturn)[return_i] <- paste("map_","raster_",param_i,"_",scenario_i,nameAppend,"_MEAN_KMEANS",sep="");
+                  names(mapsReturn)[return_i] <- paste("map_",param_i,"_",scenario_i,nameAppend,"_MEAN_KMEANS",sep="");
                   return_i = return_i + 1
+
+                  # save=save
+                  # overLayer=overLayer
+                  # overLayerColor=overLayerColor
+                  # overLayerFill = overLayerFill
+                  # overLayerLwd = overLayerLwd
+                  # overLayerAlpha = overLayerAlpha
+                  # underLayerColor=underLayerColor
+                  # underLayerFill = underLayerFill
+                  # underLayerLwd = underLayerLwd
+                  # underLayerAlpha = underLayerAlpha
+                  # background=background
+                  # zoom=zoom
+                  # zoomx = zoomx
+                  # zoomy=zoomy
+                  # alpha = alpha
+                  # size=max(1,(size+(colm+rowm)*3 - 12))
+                  # ncol=ncol
+                  # showNA=showNA
+                  # colorNA=colorNA
+                  # theme = theme
+                  # legendTitle=legendTitle
+                  # legendDigitsOverride=legendDigitsOverride
+                  # numeric2Cat_list=numeric2Cat_list
+                  # underLayer=underLayer
+                  # data=datax
+                  # legendBreaksn=legendBreaksn
+                  # legendDigits = animLegendDigits
+                  # fillPalette = fillPalette
+                  # width=width*max(1,colm/1)
+                  # height=height
+                  # pdfpng = pdfpng
+                  # legendSingleColor = legendSingleColor
+                  # legendSingleValue =  legendSingleValue
+                  # labels=labels
+                  # legendBreaks = animKmeanBreaks
+                  # fillColumn = meanCol
+                  # facetCols = multiFacetColsx
+                  # mapTitle=paste(param_i," ",scenario_i," ",meanCol,sep="")
+                  # fileName = paste("map_",param_i,"_",scenario_i,nameAppend,"_MEAN_KMEANS",sep="")
+                  # folder = sub("/$","",paste(folder,"/",param_if,"/", scenario_if,sep = ""))
+
                   }
 
                 if(any(grepl("all|pretty",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
-                  rmap::mapplot(printFig=printFig, overLayer=overLayer, overLayerColor=overLayerColor, overLayerFill = overLayerFill, overLayerLwd = overLayerLwd, overLayerAlpha = overLayerAlpha, underLayerColor, underLayerFill = underLayerFill, underLayerLwd = underLayerLwd, underLayerAlpha = underLayerAlpha, background=background, zoom=zoom, zoomx = zoomx, zoomy=zoomy, alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)), ncol=ncol, showNA=showNA, colorNA=colorNA,
+                  rmap::map_plot(save=save, overLayer=overLayer, overLayerColor=overLayerColor,
+                                 overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
+                                 overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
+                                 underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
+                                 underLayerAlpha = underLayerAlpha, background=background,
+                                 zoom=zoom, zoomx = zoomx, zoomy=zoomy, asp=asp, legendShow=legendShow,
+                                 cropToBoundary = cropToBoundary, transparent=transparent,
+                                 alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)), ncol=ncol,
+                                 showNA=showNA, colorNA=colorNA,
+                                 labelColor=labelColor,
+                                 labelSize=labelSize,
+                                 labelAlpha=labelAlpha,
+                                 labelFill=labelFill,
+                                 labelBorderSize=labelBorderSize,
                                 theme = theme, legendTitle=legendTitle,
                                 legendDigitsOverride=legendDigitsOverride,
                                 numeric2Cat_list=numeric2Cat_list,
                                 underLayer=underLayer,
-                                dataPolygon=shapex,
-                                dataGrid=datax,
+                                data=datax,
                                 legendBreaksn=legendBreaksn,
                                 legendDigits = animLegendDigits,
                                 fillPalette = fillPalette,
                                 width=width*max(1,colm/1),
                                 height=height,
                                 pdfpng = pdfpng, legendSingleColor = legendSingleColor, legendSingleValue =  legendSingleValue,
-                                labels=labels,
-                                legendBreaks = animPrettyBreaksGrid,
+                                labels=labels, labelForce=labelForce, underLayerLabels=underLayerLabels, overLayerLabels=overLayerLabels,
+                                legendBreaks = animPrettyBreaks,
                                 fillColumn = meanCol,
                                 facetCols = multiFacetColsx,
                                 mapTitle=paste(param_i," ",scenario_i," ",meanCol,sep=""),
-                                fileName = paste("map_","raster_",param_i,"_",scenario_i,nameAppend,"_MEAN_PRETTY",sep=""),
-                                folder = sub("/$","",paste(dirOutputsX,"/",param_if,"/", scenario_if,sep = ""))) ->
+                                fileName = paste("map_",param_i,"_",scenario_i,nameAppend,"_MEAN_PRETTY",sep=""),
+                                folder = sub("/$","",paste(folder,"/",param_if,"/", scenario_if,sep = ""))) ->
                     mapsReturn[[return_i]];
-                  names(mapsReturn)[return_i] <- paste("map_","raster_",param_i,"_",scenario_i,nameAppend,"_MEAN_PRETTY",sep="");
+                  names(mapsReturn)[return_i] <- paste("map_",param_i,"_",scenario_i,nameAppend,"_MEAN_PRETTY",sep="");
                   return_i = return_i + 1
                 }
 
                   if(!is.null(legendFixedBreaks)){
-                    rmap::mapplot(printFig=printFig, overLayer=overLayer, overLayerColor=overLayerColor, overLayerFill = overLayerFill, overLayerLwd = overLayerLwd, overLayerAlpha = overLayerAlpha, underLayerColor, underLayerFill = underLayerFill, underLayerLwd = underLayerLwd, underLayerAlpha = underLayerAlpha, background=background, zoom=zoom, zoomx = zoomx, zoomy=zoomy, alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)), ncol=ncol, showNA=showNA, colorNA=colorNA,
+                    rmap::map_plot(save=save, overLayer=overLayer, overLayerColor=overLayerColor,
+                                   overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
+                                   overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
+                                   underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
+                                   underLayerAlpha = underLayerAlpha, background=background,
+                                   zoom=zoom, zoomx = zoomx, zoomy=zoomy, asp=asp, legendShow=legendShow,
+                                   cropToBoundary = cropToBoundary, transparent=transparent,alpha = alpha,
+                                   size=max(1,(size+(colm+rowm)*3 - 12)),
+                                   ncol=ncol, showNA=showNA, colorNA=colorNA,
+                                   labelColor=labelColor,
+                                   labelSize=labelSize,
+                                   labelAlpha=labelAlpha,
+                                   labelFill=labelFill,
+                                   labelBorderSize=labelBorderSize,
                                   theme = theme, legendTitle=legendTitle,
                                   legendDigitsOverride=legendDigitsOverride,
                                   numeric2Cat_list=numeric2Cat_list,
                                   underLayer=underLayer,
-                                  dataPolygon=shapex,
-                                  dataGrid=datax,
+                                  data=datax,
                                   legendBreaksn=legendBreaksn,
                                   legendDigits = animLegendDigits,
                                   fillPalette = fillPalette,
                                   width=width*max(1,colm/1),
                                   height=height,
                                   pdfpng = pdfpng, legendSingleColor = legendSingleColor, legendSingleValue =  legendSingleValue,
-                                  labels=labels,
+                                  labels=labels, labelForce=labelForce, underLayerLabels=underLayerLabels, overLayerLabels=overLayerLabels,
                                   legendBreaks = legendFixedBreaks,
                                   fillColumn = meanCol,
                                   facetCols = multiFacetColsx,
                                   mapTitle=paste(param_i," ",scenario_i," ",meanCol,sep=""),
-                                  fileName = paste("map_","raster_",param_i,"_",scenario_i,nameAppend,"_MEAN_FIXED",sep=""),
-                                  folder = sub("/$","",paste(dirOutputsX,"/",param_if,"/", scenario_if,sep = ""))) ->
+                                  fileName = paste("map_",param_i,"_",scenario_i,nameAppend,"_MEAN_FIXED",sep=""),
+                                  folder = sub("/$","",paste(folder,"/",param_if,"/", scenario_if,sep = ""))) ->
                       mapsReturn[[return_i]];
-                    names(mapsReturn)[return_i] <- paste("map_","raster_",param_i,"_",scenario_i,nameAppend,"_MEAN_FIXED",sep="");
+                    names(mapsReturn)[return_i] <- paste("map_",param_i,"_",scenario_i,nameAppend,"_MEAN_FIXED",sep="");
                     return_i = return_i + 1
                   }
 
               } # if(nrow(datax)>0){
+
             }# If multiple years
 
 
-          } # Close if nrow gridTbl < 0
+          } # Close if nrow dataTbl < 0
 
-          }# Close if nrow gridTbl < 0
+          }# Close if nrow dataTbl < 0
         } # close Scenarios
 
       } # Close params loop
 
-      } # Close if nrow gridTbl < 0
+      } # Close if nrow dataTbl < 0
 
-    animateOn <- animateOnOrig
-
-    }# Close if gridTbl is Null
-  } # Close Raster Plots
+    }# Close if dataTbl is Null
+  } # Close Plots
 
   # .................
   # Return Data

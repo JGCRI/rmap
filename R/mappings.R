@@ -422,8 +422,8 @@ mappings <- function(name=NULL) {
   # subRegion mapping to rmap shapefile regions
   #--------------------------------------------------------------------------------------------------
 
-  subRegionBasinMap <- tibble::tribble(
-    ~subRegionBasinMap	,	~subRegion,
+  mappingGCAMBasins <- tibble::tribble(
+    ~subRegionMap	,	~subRegion,
     'Arctic_Ocean_Islands','ArcticIsl',
     'Northwest_Territories','NWTerr',
     'Siberia_North_Coast','SiberiaN',
@@ -685,7 +685,7 @@ mappings <- function(name=NULL) {
     US52=US52,
     US49=US49,
     countryToGCAMReg32=countryToGCAMReg32,
-    subRegionBasinMap=subRegionBasinMap)
+    mappingGCAMBasins=mappingGCAMBasins)
 
   if(!is.null(name)){returnx <- listx[[name]]} else {returnx <- listx }
 

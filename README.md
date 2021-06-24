@@ -2,29 +2,13 @@
 [![codecov](https://codecov.io/gh/JGCRI/rmap/branch/main/graph/badge.svg?token=XQ913U4IYM)](https://codecov.io/gh/JGCRI/rmap) 
 [![build](https://github.com/JGCRI/rmap/workflows/build/badge.svg)](https://github.com/JGCRI/rmap/workflows/build/badge.svg)
 [![docs](https://github.com/JGCRI/rmap/actions/workflows/pkgdown.yaml/badge.svg?branch=main)](https://github.com/JGCRI/rmap/actions/workflows/pkgdown.yaml)
-  
-  <!-- badges: end -->
-
-<!-- ------------------------>
-<!-- ------------------------>
-# <a name="Contents"></a>Contents
-<!-- ------------------------>
-<!-- ------------------------>
-
-- [Key Links](#KeyLinks)
-- [Introduction](#Introduction)
-- [Citation](#Citation)
-- [Installation Guide](#InstallGuide)
-- [How-to guide](#howto) 
-- [Publications](#Publications)
+<!-- badges: end -->
 
 <!-- ------------------------>
 <!-- ------------------------>
 # <a name="KeyLinks"></a>Key Links
 <!-- ------------------------>
 <!-- ------------------------>
-
-[Back to Contents](#Contents)
 
 - Github: https://github.com/JGCRI/rmap
 - Webpage: https://jgcri.github.io/rmap/
@@ -36,8 +20,6 @@
 <!-- ------------------------>
 <!-- ------------------------>
 
-[Back to Contents](#Contents)
-
 `rmap` is comprehensive mapping package to create easily customizable maps and compare across scenarios, years and data classes. The package allows creation of difference maps as well as customizable legends, color palettes and styles.
 
 
@@ -47,16 +29,13 @@
 <!-- ------------------------>
 <!-- ------------------------>
 
-[Back to Contents](#Contents)
-
+Citation to be added.
 
 <!-- ------------------------>
 <!-- ------------------------>
 # <a name="InstallGuide"></a>Installation Guide
 <!-- ------------------------>
 <!-- ------------------------>
-
-[Back to Contents](#Contents)
 
 1. Download and install:
     - R (https://www.r-project.org/)
@@ -87,18 +66,16 @@ brew install imagemagick@6
 
 <!-- ------------------------>
 <!-- ------------------------>
-# <a name="keyfunctions"></a> How to guides
+# <a name="keyfunctions"></a> User Guide
 <!-- ------------------------>
 <!-- ------------------------>
 
-[Back to Contents](#Contents)
-
-A detailed step-by-step walkthrough and how-to guide is provided on the [How-to](https://jgcri.github.io/rmap/articles/vignette_map.html) page. 
+A detailed user guide is available on the [User Guide](https://jgcri.github.io/rmap/articles/vignette_map.html) page. 
 
 
 <!-- ------------------------>
 <!-- ------------------------>
-# <a name="Publications"></a>Publications
+# <a name="Publications"></a>Related Publications
 <!-- ------------------------>
 <!-- ------------------------>
 
