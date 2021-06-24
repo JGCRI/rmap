@@ -81,7 +81,7 @@ Each figure is accompanied with a csv table." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa-home"></span>
+    <span class="fa fa-home"></span>
      
   </a>
 </li>
@@ -89,19 +89,19 @@ Each figure is accompanied with a csv table." />
   <a href="../articles/vignette_map.html">
     <span class="fas fa-book"></span>
      
-    How-to
+    User Guide
   </a>
 </li>
 <li>
   <a href="../reference/index.html">
-    <span class="fas fa-file-code-o"></span>
+    <span class="fa fa-file-code-o"></span>
      
     Reference
   </a>
 </li>
 <li>
   <a href="../news/index.html">
-    <span class="fas fa-newspaper-o"></span>
+    <span class="fa fa-newspaper-o"></span>
      
     News
   </a>
@@ -144,49 +144,46 @@ Each figure is accompanied with a csv table.</p>
   data <span class='op'>=</span> <span class='cn'>NULL</span>,
   fillColumn <span class='op'>=</span> <span class='cn'>NULL</span>,
   fileName <span class='op'>=</span> <span class='st'>"map"</span>,
-  printFig <span class='op'>=</span> <span class='cn'>T</span>,
-  grid <span class='op'>=</span> <span class='cn'>NULL</span>,
+  save <span class='op'>=</span> <span class='cn'>T</span>,
+  theme <span class='op'>=</span> <span class='cn'>NULL</span>,
   folder <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>getwd</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"/outputs"</span>, sep <span class='op'>=</span> <span class='st'>""</span><span class='op'>)</span>,
-  xRange <span class='op'>=</span> <span class='st'>"All"</span>,
   labels <span class='op'>=</span> <span class='cn'>F</span>,
-  labelsSize <span class='op'>=</span> <span class='fl'>1</span>,
-  shape <span class='op'>=</span> <span class='cn'>NULL</span>,
-  subRegShpFolder <span class='op'>=</span> <span class='cn'>NULL</span>,
-  subRegShpFile <span class='op'>=</span> <span class='cn'>NULL</span>,
+  labelForce <span class='op'>=</span> <span class='fl'>0</span>,
+  labelColor <span class='op'>=</span> <span class='st'>"black"</span>,
+  labelSize <span class='op'>=</span> <span class='fl'>3</span>,
+  labelAlpha <span class='op'>=</span> <span class='fl'>1</span>,
+  labelFill <span class='op'>=</span> <span class='cn'>NA</span>,
+  labelBorderSize <span class='op'>=</span> <span class='cn'>NA</span>,
+  shapeFolder <span class='op'>=</span> <span class='cn'>NULL</span>,
+  shapeFile <span class='op'>=</span> <span class='cn'>NULL</span>,
   subRegCol <span class='op'>=</span> <span class='st'>"subRegion"</span>,
-  subRegType <span class='op'>=</span> <span class='cn'>NULL</span>,
   nameAppend <span class='op'>=</span> <span class='st'>""</span>,
+  legendTitle <span class='op'>=</span> <span class='cn'>NULL</span>,
   legendType <span class='op'>=</span> <span class='st'>"kmeans"</span>,
-  legendOutsideSingle <span class='op'>=</span> <span class='cn'>T</span>,
-  legendOutsidePosition <span class='op'>=</span> <span class='cn'>NULL</span>,
-  legendPosition <span class='op'>=</span> <span class='cn'>NULL</span>,
   legendBreaksn <span class='op'>=</span> <span class='fl'>5</span>,
   legendFixedBreaks <span class='op'>=</span> <span class='cn'>NULL</span>,
-  legendTitleSizeO <span class='op'>=</span> <span class='fl'>1</span>,
-  legendTextSizeO <span class='op'>=</span> <span class='fl'>0.6</span>,
-  legendTitleSizeI <span class='op'>=</span> <span class='fl'>1</span>,
-  legendTextSizeI <span class='op'>=</span> <span class='fl'>0.6</span>,
   animateOn <span class='op'>=</span> <span class='cn'>T</span>,
   fps <span class='op'>=</span> <span class='fl'>1</span>,
-  background <span class='op'>=</span> <span class='cn'>F</span>,
-  boundaryRegShape <span class='op'>=</span> <span class='cn'>NULL</span>,
-  boundaryRegShpFolder <span class='op'>=</span> <span class='cn'>NULL</span>,
-  boundaryRegShpFile <span class='op'>=</span> <span class='cn'>NULL</span>,
-  boundaryRegCol <span class='op'>=</span> <span class='st'>"subRegion"</span>,
-  boundaryRegionsSelect <span class='op'>=</span> <span class='cn'>NULL</span>,
-  cropToBoundary <span class='op'>=</span> <span class='cn'>F</span>,
-  extendedLabels <span class='op'>=</span> <span class='cn'>F</span>,
-  extendedFillColor <span class='op'>=</span> <span class='st'>"grey75"</span>,
-  extendedBGColor <span class='op'>=</span> <span class='st'>"lightblue1"</span>,
-  extendedHighLightColor <span class='op'>=</span> <span class='st'>"cornsilk1"</span>,
-  extendedLabelsColor <span class='op'>=</span> <span class='st'>"grey30"</span>,
-  extdendedLabelSize <span class='op'>=</span> <span class='fl'>0.4</span>,
-  extendedShape <span class='op'>=</span> <span class='cn'>NULL</span>,
-  extendedShapeCol <span class='op'>=</span> <span class='st'>"subRegion"</span>,
-  expandPercent <span class='op'>=</span> <span class='fl'>3</span>,
+  cropToBoundary <span class='op'>=</span> <span class='cn'>T</span>,
+  underLayer <span class='op'>=</span> <span class='cn'>NULL</span>,
+  underLayerColor <span class='op'>=</span> <span class='st'>"gray40"</span>,
+  underLayerFill <span class='op'>=</span> <span class='st'>"gray90"</span>,
+  underLayerLwd <span class='op'>=</span> <span class='fl'>0.1</span>,
+  underLayerAlpha <span class='op'>=</span> <span class='fl'>1</span>,
+  underLayerLabels <span class='op'>=</span> <span class='cn'>F</span>,
+  overLayerLabels <span class='op'>=</span> <span class='cn'>F</span>,
+  overLayer <span class='op'>=</span> <span class='cn'>NULL</span>,
+  overLayerColor <span class='op'>=</span> <span class='st'>"gray40"</span>,
+  overLayerFill <span class='op'>=</span> <span class='cn'>NA</span>,
+  overLayerLwd <span class='op'>=</span> <span class='fl'>0.2</span>,
+  overLayerAlpha <span class='op'>=</span> <span class='fl'>0</span>,
+  zoom <span class='op'>=</span> <span class='op'>-</span><span class='fl'>1</span>,
+  zoomx <span class='op'>=</span> <span class='cn'>NULL</span>,
+  zoomy <span class='op'>=</span> <span class='cn'>NULL</span>,
+  asp <span class='op'>=</span> <span class='fl'>1.2</span>,
   projX <span class='op'>=</span> <span class='st'>"+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"</span>,
-  figWidth <span class='op'>=</span> <span class='fl'>6</span>,
-  figHeight <span class='op'>=</span> <span class='fl'>7</span>,
+  width <span class='op'>=</span> <span class='fl'>7</span>,
+  height <span class='op'>=</span> <span class='fl'>8</span>,
   scenRef <span class='op'>=</span> <span class='cn'>NULL</span>,
   scenDiff <span class='op'>=</span> <span class='cn'>NULL</span>,
   scaleRange <span class='op'>=</span> <span class='cn'>NULL</span>,
@@ -196,40 +193,24 @@ Each figure is accompanied with a csv table.</p>
   xDiff <span class='op'>=</span> <span class='cn'>NULL</span>,
   scaleRangeDiffxAbs <span class='op'>=</span> <span class='cn'>NULL</span>,
   scaleRangeDiffxPrcnt <span class='op'>=</span> <span class='cn'>NULL</span>,
-  paramsSelect <span class='op'>=</span> <span class='st'>"All"</span>,
-  multifacetsOn <span class='op'>=</span> <span class='cn'>F</span>,
-  multiFacetCols <span class='op'>=</span> <span class='st'>"multiFacetCol"</span>,
-  multiFacetRows <span class='op'>=</span> <span class='st'>"multiFacetRow"</span>,
-  legendOutsideMulti <span class='op'>=</span> <span class='cn'>T</span>,
-  legendPositionMulti <span class='op'>=</span> <span class='cn'>NULL</span>,
-  legendTitleSizeMulti <span class='op'>=</span> <span class='cn'>NULL</span>,
-  legendTextSizeAnim <span class='op'>=</span> <span class='cn'>NULL</span>,
-  legendTextSizeMulti <span class='op'>=</span> <span class='cn'>NULL</span>,
-  refMultiA <span class='op'>=</span> <span class='cn'>NULL</span>,
-  refMultiB <span class='op'>=</span> <span class='cn'>NULL</span>,
-  chosenRefMeanYears <span class='op'>=</span> <span class='cn'>NULL</span>,
+  facetCols <span class='op'>=</span> <span class='cn'>NULL</span>,
+  facetRows <span class='op'>=</span> <span class='cn'>NULL</span>,
   mapTitle <span class='op'>=</span> <span class='cn'>NULL</span>,
-  mapTitleSize <span class='op'>=</span> <span class='fl'>0.5</span>,
-  facetBGColor <span class='op'>=</span> <span class='cn'>NA</span>,
-  facetLabelColor <span class='op'>=</span> <span class='st'>"black"</span>,
-  facetLabelSize <span class='op'>=</span> <span class='fl'>1</span>,
-  facetLabelSizeMultiAB <span class='op'>=</span> <span class='fl'>1</span>,
-  facetLabelBorderLwd <span class='op'>=</span> <span class='cn'>NA_real_</span>,
   numeric2Cat_list <span class='op'>=</span> <span class='cn'>NULL</span>,
-  frameShow <span class='op'>=</span> <span class='cn'>F</span>,
   pdfpng <span class='op'>=</span> <span class='st'>"png"</span>,
-  fillcolorNA <span class='op'>=</span> <span class='st'>"gray"</span>,
-  fillshowNA <span class='op'>=</span> <span class='cn'>NA</span>,
-  fillcolorNULL <span class='op'>=</span> <span class='st'>"gray"</span>,
-  legendSingleColorOn <span class='op'>=</span> <span class='cn'>NULL</span>,
-  legendSingleValue <span class='op'>=</span> <span class='cn'>NULL</span>,
-  legendSingleColor <span class='op'>=</span> <span class='st'>"white"</span>,
-  facetCols <span class='op'>=</span> <span class='fl'>4</span>,
-  mapTitleOn <span class='op'>=</span> <span class='cn'>T</span>,
-  innerMargins <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>0</span>, <span class='fl'>0</span><span class='op'>)</span>,
   legendDigitsOverride <span class='op'>=</span> <span class='cn'>NULL</span>,
+  legendSingleColor <span class='op'>=</span> <span class='st'>"white"</span>,
+  legendSingleValue <span class='op'>=</span> <span class='cn'>NULL</span>,
   classPalette <span class='op'>=</span> <span class='cn'>NULL</span>,
-  classPaletteDiff <span class='op'>=</span> <span class='st'>"pal_div_BluRd"</span>
+  classPaletteDiff <span class='op'>=</span> <span class='st'>"pal_div_BluRd"</span>,
+  colorNA <span class='op'>=</span> <span class='st'>"gray50"</span>,
+  showNA <span class='op'>=</span> <span class='cn'>F</span>,
+  ncol <span class='op'>=</span> <span class='fl'>3</span>,
+  size <span class='op'>=</span> <span class='fl'>12</span>,
+  alpha <span class='op'>=</span> <span class='fl'>1</span>,
+  background <span class='op'>=</span> <span class='cn'>F</span>,
+  transparent <span class='op'>=</span> <span class='cn'>T</span>,
+  legendShow <span class='op'>=</span> <span class='cn'>T</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -248,11 +229,11 @@ Each figure is accompanied with a csv table.</p>
       <td><p>(Optional). Default = "map". Only for direct map plotting.</p></td>
     </tr>
     <tr>
-      <th>printFig</th>
+      <th>save</th>
       <td><p>(Optional). Default = T. Only for direct map plotting.</p></td>
     </tr>
     <tr>
-      <th>grid</th>
+      <th>theme</th>
       <td><p>Default = NULL,</p></td>
     </tr>
     <tr>
@@ -260,27 +241,39 @@ Each figure is accompanied with a csv table.</p>
       <td><p>Default = paste(getwd(),"/outputs",sep=""),</p></td>
     </tr>
     <tr>
-      <th>xRange</th>
-      <td><p>Default ="All",</p></td>
-    </tr>
-    <tr>
       <th>labels</th>
       <td><p>Default = F,</p></td>
     </tr>
     <tr>
-      <th>labelsSize</th>
-      <td><p>Default = 1.2,</p></td>
+      <th>labelForce</th>
+      <td><p>Default = 0,</p></td>
     </tr>
     <tr>
-      <th>shape</th>
-      <td><p>Default = NULL,</p></td>
+      <th>labelColor</th>
+      <td><p>Default = "black",</p></td>
     </tr>
     <tr>
-      <th>subRegShpFolder</th>
+      <th>labelSize</th>
+      <td><p>Default = 3</p></td>
+    </tr>
+    <tr>
+      <th>labelAlpha</th>
+      <td><p>Default = 0.7,</p></td>
+    </tr>
+    <tr>
+      <th>labelFill</th>
+      <td><p>Default = NA,</p></td>
+    </tr>
+    <tr>
+      <th>labelBorderSize</th>
+      <td><p>Default = NA</p></td>
+    </tr>
+    <tr>
+      <th>shapeFolder</th>
       <td><p>Default = paste(getwd(),"/dataFiles/gis/admin_gadm36",sep=""),</p></td>
     </tr>
     <tr>
-      <th>subRegShpFile</th>
+      <th>shapeFile</th>
       <td><p>Default = paste("gadm36_1",sep=""),</p></td>
     </tr>
     <tr>
@@ -288,28 +281,16 @@ Each figure is accompanied with a csv table.</p>
       <td><p>Default ="subRegion",</p></td>
     </tr>
     <tr>
-      <th>subRegType</th>
-      <td><p>Default =NULL</p></td>
-    </tr>
-    <tr>
       <th>nameAppend</th>
       <td><p>Default =""</p></td>
     </tr>
     <tr>
+      <th>legendTitle</th>
+      <td><p>Default = NULL</p></td>
+    </tr>
+    <tr>
       <th>legendType</th>
       <td><p>Default ="kmeans", Options include c("pretty","kmeans","freescale","all")</p></td>
-    </tr>
-    <tr>
-      <th>legendOutsideSingle</th>
-      <td><p>Default =F, Single plots by default have legends inside. This can be moved out if wanted.</p></td>
-    </tr>
-    <tr>
-      <th>legendOutsidePosition</th>
-      <td><p>Default = NULL, # "right","left"</p></td>
-    </tr>
-    <tr>
-      <th>legendPosition</th>
-      <td><p>Default = NULL, # c('RIGHT','top') - RIGHT LEFT TOP BOTTOM</p></td>
     </tr>
     <tr>
       <th>legendBreaksn</th>
@@ -320,22 +301,6 @@ Each figure is accompanied with a csv table.</p>
       <td><p>Default = NULL,</p></td>
     </tr>
     <tr>
-      <th>legendTitleSizeO</th>
-      <td><p>Default = 2,</p></td>
-    </tr>
-    <tr>
-      <th>legendTextSizeO</th>
-      <td><p>Default =1,</p></td>
-    </tr>
-    <tr>
-      <th>legendTitleSizeI</th>
-      <td><p>Default = 1,</p></td>
-    </tr>
-    <tr>
-      <th>legendTextSizeI</th>
-      <td><p>Default =0.5,</p></td>
-    </tr>
-    <tr>
       <th>animateOn</th>
       <td><p>Default = T,</p></td>
     </tr>
@@ -344,79 +309,83 @@ Each figure is accompanied with a csv table.</p>
       <td><p>Default = 1,</p></td>
     </tr>
     <tr>
-      <th>background</th>
-      <td><p>Default =F,</p></td>
-    </tr>
-    <tr>
-      <th>boundaryRegShape</th>
-      <td><p>Default = NULL,</p></td>
-    </tr>
-    <tr>
-      <th>boundaryRegShpFolder</th>
-      <td><p>Default= NULL . Suggested paste(getwd(),"/dataFiles/gis/naturalEarth",sep  Default="")</p></td>
-    </tr>
-    <tr>
-      <th>boundaryRegShpFile</th>
-      <td><p>Default=NULL . Suggested paste("ne_10m_admin_0_countries",sep  Default=""),</p></td>
-    </tr>
-    <tr>
-      <th>boundaryRegCol</th>
-      <td><p>Default=NULL. Suggested "NAME_0",</p></td>
-    </tr>
-    <tr>
-      <th>boundaryRegionsSelect</th>
-      <td><p>Default = NULL,</p></td>
-    </tr>
-    <tr>
       <th>cropToBoundary</th>
-      <td><p>Default = T</p></td>
-    </tr>
-    <tr>
-      <th>extendedLabels</th>
       <td><p>Default = F</p></td>
     </tr>
     <tr>
-      <th>extendedFillColor</th>
-      <td><p>Default ="grey75",</p></td>
+      <th>underLayer</th>
+      <td><p>Default = NULL</p></td>
     </tr>
     <tr>
-      <th>extendedBGColor</th>
-      <td><p>Default ="lightblue1",</p></td>
+      <th>underLayerColor</th>
+      <td><p>Default = "gray40"</p></td>
     </tr>
     <tr>
-      <th>extendedHighLightColor</th>
-      <td><p>Default ="cornsilk1",</p></td>
+      <th>underLayerFill</th>
+      <td><p>Default = "gray90"</p></td>
     </tr>
     <tr>
-      <th>extendedLabelsColor</th>
-      <td><p>Default ="grey30",</p></td>
+      <th>underLayerLwd</th>
+      <td><p>Default = 0.5</p></td>
     </tr>
     <tr>
-      <th>extdendedLabelSize</th>
-      <td><p>Default =0.7,</p></td>
+      <th>underLayerAlpha</th>
+      <td><p>Default = 1</p></td>
     </tr>
     <tr>
-      <th>extendedShape</th>
-      <td><p>Default =NULL,</p></td>
+      <th>underLayerLabels</th>
+      <td><p>Default = F</p></td>
     </tr>
     <tr>
-      <th>extendedShapeCol</th>
-      <td><p>Default =NULL,</p></td>
+      <th>overLayerLabels</th>
+      <td><p>Default = F</p></td>
     </tr>
     <tr>
-      <th>expandPercent</th>
-      <td><p>Default =3</p></td>
+      <th>overLayer</th>
+      <td><p>Default = NULL</p></td>
+    </tr>
+    <tr>
+      <th>overLayerColor</th>
+      <td><p>Default = "gray40"</p></td>
+    </tr>
+    <tr>
+      <th>overLayerFill</th>
+      <td><p>Default = NA</p></td>
+    </tr>
+    <tr>
+      <th>overLayerLwd</th>
+      <td><p>Default = 0.5</p></td>
+    </tr>
+    <tr>
+      <th>overLayerAlpha</th>
+      <td><p>Default = 0</p></td>
+    </tr>
+    <tr>
+      <th>zoom</th>
+      <td><p>Default =-1. Zoom into or out of map. Positive values zoom in and negative out.</p></td>
+    </tr>
+    <tr>
+      <th>zoomx</th>
+      <td><p>Default = NULL. Zoom into or out of map along x. Positive values zoom in and negative out.</p></td>
+    </tr>
+    <tr>
+      <th>zoomy</th>
+      <td><p>Default = NULL. Zoom into or out of map along y. Positive values zoom in and negative out.</p></td>
+    </tr>
+    <tr>
+      <th>asp</th>
+      <td><p>Default = 1.2. Aspect ratio of lat and lon.</p></td>
     </tr>
     <tr>
       <th>projX</th>
       <td><p>Default = projX="+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"</p></td>
     </tr>
     <tr>
-      <th>figWidth</th>
+      <th>width</th>
       <td><p>Default =9</p></td>
     </tr>
     <tr>
-      <th>figHeight</th>
+      <th>height</th>
       <td><p>Default =7</p></td>
     </tr>
     <tr>
@@ -456,132 +425,36 @@ Each figure is accompanied with a csv table.</p>
       <td><p>Default =NULL, A vector with c(max,min) (Applied to all params) or a dataframe with cols param, max, min</p></td>
     </tr>
     <tr>
-      <th>paramsSelect</th>
-      <td><p>Default ="All"</p></td>
-    </tr>
-    <tr>
-      <th>multifacetsOn</th>
-      <td><p>Default = F,</p></td>
-    </tr>
-    <tr>
-      <th>multiFacetCols</th>
+      <th>facetCols</th>
       <td><p>Default ="multiFacetRow",</p></td>
     </tr>
     <tr>
-      <th>multiFacetRows</th>
+      <th>facetRows</th>
       <td><p>Default ="multiFacetCol",</p></td>
-    </tr>
-    <tr>
-      <th>legendOutsideMulti</th>
-      <td><p>Default = NULL,</p></td>
-    </tr>
-    <tr>
-      <th>legendPositionMulti</th>
-      <td><p>Default = NULL,</p></td>
-    </tr>
-    <tr>
-      <th>legendTitleSizeMulti</th>
-      <td><p>Default = NULL,</p></td>
-    </tr>
-    <tr>
-      <th>legendTextSizeAnim</th>
-      <td><p>Default = NULL,</p></td>
-    </tr>
-    <tr>
-      <th>legendTextSizeMulti</th>
-      <td><p>Default = NULL,</p></td>
-    </tr>
-    <tr>
-      <th>refMultiA</th>
-      <td><p>Default = NULL , eg. "gfdl-esm2m"</p></td>
-    </tr>
-    <tr>
-      <th>refMultiB</th>
-      <td><p>Default = NULL , eg. "rcp2p6"</p></td>
-    </tr>
-    <tr>
-      <th>chosenRefMeanYears</th>
-      <td><p>Default=NULL</p></td>
     </tr>
     <tr>
       <th>mapTitle</th>
       <td><p>Default=NULL</p></td>
     </tr>
     <tr>
-      <th>mapTitleSize</th>
-      <td><p>Default=0.5</p></td>
-    </tr>
-    <tr>
-      <th>facetBGColor</th>
-      <td><p>Default = NA</p></td>
-    </tr>
-    <tr>
-      <th>facetLabelColor</th>
-      <td><p>Default = Black</p></td>
-    </tr>
-    <tr>
-      <th>facetLabelSize</th>
-      <td><p>Default =2.5</p></td>
-    </tr>
-    <tr>
-      <th>facetLabelSizeMultiAB</th>
-      <td><p>Default =1</p></td>
-    </tr>
-    <tr>
-      <th>facetLabelBorderLwd</th>
-      <td><p>Default=NA_real_,</p></td>
-    </tr>
-    <tr>
       <th>numeric2Cat_list</th>
       <td><p>Default=NULL,</p></td>
-    </tr>
-    <tr>
-      <th>frameShow</th>
-      <td><p>Default = T. Whether to plot frame around maps and facets.</p></td>
     </tr>
     <tr>
       <th>pdfpng</th>
       <td><p>Save IO figures as pdf or png. Type=String. Options: 'pdf' or 'png'. Default = 'png'</p></td>
     </tr>
     <tr>
-      <th>fillcolorNA</th>
-      <td><p>Default="gray",</p></td>
-    </tr>
-    <tr>
-      <th>fillshowNA</th>
-      <td><p>Default=NA,</p></td>
-    </tr>
-    <tr>
-      <th>fillcolorNULL</th>
-      <td><p>Default="gray"</p></td>
-    </tr>
-    <tr>
-      <th>legendSingleColorOn</th>
-      <td><p>Default=NULL,</p></td>
-    </tr>
-    <tr>
-      <th>legendSingleValue</th>
-      <td><p>Default =NULL,</p></td>
+      <th>legendDigitsOverride</th>
+      <td><p>Default=NULL</p></td>
     </tr>
     <tr>
       <th>legendSingleColor</th>
       <td><p>Default="white"</p></td>
     </tr>
     <tr>
-      <th>facetCols</th>
-      <td><p>Default=4</p></td>
-    </tr>
-    <tr>
-      <th>mapTitleOn</th>
-      <td><p>Default=T</p></td>
-    </tr>
-    <tr>
-      <th>innerMargins</th>
-      <td><p>Default =c(0,0,0,0) # bottom, left, top, right</p></td>
-    </tr>
-    <tr>
-      <th>legendDigitsOverride</th>
-      <td><p>Default=NULL</p></td>
+      <th>legendSingleValue</th>
+      <td><p>Default =NULL,</p></td>
     </tr>
     <tr>
       <th>classPalette</th>
@@ -591,12 +464,44 @@ Each figure is accompanied with a csv table.</p>
       <th>classPaletteDiff</th>
       <td><p>Default = "pal_div_BrGn"</p></td>
     </tr>
+    <tr>
+      <th>colorNA</th>
+      <td><p>Default = "gray50"</p></td>
+    </tr>
+    <tr>
+      <th>showNA</th>
+      <td><p>Default = T</p></td>
+    </tr>
+    <tr>
+      <th>ncol</th>
+      <td><p>Default = 3. Number of columns to wrap maps</p></td>
+    </tr>
+    <tr>
+      <th>size</th>
+      <td><p>Default = 12. Text size of plots.</p></td>
+    </tr>
+    <tr>
+      <th>alpha</th>
+      <td><p>Default = 1. Transparency of fill colors.</p></td>
+    </tr>
+    <tr>
+      <th>background</th>
+      <td><p>Default = F. Add background water color, border and default underlayer map.</p></td>
+    </tr>
+    <tr>
+      <th>transparent</th>
+      <td><p>Default = T. To make map background transparent for maps without backgrounds.</p></td>
+    </tr>
+    <tr>
+      <th>legendShow</th>
+      <td><p>Default = T</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>Returns the formatted data used to produce chart</p>
-<p>A list with the gridTbl and shapeTbl used to plot the data if any.</p>
+<p>A list of maps</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
