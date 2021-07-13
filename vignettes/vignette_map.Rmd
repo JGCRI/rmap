@@ -333,7 +333,7 @@ rmap::map(data,
 
 By default the maps are cropped to the extent of the subRegions provided in the data. If the argument `crop` is set to `FALSE` then the map will zoom to extents of the largest layer in the map as shown below:
 
-```{r, results = 'hide', eval=FALSE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
+```{r, results = 'hide', eval=T, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
 library(rmap);
 
 # Create data table with a few US states
@@ -341,46 +341,19 @@ data = data.frame(subRegion = c("FL","ID","MO","TX","WY"),
                   value = c(10,15,34,2,7))
 
 # Setting crop to F will zoom out to the extent of the largest layer (In this case the underLayer)
-m1 = rmap::map(data,
-          underLayer = rmap::mapUS49,
-          underLayerLabels = T,
-          labels = T,
-          crop = T)
-
-m2 = rmap::map(data,
-          underLayer = rmap::mapUS49,
-          underLayerLabels = T,
-          labels = T,
-          crop = F)
-
-```
-
-```{r, results = 'hide', eval=T, echo=F, warning=FALSE, error = FALSE, message = FALSE}
-library(rmap); library(cowplot)
-
-# Create data table with a few US states
-data = data.frame(subRegion = c("FL","ID","MO","TX","WY"),
-                  value = c(10,15,34,2,7))
-
-# Setting crop to F will zoom out to the extent of the largest layer (In this case the underLayer)
-m1 = rmap::map(data,
+rmap::map(data,
           underLayer = rmap::mapUS49,
           underLayerLabels = T,
           labels = T,
           crop = T,
-          show=F)
+          title = "Crop = T")
 
-m2 = rmap::map(data,
+rmap::map(data,
           underLayer = rmap::mapUS49,
           underLayerLabels = T,
           labels = T,
           crop = F,
-          show=F)
-
-cowplot::plot_grid(m1[[1]],
-                   m2[[1]],
-                   labels = c('crop = F',
-                              'crop = T'))
+          title = "Crop = F")
 
 ```
 
@@ -499,8 +472,8 @@ m1[[1]] +
 
 # Apply custom ggplot theme to an element
 m1[[1]] +
-  ggplot2::ggtitle("Themes: x label and legend position")
-  ggplot2::xlab("x label")+
+  ggplot2::ggtitle("Themes: x label and legend position") +
+  ggplot2::xlab("x label") +
   ggplot2::theme(legend.position = "bottom",
                  legend.text = element_text(size=20),
                  axis.title.x = element_text(size=20))
@@ -804,7 +777,7 @@ mapx$map_param_scenario_KMEANS
 mapx$map_param_scenario_MEAN_KMEANS
 ```
 
-<p align="center"> <img src="vignetteFigs/anim_param_scenario_KMEANS_gridded.gif"></p>
+<!-- <p align="center"> <img src="vignetteFigs/anim_param_scenario_KMEANS_gridded.gif"></p> -->
 
 
 <!-------------------------->

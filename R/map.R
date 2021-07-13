@@ -363,6 +363,48 @@ map <- function(data = NULL,
       title=title) ->
       mapsReturn[[return_i]]; names(mapsReturn)[return_i] <- fileName; return_i = return_i + 1
 
+    # overLayer=overLayer
+    # overLayerColor=overLayerColor
+    # overLayerFill = overLayerFill
+    # overLayerLwd = overLayerLwd
+    # overLayerAlpha = overLayerAlpha
+    # underLayerColor
+    # underLayerFill = underLayerFill
+    # underLayerLwd = underLayerLwd
+    # underLayerAlpha = underLayerAlpha
+    # background=background
+    # zoom=zoom
+    # zoomx = zoomx
+    # zoomy=zoomy
+    # asp=asp
+    # legendShow=legendShow
+    # crop = crop
+    # transparent=transparen
+    # alpha = alpha
+    # size=max(1,(size+(colm+rowm)*3 - 12))
+    # theme = theme
+    # legendTitle=NULL
+    # underLayer=underLayer
+    # data = data
+    # palette=palettex
+    # folder=folder
+    # labels=labels
+    # labelRepel=labelRepel
+    # underLayerLabels=underLayerLabels
+    # overLayerLabels=overLayerLabels
+    # labelColor=labelColor
+    # labelSize=labelSize
+    # labelAlpha=labelAlpha
+    # labelFill=labelFill
+    # labelBorderSize=labelBorderSize
+    # fileName = fileName
+    # fillColumn = fillColumn
+    # shapeColumn = shapeColumn
+    # save = save
+    # width = width
+    # height = height
+    # title=title
+
     # .................
     # Return Data
     # .................

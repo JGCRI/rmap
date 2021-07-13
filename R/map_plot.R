@@ -374,15 +374,7 @@ if(!is.null(datax)){
       }
 
 
-      if(any(unique(datax[[fillColumn_i]]) %in% names(palette))){
-
-        palette<-palette[1:min(length(catPalette),length(palette))]
-
-        datax %>%
-          dplyr::mutate(!!fillColumn_i := factor(datax[[fillColumn_i]],
-                                                 levels = names(palette)))->
-          datax
-      } else {
+      if(!any(unique(datax[[fillColumn_i]]) %in% names(palette))){
         datax %>%
           dplyr::mutate(!!fillColumn_i := as.factor(datax[[fillColumn_i]])) -> datax
         }
