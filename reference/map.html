@@ -143,14 +143,17 @@ Each figure is accompanied with a csv table.</p>
     <pre class="usage"><span class='fu'>map</span><span class='op'>(</span>
   data <span class='op'>=</span> <span class='cn'>NULL</span>,
   fillColumn <span class='op'>=</span> <span class='cn'>NULL</span>,
+  shapeColumn <span class='op'>=</span> <span class='cn'>NULL</span>,
+  shape <span class='op'>=</span> <span class='cn'>NULL</span>,
   fileName <span class='op'>=</span> <span class='st'>"map"</span>,
   save <span class='op'>=</span> <span class='cn'>T</span>,
   theme <span class='op'>=</span> <span class='cn'>NULL</span>,
+  show <span class='op'>=</span> <span class='cn'>T</span>,
   folder <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>getwd</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"/outputs"</span>, sep <span class='op'>=</span> <span class='st'>""</span><span class='op'>)</span>,
   labels <span class='op'>=</span> <span class='cn'>F</span>,
-  labelForce <span class='op'>=</span> <span class='fl'>0</span>,
+  labelRepel <span class='op'>=</span> <span class='fl'>0</span>,
   labelColor <span class='op'>=</span> <span class='st'>"black"</span>,
-  labelSize <span class='op'>=</span> <span class='fl'>3</span>,
+  labelSize <span class='op'>=</span> <span class='fl'>2</span>,
   labelAlpha <span class='op'>=</span> <span class='fl'>1</span>,
   labelFill <span class='op'>=</span> <span class='cn'>NA</span>,
   labelBorderSize <span class='op'>=</span> <span class='cn'>NA</span>,
@@ -162,9 +165,9 @@ Each figure is accompanied with a csv table.</p>
   legendType <span class='op'>=</span> <span class='st'>"kmeans"</span>,
   legendBreaksn <span class='op'>=</span> <span class='fl'>5</span>,
   legendFixedBreaks <span class='op'>=</span> <span class='cn'>NULL</span>,
-  animateOn <span class='op'>=</span> <span class='cn'>T</span>,
+  animate <span class='op'>=</span> <span class='cn'>T</span>,
   fps <span class='op'>=</span> <span class='fl'>1</span>,
-  cropToBoundary <span class='op'>=</span> <span class='cn'>T</span>,
+  crop <span class='op'>=</span> <span class='cn'>T</span>,
   underLayer <span class='op'>=</span> <span class='cn'>NULL</span>,
   underLayerColor <span class='op'>=</span> <span class='st'>"gray40"</span>,
   underLayerFill <span class='op'>=</span> <span class='st'>"gray90"</span>,
@@ -177,7 +180,7 @@ Each figure is accompanied with a csv table.</p>
   overLayerFill <span class='op'>=</span> <span class='cn'>NA</span>,
   overLayerLwd <span class='op'>=</span> <span class='fl'>0.2</span>,
   overLayerAlpha <span class='op'>=</span> <span class='fl'>0</span>,
-  zoom <span class='op'>=</span> <span class='op'>-</span><span class='fl'>1</span>,
+  zoom <span class='op'>=</span> <span class='fl'>0</span>,
   zoomx <span class='op'>=</span> <span class='cn'>NULL</span>,
   zoomy <span class='op'>=</span> <span class='cn'>NULL</span>,
   asp <span class='op'>=</span> <span class='fl'>1.2</span>,
@@ -193,20 +196,20 @@ Each figure is accompanied with a csv table.</p>
   xDiff <span class='op'>=</span> <span class='cn'>NULL</span>,
   scaleRangeDiffxAbs <span class='op'>=</span> <span class='cn'>NULL</span>,
   scaleRangeDiffxPrcnt <span class='op'>=</span> <span class='cn'>NULL</span>,
-  facetCols <span class='op'>=</span> <span class='cn'>NULL</span>,
-  facetRows <span class='op'>=</span> <span class='cn'>NULL</span>,
-  mapTitle <span class='op'>=</span> <span class='cn'>NULL</span>,
+  col <span class='op'>=</span> <span class='cn'>NULL</span>,
+  row <span class='op'>=</span> <span class='cn'>NULL</span>,
+  title <span class='op'>=</span> <span class='cn'>NULL</span>,
   numeric2Cat_list <span class='op'>=</span> <span class='cn'>NULL</span>,
   pdfpng <span class='op'>=</span> <span class='st'>"png"</span>,
   legendDigitsOverride <span class='op'>=</span> <span class='cn'>NULL</span>,
   legendSingleColor <span class='op'>=</span> <span class='st'>"white"</span>,
-  legendSingleValue <span class='op'>=</span> <span class='cn'>NULL</span>,
-  classPalette <span class='op'>=</span> <span class='cn'>NULL</span>,
-  classPaletteDiff <span class='op'>=</span> <span class='st'>"pal_div_BluRd"</span>,
+  legendSingleValue <span class='op'>=</span> <span class='cn'>F</span>,
+  palette <span class='op'>=</span> <span class='cn'>NULL</span>,
+  paletteDiff <span class='op'>=</span> <span class='st'>"pal_div_BluRd"</span>,
   colorNA <span class='op'>=</span> <span class='st'>"gray50"</span>,
   showNA <span class='op'>=</span> <span class='cn'>F</span>,
   ncol <span class='op'>=</span> <span class='fl'>3</span>,
-  size <span class='op'>=</span> <span class='fl'>12</span>,
+  size <span class='op'>=</span> <span class='fl'>16</span>,
   alpha <span class='op'>=</span> <span class='fl'>1</span>,
   background <span class='op'>=</span> <span class='cn'>F</span>,
   transparent <span class='op'>=</span> <span class='cn'>T</span>,
@@ -225,6 +228,14 @@ Each figure is accompanied with a csv table.</p>
       <td><p>(Optional). Default = NULL. Only for direct map plotting.</p></td>
     </tr>
     <tr>
+      <th>shapeColumn</th>
+      <td><p>(Optional). Default = NULL. If different from subRegion.</p></td>
+    </tr>
+    <tr>
+      <th>shape</th>
+      <td><p>Default = NULL, Cusotm shape can be provided as a SpatialPolygonDataFrame with features corresponding to subRegion columns in the data provided.</p></td>
+    </tr>
+    <tr>
       <th>fileName</th>
       <td><p>(Optional). Default = "map". Only for direct map plotting.</p></td>
     </tr>
@@ -237,6 +248,10 @@ Each figure is accompanied with a csv table.</p>
       <td><p>Default = NULL,</p></td>
     </tr>
     <tr>
+      <th>show</th>
+      <td><p>Default = T. Print maps in console as they are processed.</p></td>
+    </tr>
+    <tr>
       <th>folder</th>
       <td><p>Default = paste(getwd(),"/outputs",sep=""),</p></td>
     </tr>
@@ -245,7 +260,7 @@ Each figure is accompanied with a csv table.</p>
       <td><p>Default = F,</p></td>
     </tr>
     <tr>
-      <th>labelForce</th>
+      <th>labelRepel</th>
       <td><p>Default = 0,</p></td>
     </tr>
     <tr>
@@ -301,7 +316,7 @@ Each figure is accompanied with a csv table.</p>
       <td><p>Default = NULL,</p></td>
     </tr>
     <tr>
-      <th>animateOn</th>
+      <th>animate</th>
       <td><p>Default = T,</p></td>
     </tr>
     <tr>
@@ -309,8 +324,8 @@ Each figure is accompanied with a csv table.</p>
       <td><p>Default = 1,</p></td>
     </tr>
     <tr>
-      <th>cropToBoundary</th>
-      <td><p>Default = F</p></td>
+      <th>crop</th>
+      <td><p>Default = T. This crops the map to the extent of your data regions. If false will zoom out to the extent of the larget layer.</p></td>
     </tr>
     <tr>
       <th>underLayer</th>
@@ -425,15 +440,15 @@ Each figure is accompanied with a csv table.</p>
       <td><p>Default =NULL, A vector with c(max,min) (Applied to all params) or a dataframe with cols param, max, min</p></td>
     </tr>
     <tr>
-      <th>facetCols</th>
+      <th>col</th>
       <td><p>Default ="multiFacetRow",</p></td>
     </tr>
     <tr>
-      <th>facetRows</th>
+      <th>row</th>
       <td><p>Default ="multiFacetCol",</p></td>
     </tr>
     <tr>
-      <th>mapTitle</th>
+      <th>title</th>
       <td><p>Default=NULL</p></td>
     </tr>
     <tr>
@@ -454,14 +469,14 @@ Each figure is accompanied with a csv table.</p>
     </tr>
     <tr>
       <th>legendSingleValue</th>
-      <td><p>Default =NULL,</p></td>
+      <td><p>Default=F. Change to True to get default single value or provide a numeric value.</p></td>
     </tr>
     <tr>
-      <th>classPalette</th>
+      <th>palette</th>
       <td><p>Default = NULL</p></td>
     </tr>
     <tr>
-      <th>classPaletteDiff</th>
+      <th>paletteDiff</th>
       <td><p>Default = "pal_div_BrGn"</p></td>
     </tr>
     <tr>
