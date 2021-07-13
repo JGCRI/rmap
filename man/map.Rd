@@ -7,50 +7,50 @@
 map(
   data = NULL,
   fillColumn = NULL,
-  fileName = "map",
-  printFig = T,
-  grid = NULL,
-  folder = paste(getwd(), "/outputs", sep = ""),
-  xRange = "All",
-  labels = F,
-  labelsSize = 1,
+  shapeColumn = NULL,
   shape = NULL,
-  subRegShpFolder = NULL,
-  subRegShpFile = NULL,
+  fileName = "map",
+  save = T,
+  theme = NULL,
+  show = T,
+  folder = paste(getwd(), "/outputs", sep = ""),
+  labels = F,
+  labelRepel = 0,
+  labelColor = "black",
+  labelSize = 2,
+  labelAlpha = 1,
+  labelFill = NA,
+  labelBorderSize = NA,
+  shapeFolder = NULL,
+  shapeFile = NULL,
   subRegCol = "subRegion",
-  subRegType = NULL,
   nameAppend = "",
+  legendTitle = NULL,
   legendType = "kmeans",
-  legendOutsideSingle = T,
-  legendOutsidePosition = NULL,
-  legendPosition = NULL,
   legendBreaksn = 5,
   legendFixedBreaks = NULL,
-  legendTitleSizeO = 1,
-  legendTextSizeO = 0.6,
-  legendTitleSizeI = 1,
-  legendTextSizeI = 0.6,
-  animateOn = T,
+  animate = T,
   fps = 1,
-  background = F,
-  boundaryRegShape = NULL,
-  boundaryRegShpFolder = NULL,
-  boundaryRegShpFile = NULL,
-  boundaryRegCol = "subRegion",
-  boundaryRegionsSelect = NULL,
-  cropToBoundary = F,
-  extendedLabels = F,
-  extendedFillColor = "grey75",
-  extendedBGColor = "lightblue1",
-  extendedHighLightColor = "cornsilk1",
-  extendedLabelsColor = "grey30",
-  extdendedLabelSize = 0.4,
-  extendedShape = NULL,
-  extendedShapeCol = "subRegion",
-  expandPercent = 3,
+  crop = T,
+  underLayer = NULL,
+  underLayerColor = "gray40",
+  underLayerFill = "gray90",
+  underLayerLwd = 0.1,
+  underLayerAlpha = 1,
+  underLayerLabels = F,
+  overLayerLabels = F,
+  overLayer = NULL,
+  overLayerColor = "gray40",
+  overLayerFill = NA,
+  overLayerLwd = 0.2,
+  overLayerAlpha = 0,
+  zoom = 0,
+  zoomx = NULL,
+  zoomy = NULL,
+  asp = 1.2,
   projX = "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0",
-  figWidth = 6,
-  figHeight = 7,
+  width = 7,
+  height = 8,
   scenRef = NULL,
   scenDiff = NULL,
   scaleRange = NULL,
@@ -60,40 +60,24 @@ map(
   xDiff = NULL,
   scaleRangeDiffxAbs = NULL,
   scaleRangeDiffxPrcnt = NULL,
-  paramsSelect = "All",
-  multifacetsOn = F,
-  multiFacetCols = "multiFacetCol",
-  multiFacetRows = "multiFacetRow",
-  legendOutsideMulti = T,
-  legendPositionMulti = NULL,
-  legendTitleSizeMulti = NULL,
-  legendTextSizeAnim = NULL,
-  legendTextSizeMulti = NULL,
-  refMultiA = NULL,
-  refMultiB = NULL,
-  chosenRefMeanYears = NULL,
-  mapTitle = NULL,
-  mapTitleSize = 0.5,
-  facetBGColor = NA,
-  facetLabelColor = "black",
-  facetLabelSize = 1,
-  facetLabelSizeMultiAB = 1,
-  facetLabelBorderLwd = NA_real_,
+  col = NULL,
+  row = NULL,
+  title = NULL,
   numeric2Cat_list = NULL,
-  frameShow = F,
   pdfpng = "png",
-  fillcolorNA = "gray",
-  fillshowNA = NA,
-  fillcolorNULL = "gray",
-  legendSingleColorOn = NULL,
-  legendSingleValue = NULL,
-  legendSingleColor = "white",
-  facetCols = 4,
-  mapTitleOn = T,
-  innerMargins = c(0, 0, 0, 0),
   legendDigitsOverride = NULL,
-  classPalette = NULL,
-  classPaletteDiff = "pal_div_BluRd"
+  legendSingleColor = "white",
+  legendSingleValue = F,
+  palette = NULL,
+  paletteDiff = "pal_div_BluRd",
+  colorNA = "gray50",
+  showNA = F,
+  ncol = 3,
+  size = 16,
+  alpha = 1,
+  background = F,
+  transparent = T,
+  legendShow = T
 )
 }
 \arguments{
@@ -101,93 +85,93 @@ map(
 
 \item{fillColumn}{(Optional). Default = NULL. Only for direct map plotting.}
 
+\item{shapeColumn}{(Optional). Default = NULL. If different from subRegion.}
+
+\item{shape}{Default = NULL, Cusotm shape can be provided as a SpatialPolygonDataFrame with features corresponding to subRegion columns in the data provided.}
+
 \item{fileName}{(Optional). Default = "map". Only for direct map plotting.}
 
-\item{printFig}{(Optional). Default = T. Only for direct map plotting.}
+\item{save}{(Optional). Default = T. Only for direct map plotting.}
 
-\item{grid}{Default = NULL,}
+\item{theme}{Default = NULL,}
+
+\item{show}{Default = T. Print maps in console as they are processed.}
 
 \item{folder}{Default = paste(getwd(),"/outputs",sep=""),}
 
-\item{xRange}{Default ="All",}
-
 \item{labels}{Default = F,}
 
-\item{labelsSize}{Default = 1.2,}
+\item{labelRepel}{Default = 0,}
 
-\item{shape}{Default = NULL,}
+\item{labelColor}{Default = "black",}
 
-\item{subRegShpFolder}{Default = paste(getwd(),"/dataFiles/gis/admin_gadm36",sep=""),}
+\item{labelSize}{Default = 3}
 
-\item{subRegShpFile}{Default = paste("gadm36_1",sep=""),}
+\item{labelAlpha}{Default = 0.7,}
+
+\item{labelFill}{Default = NA,}
+
+\item{labelBorderSize}{Default = NA}
+
+\item{shapeFolder}{Default = paste(getwd(),"/dataFiles/gis/admin_gadm36",sep=""),}
+
+\item{shapeFile}{Default = paste("gadm36_1",sep=""),}
 
 \item{subRegCol}{Default ="subRegion",}
 
-\item{subRegType}{Default =NULL}
-
 \item{nameAppend}{Default =""}
 
+\item{legendTitle}{Default = NULL}
+
 \item{legendType}{Default ="kmeans", Options include c("pretty","kmeans","freescale","all")}
-
-\item{legendOutsideSingle}{Default =F, Single plots by default have legends inside. This can be moved out if wanted.}
-
-\item{legendOutsidePosition}{Default = NULL, # "right","left"}
-
-\item{legendPosition}{Default = NULL, # c('RIGHT','top') - RIGHT LEFT TOP BOTTOM}
 
 \item{legendBreaksn}{Default = "5",}
 
 \item{legendFixedBreaks}{Default = NULL,}
 
-\item{legendTitleSizeO}{Default = 2,}
-
-\item{legendTextSizeO}{Default =1,}
-
-\item{legendTitleSizeI}{Default = 1,}
-
-\item{legendTextSizeI}{Default =0.5,}
-
-\item{animateOn}{Default = T,}
+\item{animate}{Default = T,}
 
 \item{fps}{Default = 1,}
 
-\item{background}{Default =F,}
+\item{crop}{Default = T. This crops the map to the extent of your data regions. If false will zoom out to the extent of the larget layer.}
 
-\item{boundaryRegShape}{Default = NULL,}
+\item{underLayer}{Default = NULL}
 
-\item{boundaryRegShpFolder}{Default= NULL . Suggested paste(getwd(),"/dataFiles/gis/naturalEarth",sep  Default="")}
+\item{underLayerColor}{Default = "gray40"}
 
-\item{boundaryRegShpFile}{Default=NULL . Suggested paste("ne_10m_admin_0_countries",sep  Default=""),}
+\item{underLayerFill}{Default = "gray90"}
 
-\item{boundaryRegCol}{Default=NULL. Suggested "NAME_0",}
+\item{underLayerLwd}{Default = 0.5}
 
-\item{boundaryRegionsSelect}{Default = NULL,}
+\item{underLayerAlpha}{Default = 1}
 
-\item{cropToBoundary}{Default = T}
+\item{underLayerLabels}{Default = F}
 
-\item{extendedLabels}{Default = F}
+\item{overLayerLabels}{Default = F}
 
-\item{extendedFillColor}{Default ="grey75",}
+\item{overLayer}{Default = NULL}
 
-\item{extendedBGColor}{Default ="lightblue1",}
+\item{overLayerColor}{Default = "gray40"}
 
-\item{extendedHighLightColor}{Default ="cornsilk1",}
+\item{overLayerFill}{Default = NA}
 
-\item{extendedLabelsColor}{Default ="grey30",}
+\item{overLayerLwd}{Default = 0.5}
 
-\item{extdendedLabelSize}{Default =0.7,}
+\item{overLayerAlpha}{Default = 0}
 
-\item{extendedShape}{Default =NULL,}
+\item{zoom}{Default =-1. Zoom into or out of map. Positive values zoom in and negative out.}
 
-\item{extendedShapeCol}{Default =NULL,}
+\item{zoomx}{Default = NULL. Zoom into or out of map along x. Positive values zoom in and negative out.}
 
-\item{expandPercent}{Default =3}
+\item{zoomy}{Default = NULL. Zoom into or out of map along y. Positive values zoom in and negative out.}
+
+\item{asp}{Default = 1.2. Aspect ratio of lat and lon.}
 
 \item{projX}{Default = projX="+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"}
 
-\item{figWidth}{Default =9}
+\item{width}{Default =9}
 
-\item{figHeight}{Default =7}
+\item{height}{Default =7}
 
 \item{scenRef}{Reference Scenario. Default = NULL}
 
@@ -207,78 +191,46 @@ map(
 
 \item{scaleRangeDiffxPrcnt}{Default =NULL, A vector with c(max,min) (Applied to all params) or a dataframe with cols param, max, min}
 
-\item{paramsSelect}{Default ="All"}
+\item{col}{Default ="multiFacetRow",}
 
-\item{multifacetsOn}{Default = F,}
+\item{row}{Default ="multiFacetCol",}
 
-\item{multiFacetCols}{Default ="multiFacetRow",}
-
-\item{multiFacetRows}{Default ="multiFacetCol",}
-
-\item{legendOutsideMulti}{Default = NULL,}
-
-\item{legendPositionMulti}{Default = NULL,}
-
-\item{legendTitleSizeMulti}{Default = NULL,}
-
-\item{legendTextSizeAnim}{Default = NULL,}
-
-\item{legendTextSizeMulti}{Default = NULL,}
-
-\item{refMultiA}{Default = NULL , eg. "gfdl-esm2m"}
-
-\item{refMultiB}{Default = NULL , eg. "rcp2p6"}
-
-\item{chosenRefMeanYears}{Default=NULL}
-
-\item{mapTitle}{Default=NULL}
-
-\item{mapTitleSize}{Default=0.5}
-
-\item{facetBGColor}{Default = NA}
-
-\item{facetLabelColor}{Default = Black}
-
-\item{facetLabelSize}{Default =2.5}
-
-\item{facetLabelSizeMultiAB}{Default =1}
-
-\item{facetLabelBorderLwd}{Default=NA_real_,}
+\item{title}{Default=NULL}
 
 \item{numeric2Cat_list}{Default=NULL,}
 
-\item{frameShow}{Default = T. Whether to plot frame around maps and facets.}
-
 \item{pdfpng}{Save IO figures as pdf or png. Type=String. Options: 'pdf' or 'png'. Default = 'png'}
-
-\item{fillcolorNA}{Default="gray",}
-
-\item{fillshowNA}{Default=NA,}
-
-\item{fillcolorNULL}{Default="gray"}
-
-\item{legendSingleColorOn}{Default=NULL,}
-
-\item{legendSingleValue}{Default =NULL,}
-
-\item{legendSingleColor}{Default="white"}
-
-\item{facetCols}{Default=4}
-
-\item{mapTitleOn}{Default=T}
-
-\item{innerMargins}{Default =c(0,0,0,0) # bottom, left, top, right}
 
 \item{legendDigitsOverride}{Default=NULL}
 
-\item{classPalette}{Default = NULL}
+\item{legendSingleColor}{Default="white"}
 
-\item{classPaletteDiff}{Default = "pal_div_BrGn"}
+\item{legendSingleValue}{Default=F. Change to True to get default single value or provide a numeric value.}
+
+\item{palette}{Default = NULL}
+
+\item{paletteDiff}{Default = "pal_div_BrGn"}
+
+\item{colorNA}{Default = "gray50"}
+
+\item{showNA}{Default = T}
+
+\item{ncol}{Default = 3. Number of columns to wrap maps}
+
+\item{size}{Default = 12. Text size of plots.}
+
+\item{alpha}{Default = 1. Transparency of fill colors.}
+
+\item{background}{Default = F. Add background water color, border and default underlayer map.}
+
+\item{transparent}{Default = T. To make map background transparent for maps without backgrounds.}
+
+\item{legendShow}{Default = T}
 }
 \value{
 Returns the formatted data used to produce chart
 
-A list with the gridTbl and shapeTbl used to plot the data if any.
+A list of maps
 }
 \description{
 This function produce different kinds of maps for the rmap package.

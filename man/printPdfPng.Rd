@@ -8,8 +8,8 @@ printPdfPng(
   figure = NULL,
   dir = getwd(),
   filename = "plot",
-  figWidth = 13,
-  figHeight = 9,
+  width = 13,
+  height = 9,
   pdfpng = "png",
   transparent = F
 )
@@ -21,9 +21,9 @@ printPdfPng(
 
 \item{filename}{Default = "plot". File name}
 
-\item{figWidth}{Default=13.}
+\item{width}{Default=13.}
 
-\item{figHeight}{Default=9.}
+\item{height}{Default=9.}
 
 \item{pdfpng}{Default="png". Either "pdf" or "png"}
 

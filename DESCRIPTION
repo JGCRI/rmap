@@ -1,10 +1,10 @@
 Package: rmap
-Title: A comprehensive mapping package
+Title: rmap
 Version: 1.0.0
 Authors@R: c(person("Zarrar", "Khan", email = "zarrar.khan@pnnl.gov", role = c("aut", "cre"),
 		   comment = c(ORCID ="0000-0002-8147-8553")),
 		   person("Tom", "Wild", role = c("aut"),comment = c(ORCID ="0000-0002-8147-8553")),
-		   person("Chris", "Vernon", role = c("aut")))
+		   person("Chris", "Vernon", role = c("aut"), comment = c(ORCID="0000-0002-3406-6214")))
 Description: R package to plot customizable maps from simple dataframes.
 URL: https://github.com/JGCRI/rmap
 BugReports: https://github.com/JGCRI/rmap/issues
@@ -14,29 +14,32 @@ Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.1
 Imports: 
-	raster (>= 2.7.15),
-	tibble (>= 1.4.2),
-	dplyr (>= 0.7.7), 
-	tmap (>= 2.1.1),
-	scales (>= 0.5.0), 
-	utils (>= 3.5.0),
-	tidyr (>= 0.8.1), 
-	grDevices (>= 3.5.0),
-	rgdal (>= 1.2.20), 
-	sp (>= 1.2.7), 	
-	methods (>= 3.5.0),
-	rgeos (>= 0.3.26),
-	testthat (>= 2.3.2), 
+	raster,
+	tibble,
+	dplyr, 
+	scales,
+	tidyr, 
+	grDevices,
+	rgdal, 
+	sp,
 	data.table,
 	graphics,
-	rlang (>= 0.3.0), 
-	magrittr (>= 1.5),
-	knitr (>= 1.20),
-	RColorBrewer (>= 1.1.2),
-	magick (>= 2.1),
-	jgcricolors
+	rlang, 
+	magrittr,
+	RColorBrewer,
+	magick,
+	stringr,
+	ggplot2,
+	ggrepel,
+	broom,
+	maptools,
+	jgcricolors,
+	cowplot,
+    markdown
 Remotes: github::JGCRI/jgcricolors
 Suggests: 
-    rmarkdown
+    rmarkdown,
+	testthat,
+	knitr
 VignetteBuilder: 
     knitr

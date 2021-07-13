@@ -1,329 +1,635 @@
 ---
-title: "map"
+title: "User Guide"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{map}
+  %\VignetteIndexEntry{User Guide}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+resourse_files:
+  - vignettes/vignetteFigs
 ---
 
-
 <!-------------------------->
 <!-------------------------->
-# Key Links
-<!-------------------------->
-<!-------------------------->
-
-- Github: https://github.com/JGCRI/rmap
-- Webpage: https://jgcri.github.io/rmap/
-- Cheatsheet: https://jgcri.github.io/rmap/rmapCheatsheet.pdf
-
-<!-------------------------->
-<!-------------------------->
-# Folder Structure & Inputs
+<!-- HTML styles items    -->
 <!-------------------------->
 <!-------------------------->
 
-<p align="center" style="font-size:18px;"> *Folder structure* </p>
-<p align="center"> <img src="vignetteFigs/mapsProcess_structure.PNG"></p>
+<style>
+.button {
+  background-color: #555555;
+  border-radius: 8px;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
 
-<p align="center" style="font-size:18px;"> *Key inputs* </p>
+.button:hover {
+  box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+  background-color: #555555;
+  color: gold;
+}
+
+</style>
+
+
+<!-------------------------->
+<!-------------------------->
+# Input Formats {#inputs}
+<!-------------------------->
+<!-------------------------->
+<p align="center"> <img src="vignetteFigs/divider.png"></p>
+
+The main input is the `data` argument in the `map()` function. This will be an R table which can be created within R or read in from a csv file as shown below. As shown later if a shape file (`SpatialPolygonDataFrame`) is provided as the data argument (see Section [Built-in Maps](#maps)) then the `map()` function will produce a map without any value data.
+
 <p align="center"> <img src="vignetteFigs/mapsProcess_inputs.PNG"></p>
 
-
 <!-------------------------->
 <!-------------------------->
-# Maps Available
-
+# Output Formats {#outputs}
 <!-------------------------->
 <!-------------------------->
+<p align="center"> <img src="vignetteFigs/divider.png"></p>
 
-rmap comes with a set of preloaded maps. A full list of rmap maps is available at in the reference [maps](https://jgcri.github.io/rmap/reference/index.html). The pre-loaded maps all come with each polygon labelled in a **subRegion** column. For each map the data contained in the shapefile and the map itself can be viewed as follows:
+The output of the `map()` function is a named list with all maps and animations created in the function. The elements of the list can be called individually and re-used as layers in new maps as decribed in the [Layers](#layers) section. Since the output maps are `ggplot` elements all the features of the map can easily be modified using the taditional `ggplot2` theme options. Examples are provided in the [Themes](#themes) section. 
 
-```{r, eval=F}
-library(rmap)
-
-head(mapUS49@data) # To View data in shapefile
-rmap::map(mapUS49, labels=T)
-
+```{r, results = "hide", eval=FALSE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap);
+my_map_list <- rmap::map(mapUS49) # my_map_list will contain a list of the maps produced. In this case a single map.
+my_map <- my_map_list[[1]] # my_map will be the first map in the list of maps produced
+my_map_names <- names(my_map_list) # Will give you a list of the maps produced.
+rmap::map(mapUS49) # Will print out the maps to the console as well save the maps as well as the related data tables to a default directory.
+rmap:map(mapUS49, show = F) # will return a map and save to disk without printing to console.
+rmap::map(mapUS49, folder = "myOutputs") # Will save outputs to a directory called myOutputs
+rmap::map(mapUS49, save = F) # Will simply print the maps to the console and not save the maps to file.
 ```
 
-<p align="center" style="font-size:18px;"> *Example View of Pre-loaded Map for US49* </p>
-<p align="center"> <img src="vignetteFigs/map.PNG"></p>
+```{r,  results="hide", eval=TRUE, echo=F, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap);
+rmap::map(mapUS49, save = F)
+```
+
+<!-------------------------->
+<!-------------------------->
+# Built-in Maps {#maps}
+<!-------------------------->
+<!-------------------------->
+<p align="center"> <img src="vignetteFigs/divider.png"></p>
+
+rmap comes with a set of preloaded maps. A full list of maps is available in the reference list of [maps](https://jgcri.github.io/rmap/reference/index.html). The pre-loaded maps come in pairs as both 'Spatial Polygon Data Frames" (e.g. mapCountries) as well as the fortified counterparts to each shape as 'tbls' and appended with a 'df' e.g. (mapCountriesdf). Each map comes with a data column named **subRegion**. For each map the data contained in the shape and the map itself can be viewed as follows:
+
+```{r, results = 'hide', eval=FALSE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap);
+
+head(mapUS49@data) # To view data for chosen map
+rmap::map(mapUS49)
+rmap::map(mapUS52)
+rmap::map(mapUS52Compact)
+rmap::map(mapUS49County)
+rmap::map(mapUS52County)
+rmap::map(mapUS52CountyCompact)
+rmap::map(mapCountries)
+rmap::map(mapCountriesUS52)
+rmap::map(mapGCAMReg32)
+rmap::map(mapGCAMReg32US52)
+rmap::map(mapGCAMBasins)
+rmap::map(mapGCAMBasinsUS49)
+rmap::map(mapGCAMBasinsUS52)
+rmap::map(mapStates)
+rmap::map(mapHydroShed1)
+rmap::map(mapHydroShed2)
+rmap::map(mapHydroShed3)
+```
+
+
+## mapUS49
+```{r, results = 'hide', eval=TRUE, echo=FALSE, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap);
+rmap::map(mapUS49)
+```
+
+## mapUS52
+```{r, results = 'hide', eval=TRUE, echo=FALSE, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap);
+rmap::map(mapUS52)
+```
+
+## mapUS52Compact
+```{r, results = 'hide', eval=TRUE, echo=FALSE, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap);
+rmap::map(mapUS52Compact)
+```
+
+## mapUS49County
+```{r, results = 'hide', eval=TRUE, echo=FALSE, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap);
+rmap::map(mapUS49County)
+```
+
+## mapUS52County
+```{r, results = 'hide', eval=TRUE, echo=FALSE, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap);
+rmap::map(mapUS52County)
+```
+
+## mapUS52CountyCompact
+```{r, results = 'hide', eval=TRUE, echo=FALSE, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap);
+rmap::map(mapUS52CountyCompact)
+```
+
+## mapCountries
+```{r, results = 'hide', eval=TRUE, echo=FALSE, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap);
+rmap::map(mapCountries)
+```
+
+## mapCountriesUS52
+```{r, results = 'hide', eval=TRUE, echo=FALSE, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap);
+rmap::map(mapCountriesUS52)
+```
+
+## mapGCAMReg32
+```{r, results = 'hide', eval=TRUE, echo=FALSE, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap);
+rmap::map(mapGCAMReg32)
+```
+
+## mapGCAMReg32US52
+```{r, results = 'hide', eval=TRUE, echo=FALSE, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap);
+rmap::map(mapGCAMReg32US52)
+```
+
+## mapGCAMBasins
+```{r, results = 'hide', eval=TRUE, echo=FALSE, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap);
+rmap::map(mapGCAMBasins)
+```
+
+## mapGCAMBasinsUS49
+```{r, results = 'hide', eval=TRUE, echo=FALSE, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap);
+rmap::map(mapGCAMBasinsUS49)
+```
+
+## mapGCAMBasinsUS52
+```{r, results = 'hide', eval=TRUE, echo=FALSE, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap);
+rmap::map(mapGCAMBasinsUS52)
+```
+
+## mapStates
+```{r, results = 'hide', eval=TRUE, echo=FALSE, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap);
+rmap::map(mapStates)
+```
+
+## mapHydroShed1
+```{r, results = 'hide', eval=TRUE, echo=FALSE, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap);
+rmap::map(mapHydroShed1)
+```
+
+## mapHydroShed2
+```{r, results = 'hide', eval=TRUE, echo=FALSE, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap);
+rmap::map(mapHydroShed2)
+```
+
+## mapHydroShed3
+```{r, results = 'hide', eval=TRUE, echo=FALSE, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap);
+rmap::map(mapHydroShed3)
+```
 
 
 <!-------------------------->
 <!-------------------------->
-# Plot Data on Maps
-
+# Layers {#layers}
 <!-------------------------->
 <!-------------------------->
+<p align="center"> <img src="vignetteFigs/divider.png"></p>
 
-## Auto Map Find
+The `map()` funciton in `rmap` works in layers. The central layer is created using the `data` provided which fills out `values` for the `subRegion` or `lat` and `lon` columns provided. In addition to the central layer, users can choose an `underLayer` and an `overLayer` to show different kinds of intersecting boundaries or surrounding regions. The colors, border size and text labels for each layer can be individually be modified or as a global option. Examples of using layers are provided below for a basic dataset. 
 
-`map` will search through the list of [maps](https://jgcri.github.io/rmap/reference/index.html) to see if it can find the "subRegions" provided in the data and then plot the data on those maps. Some examples are provided below:
+```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap);
 
-### US 49
-
-```{r, eval=F}
-library(rmap)
-
+# Create data table with a few US states
 data = data.frame(subRegion = c("CA","FL","ID","MO","TX","WY"),
-                  x = c(2050,2050,2050,2050,2050,2050),
                   value = c(5,10,15,34,2,7))
-map(data,folder = "vignetteMaps", mapTitleOn = F)
+
+rmap::map(data) # Will choose the contiguous US map and plot this data for you as the only layer
+rmap::map(data, 
+          underLayer=rmap::mapUS49) # Will add an underlayer of the US49 map zoomed in to your data set
+rmap::map(data, 
+          underLayer=rmap::mapUS49, 
+          overLayer=rmap::mapGCAMBasinsUS49) # will add GCAM basins ontop of the previous map
+
+# Modify the fill and outline of the different layers
+rmap::map(data, 
+          underLayer=rmap::mapUS49, 
+          underLayerFill = "black",
+          underLayerColor = "green",
+          underLayerLwd = 0.5,
+          overLayer=rmap::mapGCAMBasinsUS49,
+          overLayerColor = "red",
+          overLayerLwd = 2) # Will adjust the borders of the different layers to highlight them.
 ```
 
-<p align="center" style="font-size:18px;"> *US49* </p>
-<p align="center"> <img src="vignetteFigs/mapsProcess_US49.PNG"></p>
+<!-------------------------->
+<!-------------------------->
+# Labels {#labels}
+<!-------------------------->
+<!-------------------------->
+<p align="center"> <img src="vignetteFigs/divider.png"></p>
 
-<p align="center" style="font-size:18px;"> *US49 Outputs structure* </p>
-<p align="center"> <img src="vignetteFigs/mapsProcess_US49Structure.PNG"></p>
+Labels can be added to the different layers of the maps as follows:
 
+```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap);
 
-### US 52
-
-```{r, eval=F}
-library(rmap)
-
-data = data.frame(subRegion = c("AK","FL","ID","MO","TX","WY"),
-                  x = c(2050,2050,2050,2050,2050,2050),
+# Create data table with a few US states
+data = data.frame(subRegion = c("CA","FL","ID","MO","TX","WY"),
                   value = c(5,10,15,34,2,7))
-map(data,
-                  folder = "vignetteMaps", mapTitleOn = F)
+
+# Add Blue Labels
+rmap::map(data,
+          labels = T,
+          labelSize = 10,
+          labelColor = "blue")
+
+# Add labels with a transparent background box
+rmap::map(data,
+          labels = T,
+          labelSize = 10,
+          labelColor = "black",
+          labelFill = "white",
+          labelAlpha = 0.8,
+          labelBorderSize = 1)
+
+# Repel the labels out with a leader line for crowded labels (labelRepel from 0 to 1)
+rmap::map(data,
+          labels = T,
+          labelSize = 10,
+          labelColor = "black",
+          labelFill = "white",
+          labelAlpha = 0.8,
+          labelBorderSize = 1,
+          labelRepel = 0.5)
+
+
+# Choose which layers to apply these label options to.
+# Labels for data (labels=T), labels for underlayer (underLayerLabels=T), labels for overLayer (overLayerLabels=T)
+
+# UnderLayer Labels Examples
+rmap::map(data,
+          underLayer = rmap::mapUS49,
+          underLayerLabels = T)
+
+# OverLayer Examples
+rmap::map(data,
+          underLayer = rmap::mapUS49,
+          overLayer = rmap::mapGCAMBasinsUS49,
+          overLayerColor = "red",
+          overLayerLabels = T,
+          labelSize = 3,
+          labelColor = "red",
+          labelFill = "white",
+          labelAlpha = 0.8,
+          labelBorderSize = 0.1,
+          labelRepel = 0)
+
+# All Labels (Not recommended as too confusing)
+rmap::map(data,
+          underLayer = rmap::mapUS49,
+          overLayer = rmap::mapGCAMBasinsUS49,
+          labels = T,
+          underLayerLabels = T,
+          overLayerLabels = T,          
+          labelSize = 2,
+          labelColor = "black",
+          labelFill = "white",
+          labelAlpha = 0.8,
+          labelBorderSize = 0.1,
+          labelRepel = 1)
+
+```
+
+<!-------------------------->
+<!-------------------------->
+# Crop {#crop}
+<!-------------------------->
+<!-------------------------->
+<p align="center"> <img src="vignetteFigs/divider.png"></p>
+
+By default the maps are cropped to the extent of the subRegions provided in the data. If the argument `crop` is set to `FALSE` then the map will zoom to extents of the largest layer in the map as shown below:
+
+```{r, results = 'hide', eval=FALSE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap);
+
+# Create data table with a few US states
+data = data.frame(subRegion = c("FL","ID","MO","TX","WY"),
+                  value = c(10,15,34,2,7))
+
+# Setting crop to F will zoom out to the extent of the largest layer (In this case the underLayer)
+m1 = rmap::map(data,
+          underLayer = rmap::mapUS49,
+          underLayerLabels = T,
+          labels = T,
+          crop = T)
+
+m2 = rmap::map(data,
+          underLayer = rmap::mapUS49,
+          underLayerLabels = T,
+          labels = T,
+          crop = F)
+
+```
+
+```{r, results = 'hide', eval=T, echo=F, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap); library(cowplot)
+
+# Create data table with a few US states
+data = data.frame(subRegion = c("FL","ID","MO","TX","WY"),
+                  value = c(10,15,34,2,7))
+
+# Setting crop to F will zoom out to the extent of the largest layer (In this case the underLayer)
+m1 = rmap::map(data,
+          underLayer = rmap::mapUS49,
+          underLayerLabels = T,
+          labels = T,
+          crop = T,
+          show=F)
+
+m2 = rmap::map(data,
+          underLayer = rmap::mapUS49,
+          underLayerLabels = T,
+          labels = T,
+          crop = F,
+          show=F)
+
+cowplot::plot_grid(m1[[1]],
+                   m2[[1]],
+                   labels = c('crop = F',
+                              'crop = T'))
+
+```
+
+<!-------------------------->
+<!-------------------------->
+# Zoom {#zoom}
+<!-------------------------->
+<!-------------------------->
+<p align="center"> <img src="vignetteFigs/divider.png"></p>
+
+Users can use `zoom` to zoom out or into a cropped map as desired. Options are available to zoom along x only (`zoomx`), along y only (`zoomy`) or both (`zoom`).
+
+```{r, results = 'hide', eval=FALSE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap);
+
+# Create data table with a few US states
+data = data.frame(subRegion = c("FL","ID","MO","TX","WY"),
+                  value = c(10,15,34,2,7))
+
+# Set different zoom levels
+m0 = rmap::map(data,underLayer = rmap::mapUS49,zoom = 0)
+m1 = rmap::map(data,underLayer = rmap::mapUS49,zoom = 7)
+m2 = rmap::map(data,underLayer = rmap::mapUS49,zoom = -10)
+m3 = rmap::map(data,underLayer = rmap::mapUS49,zoomx = 3)
+m4 = rmap::map(data,underLayer = rmap::mapUS49,zoomy = 4)
+
+```
+
+```{r, results = 'hide', eval=TRUE, echo=FALSE, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap); library(cowplot)
+
+# Create data table with a few US states
+data = data.frame(subRegion = c("FL","ID","MO","TX","WY"),
+                  value = c(10,15,34,2,7))
+
+# Setting crop to F will zoom out to the extent of the largest layer (In this case the underLayer)
+m0 = rmap::map(data,underLayer = rmap::mapUS49,zoom = 0, show=F)
+m1 = rmap::map(data,underLayer = rmap::mapUS49,zoom = 7, show=F)
+m2 = rmap::map(data,underLayer = rmap::mapUS49,zoom = -10, show=F)
+m3 = rmap::map(data,underLayer = rmap::mapUS49,zoomx = 3, show=F)
+m4 = rmap::map(data,underLayer = rmap::mapUS49,zoomy = 2, show=F)
+
+cowplot::plot_grid(m0[[1]],m1[[1]], m2[[1]],m3[[1]], m4[[1]],
+                   labels = c('zoom = 0',
+                              'zoom = 7', 
+                              'zoom = -10',
+                              'zoomx = 3',
+                              'zoomy = 2'), label_size = 14)
+
+```
+
+<!-------------------------->
+<!-------------------------->
+# Background {#background}
+<!-------------------------->
+<!-------------------------->
+<p align="center"> <img src="vignetteFigs/divider.png"></p>
+
+While users can adjust all the elements of the map using ggplot themes as explained in the [Themes](#themes) section, we have provided a quick argument to simply add blue for oceans and a border to the map if the `background` argument is set to `T`.
+
+```{r, results = 'hide', eval=T, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap);
+
+# Create data table with a few US states
+data = data.frame(subRegion = c("CA","FL","ID","MO","TX","WY"),
+                  value = c(5,10,15,34,2,7))
+
+# Setting background will add blue for water and a border to the map.
+rmap::map(data,
+          labels = T,
+          underLayer = rmap::mapCountriesUS52,
+          background = F,
+          title = "Background = F")
+  
+
+rmap::map(data,
+          labels = T,
+          underLayer = rmap::mapCountriesUS52,
+          background = T,
+          title = "Background = T")
+
+```
+
+<!-------------------------->
+<!-------------------------->
+# Themes {#themes}
+<!-------------------------->
+<!-------------------------->
+<p align="center"> <img src="vignetteFigs/divider.png"></p>
+
+The outputs of `rmap::map()` is a list with `ggplot2` objects which can be modified using standard ggplot2 [themes](https://ggplot2.tidyverse.org/reference/ggtheme.html) or by adjusting any individual component of [ggplot2 elements](https://ggplot2.tidyverse.org/reference/theme.html). Some examples are shown below.
+
+```{r, results = 'hide', eval=T, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap); library(ggplot2)
+
+# Create data table with a few US states
+data = data.frame(subRegion = c("CA","FL","ID","MO","TX","WY"),
+                  value = c(5,10,15,34,2,7))
+
+# Setting m1 to the first element of the map outputs from rmap::map() with save = F to avoid printing
+m1 <- rmap::map(data,
+          labels = T,
+          underLayer = rmap::mapCountriesUS52,
+          background = T,
+          show = F)
+
+# Now Print with different ggplot elements
+m1[[1]] + ggplot2::ggtitle("No Theme")
+
+# Apply the ggplot theme_dark()
+m1[[1]] + 
+  ggplot2::theme_dark() +
+  ggplot2::ggtitle("Theme Dark") +
+  ggplot2::xlab("MY X Label") +
+  ggplot2::ylab("MY Y Label")
+
+# Apply custom ggplot theme to an element
+m1[[1]] +
+  ggplot2::ggtitle("Themes: x label and legend position")
+  ggplot2::xlab("x label")+
+  ggplot2::theme(legend.position = "bottom",
+                 legend.text = element_text(size=20),
+                 axis.title.x = element_text(size=20))
+
+```
+
+<!-------------------------->
+<!-------------------------->
+# Plot Polygon Data
+<!-------------------------->
+<!-------------------------->
+<p align="center"> <img src="vignetteFigs/divider.png"></p>
+
+For a given data table in the correct format (see [Input Format](#inputs)) `map()` will search through the list of [maps](https://jgcri.github.io/rmap/reference/index.html) to see if it can find the "subRegions" provided in the data and then plot the data on the most appropriate map. Users can specify a specific map. Some examples are provided below:
+
+```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap);
+
+# US Contiguous States 
+data = data.frame(subRegion = c("CA","FL","ID","MO","TX","WY"),
+                  value = c(5,10,15,34,2,7))
+map(data)
+
 ```
 
 
-
-<p align="center" style="font-size:18px;"> *US52* </p>
-<p align="center"> <img src="vignetteFigs/mapsProcess_US52.PNG"></p>
-
-### US 49 Counties
-
-```{r, eval=F}
-library(rmap)
-
-unique(mapUS49County@data$subRegion) # Check subRegion Names
-unique(mapUS49County@data$subRegionAlt) # Check Alternate names
-data = data.frame(subRegion = c("Pender_NC","Larue_KY","Jim Wells_TX","Orange_IN","Putnam_FL","Ellis_KS"),
-                  x = c(2050,2050,2050,2050,2050,2050),
-                  value = c(5,10,15,34,2,7))
-map(data,
-                  folder = "vignetteMaps",
-                  nameAppend = "_Alt",
-                  mapTitleOn = F)
-```
-
-
-<p align="center" style="font-size:18px;"> *US49 Counties* </p>
-<p align="center"> <img src="vignetteFigs/mapsProcess_US49Counties.PNG"></p>
-
-### US 52 Counties
-
-```{r, eval=F}
-library(rmap)
-
-unique(mapUS52County@data$subRegion) # Check subRegion Names
-unique(mapUS52County@data$subRegionAlt) # Check Alternate names
-data = data.frame(subRegion = c("Aleutians West_AK","Sabana Grande_PR","Kalawao_HI","Orange_IN","Putnam_FL","Ellis_KS"),
-                  x = c(2050,2050,2050,2050,2050,2050),
-                  value = c(5,10,15,34,2,7))
-map(data,
-                  folder = "vignetteMaps",
-                  nameAppend = "_Alt",
-                  mapTitleOn = F)
-```
-
-
-<p align="center" style="font-size:18px;"> *US52 Counties* </p>
-<p align="center"> <img src="vignetteFigs/mapsProcess_US52Counties.PNG"></p>
-
-### GCAM 32 Regions
-
-
-```{r, eval=F}
-library(rmap)
-
-unique(mapGCAMBasins@data$subRegion) # Check Available Regions
-data = data.frame(subRegion = c("Colombia","China","EU-12","Pakistan","Middle East","Japan"),
-                  x = c(2050,2050,2050,2050,2050,2050),
-                  value = c(5,10,15,34,2,7))
-map(data,
-                  folder = "vignetteMaps",
-                  mapTitleOn = F)
-```
-
-<p align="center" style="font-size:18px;"> *GCAM 32 Regions* </p>
-<p align="center"> <img src="vignetteFigs/mapsProcess_GCAM32.PNG"></p>
-
-### GCAM Basins
-
-```{r, eval=F}
-library(rmap)
-
-unique(mapGCAMBasins@data$subRegion) # Check Available Regions
-data = data.frame(subRegion = c("Negro","La_plata","Great","New_England","Indus","Zambezi"),
-                  x = c(2050,2050,2050,2050,2050,2050),
-                  value = c(5,10,15,34,2,7))
-map(data,
-                  folder = "vignetteMaps",
-                  mapTitleOn = F)
-```
-
-<p align="center" style="font-size:18px;"> *GCAM Basins* </p>
-<p align="center"> <img src="vignetteFigs/mapsProcess_GCAMBasins.PNG"></p>
-
-
-### World Countries
-
-
-```{r, eval=F}
-library(rmap)
-
-unique(mapCountries@data$subRegion) # Check Available Regions
-data = data.frame(subRegion = c("Colombia","China","India","Spain","Ghana","Iran"),
-                  x = c(2050,2050,2050,2050,2050,2050),
-                  value = c(5,10,15,34,2,7))
-map(data,
-                  folder = "vignetteMaps",
-                  mapTitleOn = F)
-```
-
-<p align="center" style="font-size:18px;"> *World Countries* </p>
-<p align="center"> <img src="vignetteFigs/mapsProcess_worldCountries.PNG"></p>
-
-### World States
-
-
-```{r, eval=F}
-library(rmap)
-
-unique(mapStates@data$subRegion) # Check Available Regions
-data = data.frame(subRegion = c("Punjab","FL","TX","Faryab","Assam","Lac"),
-                  x = c(2050,2050,2050,2050,2050,2050),
-                  value = c(5,10,15,34,2,7))
-map(data,
-                  folder = "vignetteMaps",
-                  mapTitleOn = F)
-```
-
-<p align="center" style="font-size:18px;"> *World States* </p>
-<p align="center"> <img src="vignetteFigs/mapsProcess_worldStates.PNG"></p>
-
-
-## Select Map
+<!-------------------------->
+<!-------------------------->
+# Polygon Data Select Map {#select}
+<!-------------------------->
+<!-------------------------->
+<p align="center"> <img src="vignetteFigs/divider.png"></p>
 
 Sometimes subRegions can be present on multiple maps. For example "Colombia", China" and "India" are all members of `rmap::mapGCAMReg32` as well as `rmap::mapCountries`. If a user knows which map they want to plot their data on they should specify the map in the `shape` argument.
 
 
-```{r, eval=F}
+```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
 library(rmap)
 
-data = data.frame(subRegion = c("Colombia","China","India"),
+data = data.frame(subRegion = c("China","India","Pakistan"),
                   x = c(2050,2050,2050),
-                  value = c(5,10,15))
+                  value = c(5,12,30))
 
 # Auto selection by rmap will choose rmap::mapCountries
-map(data,
-                  folder = "vignetteChooseMap",
-                  mapTitleOn = F)
+rmap::map(data)
 
 # User can specify that they want to plot this data on rmap::mapGCAMReg32
-map(data,
-                  shape = rmap::mapGCAMReg32,
-                  folder = "vignetteChooseMap",
-                  nameAppend = "Chosen",
-                  mapTitleOn = F)
+rmap::map(data,
+          shape = rmap::mapGCAMReg32)
 
 ```
 
-<p align="center" style="font-size:18px;"> *Select Pre-Loaded Map* </p>
-<p align="center"> <img src="vignetteFigs/mapsProcess_selectMap.PNG"></p>
+<!-------------------------->
+<!-------------------------->
+# Plot Gridded Data
+<!-------------------------->
+<!-------------------------->
+<p align="center"> <img src="vignetteFigs/divider.png"></p>
+
+For a given data table in the correct format (see [Input Format](#inputs)) `map()` will search through the list of [maps](https://jgcri.github.io/rmap/reference/index.html) to see if it can find the "subRegions" provided in the data and then plot the data on the most appropriate map. Users can specify a specific map. Some examples are provided below:
 
 
+```{r, eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap); library(dplyr)
 
-## US 52 Compact
+# Using example grid data provided in rmap
+# example_gridData_GWPv4To2015
+# Original data from https://sedac.ciesin.columbia.edu/data/set/gpw-v4-population-count-rev11/data-download#
+# Center for International Earth Science Information Network (CIESIN) - Columbia University. 2016.
+# Gridded Population of the World, Version 4 (GPWv4): Population Count. NASA Socioeconomic Data and Applications Center (SEDAC),
+# Palisades, NY. DOI: http://dx.doi.org/10.7927/H4X63JVC
 
-```{r, eval=F}
-library(rmap)
-
-data = data.frame(subRegion = c("AK","HI","PR","MO","TX","WY"),
-                  x = c(2050,2050,2050,2050,2050,2050),
-                  value = c(5,10,15,34,2,7))
-map(data,
-                  shape = rmap::mapUS52Compact,
-                  folder = "vignetteMaps", mapTitleOn = F)
+# Subset data
+data = example_gridData_GWPv4To2015 %>% 
+  filter(x == 2015);
+head(data)
 ```
 
-<p align="center" style="font-size:18px;"> *US52Compact* </p>
-<p align="center"> <img src="vignetteFigs/mapsProcess_US52Compact.PNG"></p>
+```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
+rmap::map(data)
 
-## US 52 Counties Compact
+# Plot part of data (first 10000 rows)
+rmap::map(data %>% head(10000))
 
-```{r, eval=F}
-library(rmap)
+# Add an underlayer to gridded data
+rmap::map(data,
+          overLayer = rmap::mapCountriesUS52,
+          background=T)
 
-unique(mapUS52CountyCompact@data$subRegion) # Check subRegion Names
-unique(mapUS52CountyCompact@data$subRegionAlt) # Check Alternate names
-data = data.frame(subRegion = c("Aleutians West_AK","Sabana Grande_PR","Kalawao_HI","Orange_IN","Putnam_FL","Ellis_KS"),
-                  x = c(2050,2050,2050,2050,2050,2050),
-                  value = c(5,10,15,34,2,7))
-map(data,
-                  shape = rmap::mapUS52CountyCompact,
-                  folder = "vignetteMaps",
-                  nameAppend = "_Alt",
-                  mapTitleOn = F)
 ```
-
-<p align="center" style="font-size:18px;"> *US52 Counties Compact* </p>
-<p align="center"> <img src="vignetteFigs/mapsProcess_US52CountiesCompact.PNG"></p>
-
-
 
 <!-------------------------->
 <!-------------------------->
 # Create Custom Map Shape
-
 <!-------------------------->
 <!-------------------------->
+<p align="center"> <img src="vignetteFigs/divider.png"></p>
 
-Users can provide map custom shapefiles for their own data if needed. The example below shows how to create a custom shapefile and then plot data on it. 
+Users can provide custom shapefiles for their own data if needed. The example below shows how to create a custom shapefile and then plot data on it. 
 
 ## Subset existing shape
 
-```{r, eval=F}
-library(rmap); library(rgdal)
+```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap)
 
 shapeSubset <- rmap::mapStates # Read in World States shape file
 shapeSubset <- shapeSubset[shapeSubset@data$region %in% c("Colombia"),] # Subset the shapefile to Colombia
 shapeSubset@data <- droplevels(shapeSubset@data)
-shapeSubset@data <- shapeSubset@data %>% dplyr::rename(states=subRegion) # Lets assume the subRegion column was called "states"
-map(shapeSubset, fillCol = "states") # View custom shape
+rmap::map(shapeSubset) # View custom shape
 head(shapeSubset@data) # review data
 unique(shapeSubset@data$states) # Get a list of the unique subRegions
 
 # Plot data on subset
-data = data.frame(states = c("Cauca","Valle del Cauca","Antioquia","Córdoba","Bolívar","Atlántico"),
+data = data.frame(subRegion = c("Cauca","Valle del Cauca","Antioquia","Córdoba","Bolívar","Atlántico"),
                   x = c(2050,2050,2050,2050,2050,2050),
                   value = c(5,10,15,34,2,7))
-map(data,
-                  shape = shapeSubset,
-                  subRegCol = "states",
-                  subRegType = "ColombiaStates",
-                  folder = "vignetteMaps_shapeSubset",
-                  mapTitleOn = F)
+
+rmap::map(data,
+          shape = shapeSubset,
+          underLayer = shapeSubset,
+          crop=F) # Must rename the states column to 'subRegion'
 
 ```
-
-
-<p align="center" style="font-size:18px;"> *Shape subset* </p>
-<p align="center"> <img src="vignetteFigs/mapsProcess_shapeSubset.PNG"></p>
 
 ## Crop a shape to another shape
 
 For example if someone wants to analyze counties in Texas.
 
-```{r, eval=F}
+```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
 library(rmap); library(raster)
 
 shapeSubRegions <- rmap::mapUS49County
@@ -334,69 +640,67 @@ shapeCrop<- sp::spTransform(shapeCropTo,raster::crs(shapeSubRegions))
 shapeCrop <-raster::crop(shapeSubRegions,shapeCropTo)
 shapeCrop@data <- shapeCrop@data%>%dplyr::select(subRegion)
 shapeCrop$subRegion%>%unique() # Check subRegion names
-map(shapeCrop)
+rmap::map(shapeCrop)
 
 # Plot data on subset
-data = data.frame(county = c("Wise_TX","Scurry_TX","Kendall_TX","Frio_TX","Hunt_TX","Austin_TX"),
-                  x = c(2050,2050,2050,2050,2050,2050),
+data = data.frame(subRegion = c("Wise_TX","Scurry_TX","Kendall_TX","Frio_TX","Hunt_TX","Austin_TX"),
                   value = c(5,10,15,34,2,7))
-map(data,
-                  shape = shapeCrop,
-                  subRegCol = "county",
-                  subRegType = "TexasCounties",
-                  folder = "vignetteMaps_shapeCrop",
-                  mapTitleOn = F)
+rmap::map(data,
+          shape = shapeCrop,
+          underLayer = shapeCrop,
+          crop=F)
 
 ```
 
-<p align="center" style="font-size:18px;"> *Shape Crop* </p>
-<p align="center"> <img src="vignetteFigs/mapsProcess_shapeCrop.PNG"></p>
+## Save Custom Shapefile {#saveShape}
 
-<!-------------------------->
-<!-------------------------->
-# Crop to Boundary
+A cropped or custom shapefile which may be much smaller in size can be saved offline as an `ESRI Shapefile` for later use in `rmap` or other software if desired as follows: 
 
-<!-------------------------->
-<!-------------------------->
+```{r, results = 'hide', eval=F, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
+library(rgdal)
 
-By setting the **cropToBoundary** argument to **T** the function will crop your map to the regions with data provided. This is particularly helpful for data plotted on the world maps as shown in the example below:
+rgdal::writeOGR(obj=shapeCrop,
+                dsn=paste0("path/to/shapefile/shapeCrop"),
+                layer="shapeCrop",
+                driver="ESRI Shapefile", overwrite_layer=TRUE)
 
-```{r, eval=F}
-library(rmap)
-data = data.frame(subRegion = c("India","China"), year = c(2010,2010),value = c(32,54))
-map(data = data, mapTitleOn = F, folder = "vignetteMaps", cropToBoundary=F, )
-map(data = data, mapTitleOn = F, folder = "vignetteMaps", cropToBoundary=T, 
-                  nameAppend="Cropped")
 ```
 
+## Read data from a Shapefile
 
-<p align="center" style="font-size:18px;"> *Crop to Boundary* </p>
-<p align="center"> <img src="vignetteFigs/mapsProcess_cropToBoundary.PNG"></p>
+User can read data from their own offline `ESRI Shapefile`. Usually the shapefile is contained in a single folder (e.g. `custom_shape_folder`) with the following subfiles, where `custom_shape` will be a different name. These kinds of files can be created in R, ArcGIS, QGIS and other softwares (see Section [Save Custom Shapefile](#saveShape)).
 
-<!-------------------------->
-<!-------------------------->
-# Plot Background
+- custom_shape.dbf
+- custom_shape.prj
+- custom_shape.shp
+- custom_shape.shx
+ 
+After reading in the shapefile (e.g. as `my_custom_map`), users will need to insure that the data argument (`my_custom_map@data`) contains a `subRegion` column corresponding to the features in the shape. 
+ 
+```{r, results = 'hide', eval=F, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap); library(rgdal); library(sp)
 
-<!-------------------------->
-<!-------------------------->
+# Assuming custom_shape files are in folder custom_shape_folder
+exampleFolder<-paste("path/to/custom_shape_folder",sep="") # Should contain the .dbf, .prj, .shp, .shx files
+exampleFile<-paste("custom_shape",sep="") # The shape file name without the extension.
+my_custom_map = rgdal::readOGR(dsn=examplePolyFolder,layer=examplePolyFile,use_iconv=T,encoding='UTF-8')
+names(my_custom_map@data); head(my_custom_map@data);
+sp::plot(my_custom_map) # Quick view of shape
+# Rename subRegion column
+my_custom_map@data <- my_custom_map@data %>% dplyr::mutate(subRegion="CHOOSE_APPROPRIATE _COLUMN");
 
-By turning on **background** a background layer will be added to any shape map.
+# Now a data frame with data corresponding to the custom shape regions can be created and plotted
+# Generate some random data for each subRegion
+data <- data.frame(subRegion=unique(my_custom_map@data$subRegion),
+                   value = 100*runif(length(unique(my_custom_map@data$subRegion))));
+head(data)
 
-```{r, eval=F}
-library(rmap)
-data = data.frame(subRegion = c("India","China"), year = c(2010,2010), value = c(32,54))
-map(data = data, mapTitleOn = F, folder = "vignetteMaps", 
-                  cropToBoundary = T,
-                  background = T, nameAppend = "Extended")
-
-# Can increase the extnded boundaries by using expandPercent
-map(data = data, mapTitleOn = F, folder = "vignetteMaps", 
-                  cropToBoundary = T,
-                  background = T, nameAppend = "Extended10", expandPercent = 50)
+# And then it can be plotted using rmap and any of the built-in maps as underLayers.
+rmap::map(data,
+          shape=my_custom_map,
+          underLayer=rmap::mapStates,
+          underLayerLabels = T)
 ```
-
-<p align="center" style="font-size:18px;"> *Extended Background* </p>
-<p align="center"> <img src="vignetteFigs/mapsProcess_extended.PNG"></p>
 
 <!-------------------------->
 <!-------------------------->
@@ -404,9 +708,13 @@ map(data = data, mapTitleOn = F, folder = "vignetteMaps",
 
 <!-------------------------->
 <!-------------------------->
+<p align="center"> <img src="vignetteFigs/divider.png"></p>
 
-```{r, eval=F}
-library(rmap)
+## Polygon Data Multi-Year
+
+```{r, results = 'hide', eval=F, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap);
+
 data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
                                 "Austria","Spain", "Italy", "Germany","Greece",
                                 "Austria","Spain", "Italy", "Germany","Greece",
@@ -419,28 +727,188 @@ data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
                             37, 53, 23, 12, 45,
                             23, 99, 102, 85, 75,
                             12, 76, 150, 64, 90))
-map(data = data, folder ="multiYear", 
-                  cropToBoundary=T, background = T )
+
+rmap::map(data = data,
+          underLayer = rmap::mapCountries,
+          ncol=4,
+          background = T)
+
+# NOTE: Animation files are only saved to file and not as a direct output of the rmap::map() function.
+
+```
+
+```{r, results = 'hide', eval=T, echo=F, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap);
+
+data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
+                                "Austria","Spain", "Italy", "Germany","Greece",
+                                "Austria","Spain", "Italy", "Germany","Greece",
+                                "Austria","Spain", "Italy", "Germany","Greece"),
+                  year = c(rep(2025,5),
+                               rep(2050,5),
+                               rep(2075,5),
+                               rep(2100,5)),
+                  value = c(32, 38, 54, 63, 24,
+                            37, 53, 23, 12, 45,
+                            23, 99, 102, 85, 75,
+                            12, 76, 150, 64, 90))
+
+mapx <- rmap::map(data = data,
+          underLayer = rmap::mapCountries,
+          background = T,
+          ncol = 4,
+          show=F)
+
+mapx$map_param_scenario_KMEANS
+mapx$map_param_scenario_MEAN_KMEANS
+
+```
+
+<p align="center"> <img src="vignetteFigs/anim_param_scenario_KMEANS_polygon.gif"></p>
+
+
+## Gridded Data Multi-Year
+
+```{r, results = 'hide', eval=F, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap);
+data = example_gridData_GWPv4To2015;
+head(data)
+```
+
+```{r, eval=T, echo=F, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap);
+
+data = example_gridData_GWPv4To2015;
+head(data)
+```
+
+```{r, results = 'hide', eval=F, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap);
+rmap::map(data = data,
+          overLayer = rmap::mapCountries,
+          background = T)
+
+# NOTE: Animation files are only saved to file and not as a direct output of the rmap::map() function.
+
+```
+
+```{r, results = 'hide', eval=T, echo=F, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap);
+data = example_gridData_GWPv4To2015;
+mapx <- rmap::map(data = data,
+          overLayer = rmap::mapCountries,
+          background = T,
+          show=F)
+
+mapx$map_param_scenario_KMEANS
+mapx$map_param_scenario_MEAN_KMEANS
+```
+
+<p align="center"> <img src="vignetteFigs/anim_param_scenario_KMEANS_gridded.gif"></p>
+
+
+<!-------------------------->
+<!-------------------------->
+# Multi-Year Diff plots
+<!-------------------------->
+<!-------------------------->
+<p align="center"> <img src="vignetteFigs/divider.png"></p>
+
+When multiple years are present in the data, assigning an `xRef` and `xDiff` will result in `rmap::map()` to calculate the absolute and percentage difference between the chosen `xref` year and `xDiff` years and store them in corresponding folders.
+
+## Polygon Data Multi-Year Diff
+
+```{r, results = 'hide', eval=F, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap);
+
+data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
+                                "Austria","Spain", "Italy", "Germany","Greece",
+                                "Austria","Spain", "Italy", "Germany","Greece"),
+                  year = c(rep(2010,5),rep(2020,5),rep(2030,5)),
+                  value = c(32, 38, 54, 63, 24,
+                            37, 53, 23, 12, 45,
+                            40, 45, 12, 50, 63))
+
+mapx <- rmap::map(data = data,
+          background = T, 
+          underLayer = rmap::mapCountries,
+          xRef = 2010, 
+          xDiff = c(2020,2030))
+
+mapx$map_param_scenario_DiffxAbs_2030_2010_KMEANS
+mapx$map_param_scenario_DiffxPrcnt_2030_2010_KMEANS
+
+```
+
+```{r, results = 'hide', eval=T, echo=F, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap);
+
+data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
+                                "Austria","Spain", "Italy", "Germany","Greece",
+                                "Austria","Spain", "Italy", "Germany","Greece"),
+                  year = c(rep(2010,5),rep(2020,5),rep(2030,5)),
+                  value = c(32, 38, 54, 63, 24,
+                            37, 53, 23, 12, 45,
+                            40, 45, 12, 50, 63))
+
+mapx <- rmap::map(data = data,
+          background = T, 
+          underLayer = rmap::mapCountries,
+          xRef = 2010, 
+          xDiff = c(2020,2030),
+          show = F)
+
+mapx$map_param_scenario_DiffxAbs_2030_2010_KMEANS
+mapx$map_param_scenario_DiffxPrcnt_2030_2010_KMEANS
+
 ```
 
 
-<p align="center" style="font-size:18px;"> *Multi-year* </p>
-<p align="center"> <img src="vignetteFigs/mapsProcess_multiYear.PNG"></p>
+## Gridded Data Multi-Year Diff
 
-<p align="center" style="font-size:18px;"> *Multi-year Animation* </p>
-<p align="center"> <img src="vignetteFigs/anim_countries_param_scenario_PRETTY.gif"></p>
+```{r, results = 'hide', eval=F, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap);
 
+data = example_gridData_GWPv4To2015
+mapx <- rmap::map(data = data,
+          background = T, 
+          underLayer = rmap::mapCountries,
+          xRef = 1990, 
+          xDiff = c(2010,2015))
+
+mapx$map_param_scenario_DiffxAbs_2015_1990_KMEANS
+mapx$map_param_scenario_DiffxPrcnt_2015_1990_KMEANS
+```
+
+```{r, results = 'hide', eval=T, echo=F, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap);
+
+data = example_gridData_GWPv4To2015
+mapx <- rmap::map(data = data,
+          background = T, 
+          underLayer = rmap::mapCountries,
+          xRef = 1990, 
+          xDiff = c(2010,2015),
+          show=F)
+
+mapx$map_param_scenario_DiffxAbs_2015_1990_KMEANS
+mapx$map_param_scenario_DiffxPrcnt_2015_1990_KMEANS
+
+```
 
 
 <!-------------------------->
 <!-------------------------->
 # Multi-Class
-
 <!-------------------------->
 <!-------------------------->
+<p align="center"> <img src="vignetteFigs/divider.png"></p>
 
-```{r, eval=F}
-library(rmap)
+## Polygon Data Multi-Class
+
+```{r, results = 'hide', eval=T, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap);
+
 data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
                                 "Austria","Spain", "Italy", "Germany","Greece",
                                 "Austria","Spain", "Italy", "Germany","Greece",
@@ -449,31 +917,53 @@ data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
                                rep("industry",5),
                                rep("agriculture",5),
                                rep("transport",5)),
-                  year = rep(2010,20),
                   value = c(32, 38, 54, 63, 24,
                             37, 53, 23, 12, 45,
                             23, 99, 102, 85, 75,
                             12, 76, 150, 64, 90))
-map(data = data, folder ="multiClass", 
-                  cropToBoundary = T, background = T )
+rmap::map(data = data,
+          underLayer = rmap::mapCountries,
+          background = T )
+```
+
+## Gridded Data Multi-Class
+
+```{r, results = 'hide', eval=T, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap);library(dplyr)
+
+# Change the years in the gridded data to classes
+data = example_gridData_GWPv4To2015 %>%
+  dplyr::rename(class=x) %>%
+  dplyr::mutate(class = dplyr::case_when(
+    class == "1990" ~ "municipal",
+    class == "1995" ~ "industry",
+    class == "2000" ~ "agriculture",
+    class == "2005" ~ "energy",
+    class == "2010" ~ "water",
+    class == "2015" ~ "other",
+    TRUE ~ class
+  ))
+  
+rmap::map(data = data,
+          overLayer = rmap::mapCountries,
+          background = T )
 ```
 
 
-<p align="center" style="font-size:18px;"> *Multi-class* </p>
-<p align="center"> <img src="vignetteFigs/mapsProcess_multiClass.PNG"></p>
-
-
 <!-------------------------->
 <!-------------------------->
-# Multi-Scenario Diff plots
-
+# Multi-Scenario
 <!-------------------------->
 <!-------------------------->
+<p align="center"> <img src="vignetteFigs/divider.png"></p>
 
-With multiple scenarios assigning a **scenRef** calculates the absolute and percentage difference between the different scenarios and stores them in corresponding folders.
+With multiple scenarios present an additional folder and maps for combined scenarios are produced.
 
-```{r, eval=F}
-library(rmap)
+## Polygon Data Multi-Scenario
+
+```{r, results = 'hide', eval=F, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap);
+
 data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
                                 "Austria","Spain", "Italy", "Germany","Greece",
                                 "Austria","Spain", "Italy", "Germany","Greece"),
@@ -484,86 +974,317 @@ data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
                   value = c(32, 38, 54, 63, 24,
                             37, 53, 23, 12, 45,
                             40, 44, 12, 30, 99))
-map(data = data, folder ="multiScenario", 
-                  cropToBoundary = T, background = T, scenRef = "scen1", scenDiff = c("scen3"))
+
+mapx <- rmap::map(data = data, 
+          underLayer = rmap::mapCountries,
+          background = T)
+
+mapx$map_param_KMEANS
+
 ```
 
-<p align="center" style="font-size:18px;"> *Multi-Scenario Combined Plot* </p>
-<p align="center"> <img src="vignetteFigs/mapsProcess_multiScenarioCombined.PNG"></p>
+```{r, results = 'hide', eval=T, echo=F, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap);
 
-<p align="center" style="font-size:18px;"> *Multi-Scenario Diff* </p>
-<p align="center"> <img src="vignetteFigs/mapsProcess_multiScenario.PNG"></p>
-
-<p align="center" style="font-size:18px;"> *Multi-Scenario Diff Folders* </p>
-<p align="center"> <img src="vignetteFigs/mapsProcess_multiScenarioStructure.PNG"></p>
-
-
-<!-------------------------->
-<!-------------------------->
-# Multi-Year Diff plots
-
-<!-------------------------->
-<!-------------------------->
-
-With multiple years assigning a **xRef** calculates the absolute and percentage difference between the different years and stores them in corresponding folders.
-
-```{r, eval=F}
-library(rmap)
 data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
                                 "Austria","Spain", "Italy", "Germany","Greece",
                                 "Austria","Spain", "Italy", "Germany","Greece"),
-                  year = c(rep(2010,5),rep(2020,5),rep(2030,5)),
+                  scenario = c("scen1","scen1","scen1","scen1","scen1",
+                               "scen2","scen2","scen2","scen2","scen2",
+                               "scen3","scen3","scen3","scen3","scen3"),
+                  year = rep(2010,15),
                   value = c(32, 38, 54, 63, 24,
                             37, 53, 23, 12, 45,
-                            40, 45, 12, 50, 63))
-map(data = data, folder = "multiYear", 
-                  cropToBoundary = T, background = T, xRef = 2010, xDiff = c(2020))
+                            40, 44, 12, 30, 99))
+mapx <- rmap::map(data = data, 
+          underLayer = rmap::mapCountries,
+          background = T,
+          show = F)
+
+mapx$map_param_KMEANS
+
+```
+
+## Gridded Data Multi-Scenario
+
+```{r, results = 'hide', eval=F, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap);
+
+# Change the years in the example gridded data to scenarios
+data = example_gridData_GWPv4To2015 %>%
+  dplyr::filter(x %in% c("1990","2000","2015")) %>%
+  dplyr::rename(scenario=x) %>%
+  dplyr::mutate(scenario = dplyr::case_when(
+    scenario == "1990" ~ "scenario1",
+    scenario == "2000" ~ "scenario2",
+    scenario == "2015" ~ "scenario3",
+    TRUE ~ scenario))
+  
+mapx <- rmap::map(data = data, 
+          underLayer = rmap::mapCountries,
+          background = T)
+
+mapx$map_param_KMEANS
+
+```
+
+```{r, results = 'hide', eval=T, echo=F, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap);
+
+data = example_gridData_GWPv4To2015 %>%
+  dplyr::filter(x %in% c("1990","2000","2015")) %>%
+  dplyr::rename(scenario=x) %>%
+  dplyr::mutate(scenario = dplyr::case_when(
+    scenario == "1990" ~ "scenario1",
+    scenario == "2000" ~ "scenario2",
+    scenario == "2015" ~ "scenario3",
+    TRUE ~ scenario))
+  
+mapx <- rmap::map(data = data, 
+          underLayer = rmap::mapCountries,
+          background = T,
+          show = F)
+
+mapx$map_param_KMEANS
+
+```
+
+<!-------------------------->
+<!-------------------------->
+# Multi-Scenario Diff Plots
+<!-------------------------->
+<!-------------------------->
+<p align="center"> <img src="vignetteFigs/divider.png"></p>
+
+With multiple scenarios present if `scenRef` and `scenDiff` are chosen `rmap::map()` will produce corresponding absolute and difference maps as shown below.
+
+## Polygon Data Multi-Scenario Diff
+
+```{r, results = 'hide', eval=F, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap);
+
+data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
+                                "Austria","Spain", "Italy", "Germany","Greece",
+                                "Austria","Spain", "Italy", "Germany","Greece"),
+                  scenario = c("scen1","scen1","scen1","scen1","scen1",
+                               "scen2","scen2","scen2","scen2","scen2",
+                               "scen3","scen3","scen3","scen3","scen3"),
+                  value = c(32, 38, 54, 63, 24,
+                            37, 53, 23, 12, 45,
+                            40, 44, 12, 30, 99))
+mapx <- rmap::map(data = data, 
+          underLayer = rmap::mapCountries,
+          scenRef = "scen1",
+          scenDiff = c("scen2"),
+          background = T)
+
+mapx$map_param_DiffAbs_scen2_scen1_KMEANS
+mapx$map_param_DiffPrcnt_scen2_scen1_KMEANS
+
+```
+
+```{r, results = 'hide', eval=T, echo=F, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap);
+
+data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
+                                "Austria","Spain", "Italy", "Germany","Greece",
+                                "Austria","Spain", "Italy", "Germany","Greece"),
+                  scenario = c("scen1","scen1","scen1","scen1","scen1",
+                               "scen2","scen2","scen2","scen2","scen2",
+                               "scen3","scen3","scen3","scen3","scen3"),
+                  value = c(32, 38, 54, 63, 24,
+                            37, 53, 23, 12, 45,
+                            40, 44, 12, 30, 99))
+mapx <- rmap::map(data = data, 
+          underLayer = rmap::mapCountries,
+          scenRef = "scen1",
+          scenDiff = c("scen2"),
+          background = T,
+          show = F)
+
+mapx$map_param_DiffAbs_scen2_scen1_KMEANS
+mapx$map_param_DiffPrcnt_scen2_scen1_KMEANS
+
+```
+
+## Gridded Data Multi-Scenario Diff
+
+```{r, results = 'hide', eval=F, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap);
+
+# Change the years in the example gridded data to scenarios
+data = example_gridData_GWPv4To2015 %>%
+  dplyr::filter(x %in% c("1990","2000","2015")) %>%
+  dplyr::rename(scenario=x) %>%
+  dplyr::mutate(scenario = dplyr::case_when(
+    scenario == "1990" ~ "scenario1",
+    scenario == "2000" ~ "scenario2",
+    scenario == "2015" ~ "scenario3",
+    TRUE ~ scenario))
+  
+mapx <- rmap::map(data = data, 
+          underLayer = rmap::mapCountries,
+          scenRef = "scenario1",
+          scenDiff = c("scenario3"),
+          background = T)
+
+mapx$map_param_DiffAbs_scenario3_scenario1_KMEANS
+mapx$map_param_DiffPrcnt_scenario3_scenario1_KMEANS
+
+```
+
+```{r, results = 'hide', eval=T, echo=F, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap);
+
+data = example_gridData_GWPv4To2015 %>%
+  dplyr::filter(x %in% c("1990","2000","2015")) %>%
+  dplyr::rename(scenario=x) %>%
+  dplyr::mutate(scenario = dplyr::case_when(
+    scenario == "1990" ~ "scenario1",
+    scenario == "2000" ~ "scenario2",
+    scenario == "2015" ~ "scenario3",
+    TRUE ~ scenario))
+  
+mapx <- rmap::map(data = data, 
+          underLayer = rmap::mapCountries,
+          scenRef = "scenario1",
+          scenDiff = c("scenario3"),
+          background = T,
+          show=F)
+
+mapx$map_param_DiffAbs_scenario3_scenario1_KMEANS
+mapx$map_param_DiffPrcnt_scenario3_scenario1_KMEANS
+
 ```
 
 
-<p align="center" style="font-size:18px;"> *Multi-Year Diff* </p>
-<p align="center"> <img src="vignetteFigs/mapsProcess_multiYear.PNG"></p>
+<!-------------------------->
+<!-------------------------->
+# Multi-Facet Maps
+<!-------------------------->
+<!-------------------------->
+<p align="center"> <img src="vignetteFigs/divider.png"></p>
 
-<p align="center" style="font-size:18px;"> *Multi-Year Diff Folders* </p>
-<p align="center"> <img src="vignetteFigs/mapsProcess_multiYearStructure.PNG"></p>
+If the data set has additional rows and columns by which the user wants to plot their maps they can set these in the `row` and `col` arguments.
+
+## Polygon Data Multi-Facet
+
+```{r, results = 'hide', eval=T, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap);
+
+data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
+                                "Austria","Spain", "Italy", "Germany","Greece",
+                                "Austria","Spain", "Italy", "Germany","Greece",
+                                "Austria","Spain", "Italy", "Germany","Greece"),
+                  rcp = c(rep("RCP1",5),
+                          rep("RCP2",5),
+                          rep("RCP1",5),
+                          rep("RCP2",5)),
+                  gcm = c(rep("GCM1",5),
+                          rep("GCM1",5),
+                          rep("GCM2",5),
+                          rep("GCM2",5)),
+                  value = c(32, 38, 54, 63, 24,
+                            37, 53, 23, 12, 45,
+                            23, 99, 102, 85, 75,
+                            12, 76, 150, 64, 90))
+rmap::map(data = data,
+          underLayer = rmap::mapCountries,
+          row = "rcp",
+          col = "gcm",
+          background = T )
+```
+
+## Gridded Data Multi-Facet
+
+```{r, results = 'hide', eval=T, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap);library(dplyr)
+
+# Create data with new columns RCPs and GCMs
+data = example_gridData_GWPv4To2015 %>%
+  dplyr::filter(x %in% c(1990,2000,2010,2015)) %>%
+  dplyr::rename(rcp = x) %>%
+  dplyr::mutate(gcm = dplyr::case_when(rcp == 1990 ~ "GCM1",
+                                       rcp == 2000 ~ "GCM1",
+                                       rcp == 2010 ~ "GCM2",
+                                       rcp == 2015 ~ "GCM2",
+                                       TRUE ~ "GCM"),
+                rcp = dplyr::case_when(rcp == 1990 ~ "RCP1",
+                                       rcp == 2000 ~ "RCP2",
+                                       rcp == 2010 ~ "RCP1",
+                                       rcp == 2015 ~ "RCP2",
+                                       TRUE ~ rcp)) 
+rmap::map(data = data,
+          overLayer = rmap::mapCountries,
+          row= "rcp",
+          col = "gcm",
+          background = T )
+```
+
 
 <!-------------------------->
 <!-------------------------->
 # Scale Range
-
 <!-------------------------->
 <!-------------------------->
+<p align="center"> <img src="vignetteFigs/divider.png"></p>
 
-```{r, eval=F}
+```{r, results = 'hide', eval=T, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
 library(rmap)
+
+# For Scenario Diff plots
 data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
                                 "Austria","Spain", "Italy", "Germany","Greece"),
                   scenario = c("scen1","scen1","scen1","scen1","scen1",
                                "scen2","scen2","scen2","scen2","scen2"),
-                  year = rep(2010,10),
                   value = c(32, 38, 54, 63, 24,
                             37, 53, 23, 12, 45))
-map(data = data, folder = "scaleRange", 
-                  cropToBoundary = T, background = T, scenRef = "scen1", 
-                  scaleRange = c(0,50), scaleRangeDiffAbs = c(-100,100), scaleRangeDiffPrcnt = c(-60,60))
+rmap::map(data = data, 
+          background = T, 
+          underLayer = rmap::mapCountries,
+          scenRef = "scen1",
+          scaleRange = c(30,40), 
+          scaleRangeDiffAbs = c(-100,100), 
+          scaleRangeDiffPrcnt = c(-60,60))
+
+# For Year Diff plots
+data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
+                                "Austria","Spain", "Italy", "Germany","Greece"),
+                  x = c(rep(2010,5),
+                        rep(2020,5)),
+                  value = c(32, 38, 54, 63, 24,
+                            37, 53, 23, 12, 45))
+rmap::map(data = data, 
+          background = T, 
+          underLayer = rmap::mapCountries,
+          xRef = 2010,
+          scaleRange = c(0,50), 
+          scaleRangeDiffxAbs = c(-100,100), 
+          scaleRangeDiffxPrcnt = c(-60,60))
+
+# If multiple parameters in data users can set up scaleRange for each param as:
+# scaleRange_i = data.frame(param = c("param1","param2"),
+#                                   min = c(0,0),
+#                                   max = c(15000,2000))
+# scaleRangeDiffxAbs_i = data.frame(param = c("param1","param2"),
+#                                   min = c(0,0),
+#                                   max = c(15000,2000))
+
 ```
-
-
-<p align="center" style="font-size:18px;"> *Scale Range* </p>
-<p align="center"> <img src="vignetteFigs/mapsProcess_scaleRange.PNG"></p>
 
 
 <!-------------------------->
 <!-------------------------->
 # Color Palettes
-
 <!-------------------------->
 <!-------------------------->
+<p align="center"> <img src="vignetteFigs/divider.png"></p>
 
 Can use any [R color palette](https://www.nceas.ucsb.edu/sites/default/files/2020-04/colorPaletteCheatsheet.pdf) or choose from a list of colors from the [jgcricolors package](https://jgcri.github.io/jgcricolors/articles/vignette_examples.html).
 
-```{r, eval=F}
+```{r, results = 'hide', eval=T, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
 library(rmap)
+
 data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
                                 "Austria","Spain", "Italy", "Germany","Greece"),
                   scenario = c("scen1","scen1","scen1","scen1","scen1",
@@ -571,15 +1292,15 @@ data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
                   year = rep(2010,10),
                   value = c(32, 38, 54, 63, 24,
                             37, 53, 23, 12, 45))
-map(data = data, folder ="colorPalettes", 
-                  cropToBoundary = T, background = T, scenRef = "scen1",
-                  classPalette = "pal_wet", classPaletteDiff = "pal_div_BrGn")
+rmap::map(data = data,
+          underLayer = rmap::mapCountries,
+          background = T,
+          scenRef = "scen1",
+          palette = "pal_wet",
+          paletteDiff = "pal_div_BrGn")
 
 ```
 
-
-<p align="center" style="font-size:18px;"> *Color Palettes* </p>
-<p align="center"> <img src="vignetteFigs/mapsProcess_colorPalettes.PNG"></p>
 
 <!-------------------------->
 <!-------------------------->
@@ -587,179 +1308,134 @@ map(data = data, folder ="colorPalettes",
 
 <!-------------------------->
 <!-------------------------->
+<p align="center"> <img src="vignetteFigs/divider.png"></p>
 
 There are several options to customize your legend as shown below:
-
-<!-------------------------->
-## Legend Position
-<!-------------------------->
-
-### Single Facet Maps
-
-* Change the legend position to be inside or outside using ```legendOutsideSingle = T```
-* Modify the ```legendPosition = c('right','top')``` argument to change the position of all inside legends.
-* Modify the ```legendOutsidePosition = "left" # "right","left"``` argument to change the position of all outside legends.
-
-
-```{r, eval=F}
-library(rmap)
-data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece"),
-                  year = rep(2010,5),
-                  value = c(32, 38, 54, 63, 24))
-
-map(data = data, folder ="legendCustomization", 
-                  cropToBoundary = T, background = T,
-                  legendOutsideSingle = T,
-                  legendOutsidePosition = "left",
-                  #legendPosition = NULL,
-                  nameAppend="_legendOutsideLeft")
-
-map(data = data, folder ="legendCustomization",
-                  cropToBoundary = T, background = T,
-                  legendOutsideSingle = F,
-                  #legendOutsidePosition = NULL,
-                  legendPosition = c('left','bottom'),
-                  nameAppend="_legendInsideBottomLeft")
-
-```
-
-
-<p align="center" style="font-size:18px;"> *Legend Position - Single Facet Maps* </p>
-<p align="center"> <img src="vignetteFigs/map_legendPositionSingle.PNG"></p>
-
-
-
-### Multi-faceted maps:
-
-* FREESCALE will always have legends inside the maps because these will always be different for each facet
-* For PRETTY and KMEANS legends will always be outside
-* So you can set the position of outside and inside legend positions together.
-* Modify the ```legendPosition = c('right','top')``` argument to change the position of all inside legends.
-* Modify the ```legendOutsidePosition = "left" # "right","left"``` argument to change the position of all outside legends.
-
-
-```{r, eval=F}
-library(rmap)
-data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
-                                "Austria","Spain", "Italy", "Germany","Greece",
-                                "Austria","Spain", "Italy", "Germany","Greece",
-                                "Austria","Spain", "Italy", "Germany","Greece"),
-                  class = c(rep("municipal",5),
-                               rep("industry",5),
-                               rep("agriculture",5),
-                               rep("transport",5)),
-                  year = rep(2010,20),
-                  value = c(32, 38, 54, 63, 24,
-                            37, 53, 23, 12, 45,
-                            23, 99, 102, 85, 75,
-                            12, 76, 150, 64, 90))
-map(data = data, folder ="legendCustomization", 
-                  cropToBoundary = T, background = T,
-                  legendOutsidePosition = "left",
-                  legendPosition =  c('left','bottom'),
-                  nameAppend = "_legendOutsideLeftInsideBottomLeft")
-```
-
-<p align="center" style="font-size:18px;"> *Legend Customization - Multi Facet Maps* </p>
-<p align="center"> <img src="vignetteFigs/map_legendPositionMulti.PNG"></p>
-
-<!-------------------------->
-## Legend Breaks Number
-<!-------------------------->
-
-
-* Number of legend breaks can be set using the ```legendBreaksn``` variable.
-* "Pretty" legends will choose the number of breaks closest to the value of ```legendBreaksn``` while ensuring "pretty" number distributions.
-* "Freescale" legends will set the number of breaks to exactly the value chosen for ```legendBreaksn```
-* "Kmeans" will ignore the value chosen for ```legendBreaksn```since it calculates the best breaks it self to highlight the distribution of the data.
-* The ```legendBreaksn``` will apply in the same way to Diff Plots.
-
-
-```{r, eval=F}
-library(rmap)
-data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece"),
-                  year = rep(2010,5),
-                  value = c(32, 38, 54, 63, 24))
-
-map(data = data, folder ="legendCustomization",
-                  cropToBoundary = T, background = T,
-                  legendBreaksn=9,
-                  nameAppend="_legendBreaks9")
-
-map(data = data, folder ="legendCustomization",
-                  cropToBoundary = T, background = T,
-                  legendBreaksn=3,
-                  nameAppend="_legendBreaks3")
-
-```
-
-
-<p align="center" style="font-size:18px;"> *Legend Customization - Legend Breaks Number* </p>
-<p align="center"> <img src="vignetteFigs/map_legendsBreaks.PNG"></p>
 
 
 <!-------------------------->
 ## Legend Type
 <!-------------------------->
 
-* There are four types of legend options (`legendType`): "kmeans", "pretty", "freescale" and "fixed".
-* The default is "kmeans". Users can set `legendType = "all"` or any combination of `legendType = c("kmeans","pretty","freescale")`
-* Fixed legend breaks can be set using ```legendFixedBreaks```.
-* If ```legendFixedBreaks``` does not capture the full range of data, the maximum and minimum values will be appended to the data.
+* There are three types of legend options (`legendType`): "kmeans", "pretty", and "fixed".
+* The default is "kmeans". Users can set `legendType = "all"` or any combination of `legendType = c("kmeans","pretty")`
+* Fixed legend breaks can be set using ```legendFixedBreaks``` to set custom and uneven breaks as shown in the example.
+* If ```legendFixedBreaks``` does not capture the full range of data, the maximum and minimum values will be appended to the breaks provided.
 
 
-```{r, eval=F}
+```{r, results = 'hide', eval=T, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
 library(rmap)
+
 data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece"),
-                  year = rep(2010,5),
                   value = c(32, 38, 54, 63, 24))
 
-map(data = data, folder ="legendType",
-                  cropToBoundary = T, background = T,
-                  legendFixedBreaks=c(20,40,50),
-                  nameAppend="_legendFixedBreaks")
+rmap::map(data = data, 
+    background = T,
+    underLayer = rmap::mapCountries,
+    legendFixedBreaks=c(30,32,1000))  # Will append 24 to these breaks because they are part of the data.
 
-map(data = data, folder ="legendType",
-                  cropToBoundary = T, background = T,
-                  legendType=c("kmeans"),
-                  nameAppend="_legendTypeKmeans")
+rmap::map(data = data, 
+    background = T,
+    underLayer = rmap::mapCountries,
+    legendType = "kmeans")
 
-map(data = data, folder ="legendType",
-                  cropToBoundary = T, background = T,
-                  legendType=c("kmeans","pretty"),
-                  nameAppend="_legendTypeKmeansPretty")
+rmap::map(data = data, 
+    background = T,
+    underLayer = rmap::mapCountries,
+    legendType = "pretty")
 
 ```
 
 
-<p align="center" style="font-size:18px;"> *Legend Customization - Legend Fixed Breaks* </p>
-<p align="center"> <img src="vignetteFigs/map_legendsFixedBreaks.PNG"></p>
+<!-------------------------->
+## Legend Breaks Number
+<!-------------------------->
+
+* Number of legend breaks can be set using the ```legendBreaksn``` variable.
+* "Pretty" legends will choose the number of breaks closest to the value of ```legendBreaksn``` while ensuring "pretty" number distributions.
+* "Kmeans" will ignore the value chosen for ```legendBreaksn```since it calculates the best breaks it self to highlight the distribution of the data.
+* The ```legendBreaksn``` will apply in the same way to Diff Plots.
+
+
+```{r, results = 'hide', eval=T, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap)
+
+data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece"),
+                  value = c(32, 38, 54, 63, 24))
+
+rmap::map(data = data, 
+          background = T,
+          underLayer = rmap::mapCountries,
+          legendType = "pretty",
+          legendBreaksn=3)
+
+rmap::map(data = data, 
+          background = T,
+          underLayer = rmap::mapCountries,
+          legendType = "pretty",
+          legendBreaksn=9)
+
+```
 
 
 
+<!-------------------------->
+## Legend Single Value
+<!-------------------------->
+
+Users can add a single value to the legend ranges. Sometimes it is important to see the `0` or minimum value in a rnage of data and this allows users to do that. Users can simply set `legendSingleValue=T` to use the minimum value (or 0 if present) of their dataset as the minimum value or set the value to a particular number. Users cna also set the color of the single value they choose as shown in the examples below.
+
+
+```{r, results = 'hide', eval=T, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap)
+
+data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece"),
+                  value = c(-5,0, 54, 63, 24))
+
+# Without single value turned on
+rmap::map(data = data, 
+          background = T,
+          underLayer = rmap::mapCountries)
+
+# With legendSingelValue = T (will choose the minimum value or if 0 (if present) and set it to single)
+rmap::map(data = data, 
+          background = T,
+          underLayer = rmap::mapCountries,
+          legendSingleValue = T)
+
+# With legendSingelValue = 38 and set to "green"
+rmap::map(data = data, 
+          background = T,
+          underLayer = rmap::mapCountries,
+          legendSingleValue = 54,
+          legendSingleColor = "green")
+
+```
 
 <!-------------------------->
 <!-------------------------->
 # Numeric2Cat
+<!-------------------------->
+<!-------------------------->
 
-<!-------------------------->
-<!-------------------------->
+<p align="center"> <img src="vignetteFigs/divider.png"></p>
 
 The `numeric2cat` parameter in the map function allows users to assign their own categorical legend labels for chosen ranges of numeric values.
 
-```{r, eval=F}
-library(rmap)
+```{r, results = 'hide', eval=T, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap);library(jgcricolors)
+
 # Create a list of ranges and categorical color scales for each parameter
 numeric2Cat_param <- list("param1",
                           "param2")
 numeric2Cat_breaks <- list(c(-Inf, 0.1,1.1,2.1,3.1,4.1,5.1,10.1,Inf),
                            c(-Inf, 0.1, 0.2, 0.4,Inf))
 numeric2Cat_labels <- list(c("0","1","2","3","4","5","10",">10"),
-                           c("None (0<WSI<0.1)","Low (0.1<WSI<0.2)","Moderate (0.2<WSI<0.4)","Severe (WSI>0.4)"))
+                           c(names(jgcricolors::jgcricol()$pal_scarcityCat)))
 numeric2Cat_palette <- list(c("0"="green","1"="#fee5d9","2"="#fcbba1",
                               "3"="#fc9272","4"="#fb6a4a","5"="#de2d26",
                               "10"="#a50f15",">10"="black"),
-                            c("pal_ScarcityCat")) # Can be a custom scale or an R brewer paletter or an rmap palette
+                            c("pal_scarcityCat")) # Can be a custom scale or an R brewer palette or an rmap palette
 numeric2Cat_legendTextSize <- list(c(0.7),
                                    c(0.7))
 numeric2Cat_list <-list(numeric2Cat_param = numeric2Cat_param,
@@ -775,75 +1451,69 @@ data = data.frame(subRegion = c("CA","AZ","TX","NH","ID","OH",
                   value = c(0,1,3,20,2,1,
                           0,0.1,0.3,0.2,0.25,0.5),
                   param = c(rep("param1",6),rep("param2",6)))
+
 rmap::map(data = data,
-                  folder = "numeric2cat",
-                  numeric2Cat_list = numeric2Cat_list)
+          background = T,
+          underLayer = rmap::mapCountries,
+          numeric2Cat_list = numeric2Cat_list)
+
 ```
 
 
-<p align="center" style="font-size:18px;"> *numeric2cat* </p>
-<p align="center"> <img src="vignetteFigs/mapsProcess_num2cat.PNG"></p>
-
-
 
 <!-------------------------->
 <!-------------------------->
-# GCAM Results
-
+# GCAM Results Examples
 <!-------------------------->
 <!-------------------------->
+<p align="center"> <img src="vignetteFigs/divider.png"></p>
 
-In this example data was extracted from the preloaded GCAM output `rmap::exampleGCAMproj` and aggregated by paramater and class into `rmap::exampleMapDataParam` and `rmap::exampleMapDataClass`. Users can process their own GCAM data outputs into similar tables.
+In this example data was extracted from the preloaded GCAM output `rmap::exampleGCAMproj` and aggregated by paramater and class into `rmap::exampleMapDataParam` and `rmap::exampleMapDataClass`. Users can process their own GCAM data outputs into similar tables using the [gcamextractor](https://jgcri.github.io/gcamextractor/) R package available at [https://jgcri.github.io/gcamextractor/](https://jgcri.github.io/gcamextractor/). 
 
 **Note: The exampleGCAMproj comes with only a few parameters: "elecByTechTWh","pop","watWithdrawBySec","watSupRunoffBasin","landAlloc" and "agProdByCrop"**
 
 
-```{r, eval=F}
+```{r, results = 'hide', eval=T, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
 library(rmap)
 
-dfParam <- rmap::exampleMapDataParam %>%
+dfClass <- rmap::exampleMapDataClass %>%
   dplyr::filter(region %in% c("India","China","Pakistan"),
-                param %in% c("landAlloc", "elecByTechTWh","watWithdrawBySec","pop")); dfParam
-dfClass <- rmap::exampleMapDataClass%>%
-  dplyr::filter(region %in% c("India","China","Pakistan"),
-                param %in% c("landAlloc")); dfClass
+                param %in% c("watWithdrawBySec"),
+                x %in% c(2010),
+                scenario %in% c("GCAM_SSP3")); dfClass
 
-# Plot data aggregated by param
-map(data = dfParam, folder = "GCAMbyParam",
-    cropToBoundary = T, background = T, xRange = c(2015,2030,2040,2050),
-    scenRef = "SSP3", scaleRange = data.frame(param = c("landAlloc", "elecByTechTWh","watWithdrawBySec","pop"),
-                                              min = c(0,0,0,0),
-                                              max = c(10000,15000,2000,2000)))
 
 # Plot data aggregated by Class1
-map(data = dfClass, folder = "GCAMbyClass",
-    cropToBoundary = T, background = T, xRange = c(2015,2030,2040,2050),
-    scenRef = "SSP3")
+rmap::map(data = dfClass, 
+          background = T, 
+          underLayer = rmap::mapGCAMReg32,
+          shape = rmap::mapGCAMReg32)
 
 ```
 
 
-<p align="center" style="font-size:18px;"> *GCAM Outputs Folder Structure* </p>
-<p align="center"> <img src="vignetteFigs/mapsProcess_GCAMMapsStructure.PNG"></p>
+<details>
+  <summary>
+  <p class="button">Expand to see more extensive results for rmap::exampleMapDataParam...</p>
+  </summary>
 
+```{r, results = 'hide', eval=T, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap)
 
-<p align="center" style="font-size:18px;"> *GCAM Maps by Param (Selected)* </p>
-<p align="center"> <img src="vignetteFigs/mapsProcess_GCAMMapsParam.PNG"></p>
+dfParam <- rmap::exampleMapDataParam %>%
+  dplyr::filter(region %in% c("India","China","Pakistan"),
+                param %in% c("elecByTechTWh"),
+                x %in% c(2010,2050),
+                scenario %in% c("GCAM_SSP3","GCAM_SSP5")); dfParam
 
-<p align="center" style="font-size:18px;"> *GCAM Maps by Param Animations (Selected)* </p>
-Pop |  Electricity (TWh)
-:-------------------------:|:-------------------------:
-![](vignetteFigs/anim_country_pop_SSP5_KMEANS.gif)  |  ![](vignetteFigs/anim_country_elecByTechTWh_SSP5_KMEANS.gif)  
+# Plot data aggregated by param
+rmap::map(data = dfParam, 
+          background = T, 
+          underLayer = rmap::mapGCAMReg32,
+          shape = rmap::mapGCAMReg32,
+          xRef = "2010",
+          scenRef = "GCAM_SSP3")
 
-Land Allocation |  Water Withdrawals
-:-------------------------:|:-------------------------:
-![](vignetteFigs/anim_country_landAlloc_SSP5_KMEANS.gif)  |  ![](vignetteFigs/anim_GCAMBasin_watSupRunoffBasin_SSP5_KMEANS.gif)  
+```
 
-
-<p align="center" style="font-size:18px;"> *GCAM Maps by Class (Selected)* </p>
-<p align="center"> <img src="vignetteFigs/mapsProcess_GCAMMapsClass.PNG"></p>
-
-<p align="center" style="font-size:18px;"> *GCAM Maps by Class Animations (Selected)* </p>
-Electricity (TWh) | Land Allocation
-:-------------------------:|:-------------------------:
-![](vignetteFigs/anim_country_elecByTechTWh_SSP5_KMEANS_class.gif)  |  ![](vignetteFigs/anim_country_landAlloc_SSP5_KMEANS_class.gif)  
+</details>

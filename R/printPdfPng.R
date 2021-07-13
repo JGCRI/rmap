@@ -5,8 +5,8 @@
 #' @param figure Default=NULL. Figure to be printed
 #' @param dir Default = getwd(). Directory to print figure
 #' @param filename Default = "plot". File name
-#' @param figWidth Default=13.
-#' @param figHeight Default=9.
+#' @param width Default=13.
+#' @param height Default=9.
 #' @param pdfpng Default="png". Either "pdf" or "png"
 #' @param transparent Default=F
 #' @keywords charts, diffplots
@@ -20,8 +20,8 @@
 printPdfPng <- function(figure = NULL,
                               dir = getwd(),
                               filename = "plot",
-                              figWidth = 13,
-                              figHeight = 9,
+                              width = 13,
+                              height = 9,
                               pdfpng="png",
                               transparent=F){
 
@@ -29,16 +29,16 @@ printPdfPng <- function(figure = NULL,
 
 
     if(pdfpng=='pdf'){
-      grDevices::pdf(paste(dir,"/",filename,".pdf",sep=""),width=figWidth,height=figHeight)
+      grDevices::pdf(paste(dir,"/",filename,".pdf",sep=""),width=width,height=height)
       print(figure)
       grDevices::dev.off()
       print(gsub("//","/",paste("Figure saved as: ",dir,"/",filename,".pdf", sep="")))
     }
     if(pdfpng=='png'){
       if(transparent){
-        grDevices::png(paste(dir,"/",filename,".png",sep=""),bg="transparent", width=figWidth,height=figHeight, units="in",res=300)
+        grDevices::png(paste(dir,"/",filename,".png",sep=""),bg="transparent", width=width,height=height, units="in",res=300)
       }else{
-      grDevices::png(paste(dir,"/",filename,".png",sep=""),width=figWidth,height=figHeight, units="in",res=300)
+      grDevices::png(paste(dir,"/",filename,".png",sep=""),width=width,height=height, units="in",res=300)
       }
       print(figure)
       grDevices::dev.off()
@@ -49,13 +49,13 @@ printPdfPng <- function(figure = NULL,
       print(gsub("//","/",paste("Figure saved as: ",dir,"/",filename,".png", sep="")))
       }
     if(pdfpng=='both'){
-      grDevices::pdf(paste(dir,"/",filename,".pdf",sep=""),width=figWidth,height=figHeight)
+      grDevices::pdf(paste(dir,"/",filename,".pdf",sep=""),width=width,height=height)
       print(figure)
       grDevices::dev.off()
       if(transparent){
-        grDevices::png(paste(dir,"/",filename,".png",sep=""),bg="transparent", width=figWidth,height=figHeight, units="in",res=300)
+        grDevices::png(paste(dir,"/",filename,".png",sep=""),bg="transparent", width=width,height=height, units="in",res=300)
       }else{
-        grDevices::png(paste(dir,"/",filename,".png",sep=""),width=figWidth,height=figHeight, units="in",res=300)
+        grDevices::png(paste(dir,"/",filename,".png",sep=""),width=width,height=height, units="in",res=300)
       }
       print(figure)
       grDevices::dev.off()
