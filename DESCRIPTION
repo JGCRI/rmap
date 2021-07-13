@@ -1,10 +1,10 @@
 Package: rmap
-Title: A comprehensive mapping package
+Title: rmap
 Version: 1.0.0
 Authors@R: c(person("Zarrar", "Khan", email = "zarrar.khan@pnnl.gov", role = c("aut", "cre"),
 		   comment = c(ORCID ="0000-0002-8147-8553")),
 		   person("Tom", "Wild", role = c("aut"),comment = c(ORCID ="0000-0002-8147-8553")),
-		   person("Chris", "Vernon", role = c("aut")))
+		   person("Chris", "Vernon", role = c("aut"), comment = c(ORCID="0000-0002-3406-6214")))
 Description: R package to plot customizable maps from simple dataframes.
 URL: https://github.com/JGCRI/rmap
 BugReports: https://github.com/JGCRI/rmap/issues
@@ -32,7 +32,9 @@ Imports:
 	ggplot2,
 	ggrepel,
 	broom,
+	maptools,
 	jgcricolors,
+	cowplot,
     markdown
 Remotes: github::JGCRI/jgcricolors
 Suggests: 

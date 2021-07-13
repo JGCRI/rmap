@@ -7,12 +7,15 @@
 map_plot(
   data = NULL,
   fillColumn = NULL,
+  shapeColumn = NULL,
+  shape = NULL,
   theme = NULL,
-  fillPalette = "Spectral",
+  show = T,
+  palette = "Spectral",
   labels = F,
-  labelForce = 0,
+  labelRepel = 0,
   labelColor = "black",
-  labelSize = 3,
+  labelSize = 2,
   labelAlpha = 1,
   labelFill = NA,
   labelBorderSize = NA,
@@ -42,21 +45,22 @@ map_plot(
   save = T,
   fileName = "map",
   folder = paste(getwd(), "/outputs", sep = ""),
-  facetRows = NULL,
-  facetCols = NULL,
-  mapTitle = NULL,
+  row = NULL,
+  col = NULL,
+  title = NULL,
   numeric2Cat_list = NULL,
+  catParam = NULL,
   legendDigits = NULL,
   legendDigitsOverride = NULL,
   legendSingleColor = "white",
-  legendSingleValue = NULL,
+  legendSingleValue = F,
   colorNA = "gray50",
   showNA = F,
   ncol = 3,
-  size = 12,
+  size = 16,
   alpha = 1,
   background = F,
-  cropToBoundary = T,
+  crop = T,
   transparent = F
 )
 }
@@ -65,13 +69,19 @@ map_plot(
 
 \item{fillColumn}{Default = NULL # Or give column with data}
 
+\item{shapeColumn}{(Optional). Default = NULL. If different from subRegion.}
+
+\item{shape}{Default = NULL, Cusotm shape can be provided as a SpatialPolygonDataFrame with features corresponding to subRegion columns in the data provided.}
+
 \item{theme}{Default = NULL}
 
-\item{fillPalette}{Default = "Spectral"}
+\item{show}{Default = T. Print maps in console as they are processed.}
+
+\item{palette}{Default = "Spectral"}
 
 \item{labels}{Default = FALSE}
 
-\item{labelForce}{Default = 0,}
+\item{labelRepel}{Default = 0,}
 
 \item{labelColor}{Default = "black",}
 
@@ -135,13 +145,15 @@ map_plot(
 
 \item{folder}{Default = paste(getwd(),"/outputs",sep Default = "")}
 
-\item{facetRows}{Default=NULL}
+\item{row}{Default=NULL}
 
-\item{facetCols}{Default=NULL}
+\item{col}{Default=NULL}
 
-\item{mapTitle}{Default=NULL}
+\item{title}{Default=NULL}
 
 \item{numeric2Cat_list}{Default=NULL}
+
+\item{catParam}{Default=NULL}
 
 \item{legendDigits}{Default = NULL}
 
@@ -149,7 +161,7 @@ map_plot(
 
 \item{legendSingleColor}{Default="white"}
 
-\item{legendSingleValue}{Default=NULL}
+\item{legendSingleValue}{Default=F. Change to True to get default single value or provide a numeric value.}
 
 \item{colorNA}{Default = "gray50"}
 
@@ -163,7 +175,7 @@ map_plot(
 
 \item{background}{Default = F. Add background water color, border and default underlayer map.}
 
-\item{cropToBoundary}{Default = T. Crop to boundary data.}
+\item{crop}{Default = T. Crop to boundary data.}
 
 \item{transparent}{Default = F. To make map background transparent for maps without backgrounds.}
 }

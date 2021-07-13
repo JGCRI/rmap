@@ -17,7 +17,7 @@ map_find_df <- function(dataTbl) {
     if(T){
     NULL -> subRegShapeFoundx -> subRegShapeTypeFoundx -> subRegNotInShapeFoundx ->
       dataTblFound -> subRegionShapex -> mapStatesx -> subRegionAlt -> subRegion -> mapFindx -> subRegion1 ->
-        subRegNum-> subRegionMap}
+        subRegNum-> subRegionMap->long}
 
   #......................................................
   # Check columns and map subRegions to rmap shape regions
@@ -137,7 +137,7 @@ map_find_df <- function(dataTbl) {
         print("More than one pre-loaded map contain the subRegions in the data provided.")
         print("Choosing map based on pre-set map ranking:")
         print(mapMax %>% dplyr::arrange(rank))
-        print("To choose a different map, please assign it in subRegShape directly.")
+        print("To choose a different map, please assign it in shape directly.")
       }
 
       subRegChosen <- (mapMax %>%
@@ -168,6 +168,12 @@ map_find_df <- function(dataTbl) {
           ))
         }
       }
+    }
+
+    # Check for incorrect "long" name
+    if("long" %in% names(mapFindx)){
+      mapFindx <- mapFindx %>%
+        dplyr::rename(lon=long)
     }
 
     #.....................................................

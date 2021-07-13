@@ -74,8 +74,8 @@ rmap::map(data=dataGridTest %>%
             rename(multiFacet1=class,
                    multiFacet2=scenario),
           folder = "rmapTEST_grid_MultiFacet",
-          facetCols = "multiFacet1",
-          facetRows = "multiFacet2"
+          col = "multiFacet1",
+          row = "multiFacet2"
 )
 
 rmap::map(data=dataGridTest %>%
@@ -101,15 +101,33 @@ rmap::map(data=dataGridTest %>%
 if(T){
 
   # Single
-  dataPoly_test = data.frame(subRegion = c("CA","FL","ID","MO","TX","WY"),
+  dataPoly_test = data.frame(subRegion = c("CA","ID","AK","MA","NV","NM"),
                     x = c(2050,2050,2050,2050,2050,2050),
                     value = c(5,10,15,34,2,7))
   a<-rmap::map(data=dataPoly_test,
+            shape = rmap::mapUS52Compact,
             folder = "rmapTEST_poly_Single",
             underLayer = rmap::mapUS52Compact,
             labels=T,
             underLayerLabels = T,
-            cropToBoundary = F); a
+            crop = F,
+            legendSingleValue = T,
+            legendSingleColor = "green"); a
+
+  # Single Custom Shape
+  dataPoly_test = data.frame(subRegion = c("Punjab","Baluchistan","K.P.","Sind","Yazd","Tehran"),
+                             x = c(2050,2050,2050,2050,2050,2050),
+                             value = c(5,10,15,34,2,7))
+  a<-rmap::map(data=dataPoly_test,
+               shape=rmap::mapStates,
+               folder = "rmapTEST_poly_SingleCustom",
+               underLayer = rmap::mapCountries,
+               labels=T,
+               underLayerLabels = T,
+               crop = T,
+               legendSingleValue = T,
+               legendSingleColor = "green",
+               background = T); a
 
   # Single
   dataPoly_test = data.frame(subRegion = c("USA", "Argentina","Chile","Brazil"),
@@ -117,7 +135,7 @@ if(T){
                              value = c(5,10,15,34))
   a<-rmap::map(data=dataPoly_test,
                folder = "rmapTEST_poly_Single",
-               cropToBoundary = T); a
+               crop = T); a
 
 }
 
@@ -125,11 +143,11 @@ if(T){
 if(T){
   rmap::map(data=rmap::mapUS49,
             folder="rmapTEST_shape",
-            labels = T, labelSize =3, labelFill="white",labelForce=0,labelAlpha = 0.4)
+            labels = T, labelSize =3, labelFill="white",labelRepel=0,labelAlpha = 0.4)
 
   rmap::map(data=rmap::mapStatesdf%>%dplyr::filter(region=="Pakistan")%>%droplevels(),
             folder="rmapTEST_shape",
-            labels = T, labelSize =3, labelFill="white",labelForce=0,labelAlpha = 0.4)
+            labels = T, labelSize =3, labelFill="white",labelRepel=0,labelAlpha = 0.4)
 }
 
 
@@ -139,15 +157,58 @@ a <- data.table::fread("C:/Z/models/im3components/output/resampled_wrf_to_xantho
 a1<-rmap::map(data=a,
               alpha=0.8,
               legendType = "kmean",
-              cropToBoundary = T,
+              crop = T,
               background=T,
-              legendTitle = "XSD",
+              #legendTitle = "XSD",
               underLayer = rmap::mapCountries,
-              overLayer = rmap::mapCountriesUS52,
+              overLayer = rmap::mapUS49,
               overLayerLabels = T,
-              labelSize = 3,
+              labelSize = 2,
               labelFill = "white",
               labelAlpha = 0.7,
-              zoom=-1,
-              labelForce = 0)
+              #zoom=-1,
+              labelRepel = 0)
 
+#
+a <- data.table::fread("C:/Z/models/argus/inst/extdata/exampleDataUSA_template.csv") %>%
+  tibble::as_tibble(); a
+a1<-rmap::map(data=a,
+              alpha=0.8,
+              legendType = "kmean",
+              crop = T,
+              background=T,
+              legendTitle = "XSD",
+              underLayer = rmap::mapUS49,
+              #underLayerLabels = F,
+              overLayer = rmap::mapUS49,
+              #overLayerLabels = T,
+              labelSize = 3,
+              labels=T,
+              #labelFill = "white",
+              labelAlpha = 0.7,
+              zoom=-1,
+              labelRepel = 0
+              )
+
+
+# Test Shapefile
+library(rgdal)
+examplePolyFolder<-paste("C:/Z/data/mapFiles/gis/shapefiles_Argentina",sep="")
+examplePolyFile<-paste("ArgentinaLocalBasin",sep="")
+x=rgdal::readOGR(dsn=examplePolyFolder,layer=examplePolyFile,use_iconv=T,encoding='UTF-8')
+names(x@data); head(x@data);
+sp::plot(x)
+# Rename subRegion column
+x@data <- x@data %>% dplyr::mutate(subRegion=cuenca);
+# Generate some random data for each subRegion
+data <- data.frame(subRegion=unique(x@data$subRegion),
+                   value = 100*runif(length(unique(x@data$subRegion))));
+head(data)
+
+rmap::map(data,
+          shape=x,
+          underLayer=rmap::mapStates,
+          underLayerLabels = T,
+          zoom=-6)
+
+# Test Rows and Columns

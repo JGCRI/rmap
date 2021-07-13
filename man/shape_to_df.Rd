@@ -4,10 +4,12 @@
 \alias{shape_to_df}
 \title{shape_to_df}
 \usage{
-shape_to_df(shape = NULL)
+shape_to_df(shape = NULL, shapeColumn = NULL)
 }
 \arguments{
 \item{shape}{Default = NULL. SpatialPolygonDataFrame map (e.g. rmap::mapCountries)}
+
+\item{shapeColumn}{(Optional). Default = NULL. If different from subRegion.}
 }
 \value{
 Fortified ggplot dataframe (e.g. rmap::mapCountriesdf)

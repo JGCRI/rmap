@@ -1,6 +1,6 @@
 
 library(tibble);library(dplyr);library(rgdal);library(devtools);library(rmap); library(tmaptools)
-library(rgeos); library(rgcam); library(maptools)
+library(rgeos); library(rgcam); library(maptools); library(rnaturalearth);library(rmapshaper)
 
 redoMaps = F
 
@@ -31,6 +31,12 @@ if(redoMaps){
     dplyr::bind_cols(dfpop); dfx
   grid_pop_GPWv4To2015 <- dfx
   use_data(grid_pop_GPWv4To2015, overwrite=T)
+
+  # Modify to required data format
+  example_gridData_GWPv4To2015 <- grid_pop_GPWv4To2015 %>%
+    tidyr::gather(key="x",value="value",-lon,-lat) %>%
+    tibble::as_tibble();
+  use_data(example_gridData_GWPv4To2015, overwrite=T)
 }
 
 #-----------------
@@ -73,6 +79,9 @@ if(redoMaps){
   examplePolyFile<-paste("ne_10m_admin_1_states_provinces",sep="")
   x=rgdal::readOGR(dsn=examplePolyFolder,layer=examplePolyFile,use_iconv=T,encoding='UTF-8')
   head(x@data); names(x@data)
+
+  # From rnaturalearth
+  #x <- rnaturalearth::ne_states()
   mapx <- x
   mapx@data <- mapx@data %>%
     dplyr::select(region=admin,subRegion=name,subRegionAlt=postal) %>%
@@ -83,9 +92,9 @@ if(redoMaps){
   mapx@data <- mapx@data%>%droplevels()%>%
     dplyr::mutate(area_sqkm=raster::area(mapx)/1000000)
   format(object.size(mapx), units="Mb")
-  mapx<-as(simplify_shape(mapx, fact = 0.05),Class="Spatial")
+  mapx<-rmapshaper::ms_simplify(mapx)
   format(object.size(mapx), units="Mb")
-  # sp::plot(mapx)
+  #sp::plot(mapx)
   # metis.map(dataPolygon=mapx,fillColumn = "subRegion",labels=F,printFig=F, facetsON=F, fileName="factp1")
   mapx<-rgeos::gBuffer(mapx, byid=TRUE, width=0)
   format(object.size(mapx), units="Mb")

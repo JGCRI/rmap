@@ -5,10 +5,13 @@
 #'
 #' @param data Default = NULL
 #' @param fileName Default = "map"
+#' @param shape Default = NULL, Cusotm shape can be provided as a SpatialPolygonDataFrame with features corresponding to subRegion columns in the data provided.
 #' @param folder Default = paste(getwd(),"/outputs",sep Default = "")
-#' @param fillPalette Default = "Spectral"
+#' @param palette Default = "Spectral"
+#' @param show Default = T. Print maps in console as they are processed.
 #' @param theme Default = NULL
 #' @param fillColumn Default = NULL # Or give column with data
+#' @param shapeColumn (Optional). Default = NULL. If different from subRegion.
 #' @param width Default = 9
 #' @param height Default = 7
 #' @param legendShow Default = F
@@ -17,7 +20,7 @@
 #' @param legendBreaksn Default = "5"
 #' @param legendBreaks Default = NULL
 #' @param labels Default = FALSE
-#' @param labelForce Default = 0,
+#' @param labelRepel Default = 0,
 #' @param labelColor Default = "black",
 #' @param labelSize Default = 3
 #' @param labelAlpha Default = 0.7,
@@ -41,20 +44,21 @@
 #' @param zoomy Default = NULL. Zoom into or out of map along y. Positive values zoom in and negative out.
 #' @param asp Default = 1.2. Aspect ratio of lat and lon.
 #' @param save Default = T
-#' @param facetRows Default=NULL
-#' @param facetCols Default=NULL
-#' @param mapTitle Default=NULL
+#' @param row Default=NULL
+#' @param col Default=NULL
+#' @param title Default=NULL
+#' @param catParam Default=NULL
 #' @param numeric2Cat_list Default=NULL
 #' @param legendDigitsOverride Default=NULL
 #' @param legendSingleColor Default="white"
-#' @param legendSingleValue Default=NULL
+#' @param legendSingleValue Default=F. Change to True to get default single value or provide a numeric value.
 #' @param colorNA Default = "gray50"
 #' @param showNA Default = T
 #' @param ncol Default = 3.  Number of columns to wrap maps
 #' @param size Default = 12. Text size of plots.
 #' @param alpha Default = 1. Transparency of fill colors.
 #' @param background Default = F. Add background water color, border and default underlayer map.
-#' @param cropToBoundary Default = T. Crop to boundary data.
+#' @param crop Default = T. Crop to boundary data.
 #' @param transparent Default = F. To make map background transparent for maps without backgrounds.
 #' @keywords charts, diffplots
 #' @return Returns the formatted data used to produce chart
@@ -64,12 +68,15 @@
 
 map_plot<-function(data=NULL,
                   fillColumn=NULL, # Or give column data with
+                  shapeColumn=NULL,
+                  shape = NULL,
                   theme = NULL,
-                  fillPalette="Spectral",
+                  show = T,
+                  palette="Spectral",
                   labels=F,
-                  labelForce = 0,
+                  labelRepel = 0,
                   labelColor = "black",
-                  labelSize = 3,
+                  labelSize = 2,
                   labelAlpha = 1,
                   labelFill = NA,
                   labelBorderSize = NA,
@@ -99,28 +106,30 @@ map_plot<-function(data=NULL,
                   save=T,
                   fileName="map",
                   folder=paste(getwd(),"/outputs",sep=""),
-                  facetRows=NULL,
-                  facetCols=NULL,
-                  mapTitle=NULL,
+                  row=NULL,
+                  col=NULL,
+                  title=NULL,
                   numeric2Cat_list=NULL,
+                  catParam =NULL,
                   legendDigits = NULL,
                   legendDigitsOverride=NULL,
                   legendSingleColor ="white",
-                  legendSingleValue =NULL,
+                  legendSingleValue =F,
                   colorNA = "gray50",
                   showNA = F,
                   ncol = 3,
-                  size = 12,
+                  size = 16,
                   alpha = 1,
                   background = F,
-                  cropToBoundary = T,
+                  crop = T,
                   transparent = F
                   ){
 
   # data=NULL
   # fillColumn=NULL # Or give column data with
+  # shapeColumn=NULL
   # theme = ggplot2::theme_bw()
-  # fillPalette="Spectral"
+  # palette="Spectral"
   # labels=F
   # width=9
   # height=7
@@ -133,9 +142,9 @@ map_plot<-function(data=NULL,
   # save=T
   # fileName="map"
   # folder=paste(getwd(),"/outputs",sep="")
-  # facetRows=NULL
-  # facetCols=NULL
-  # mapTitle=NULL
+  # row=NULL
+  # col=NULL
+  # title=NULL
   # numeric2Cat_list=NULL
   # legendDigits = NULL
   # legendDigitsOverride=NULL
@@ -155,7 +164,7 @@ map_plot<-function(data=NULL,
   # zoomx = NULL
   # zoomy = NULL
   # asp=1.2
-  # cropToBoundary=F
+  # crop=F
 
 # ALT + 0 here to collapse all code into manageable chunks
 # ALT + Shift + O to expand all
@@ -165,9 +174,9 @@ map_plot<-function(data=NULL,
 # .........................
 
 if(T){ # Initialize
-  NULL->raster->shape->map->checkFacets->catBreaks->catLabels->catPalette->legendLabelsX->
-    singleValLoc->label->catParam->long->lat->group->dataShape->dataPolygon->dataGrid->data_shape->
-    lon->hole->piece->subRegion->X1->X2->id->name
+  NULL->raster->map->checkFacets->catBreaks->catLabels->catPalette->legendLabelsX->
+    singleValLoc->label->long->lat->group->dataShape->dataPolygon->dataGrid->data_shape->
+    lon->hole->piece->subRegion->X1->X2->id->name->value
 
   if(!is.null(legendTitle)){
     legendTitle=gsub(" ","\n",legendTitle)
@@ -179,7 +188,7 @@ if(T){ # Initialize
 
   if(!is.null(legendBreaks)){legendBreaks<-sort(legendBreaks)}
 
-  fillPaletteOrig <- fillPalette
+  paletteOrig <- palette
 
   if(!is.null(theme)){
   if(!any(grepl("theme",class(theme),ignore.case = T))){
@@ -190,14 +199,12 @@ if(T){ # Initialize
 
   # Convert UnderLayer to df
   if(any(grepl("SpatialPolygonsDataFrame",class(underLayer)))){
-    underLayer <- shape_to_df(underLayer) %>%
-      dplyr::filter(subRegion %in% unique(underLayer@data$subRegion))
+    underLayer <- shape_to_df(shape=underLayer, shapeColumn = shapeColumn)
   }
 
   # COnvert OverLayer to df
   if(any(grepl("SpatialPolygonsDataFrame",class(overLayer)))){
-    overLayer <- shape_to_df(overLayer) %>%
-      dplyr::filter(subRegion %in% unique(overLayer@data$subRegion))
+    overLayer <- shape_to_df(shape=overLayer, shapeColumn = shapeColumn)
   }
 
 
@@ -212,24 +219,74 @@ if(T){ # Read input data
 # Assign Data to correct type dataGrid, dataPolygon or dataShape
 if(!is.null(data)){
 
-  if(!"value" %in% names(data)){
+  if(is.null(fillColumn)){
+    if(!("value" %in% names(data))){
+      dataShape <- data
+    }
+  } else if(!("value" %in% names(data)) & !(fillColumn %in% names(data))){
     dataShape <- data
   } else if(any(grepl("lat|lon",names(data)))){
     dataGrid <- data
   } else if(any(grepl("subRegion",names(data))) & any(!grepl("lat|lon",names(data)))){
-    data_shape <- rmap::map_find_df(data) %>%
-      dplyr::select(lon, lat, order, hole, piece, group, subRegion, name) %>%
-      dplyr::filter(subRegion %in% unique(data$subRegion))
+
+    # If shape provided then use shape
+    if(!is.null(shape)){
+      # If SpatialPolygonsDataFrame then convert to dataframe using broom
+      if(any(grepl("SpatialPolygonsDataFrame",class(shape)))){
+
+        # Check that shape file has relevant columns
+        if(!any("subRegion" %in% names(shape@data))){
+          stop("shape provided must be a SpatialPolygonsDataFrame and have a column named 'subRegion' in shape@data. ")
+        }
+
+        shape <- shape[shape@data$subRegion %in% unique(data$subRegion),]
+        shape@data <- shape@data %>% droplevels()
+
+        data_shape <- broom::tidy(shape, region="subRegion") %>%
+          dplyr::rename(subRegion=id)%>%
+          dplyr::inner_join(shape@data, by="subRegion") %>%
+          dplyr::rename(lon=long) %>%
+          dplyr::mutate(name = paste0("shapedf"));
+
+      } else if(any(grepl("tbl_df|tbl|data.frame",class(shape)))){
+
+        # Check that shape file has relevant columns
+        if(!any("subRegion" %in% names(shape))){
+          stop("shape provided must have a column named 'subRegion'")
+        }
+
+        data_shape <- shape
+
+      } else {
+        stop("shape provided must be a SpatialPolygonsDataFrame or a fortified (broom) dataframe and have a column named 'subRegion' in its data.")
+      }
+
+      # Make sure subRegions in data are present in shape provided
+      if(!any(unique(data_shape$subRegion) %in% unique(data$subRegion))){
+        stop("shape provided must contain at least one subRegion corresponding to the data provided.")
+      }
+
+      data_shape <- data_shape %>%
+        dplyr::select(lon, lat, order, hole, piece, group, subRegion, name) %>%
+        dplyr::filter(subRegion %in% unique(data$subRegion))
+
+    } else {
+      data_shape <- rmap::map_find_df(data) %>%
+        dplyr::select(lon, lat, order, hole, piece, group, subRegion, name) %>%
+        dplyr::filter(subRegion %in% unique(data$subRegion))
+    }
+
     dataPolygon <-  data_shape %>%
       dplyr::filter(subRegion %in% unique(data$subRegion)) %>%
       dplyr::left_join(data,by="subRegion")
+
   } else {
     stop("Data provided in not in the correct format. Data should be a shapefile or fortified dataframe.")
   }
 
 }
 
-  if(!is.null(dataShape)){
+if(!is.null(dataShape)){
     datax<-dataShape
     datax1 <- datax
   }
@@ -255,16 +312,17 @@ if(!is.null(dataGrid)){
      }
    }
 
-# Set FillPalette
-if(length(fillPalette)==1){
-  if(fillPalette %in% names(jgcricolors::jgcricol())){
-    fillPalette<-jgcricolors::jgcricol()[[fillPalette]]}else{
-      if(!is.na(RColorBrewer::brewer.pal.info[fillPalette,]$maxcolors)){
-        fillPalette <- RColorBrewer::brewer.pal(RColorBrewer::brewer.pal.info[fillPalette,]$maxcolors,fillPalette)}
+# Set palette
+if(length(palette)==1){
+  if(palette %in% names(jgcricolors::jgcricol())){
+    palette<-jgcricolors::jgcricol()[[palette]]}else{
+      if(!is.na(RColorBrewer::brewer.pal.info[palette,]$maxcolors)){
+        palette <- RColorBrewer::brewer.pal(RColorBrewer::brewer.pal.info[palette,]$maxcolors,palette)}
     }}
 
 if(!is.null(numeric2Cat_list)){
-     if(all(c("numeric2Cat_param","numeric2Cat_breaks","numeric2Cat_labels","numeric2Cat_palette","numeric2Cat_legendTextSize") %in% names(numeric2Cat_list))){
+     if(all(c("numeric2Cat_param","numeric2Cat_breaks",
+              "numeric2Cat_labels","numeric2Cat_palette","numeric2Cat_legendTextSize") %in% names(numeric2Cat_list))){
        if(catParam %in% unique(unlist(numeric2Cat_list$numeric2Cat_param))) {
        list_index <- which(numeric2Cat_list$numeric2Cat_param==catParam)
        catBreaks <- numeric2Cat_list$numeric2Cat_breaks[[list_index]]
@@ -280,15 +338,26 @@ if(!is.null(numeric2Cat_list)){
 
 # If categorical data then set as factor for datax
 if(!is.null(datax)){
+
   if(!is.null(catBreaks) & !is.null(catLabels)){
 
     if(!is.null(catPalette)){
-      if(length(catPalette)>1){
-        fillPalette <- c(catPalette,jgcricolors::jgcricol()$pal_16)
-      }else{
-      if(catPalette %in% names(jgcricolors::jgcricol())){
-        fillPalette <- jgcricolors::jgcricol()[[catPalette]]}
+
+      if(length(catPalette)==1){
+        if(catPalette %in% names(jgcricolors::jgcricol())){
+          catPalette<-jgcricolors::jgcricol()[[catPalette]]
+          }else if(!is.na(RColorBrewer::brewer.pal.info[catPalette,]$maxcolors)){
+              catPalette <- RColorBrewer::brewer.pal(RColorBrewer::brewer.pal.info[catPalette,]$maxcolors,catPalette)
+          } else {
+              print(paste0("catPalette provided: ", catPalette, "for param: ", catParam, " is invalid. Using jgcricol()$pal_16."))
+              catPalette <- (rep(jgcricol()$pal_16,length(catLabels)))[1:length(catLabels)]
+              names(catPalette) <- catLabels
+              print(paste0("New catPalette: ", paste(catPalette,collapse=", ")))
+
+            }
       }
+
+      palette = catPalette
   }
 
 
@@ -305,16 +374,25 @@ if(!is.null(datax)){
       }
 
 
-      if(any(unique(datax[[fillColumn_i]]) %in% names(fillPalette))){
-        # fillPalette<-fillPalette[1:min(length(catPalette),
-        #                                length(fillPalette))]
+      if(any(unique(datax[[fillColumn_i]]) %in% names(palette))){
+
+        palette<-palette[1:min(length(catPalette),length(palette))]
+
         datax %>%
           dplyr::mutate(!!fillColumn_i := factor(datax[[fillColumn_i]],
-                                                 levels = names(fillPalette)))->
+                                                 levels = names(palette)))->
           datax
-      } else { datax %>%
-          dplyr::mutate(!!fillColumn_i := as.factor(datax[[fillColumn_i]])) -> datax}
+      } else {
+        datax %>%
+          dplyr::mutate(!!fillColumn_i := as.factor(datax[[fillColumn_i]])) -> datax
+        }
+
+      paletteX <- palette;
+      datax <- datax %>% dplyr::mutate(label=value)
+      datax1 <- datax
+
     }
+
   }
 }
 
@@ -347,6 +425,8 @@ if(!is.null(datax)){
 if(T){
   if(is.null(dataShape)){
 
+  if(is.null(catPalette)){
+
   # Setting Legend Breaks
   if(T){
 
@@ -365,7 +445,6 @@ if(T){
       }
 
     # Adding in a single value (eg. 0 to be set to a single color eg. white)
-    if(is.null(catPalette)){
       if(!is.null(legendDigits)){
           if(length(legendBreaks)>1){
 
@@ -377,7 +456,7 @@ if(T){
                 legendBreaksX <- legendBreaks; legendBreaksX
 
                 # New Breaks
-                if(is.null(legendSingleValue)){
+                if(!is.numeric(legendSingleValue)){
                   if(max(legendBreaksX)<0){
                     legendSingleValueX=ceiling(max(legendBreaksX))
                   }else{
@@ -387,7 +466,8 @@ if(T){
                       legendSingleValueX=0
                     }
                   }
-                }else{legendSingleValueX=legendSingleValue}; legendSingleValueX
+                }else {
+                  legendSingleValueX=legendSingleValue}; legendSingleValueX
 
 
                 # Place Single Value in Legend Breaks if not present
@@ -401,9 +481,9 @@ if(T){
                       if(max(legendBreaksX)==legendSingleValueX | min(legendBreaksX)==legendSingleValueX){
                         legendBreaksX <- legendBreaksX
                       }else{
-                        legendBreaksX <- c(legendBreaksX[1:match(max(legendBreaksX[legendBreaksX<0]),legendBreaksX)],
+                        legendBreaksX <- c(legendBreaksX[1:match(max(legendBreaksX[legendBreaksX<legendSingleValueX]),legendBreaksX)],
                                            legendSingleValueX,
-                                           legendBreaksX[(match(max(legendBreaksX[legendBreaksX<0]),legendBreaksX)+1):(length(legendBreaksX))])
+                                           legendBreaksX[(match(max(legendBreaksX[legendBreaksX<legendSingleValueX]),legendBreaksX)+1):(length(legendBreaksX))])
                       }
                     }
                   }
@@ -444,61 +524,61 @@ if(T){
               # Fill palette
               if(T){
                 # Split Palettes into halves (to split diverging palettes when range is only one side of 0)
-                #graphics::pie(rep(1,length(fillPalette)),label=names(fillPalette),col=fillPalette);fillPalette
-                fillColUp<-fillPalette[(round(length(fillPalette)/2,0)+2):length(fillPalette)];fillColUp
+                #graphics::pie(rep(1,length(palette)),label=names(palette),col=palette);palette
+                fillColUp<-palette[(round(length(palette)/2,0)+2):length(palette)];fillColUp
                 fillColUp <- grDevices::colorRampPalette(c("white",fillColUp))(11)[-1];fillColUp
                 #graphics::pie(rep(1,length(fillColUp)),label=names(fillColUp),col=fillColUp)
-                fillColDown<-rev(fillPalette[1:(round(length(fillPalette)/2,0)-1)])
+                fillColDown<-rev(palette[1:(round(length(palette)/2,0)-1)])
                 fillColDown <- grDevices::colorRampPalette(c("white",fillColDown))(11)[-1];fillColDown
                 #graphics::pie(rep(1,length(fillColDown)),label=names(fillColDown),col=fillColDown)
 
                 # If all less than single color chosen then colDown, if vice versa then colUp else full palette
                 if(max(legendBreaksX)<=legendSingleValueX){
-                  if(any(grepl("diff|div|ratio",fillPaletteOrig,ignore.case=T))){
-                    fillPaletteX<-rev(grDevices::colorRampPalette(fillColDown)(length(legendLabelsX)-1))
+                  if(any(grepl("diff|div|ratio",paletteOrig,ignore.case=T))){
+                    paletteX<-rev(grDevices::colorRampPalette(fillColDown)(length(legendLabelsX)-1))
                   }else{
-                    fillPaletteX<-rev(grDevices::colorRampPalette(fillPalette[-1])(length(legendLabelsX)-1))
+                    paletteX<-rev(grDevices::colorRampPalette(palette[-1])(length(legendLabelsX)-1))
                   }
                 }else{
                   if(min(legendBreaksX)>=legendSingleValueX){
-                    if(any(grepl("diff|div|ratio",fillPaletteOrig,ignore.case=T))){
-                      fillPaletteX<-grDevices::colorRampPalette(fillColUp)(length(legendLabelsX)-1)
+                    if(any(grepl("diff|div|ratio",paletteOrig,ignore.case=T))){
+                      paletteX<-grDevices::colorRampPalette(fillColUp)(length(legendLabelsX)-1)
                     }else{
-                      fillPaletteX<-grDevices::colorRampPalette(fillPalette[-1])(length(legendLabelsX)-1)
+                      paletteX<-grDevices::colorRampPalette(palette[-1])(length(legendLabelsX)-1)
                     }
                   }else{
-                    if(singleValLoc==length(legendLabelsX)){fillPaletteXUp<-c()}else{
-                      fillPaletteXUp <- grDevices::colorRampPalette(fillColUp)(round((length(legendLabelsX)-singleValLoc),0))};fillPaletteXUp
-                    if(singleValLoc==1){fillPaletteXDown<-c()}else{
-                      fillPaletteXDown <- rev(grDevices::colorRampPalette(fillColDown)(singleValLoc))};fillPaletteXDown
-                    fillPaletteX <-c(fillPaletteXDown,fillPaletteXUp)
+                    if(singleValLoc==length(legendLabelsX)){paletteXUp<-c()}else{
+                      paletteXUp <- grDevices::colorRampPalette(fillColUp)(round((length(legendLabelsX)-singleValLoc),0))};paletteXUp
+                    if(singleValLoc==1){paletteXDown<-c()}else{
+                      paletteXDown <- rev(grDevices::colorRampPalette(fillColDown)(singleValLoc))};paletteXDown
+                    paletteX <-c(paletteXDown,paletteXUp)
                   }
                 }
 
                 # Visualize Palette
-                #if(length(fillPaletteX)>0){
-                #graphics::pie(rep(1,length(fillPaletteX)),label=names(fillPaletteX),col=fillPaletteX)
+                #if(length(paletteX)>0){
+                #graphics::pie(rep(1,length(paletteX)),label=names(paletteX),col=paletteX)
                 #  }
 
                 # Add in the singleColor
                 if(min(legendBreaksX)>=legendSingleValueX){
-                  fillPaletteX<-c(paste(legendSingleColor,sep=""),
-                                  fillPaletteX)
+                  paletteX<-c(paste(legendSingleColor,sep=""),
+                                  paletteX)
                 }else{
                   if(max(legendBreaksX)<=legendSingleValueX){
-                    fillPaletteX<-c(fillPaletteX,paste(legendSingleColor,sep=""))
+                    paletteX<-c(paletteX,paste(legendSingleColor,sep=""))
                   }else{
-                    fillPaletteX<-c(fillPaletteX[1:(singleValLoc-1)],
+                    paletteX<-c(paletteX[1:(singleValLoc-1)],
                                     paste(legendSingleColor,sep=""),
-                                    fillPaletteX[(singleValLoc+1):length(fillPaletteX)])
+                                    paletteX[(singleValLoc+1):length(paletteX)])
                   }
                 }
 
-                fillPaletteX;#graphics::pie(rep(1,length(fillPaletteX)),label=1:length(fillPaletteX),col=fillPaletteX)
+                paletteX;#graphics::pie(rep(1,length(paletteX)),label=1:length(paletteX),col=paletteX)
 
               }
 
-              length(fillPaletteX); length(legendLabelsX)
+              length(paletteX); length(legendLabelsX)
 
               # Add in Label for single Color
               if(T){
@@ -538,45 +618,52 @@ if(T){
               length(legendBreaksX);length(legendLabelsX);legendBreaksX;legendLabelsX
 
               # Assign new Labels to Palette
-              if(length(fillPaletteX)>0){
-                if(length(fillPaletteX)==length(legendLabelsX)){
-                  names(fillPaletteX)<-legendLabelsX
+              if(length(paletteX)>0){
+                if(length(paletteX)==length(legendLabelsX)){
+                  names(paletteX)<-legendLabelsX
                 }else{
-                  fillPaletteX=fillPalette
+                  paletteX=palette
                 }
-                #graphics::pie(rep(1,length(fillPaletteX)),label=names(fillPaletteX),col=fillPaletteX)
-              }else{fillPaletteX=fillPalette}
+                #graphics::pie(rep(1,length(paletteX)),label=names(paletteX),col=paletteX)
+              }else{paletteX=palette}
             } # Test Palette
 
           }else{
             legendBreaksnX=1
             legendBreaksX=legendBreaks
             legendLabelsX=NULL
-            fillPaletteX=fillPalette
+            paletteX=palette
           }
     }else{
       legendBreaksnX=legendBreaksn
       legendBreaksX=legendBreaks
       legendLabelsX=NULL
-      fillPaletteX=fillPalette
+      paletteX=palette
     }
+  }
 
-    }
+  # Remove singleValue if legendsSingleVal == F
+  if(legendSingleValue == F){
+    paletteX = paletteX[-singleValLoc]
   }
 
   # Setting labels for data
   if(T){
-    legVals <- names(fillPaletteX); legVals
+    legVals <- names(paletteX); legVals
     legValsSingle <- legVals[!grepl("to",legVals)]; legValsSingle
     legValsRange <- legVals[grepl("to",legVals)]; legValsRange
 
     datax1 <- datax
 
+    if(length(legValsSingle)>0){
     for(legValsSingle_i in legValsSingle){
       datax1 <- datax1 %>%
         dplyr::mutate(label := dplyr::if_else(round(!!datax1[[fillColumn]],legendDigits)==as.numeric(as.character(legValsSingle)),
                                        legValsSingle,
                                        "temp"))
+    }}else{
+      datax1 <- datax1 %>%
+        dplyr::mutate(label = "temp")
     }
 
     for(legValsRange_i in legValsRange){
@@ -585,35 +672,64 @@ if(T){
 
       datax1 <- datax1 %>%
         dplyr::mutate(
-          label := dplyr::if_else(
-          (round(!!datax1[[fillColumn]],legendDigits) >= 0 &
-             round(!!datax1[[fillColumn]],legendDigits) <= max(range_i) &
-             round(!!datax1[[fillColumn]],legendDigits) > min(range_i)),
-          legValsRange_i,
-          label),
-          label := dplyr::if_else(
-            (round(!!datax1[[fillColumn]],legendDigits) < 0 &
-               round(!!datax1[[fillColumn]],legendDigits) < max(range_i) &
-               round(!!datax1[[fillColumn]],legendDigits) >= min(range_i)),
-            legValsRange_i,
-            label))
+          label := dplyr::case_when(
+          (label == "temp" & round(!!datax1[[fillColumn]],legendDigits) <= round(max(range_i),legendDigits) &
+           round(!!datax1[[fillColumn]],legendDigits) >= round(min(range_i),legendDigits)) ~ legValsRange_i,
+          TRUE ~ label))
     }
 
+    #Setting labels for values that hit max and min values
     datax1 <- datax1 %>%
       dplyr::mutate(
         label := dplyr::case_when(
-          !!datax1[[fillColumn]] == max(!!datax1[[fillColumn]]) ~ legValsRange[length(legValsRange)],
-          !!datax1[[fillColumn]] == min(!!datax1[[fillColumn]]) ~ legValsRange[1],
+          (label == "temp" & !!datax1[[fillColumn]] == max(legendBreaksX)) ~ legValsRange[length(legValsRange)],
+          (label == "temp" & !!datax1[[fillColumn]] == min(legendBreaksX)) ~ legValsRange[1],
           TRUE ~ label
         )
       )
 
+    # Set values for greater or less than the scale set
+    datax1 <- datax1 %>%
+      dplyr::mutate(
+        label := dplyr::case_when(
+          (label == "temp" & !!datax1[[fillColumn]] < min(legendBreaksX))~paste0("< ", min(legendBreaksX)),
+          (label == "temp" & !!datax1[[fillColumn]] > max(legendBreaksX))~paste0("> ", max(legendBreaksX)),
+          TRUE ~ label)
+      )
+
+    # Add in any bounds if needed to palette
+    labelBounds <- unique(datax1$label); labelBounds
+    labelBounds <- labelBounds[grepl(">|<",labelBounds)]; labelBounds
+
+    # If > data point added then add a darker color to the end of palette
+    paletteExpand <- grDevices::colorRampPalette(c("white",paletteX,"black"))(length(palette)+10); paletteExpand
+    if(any(grepl(">",labelBounds))){
+      paletteX <- c(paletteX, paletteExpand[length(paletteExpand)-1]); paletteX
+      names(paletteX)[length(paletteX)] <- labelBounds[grepl(">",labelBounds)]; paletteX
+    }
+    if(any(grepl("<",labelBounds))){
+      paletteX <- c(paletteExpand[2],paletteX); paletteX
+      names(paletteX)[1] <- labelBounds[grepl("<",labelBounds)]; paletteX
+    }
+
+    # If NA value which comes from infinite values in Diff plots
+    datax1 <- datax1 %>%
+      dplyr::mutate(
+        label := dplyr::case_when(
+          (label == "temp" & is.na(!!datax1[[fillColumn]]) ~ paste0("NA")),
+          TRUE ~ label)
+      )
+
     if(any(grepl("temp", unique(datax1$label)))){
-      print(datax1%>%dplyr::filter(grepl("temp",label)))
-      stop("Label data not allocated correctly. Check map_plot.R line 561.")
-      }
+      print(datax1 %>% as.data.frame() %>% dplyr::filter(grepl("temp",label)))
+      stop("Label data not allocated correctly.")
+    }
+
+    # Add
 
   }
+
+    } # if is.null(catPalette)
 
   # Add NA colors
   if(T){
@@ -621,7 +737,7 @@ if(T){
     if(showNA){
     datax1 <- datax1 %>%
       dplyr::mutate(label=dplyr::if_else(is.na(label),"NA",label))
-    fillPaletteX <- c(fillPaletteX,"NA"=colorNA)
+    paletteX <- c(paletteX,"NA"=colorNA)
     }
   }
   }
@@ -633,61 +749,28 @@ if(T){
 
 if(!is.null(datax)){
 
-  # Convert labels to factors
+  # Convert labels to factors for cat values
   if(T){
-    if(is.null(dataShape)){
+      if(!is.null(catPalette)){
     datax1 <- datax1 %>%
-      dplyr::mutate(label = factor(label,levels=unique(names(fillPaletteX))))
+      dplyr::mutate(label = factor(label,levels=unique(names(paletteX))))
+      }
     }
+
+  # Zoom out
+  if(T){
+    if(is.null(zoomx)){zoomx = zoom}
+    if(is.null(zoomy)){zoomy = zoom}
+    lonLimMin <- min(datax1$lon)+abs(max(range(datax1$lon))-min(range(datax1$lon)))*zoomx/10;lonLimMin
+    lonLimMax <- max(datax1$lon)-abs(max(range(datax1$lon))-min(range(datax1$lon)))*zoomx/10;lonLimMax
+    latLimMin <- min(datax1$lat)+abs(max(range(datax1$lon))-min(range(datax1$lon)))*zoomy/10;latLimMin
+    latLimMax <- max(datax1$lat)-abs(max(range(datax1$lon))-min(range(datax1$lon)))*zoomy/10;latLimMax
   }
 
   # UnderLayer
   if(T){
   if(is.null(underLayer)){
-    if(!is.null(data_shape)){
-      underLayer <- ggplot2::ggplot() +
-        ggplot2::geom_polygon(data = data_shape,
-                              ggplot2::aes(x = lon, y = lat, group = group),
-                              colour = underLayerColor,
-                              fill = underLayerFill,
-                              lwd= underLayerLwd,
-                              alpha = underLayerAlpha) +
-        ggplot2::coord_fixed(ratio = asp)
-
-      if(underLayerLabels){
-        shapex <- rmap::df_to_shape(data_shape)
-        if(!is.null(shapex)){
-        labels_df_under =  shapex@data %>%
-          tibble::as_tibble() %>%
-          dplyr::bind_cols(sp::coordinates(shapex) %>%
-                             data.frame() %>% dplyr::rename(lon=X1,lat=X2)) %>%
-          dplyr::filter(subRegion %in% unique(data_shape$subRegion))
-
-
-        if(labelForce != 0){
-          map <- map +
-            ggrepel::geom_label_repel(data=labels_df_under, ggplot2::aes(x = lon, y = lat, group = subRegion, label=subRegion),
-                                      colour = labelColor,
-                                      size=labelSize,
-                                      alpha=labelAlpha,
-                                      fill = labelFill,
-                                      label.size = labelBorderSize,
-                                      force = labelForce)}else{
-
-                                        map <- map +
-                                          ggplot2::geom_label(data=labels_df_under, ggplot2::aes(x = lon, y = lat, group = subRegion, label=subRegion),
-                                                              colour = labelColor,
-                                                              size=labelSize,
-                                                              alpha=labelAlpha,
-                                                              fill = labelFill,
-                                                              label.size = labelBorderSize)
-                                      }
-        }
-      }
-
-    }else{
       underLayer <- ggplot2::ggplot()
-    }
   } else if(any(grepl("tbl_df|tbl|data.frame",class(underLayer)))){
 
         underLayerx <- underLayer
@@ -699,7 +782,10 @@ if(!is.null(datax)){
                        fill = underLayerFill,
                        lwd= underLayerLwd,
                        alpha = underLayerAlpha) +
-          ggplot2::coord_fixed(ratio = asp)
+          ggplot2::coord_fixed(ratio = asp,
+                               ylim=c(max(latLimMin,-90),min(latLimMax,90)),
+                               xlim=c(max(-180,lonLimMin),min(lonLimMax,180)),
+                               expand = c(0, 0))
 
         if(underLayerLabels){
           shapex <- rmap::df_to_shape(underLayerx)
@@ -710,7 +796,7 @@ if(!is.null(datax)){
                                data.frame() %>% dplyr::rename(lon=X1,lat=X2))%>%
             dplyr::filter(subRegion %in% unique(underLayerx$subRegion))
 
-          if(labelForce != 0){
+          if(labelRepel != 0){
             underLayer <- underLayer +
               ggrepel::geom_label_repel(data=labels_df_under, ggplot2::aes(x = lon, y = lat, group = subRegion, label=subRegion),
                                         colour = labelColor,
@@ -718,7 +804,7 @@ if(!is.null(datax)){
                                         alpha=labelAlpha,
                                         fill = labelFill,
                                         label.size = labelBorderSize,
-                                        force = labelForce)}else{
+                                        force = labelRepel)}else{
 
                                           underLayer <- underLayer +
                                             ggplot2::geom_label(data=labels_df_under, ggplot2::aes(x = lon, y = lat, group = subRegion, label=subRegion),
@@ -741,21 +827,13 @@ if(!is.null(datax)){
   # If grid
   if(!is.null(dataGrid)){
 
-  # Zoom out
-  if(is.null(zoomx)){zoomx = zoom}
-  if(is.null(zoomy)){zoomy = zoom}
-  lonLimMin <- min(datax1$lon)-abs(min(datax1$lon))*(-1)*zoomx/10;lonLimMin
-  lonLimMax <- max(datax1$lon)+abs(max(datax1$lon))*(-1)*zoomx/10;lonLimMax
-  latLimMin <- min(datax1$lat)-abs(min(datax1$lat))*(-1)*zoomy/10;latLimMin
-  latLimMax <- max(datax1$lat)+abs(max(datax1$lat))*(-1)*zoomy/10;latLimMax
-
   map <- underLayer +
     ggplot2::geom_tile(data=datax1, ggplot2::aes_string(x="lon", y="lat", fill="label"), alpha=alpha) +
     ggplot2::coord_fixed(ratio = asp,
                          ylim=c(max(latLimMin,-90),min(latLimMax,90)),
                          xlim=c(max(-180,lonLimMin),min(lonLimMax,180)),
                          expand = c(0, 0)) +
-    ggplot2::scale_fill_manual(breaks=names(fillPaletteX), values=fillPaletteX, drop=F,
+    ggplot2::scale_fill_manual(breaks=names(paletteX), values=paletteX, drop=F,
                                name = legendTitle)
   }
 
@@ -766,11 +844,19 @@ if(!is.null(datax)){
                             ggplot2::aes_string(x="lon", y="lat", group="group",fill="label"),
                             color = "grey40", lwd=0.1) +
       ggplot2::coord_fixed(ratio = asp) +
-      ggplot2::scale_fill_manual(breaks=names(fillPaletteX), values=fillPaletteX, drop=F,
+      ggplot2::scale_fill_manual(breaks=names(paletteX), values=paletteX, drop=F,
                                  name = legendTitle)
 
     if(labels){
-      shapex <- rmap::df_to_shape(data_shape)
+      if(!is.null(shape)){
+      if(!any(grepl("SpatialPolygonsDataFrame",class(shape)))){
+        print("To print labels shape must be a SpatialPolygonsDataFrame for e.g. rmap::mapCountries.")
+        shapex <- NULL
+      } else {
+        shapex <- shape
+      }} else {
+        shapex <- rmap::df_to_shape(data_shape)
+      }
       if(!is.null(shapex)){
         labels_df_shape =  shapex@data %>%
           tibble::as_tibble() %>%
@@ -778,7 +864,7 @@ if(!is.null(datax)){
                              data.frame() %>% dplyr::rename(lon=X1,lat=X2))%>%
           dplyr::filter(subRegion %in% unique(data_shape$subRegion))
 
-        if(labelForce != 0){
+        if(labelRepel != 0){
           map <- map +
             ggrepel::geom_label_repel(data=labels_df_shape, ggplot2::aes(x = lon, y = lat, group = subRegion, label=subRegion),
                                       colour = labelColor,
@@ -786,7 +872,7 @@ if(!is.null(datax)){
                                       alpha=labelAlpha,
                                       fill = labelFill,
                                       label.size = labelBorderSize,
-                                      force = labelForce)}else{
+                                      force = labelRepel)}else{
 
                                         map <- map +
                                           ggplot2::geom_label(data=labels_df_shape, ggplot2::aes(x = lon, y = lat, group = subRegion, label=subRegion),
@@ -808,7 +894,7 @@ if(!is.null(datax)){
                             ggplot2::aes_string(x="lon", y="lat", group="group",fill="subRegion"),
                             color = "grey40", lwd=0.1) +
       ggplot2::coord_fixed(ratio = asp) +
-      ggplot2::scale_fill_manual(values=(rep(fillPalette,length(unique(dataShape$subRegion))))[1:length(unique(dataShape$subRegion))],
+      ggplot2::scale_fill_manual(values=(rep(palette,length(unique(dataShape$subRegion))))[1:length(unique(dataShape$subRegion))],
                                  drop=F,
                                  name = legendTitle)
 
@@ -821,7 +907,7 @@ if(!is.null(datax)){
                            data.frame() %>% dplyr::rename(lon=X1,lat=X2))%>%
         dplyr::filter(subRegion %in% unique(dataShape$subRegion))
 
-      if(labelForce != 0){
+      if(labelRepel != 0){
         map <- map +
           ggrepel::geom_label_repel(data=labels_df_shape, ggplot2::aes(x = lon, y = lat, group = subRegion, label=subRegion),
                                     colour = labelColor,
@@ -829,7 +915,7 @@ if(!is.null(datax)){
                                     alpha=labelAlpha,
                                     fill = labelFill,
                                     label.size = labelBorderSize,
-                                    force = labelForce)}else{
+                                    force = labelRepel)}else{
 
                                       map <- map +
                                         ggplot2::geom_label(data=labels_df_shape, ggplot2::aes(x = lon, y = lat, group = subRegion, label=subRegion),
@@ -850,90 +936,90 @@ if(!is.null(datax)){
 
   if(is.null(dataShape)){
 
-  if((!is.null(facetRows) & !is.null(facetCols))){
-    if((all(facetRows %in% names(datax1)) & all(facetCols %in% names(datax1)))){
+  if((!is.null(row) & !is.null(col))){
+    if((all(row %in% names(datax1)) & all(col %in% names(datax1)))){
 
       # Single Col and upto three rows
       # Upto three multifacet rows
-      if(length(facetCols)==1){
-      if(length(facetRows)==1){
+      if(length(col)==1){
+      if(length(row)==1){
         map <- map +
-          ggplot2::facet_grid(get(facetRows[1]) ~ get(facetCols[1]))}
+          ggplot2::facet_grid(get(row[1]) ~ get(col[1]))}
 
-      if(length(facetRows)==2){
+      if(length(row)==2){
         map <- map +
-          ggplot2::facet_grid(get(facetRows[1]) + get(facetRows[2]) ~ get(facetCols[1]))}
+          ggplot2::facet_grid(get(row[1]) + get(row[2]) ~ get(col[1]))}
 
-      if(length(facetRows)==3){
+      if(length(row)==3){
         map <- map +
-          ggplot2::facet_grid(get(facetRows[1])+ get(facetRows[2])+ get(facetRows[3]) ~ get(facetCols[1]))}
+          ggplot2::facet_grid(get(row[1])+ get(row[2])+ get(row[3]) ~ get(col[1]))}
       }
 
-      if(length(facetCols)==2){
-        if(length(facetRows)==1){
+      if(length(col)==2){
+        if(length(row)==1){
           map <- map +
-            ggplot2::facet_grid(get(facetRows[1]) ~ get(facetCols[1]) +  get(facetCols[2]))}
+            ggplot2::facet_grid(get(row[1]) ~ get(col[1]) +  get(col[2]))}
 
-        if(length(facetRows)==2){
+        if(length(row)==2){
           map <- map +
-            ggplot2::facet_grid(get(facetRows[1]) + get(facetRows[2]) ~ get(facetCols[1]) +  get(facetCols[2]))}
+            ggplot2::facet_grid(get(row[1]) + get(row[2]) ~ get(col[1]) +  get(col[2]))}
 
-        if(length(facetRows)==3){
+        if(length(row)==3){
           map <- map +
-            ggplot2::facet_grid(get(facetRows[1])+ get(facetRows[2])+ get(facetRows[3]) ~ get(facetCols[1]) +  get(facetCols[2]))}
+            ggplot2::facet_grid(get(row[1])+ get(row[2])+ get(row[3]) ~ get(col[1]) +  get(col[2]))}
       }
 
-      if(length(facetCols)==3){
-        if(length(facetRows)==1){
+      if(length(col)==3){
+        if(length(row)==1){
           map <- map +
-            ggplot2::facet_grid(get(facetRows[1]) ~ get(facetCols[1]) +  get(facetCols[2]) + get(facetCols[3]))}
+            ggplot2::facet_grid(get(row[1]) ~ get(col[1]) +  get(col[2]) + get(col[3]))}
 
-        if(length(facetRows)==2){
+        if(length(row)==2){
           map <- map +
-            ggplot2::facet_grid(get(facetRows[1]) + get(facetRows[2]) ~ get(facetCols[1]) +  get(facetCols[2]) + get(facetCols[3]))}
+            ggplot2::facet_grid(get(row[1]) + get(row[2]) ~ get(col[1]) +  get(col[2]) + get(col[3]))}
 
-        if(length(facetRows)==3){
+        if(length(row)==3){
           map <- map +
-            ggplot2::facet_grid(get(facetRows[1])+ get(facetRows[2])+ get(facetRows[3]) ~ get(facetCols[1]) +  get(facetCols[2]) + get(facetCols[3]))}
+            ggplot2::facet_grid(get(row[1])+ get(row[2])+ get(row[3]) ~ get(col[1]) +  get(col[2]) + get(col[3]))}
       }
 
 
     }}
 
-    if((!is.null(facetRows) & is.null(facetCols))){
-    if((facetRows %in% names(datax1))){
+    if((!is.null(row) & is.null(col))){
+    if((row %in% names(datax1))){
 
       # Upto three multifacet rows
-      if(length(facetRows)==1){
+      if(length(row)==1){
         map <- map +
-          ggplot2::facet_grid(get(facetRows[1]) ~ ., ncol = ncol)}
+          ggplot2::facet_grid(get(row[1]) ~ ., ncol = ncol)}
 
-      if(length(facetRows)==2){
+      if(length(row)==2){
         map <- map +
-          ggplot2::facet_grid(get(facetRows[1]) + get(facetRows[2]) ~ .)}
+          ggplot2::facet_grid(get(row[1]) + get(row[2]) ~ .)}
 
-      if(length(facetRows)==3){
+      if(length(row)==3){
         map <- map +
-          ggplot2::facet_grid(get(facetRows[1])+ get(facetRows[2])+ get(facetRows[3]) ~ .)}
+          ggplot2::facet_grid(get(row[1])+ get(row[2])+ get(row[3]) ~ .)}
 
     }
     }
 
-    if((is.null(facetRows) & !is.null(facetCols))){
-    if((facetCols %in% names(datax1))){
+    if((is.null(row) & !is.null(col))){
+    if((col %in% names(datax1))){
 
      # Upto three multifacet columns
-     if(length(facetCols)==1){
+     if(length(col)==1){
       map <- map +
-        ggplot2::facet_wrap(. ~ get(facetCols[1]), ncol = ncol)}
+        ggplot2::facet_wrap(. ~ get(col[1]), ncol = ncol)}
 
-      if(length(facetCols)==2){
+      if(length(col)==2){
         map <- map +
-          ggplot2::facet_grid(. ~ get(facetCols[1]) + get(facetCols[2]))}
+          ggplot2::facet_grid(. ~ get(col[1]) + get(col[2]))}
 
-      if(length(facetCols)==3){
+      if(length(col)==3){
         map <- map +
-          ggplot2::facet_grid(. ~ get(facetCols[1]) + get(facetCols[2]) + get(facetCols[3]))}
+          ggplot2::facet_grid(. ~ get(col[1]) + get(col[2]) + get(col[3]))}
 
 
     }
@@ -951,7 +1037,10 @@ if(!is.null(datax)){
                      fill = overLayerFill,
                      lwd= overLayerLwd,
                      alpha = overLayerAlpha) +
-        ggplot2::coord_fixed(ratio = asp)
+        ggplot2::coord_fixed(ratio = asp,
+                             ylim=c(max(latLimMin,-90),min(latLimMax,90)),
+                             xlim=c(max(-180,lonLimMin),min(lonLimMax,180)),
+                             expand = c(0, 0))
 
       if(overLayerLabels){
         shapex <- rmap::df_to_shape(overLayer)
@@ -962,14 +1051,14 @@ if(!is.null(datax)){
                              data.frame() %>% dplyr::rename(lon=X1,lat=X2))%>%
           dplyr::filter(subRegion %in% unique(overLayer$subRegion))
 
-        if(cropToBoundary){
+        if(crop){
         labels_df_over <- labels_df_over %>%
-            dplyr::filter(lat < max(datax1$lat),
-                          lat > min(datax1$lat),
-                          lon < max(datax1$lon),
-                          lon > min(datax1$lon))}
+            dplyr::filter(lat < latLimMax,
+                          lat > latLimMin,
+                          lon < lonLimMax,
+                          lon > lonLimMin)}
 
-        if(labelForce != 0){
+        if(labelRepel != 0){
         map <- map +
           ggrepel::geom_label_repel(data=labels_df_over, ggplot2::aes(x = lon, y = lat, group = subRegion, label=subRegion),
                                colour = labelColor,
@@ -977,7 +1066,7 @@ if(!is.null(datax)){
                                 alpha=labelAlpha,
                                 fill = labelFill,
                                 label.size = labelBorderSize,
-                                force = labelForce)}else{
+                                force = labelRepel)}else{
 
                                   map <- map +
                                     ggplot2::geom_label(data=labels_df_over, ggplot2::aes(x = lon, y = lat, group = subRegion, label=subRegion),
@@ -1004,7 +1093,7 @@ if(!is.null(datax)){
 #....................
 
  map <- map +
-   ggplot2::ggtitle(mapTitle)
+   ggplot2::ggtitle(title)
 
 #....................
 # Themes
@@ -1029,20 +1118,22 @@ if(background){
   map = map +
     ggplot2::theme(
     panel.border = ggplot2::element_rect(color="black",size=0.1, fill = NA),
-    panel.background = ggplot2::element_rect(fill="lightcyan2"))
+    panel.background = ggplot2::element_rect(fill="lightcyan2"),
+    strip.background = ggplot2::element_rect(color="black",size=0.1, fill="gray90"))
 }
 
 map <- map +
   ggplot2::guides(fill = ggplot2::guide_legend(override.aes = list(colour = "black", lwd=0.1))) +
   ggplot2::theme(text=ggplot2::element_text(size=size))
 
-if(!legendShow){map = map + ggplot2::guides(fill=FALSE)}
+if(!legendShow){map = map + ggplot2::guides(fill="none")}
 
-if(cropToBoundary==T){
+if(crop==T){
   map <- map +
     ggplot2::coord_fixed(ratio = asp,
-                         xlim = c(min(datax1$lon),max(datax1$lon)),
-                         ylim = c(min(datax1$lat),max(datax1$lat)))
+                         ylim=c(max(latLimMin,-90),min(latLimMax,90)),
+                         xlim=c(max(-180,lonLimMin),min(lonLimMax,180)),
+                         expand = c(0, 0))
 }
 
 }
@@ -1084,11 +1175,12 @@ rmap::printPdfPng(figure=map,
                 height=height,
                 pdfpng=pdfpng,
                 transparent = transparent)
-    print(map)
+
+    if(show){print(map)}
 
     } else {
     #print("save set to F so no figure will be saved.")
-    print(map)
+      if(show){print(map)}
     }
 
 #....................

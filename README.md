@@ -4,15 +4,6 @@
 [![docs](https://github.com/JGCRI/rmap/actions/workflows/pkgdown.yaml/badge.svg?branch=main)](https://github.com/JGCRI/rmap/actions/workflows/pkgdown.yaml)
 <!-- badges: end -->
 
-<!-- ------------------------>
-<!-- ------------------------>
-# <a name="KeyLinks"></a>Key Links
-<!-- ------------------------>
-<!-- ------------------------>
-
-- Github: https://github.com/JGCRI/rmap
-- Webpage: https://jgcri.github.io/rmap/
-- Cheatsheet: https://jgcri.github.io/rmap/rmapCheatsheet.pdf
 
 <!-- ------------------------>
 <!-- ------------------------>
@@ -22,6 +13,17 @@
 
 `rmap` is comprehensive mapping package to create easily customizable maps and compare across scenarios, years and data classes. The package allows creation of difference maps as well as customizable legends, color palettes and styles.
 
+For more detailed information on using rmap, click the green **User Guide** button below. 
+To access the `rmap` cheatsheet click the yellow **Cheatsheet** button.
+
+<br>
+
+<p align="center">
+<a href="https://jgcri.github.io/rmap/articles/vignette_map.html" target="_blank"><img src="https://github.com/JGCRI/jgcricolors/blob/main/vignettes/button_user_guide.PNG?raw=true" alt="https://jgcri.github.io/rmap/articles/vignette_map.html" height="60"/></a>
+<img src="https://github.com/JGCRI/jgcricolors/blob/main/vignettes/button_divider.PNG?raw=true" height="40"/>
+<a href="https://jgcri.github.io/rmap/cheatsheet.pdf" target="_blank"><img src="https://github.com/JGCRI/jgcricolors/blob/main/vignettes/button_cheatsheet.PNG?raw=true" alt="https://jgcri.github.io/rmap/cheatsheet.pdf" height="60"/></a>
+</p>
+
 
 <!-- ------------------------>
 <!-- ------------------------>
@@ -29,7 +31,7 @@
 <!-- ------------------------>
 <!-- ------------------------>
 
-Citation to be added.
+Khan, Z., Zhao, M., Wild, T., Vernon, C., 2021. rmap - An R package to easily plot polygon and gridded data on highly customizable built-in and user maps. (In progress) Journal of Open Source Software, DOI: XXXX
 
 <!-- ------------------------>
 <!-- ------------------------>
@@ -66,20 +68,9 @@ brew install imagemagick@6
 
 <!-- ------------------------>
 <!-- ------------------------>
-# <a name="keyfunctions"></a> User Guide
-<!-- ------------------------>
-<!-- ------------------------>
-
-A detailed user guide is available on the [User Guide](https://jgcri.github.io/rmap/articles/vignette_map.html) page. 
-
-
-<!-- ------------------------>
-<!-- ------------------------>
 # <a name="Publications"></a>Related Publications
 <!-- ------------------------>
 <!-- ------------------------>
-
-[Back to Contents](#Contents)
 
 - Khan, Z., Wild, T., Carrazzone, M.E.S., Gaudioso, R., Mascari, M.P., Bianchi, F., Weinstein, F., Pérez, F., Pérez, W., Miralles-Wilhelm, F. and Clarke, L., 2020. Integrated energy-water-land nexus planning to guide national policy: an example from Uruguay. Environmental Research Letters. DOI: https://doi.org/10.1088/1748-9326/ab9389
 

@@ -344,7 +344,7 @@ map_find <- function(dataTbl) {
         print("More than one pre-loaded map contain the subRegions in the data provided.")
         print("Choosing map based on pre-set map ranking:")
         print(mapMax %>% dplyr::arrange(rank))
-        print("To choose a different map, please assign it in subRegShape directly.")
+        print("To choose a different map, please assign it in shape directly.")
       }
 
       subRegChosen <- (mapMax %>%

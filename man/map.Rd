@@ -7,14 +7,17 @@
 map(
   data = NULL,
   fillColumn = NULL,
+  shapeColumn = NULL,
+  shape = NULL,
   fileName = "map",
   save = T,
   theme = NULL,
+  show = T,
   folder = paste(getwd(), "/outputs", sep = ""),
   labels = F,
-  labelForce = 0,
+  labelRepel = 0,
   labelColor = "black",
-  labelSize = 3,
+  labelSize = 2,
   labelAlpha = 1,
   labelFill = NA,
   labelBorderSize = NA,
@@ -26,9 +29,9 @@ map(
   legendType = "kmeans",
   legendBreaksn = 5,
   legendFixedBreaks = NULL,
-  animateOn = T,
+  animate = T,
   fps = 1,
-  cropToBoundary = T,
+  crop = T,
   underLayer = NULL,
   underLayerColor = "gray40",
   underLayerFill = "gray90",
@@ -41,7 +44,7 @@ map(
   overLayerFill = NA,
   overLayerLwd = 0.2,
   overLayerAlpha = 0,
-  zoom = -1,
+  zoom = 0,
   zoomx = NULL,
   zoomy = NULL,
   asp = 1.2,
@@ -57,20 +60,20 @@ map(
   xDiff = NULL,
   scaleRangeDiffxAbs = NULL,
   scaleRangeDiffxPrcnt = NULL,
-  facetCols = NULL,
-  facetRows = NULL,
-  mapTitle = NULL,
+  col = NULL,
+  row = NULL,
+  title = NULL,
   numeric2Cat_list = NULL,
   pdfpng = "png",
   legendDigitsOverride = NULL,
   legendSingleColor = "white",
-  legendSingleValue = NULL,
-  classPalette = NULL,
-  classPaletteDiff = "pal_div_BluRd",
+  legendSingleValue = F,
+  palette = NULL,
+  paletteDiff = "pal_div_BluRd",
   colorNA = "gray50",
   showNA = F,
   ncol = 3,
-  size = 12,
+  size = 16,
   alpha = 1,
   background = F,
   transparent = T,
@@ -82,17 +85,23 @@ map(
 
 \item{fillColumn}{(Optional). Default = NULL. Only for direct map plotting.}
 
+\item{shapeColumn}{(Optional). Default = NULL. If different from subRegion.}
+
+\item{shape}{Default = NULL, Cusotm shape can be provided as a SpatialPolygonDataFrame with features corresponding to subRegion columns in the data provided.}
+
 \item{fileName}{(Optional). Default = "map". Only for direct map plotting.}
 
 \item{save}{(Optional). Default = T. Only for direct map plotting.}
 
 \item{theme}{Default = NULL,}
 
+\item{show}{Default = T. Print maps in console as they are processed.}
+
 \item{folder}{Default = paste(getwd(),"/outputs",sep=""),}
 
 \item{labels}{Default = F,}
 
-\item{labelForce}{Default = 0,}
+\item{labelRepel}{Default = 0,}
 
 \item{labelColor}{Default = "black",}
 
@@ -120,11 +129,11 @@ map(
 
 \item{legendFixedBreaks}{Default = NULL,}
 
-\item{animateOn}{Default = T,}
+\item{animate}{Default = T,}
 
 \item{fps}{Default = 1,}
 
-\item{cropToBoundary}{Default = F}
+\item{crop}{Default = T. This crops the map to the extent of your data regions. If false will zoom out to the extent of the larget layer.}
 
 \item{underLayer}{Default = NULL}
 
@@ -182,11 +191,11 @@ map(
 
 \item{scaleRangeDiffxPrcnt}{Default =NULL, A vector with c(max,min) (Applied to all params) or a dataframe with cols param, max, min}
 
-\item{facetCols}{Default ="multiFacetRow",}
+\item{col}{Default ="multiFacetRow",}
 
-\item{facetRows}{Default ="multiFacetCol",}
+\item{row}{Default ="multiFacetCol",}
 
-\item{mapTitle}{Default=NULL}
+\item{title}{Default=NULL}
 
 \item{numeric2Cat_list}{Default=NULL,}
 
@@ -196,11 +205,11 @@ map(
 
 \item{legendSingleColor}{Default="white"}
 
-\item{legendSingleValue}{Default =NULL,}
+\item{legendSingleValue}{Default=F. Change to True to get default single value or provide a numeric value.}
 
-\item{classPalette}{Default = NULL}
+\item{palette}{Default = NULL}
 
-\item{classPaletteDiff}{Default = "pal_div_BrGn"}
+\item{paletteDiff}{Default = "pal_div_BrGn"}
 
 \item{colorNA}{Default = "gray50"}
 
