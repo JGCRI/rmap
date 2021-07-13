@@ -1,5 +1,5 @@
 context("map Tests")
-library(rmap); library(testthat)
+library(rmap); library(testthat); library(dplyr)
 
 test_that("map plots shape correctly", {
 
@@ -47,7 +47,7 @@ test_that("map plots grid data correctly", {
   testthat::skip_on_cran(); testthat::skip_on_travis()
 
   data = example_gridData_GWPv4To2015 %>%
-      filter(x == 2015);
+    dplyr::filter(x == 2015);
   mapx <- rmap::map(data, show = F, save=F)
   tVal1 <- length(mapx)
   testthat::expect_gt(tVal1,0)

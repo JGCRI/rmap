@@ -1,11 +1,9 @@
-name: tests
+name: test_coverage
 
 on:
   push:
     branches:
       - main
-      - dev
-      - ggplot
 
 jobs:
   build:

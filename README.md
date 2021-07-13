@@ -1,7 +1,7 @@
 <!-- badges: start -->
 [![codecov](https://codecov.io/gh/JGCRI/rmap/branch/main/graph/badge.svg?token=XQ913U4IYM)](https://codecov.io/gh/JGCRI/rmap) 
 [![build](https://github.com/JGCRI/rmap/workflows/build/badge.svg)](https://github.com/JGCRI/rmap/workflows/build/badge.svg)
-[![docs](https://github.com/JGCRI/rmap/actions/workflows/pkgdown.yaml/badge.svg?branch=main)](https://github.com/JGCRI/rmap/actions/workflows/pkgdown.yaml)
+[![docs](https://github.com/JGCRI/rmap/actions/workflows/docs.yaml/badge.svg?branch=main)](https://github.com/JGCRI/rmap/actions/workflows/docs.yaml)
 <!-- badges: end -->
 
 
@@ -21,7 +21,7 @@ To access the `rmap` cheatsheet click the yellow **Cheatsheet** button.
 <p align="center">
 <a href="https://jgcri.github.io/rmap/articles/vignette_map.html" target="_blank"><img src="https://github.com/JGCRI/jgcricolors/blob/main/vignettes/button_user_guide.PNG?raw=true" alt="https://jgcri.github.io/rmap/articles/vignette_map.html" height="60"/></a>
 <img src="https://github.com/JGCRI/jgcricolors/blob/main/vignettes/button_divider.PNG?raw=true" height="40"/>
-<a href="https://jgcri.github.io/rmap/cheatsheet.pdf" target="_blank"><img src="https://github.com/JGCRI/jgcricolors/blob/main/vignettes/button_cheatsheet.PNG?raw=true" alt="https://jgcri.github.io/rmap/cheatsheet.pdf" height="60"/></a>
+<a href="https://jgcri.github.io/rmap/cheatsheet_progress.pdf" target="_blank"><img src="https://github.com/JGCRI/jgcricolors/blob/main/vignettes/button_cheatsheet.PNG?raw=true" alt="https://jgcri.github.io/rmap/cheatsheet_progress.pdf" height="60"/></a>
 </p>
 
 
