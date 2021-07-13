@@ -21,6 +21,7 @@ Imports:
 	tidyr, 
 	grDevices,
 	rgdal, 
+	rgeos,
 	sp,
 	data.table,
 	graphics,
