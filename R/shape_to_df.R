@@ -32,12 +32,14 @@ shape_to_df <- function(shape=NULL,
         if(is.null(shapeColumn)){
           shape_df <- broom::tidy(shape, region="subRegion") %>%
             dplyr::rename(subRegion=id) %>%
-            dplyr::rename(lon=long)
+            dplyr::rename(lon=long) %>%
+            dplyr::left_join(shape@data,by=shapeColumn)
         } else {
           if(shapeColumn %in% names(shape@data)){
             shape_df <- broom::tidy(shape, region = shapeColumn) %>%
               dplyr::rename(subRegion=id) %>%
-              dplyr::rename(lon=long)
+              dplyr::rename(lon=long)%>%
+              dplyr::left_join(shape@data,by=shapeColumn)
           } else {
             stop(paste0("shapeColumn provided: ",shapeColumn, "is not a column in the data provided."))
           }
@@ -47,12 +49,14 @@ shape_to_df <- function(shape=NULL,
       if(is.null(shapeColumn)){
       shape_df <- broom::tidy(shape, region="subRegion") %>%
         dplyr::rename(subRegion=id) %>%
-        dplyr::rename(lon=long)
+        dplyr::rename(lon=long)%>%
+        dplyr::left_join(shape@data,by=shapeColumn)
       } else {
         if(shapeColumn %in% names(shape@data)){
           shape_df <- broom::tidy(shape, region = shapeColumn) %>%
             dplyr::rename(subRegion=id) %>%
-            dplyr::rename(lon=long)
+            dplyr::rename(lon=long)%>%
+            dplyr::left_join(shape@data,by=shapeColumn)
         } else {
           stop(paste0("shapeColumn provided: ",shapeColumn, "is not a column in the data provided."))
         }
