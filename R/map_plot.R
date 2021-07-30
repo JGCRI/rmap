@@ -149,7 +149,7 @@ map_plot<-function(data=NULL,
   # legendDigits = NULL
   # legendDigitsOverride=NULL
   # legendSingleColor ="white"
-  # legendSingleValue =NULL
+  # legendSingleValue =F
   # underLayer = NULL
   # underLayerColor = "gray30"
   # underLayerFill = "gray90"
@@ -624,7 +624,8 @@ if(T){
             legendBreaksnX=1
             legendBreaksX=legendBreaks
             legendLabelsX=NULL
-            paletteX=palette
+            paletteX=palette[1]
+            names(paletteX) = as.character(legendBreaks); paletteX
           }
     }else{
       legendBreaksnX=legendBreaksn
@@ -636,8 +637,10 @@ if(T){
 
   # Remove singleValue if legendsSingleVal == F
   if(legendSingleValue == F){
+    if(!is.null(singleValLoc)){
     paletteX = paletteX[-singleValLoc]
-  }
+    }
+    }
 
   # Setting labels for data
   if(T){
@@ -658,6 +661,7 @@ if(T){
         dplyr::mutate(label = "temp")
     }
 
+    if(length(legValsRange)>0){
     for(legValsRange_i in legValsRange){
 
       range_i <- as.numeric(gsub(",","",unlist(stringr::str_split(legValsRange_i," to ")))); range_i
@@ -679,6 +683,8 @@ if(T){
           TRUE ~ label
         )
       )
+
+    }
 
     # Set values for greater or less than the scale set
     datax1 <- datax1 %>%
@@ -777,7 +783,7 @@ if(!is.null(datax)){
           ggplot2::coord_fixed(ratio = asp,
                                ylim=c(max(latLimMin,-90),min(latLimMax,90)),
                                xlim=c(max(-180,lonLimMin),min(lonLimMax,180)),
-                               expand = c(0, 0))
+                               expand = FALSE)
 
         if(underLayerLabels){
           shapex <- rmap::df_to_shape(underLayerx)
@@ -824,7 +830,7 @@ if(!is.null(datax)){
     ggplot2::coord_fixed(ratio = asp,
                          ylim=c(max(latLimMin,-90),min(latLimMax,90)),
                          xlim=c(max(-180,lonLimMin),min(lonLimMax,180)),
-                         expand = c(0, 0)) +
+                         expand = FALSE) +
     ggplot2::scale_fill_manual(breaks=names(paletteX), values=paletteX, drop=F,
                                name = legendTitle)
   }
@@ -1032,7 +1038,7 @@ if(!is.null(datax)){
         ggplot2::coord_fixed(ratio = asp,
                              ylim=c(max(latLimMin,-90),min(latLimMax,90)),
                              xlim=c(max(-180,lonLimMin),min(lonLimMax,180)),
-                             expand = c(0, 0))
+                             expand = FALSE)
 
       if(overLayerLabels){
         shapex <- rmap::df_to_shape(overLayer)
@@ -1125,7 +1131,7 @@ if(crop==T){
     ggplot2::coord_fixed(ratio = asp,
                          ylim=c(max(latLimMin,-90),min(latLimMax,90)),
                          xlim=c(max(-180,lonLimMin),min(lonLimMax,180)),
-                         expand = c(0, 0))
+                         expand = FALSE)
 }
 
 }

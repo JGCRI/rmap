@@ -38,7 +38,6 @@ map_find_df <- function(dataTbl) {
     if(!all(c("subRegion") %in% names(dataTbl))){stop("dataTbl must have subRegion columns.")}
 
     subRegShapeTblOrig <- unique(dataTbl$subRegion)
-    print(subRegShapeTblOrig)
 
     # Map subRegions to rmap regions
     dataTbl <- dataTbl %>%

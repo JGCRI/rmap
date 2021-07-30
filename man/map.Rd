@@ -77,7 +77,9 @@ map(
   alpha = 1,
   background = F,
   transparent = T,
-  legendShow = T
+  legendShow = T,
+  combinedOnly = F,
+  diffOnly = F
 )
 }
 \arguments{
@@ -226,6 +228,10 @@ map(
 \item{transparent}{Default = T. To make map background transparent for maps without backgrounds.}
 
 \item{legendShow}{Default = T}
+
+\item{combinedOnly}{Default = F. Only run combined plots and not individual scenarios.}
+
+\item{diffOnly}{Default = F. Only run diff plots and not individual scenarios.}
 }
 \value{
 Returns the formatted data used to produce chart

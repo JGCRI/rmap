@@ -78,6 +78,8 @@
 #' @param background Default = F. Add background water color, border and default underlayer map.
 #' @param transparent Default = T. To make map background transparent for maps without backgrounds.
 #' @param legendShow Default = T
+#' @param combinedOnly Default = F. Only run combined plots and not individual scenarios.
+#' @param diffOnly Default = F. Only run diff plots and not individual scenarios.
 #' @return A list of maps
 #' @importFrom rlang :=
 #' @export
@@ -155,7 +157,9 @@ map <- function(data = NULL,
                 alpha = 1,
                 background = F,
                 transparent = T,
-                legendShow = T) {
+                legendShow = T,
+                combinedOnly = F,
+                diffOnly = F) {
 
   # data = NULL
   # legendSingleValue =F
@@ -238,7 +242,7 @@ map <- function(data = NULL,
       dataTblDiff -> dataTblDiffx -> countCheck->
       multiFacetCol -> multiFacetRow->paletteOrig->
       xLabel->vintage->aggregate->query->subRegNotInShape ->dataTblOrig -> subRegionAlt -> subRegion1 ->
-      paramsGrid -> paramsShape -> scaleRange_i -> boundaryRegShapeLimits -> dataTbl -> subRegType
+      paramsGrid -> paramsShape -> scaleRange_i -> boundaryRegShapeLimits -> dataTbl -> subRegType -> paramsdata
 
   if(!save){animate=F}
 
@@ -979,7 +983,6 @@ map <- function(data = NULL,
     }
   }
 
-
   # .................--
   # Create Plots
   # .................--
@@ -996,15 +999,19 @@ map <- function(data = NULL,
 
       for (param_i in unique(dataTblOrig$param)){
 
+        # If not diffOnly
+        if(!diffOnly){
         # Combined Scenarios
-        if(length(dataTbl_scenariosOrig[!grepl("Diffx|DiffAbs|DiffPrcnt",dataTbl_scenariosOrig)])>1){
+        if((combinedOnly & length(dataTbl_scenariosOrig[!grepl("Diffx|DiffAbs|DiffPrcnt",dataTbl_scenariosOrig)])==1) |
+           (length(dataTbl_scenariosOrig[!grepl("Diffx|DiffAbs|DiffPrcnt",dataTbl_scenariosOrig)])>1)
+           ){
 
             if(length(unique(dataTblOrig$param))==1){param_if=NULL}else{param_if=param_i}
 
             if(nrow(dataTblOrig%>%dplyr::filter(param==param_i))>0){
 
               dataTblx <- dataTblOrig%>%dplyr::filter(param==param_i,
-                                                     scenario %in% scenarios)
+                                                     scenario %in% dataTbl_scenariosOrig[!grepl("Diffx|DiffAbs|DiffPrcnt",dataTbl_scenariosOrig)])
 
                 if(nrow(dataTblx)>0){
 
@@ -1085,7 +1092,6 @@ map <- function(data = NULL,
                     legendFixedBreaks <- sort(c(legendFixedBreaks,max(animScale)))};legendFixedBreaks
                 }
 
-
                 if((max(range(animScale))-min(range(animScale)))<1E-10 &
                    (max(range(animScale))-min(range(animScale)))>-1E-10){animScaleRange=min(animScale)}else{
                      animScaleRange=range(animScale)
@@ -1111,7 +1117,7 @@ map <- function(data = NULL,
                   palette<-as.character(unique(datax$palette))
 
                   # Set Facets
-                  if(length(unique(datax$scenario))>1){
+                  if(length(unique(datax$scenario))>0){
                     multiFacetColsx <- "scenario"
                     colm <- length(unique(datax$scenario))
                     if((length(unique(datax$class))>1)){
@@ -1206,10 +1212,10 @@ map <- function(data = NULL,
                                   col = multiFacetColsx,
                                   row = multiFacetRowsx,
                                   title=titlex ,
-                                  fileName = paste("map_",param_i,"_",x_i,nameAppend,"_KMEANS",sep=""),
+                                  fileName = paste("map_",param_i,"_",x_i,nameAppend,"_KMEANS_comb",sep=""),
                                   folder = paste(folder,"/",param_if,"/combScenario/byYear",sep = "")) ->
                       mapsReturn[[return_i]];
-                      names(mapsReturn)[return_i] <- paste("map_",param_i,"_",x_i,nameAppend,"_KMEANS",sep="");
+                      names(mapsReturn)[return_i] <- paste("map_",param_i,"_",x_i,nameAppend,"_KMEANS_comb",sep="");
                       return_i = return_i + 1
 
                       # theme_ggplot = theme_ggplot
@@ -1270,10 +1276,10 @@ map <- function(data = NULL,
                                   col = multiFacetColsx,
                                   row = multiFacetRowsx,
                                   title=titlex ,
-                                  fileName = paste("map_",param_i,"_",x_i,nameAppend,"_PRETTY",sep=""),
+                                  fileName = paste("map_",param_i,"_",x_i,nameAppend,"_PRETTY_comb",sep=""),
                                   folder = paste(folder,"/",param_if,"/combScenario/byYear",sep = "")) ->
                       mapsReturn[[return_i]];
-                    names(mapsReturn)[return_i] <- paste("map_",param_i,"_",x_i,nameAppend,"_PRETTY",sep="");
+                    names(mapsReturn)[return_i] <- paste("map_",param_i,"_",x_i,nameAppend,"_PRETTY_comb",sep="");
                     return_i = return_i + 1
                   }
 
@@ -1309,10 +1315,10 @@ map <- function(data = NULL,
                                   col = multiFacetColsx,
                                   row = multiFacetRowsx,
                                   title=titlex ,
-                                  fileName = paste("map_",param_i,"_",x_i,nameAppend,"_FIXED",sep=""),
+                                  fileName = paste("map_",param_i,"_",x_i,nameAppend,"_FIXED_comb",sep=""),
                                   folder = paste(folder,"/",param_if,"/combScenario/byYear",sep = "")) ->
                       mapsReturn[[return_i]];
-                    names(mapsReturn)[return_i] <- paste("map_",param_i,"_",x_i,nameAppend,"_FIXED",sep="");
+                    names(mapsReturn)[return_i] <- paste("map_",param_i,"_",x_i,nameAppend,"_FIXED_comb",sep="");
                     return_i = return_i + 1
                   }
 
@@ -1323,7 +1329,7 @@ map <- function(data = NULL,
               if(animate==T){
 
                 if(any(grepl("all|pretty",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
-                  animName<-paste("anim_",param_i,nameAppend,"_PRETTY.gif",sep="")
+                  animName<-paste("anim_",param_i,nameAppend,"_PRETTY_comb.gif",sep="")
                   animFiles <- list.files(path = paste(folder,"/",param_if,"/combScenario/byYear",sep=""),
                                           pattern = paste(".*",param_i,".*",nameAppend,".*PRETTY", ".", pdfpng,sep=""), full.names=T,ignore.case = T, include.dirs = T);
                   animation <- magick::image_animate(magick::image_join(lapply(animFiles, magick::image_read)),fps=fps)
@@ -1334,7 +1340,7 @@ map <- function(data = NULL,
                 }
 
                 if(any(grepl("all|kmean",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
-                  animName<-paste("anim_",param_i,nameAppend,"_KMEANS.gif",sep="")
+                  animName<-paste("anim_",param_i,nameAppend,"_KMEANS_comb.gif",sep="")
                   animFiles <- list.files(path = paste(folder,"/",param_if,"/combScenario/byYear",sep=""),
                                           pattern = paste(".*",param_i,".*",nameAppend,".*KMEANS", ".", pdfpng,sep=""), full.names=T,ignore.case = T, include.dirs = T);
                   animation <- magick::image_animate(magick::image_join(lapply(animFiles, magick::image_read)),fps=fps)
@@ -1345,7 +1351,7 @@ map <- function(data = NULL,
                 }
 
                 if(!is.null(legendFixedBreaks)){
-                  animName<-paste("anim_",param_i,nameAppend,"_FIXED.gif",sep="")
+                  animName<-paste("anim_",param_i,nameAppend,"_FIXED_comb.gif",sep="")
                   animFiles <- list.files(path = paste(folder,"/",param_if,"/combScenario/byYear",sep=""),
                                           pattern = paste(".*",param_i,".*",nameAppend,".*FIXED", ".", pdfpng,sep=""), full.names=T,ignore.case = T, include.dirs = T);
                   animation <- magick::image_animate(magick::image_join(lapply(animFiles, magick::image_read)),fps=fps)
@@ -1437,7 +1443,7 @@ map <- function(data = NULL,
                     rowm = (colm + ncol-1)%/%ncol
                     }
                   }else{
-                    if(length(unique(datax$scenario))>1){
+                    if(length(unique(datax$scenario))>0){
                       multiFacetColsx <- "scenario"
                       colm <- length(unique(datax$scenario))
                       if((length(unique(datax$class))>1)){
@@ -1532,10 +1538,10 @@ map <- function(data = NULL,
                                 col = multiFacetColsx,
                                 row = multiFacetRowsx,
                                 title= titlex,
-                                fileName = paste("map_",param_i,nameAppend,"_KMEANS",sep=""),
+                                fileName = paste("map_",param_i,nameAppend,"_KMEANS_comb",sep=""),
                                 folder = sub("/$","",paste(folder,"/",param_if,"/combScenario",sep = ""))) ->
                     mapsReturn[[return_i]];
-                  names(mapsReturn)[return_i] <- paste("map_",param_i,nameAppend,"_KMEANS",sep="");
+                  names(mapsReturn)[return_i] <- paste("map_",param_i,nameAppend,"_KMEANS_comb",sep="");
                   return_i = return_i + 1
 
 
@@ -1615,10 +1621,10 @@ map <- function(data = NULL,
                                 col = multiFacetColsx,
                                 row = multiFacetRowsx,
                                 title=titlex,
-                                fileName = paste("map_",param_i,nameAppend,"_PRETTY",sep=""),
+                                fileName = paste("map_",param_i,nameAppend,"_PRETTY_comb",sep=""),
                                 folder = sub("/$","",paste(folder,"/",param_if,"/combScenario",sep = ""))) ->
                     mapsReturn[[return_i]];
-                  names(mapsReturn)[return_i] <- paste("map_",param_i,nameAppend,"_PRETTY",sep="");
+                  names(mapsReturn)[return_i] <- paste("map_",param_i,nameAppend,"_PRETTY_comb",sep="");
                   return_i = return_i + 1
                   }
 
@@ -1654,10 +1660,10 @@ map <- function(data = NULL,
                                 col = multiFacetColsx,
                                 row = multiFacetRowsx,
                                 title=titlex,
-                                fileName = paste("map_",param_i,nameAppend,"_FIXED",sep=""),
+                                fileName = paste("map_",param_i,nameAppend,"_FIXED_comb",sep=""),
                                 folder = sub("/$","",paste(folder,"/",param_if,"/combScenario",sep = ""))) ->
                     mapsReturn[[return_i]];
-                  names(mapsReturn)[return_i] <- paste("map_",param_i,nameAppend,"_FIXED",sep="");
+                  names(mapsReturn)[return_i] <- paste("map_",param_i,nameAppend,"_FIXED_comb",sep="");
                   return_i = return_i + 1
                 }
 
@@ -1735,7 +1741,7 @@ map <- function(data = NULL,
                 }
 
                   # Set Facets
-                  if(length(unique(datax$scenario))>1){
+                  if(length(unique(datax$scenario))>0){
                     multiFacetColsx <- "scenario"
                     colm <- length(unique(datax$scenario))
                     if((length(unique(datax$class))>1)){
@@ -1830,10 +1836,10 @@ map <- function(data = NULL,
                                   col = multiFacetColsx,
                                   row = multiFacetRowsx,
                                   title = titlex,
-                                  fileName = paste("map_",param_i,nameAppend,"_MEAN_KMEANS",sep=""),
+                                  fileName = paste("map_",param_i,nameAppend,"_MEAN_KMEANS_comb",sep=""),
                                   folder = sub("/$","",paste(folder,"/",param_if,"/combScenario",sep = ""))) ->
                       mapsReturn[[return_i]];
-                    names(mapsReturn)[return_i] <- paste("map_",param_i,nameAppend,"_MEAN_KMEANS",sep="");
+                    names(mapsReturn)[return_i] <- paste("map_",param_i,nameAppend,"_MEAN_KMEANS_comb",sep="");
                     return_i = return_i + 1
                     }
 
@@ -1869,10 +1875,10 @@ map <- function(data = NULL,
                                   col = multiFacetColsx,
                                   row = multiFacetRowsx,
                                   title = titlex,
-                                  fileName = paste("map_",param_i,nameAppend,"_MEAN_PRETTY",sep=""),
+                                  fileName = paste("map_",param_i,nameAppend,"_MEAN_PRETTY_comb",sep=""),
                                   folder = sub("/$","",paste(folder,"/",param_if,"/combScenario",sep = ""))) ->
                       mapsReturn[[return_i]];
-                    names(mapsReturn)[return_i] <- paste("map_",param_i,nameAppend,"_MEAN_PRETTY",sep="");
+                    names(mapsReturn)[return_i] <- paste("map_",param_i,nameAppend,"_MEAN_PRETTY_comb",sep="");
                     return_i = return_i + 1
                     }
 
@@ -1908,10 +1914,10 @@ map <- function(data = NULL,
                                   col = multiFacetColsx,
                                   row = multiFacetRowsx,
                                   title = titlex,
-                                  fileName = paste("map_",param_i,nameAppend,"_MEAN_FIXED",sep=""),
+                                  fileName = paste("map_",param_i,nameAppend,"_MEAN_FIXED_comb",sep=""),
                                   folder = sub("/$","",paste(folder,"/",param_if,"/combScenario",sep = ""))) ->
                       mapsReturn[[return_i]];
-                    names(mapsReturn)[return_i] <- paste("map_",param_i,nameAppend,"_MEAN_FIXED",sep="");
+                    names(mapsReturn)[return_i] <- paste("map_",param_i,nameAppend,"_MEAN_FIXED_comb",sep="");
                     return_i = return_i + 1
                   }
 
@@ -1922,8 +1928,1871 @@ map <- function(data = NULL,
 
               }# Close if nrow dataTbl < 0
         } # Close Combined Scenario
+        }
+
+        # if scenRef chosen
+        if(!is.null(scenRef)){
+        # Combined Diff Abs Scenarios
+        if((combinedOnly & length(dataTbl_scenariosOrig[grepl("DiffAbs",dataTbl_scenariosOrig)])==1) |
+           (length(dataTbl_scenariosOrig[grepl("DiffAbs",dataTbl_scenariosOrig)])>1)
+        ){
+
+          if(length(unique(dataTblOrig$param))==1){param_if=NULL}else{param_if=param_i}
+
+          if(nrow(dataTblOrig%>%dplyr::filter(param==param_i))>0){
+
+            dataTblx <- dataTblOrig%>%dplyr::filter(param==param_i,
+                                                    scenario %in% dataTbl_scenariosOrig[grepl("DiffAbs",dataTbl_scenariosOrig)])
+
+            if(nrow(dataTblx)>0){
+
+              #.................-
+              # Create data Table Folders If Needed
+              #.................-
+              if(save){
+
+                if(!dir.exists(paste(folder,"/",sep = ""))){
+                  dir.create(paste(folder,"/",sep = ""))}
+
+                if(!dir.exists(paste(folder,"/",param_if,sep = ""))){
+                  dir.create(paste(folder,"/",param_if,sep = ""))}
+
+                if(!dir.exists(paste(folder,"/",param_if,"/combScenario",sep = ""))){
+                  dir.create(paste(folder, "/",param_if,"/combScenario",sep = ""))}
+
+                if(length(unique(dataTblx$x))>1){
+                  if(!dir.exists(paste(folder,"/",param_if,"/combScenario/byYear",sep = ""))){
+                    dir.create(paste(folder, "/",param_if,"/combScenario/byYear",sep = ""))}
+                }
+              } # Create data table folder if needed
+
+              #.................--
+              # Save Map related Data Table
+              #.................--
+
+              if(save){
+                if(nrow(dataTblx %>% dplyr::filter(param==param_i))>0){
+                  data.table::fwrite(dataTblx %>% dplyr::filter(param==param_i)%>%
+                                       dplyr::select(scenario,lat,lon,subRegion,param,class,x,value,units),
+                                     paste(folder,"/",param_if,"/combScenario/","map_",param_i,nameAppend,".csv",sep = ""))
+                  print(paste("Map data table written to ",folder,"/",param_if,"/combScenario/","map_",param_i,nameAppend,".csv",sep = ""))
+                }
+              }
+
+              #.............................
+              # By Year
+              #.............................
+
+              # Set Legends
+              if(T){
+                animScale<-dataTblx$value
+                animScale <- animScale[!is.infinite(animScale)]
+                animScale <- animScale[!is.nan(animScale)]
+                animScale <- animScale[!is.na(animScale)]
+
+                # Choose correct scaleRange
+                scaleRange_i=scaleRange
+
+                if(!is.null(scaleRange_i)){
+                  if(any(param_i %in% unique(scaleRange_i$param))){
+                    if(max(animScale) < (scaleRange_i %>% dplyr::filter(param==param_i))$maxScale){
+                      animScale<-c(animScale,(scaleRange_i %>% dplyr::filter(param==param_i))$maxScale)} else {
+                        animScale <- c((scaleRange_i %>% dplyr::filter(param==param_i))$maxScale,
+                                       animScale[animScale<(scaleRange_i %>% dplyr::filter(param==param_i))$maxScale])
+                      }
+                    if(min(animScale) > (scaleRange_i %>% dplyr::filter(param==param_i))$minScale){
+                      animScale<-c(animScale,(scaleRange_i %>% dplyr::filter(param==param_i))$minScale)} else {
+                        animScale <-  c((scaleRange_i %>% dplyr::filter(param==param_i))$minScale,
+                                        animScale[animScale>(scaleRange_i %>% dplyr::filter(param==param_i))$minScale])
+                      }
+                  }
+                }
+
+                animPrettyBreaks<-scales::pretty_breaks(n=legendBreaksn)(animScale); animPrettyBreaks
+                animKmeanBreaks<-sort(as.vector((stats::kmeans(animScale,
+                                                               centers=max(1,min(length(unique(animScale))-1,(legendBreaksn-1)))))$centers[,1]));animKmeanBreaks
+                if(!min(animScale) %in% animKmeanBreaks){
+                  animKmeanBreaks <- sort(c(min(animScale),animKmeanBreaks))}
+                if(!max(animScale) %in% animKmeanBreaks){
+                  animKmeanBreaks <- sort(c(animKmeanBreaks,max(animScale)))};animKmeanBreaks
+
+                if(!is.null(legendFixedBreaks)){
+                  if(min(animScale) < min(legendFixedBreaks)){
+                    legendFixedBreaks <- sort(c(min(animScale),legendFixedBreaks))}
+                  if(max(animScale) > max(legendFixedBreaks)){
+                    legendFixedBreaks <- sort(c(legendFixedBreaks,max(animScale)))};legendFixedBreaks
+                }
+
+
+                if((max(range(animScale))-min(range(animScale)))<1E-10 &
+                   (max(range(animScale))-min(range(animScale)))>-1E-10){animScaleRange=min(animScale)}else{
+                     animScaleRange=range(animScale)
+                   }
+
+                if(abs(min(animScaleRange,na.rm = T))==abs(max(animScaleRange,na.rm = T))){animScaleRange=abs(min(animScaleRange,na.rm = T))}
+                if(mean(animScaleRange,na.rm = T)<0.01 & mean(animScaleRange,na.rm = T)>(-0.01)){animLegendDigits<-5}else{
+                  if(mean(animScaleRange,na.rm = T)<0.1 & mean(animScaleRange,na.rm = T)>(-0.1)){animLegendDigits<-4}else{
+                    if(mean(animScaleRange,na.rm = T)<1 & mean(animScaleRange,na.rm = T)>(-1)){animLegendDigits<-3}else{
+                      if(mean(animScaleRange,na.rm = T)<10 & mean(animScaleRange,na.rm = T)>(-10)){animLegendDigits<-2}else{animLegendDigits<-1}}}}
+
+              }
+
+              # By Year
+              if(length(unique(dataTblx$x))>1){
+
+                for (x_i in unique(dataTblx$x)){
+
+                  datax<-dataTblx%>%dplyr::filter(x==x_i)
+
+                  if(nrow(datax)>0){
+                    if(is.null(legendTitleOrig)){legendTitle<-unique(datax$units)}
+                    palette<-as.character(unique(datax$palette))
+
+                    # Set Facets
+                    if(length(unique(datax$scenario))>0){
+                      multiFacetColsx <- "scenario"
+                      colm <- length(unique(datax$scenario))
+                      if((length(unique(datax$class))>1)){
+                        multiFacetRowsx <- c("class")
+                        rowm <- length(unique(datax$scenario))
+                      }else{
+                        multiFacetRowsx <- NULL
+                        rowm = 1
+                        colm = colm/((colm + ncol-1)%/%ncol);
+                        rowm = (colm + ncol-1)%/%ncol
+                      }
+                    }else{
+                      if((length(unique(datax$class))>1)){
+                        multiFacetColsx <- c("class")
+                        multiFacetRowsx <- NULL
+                        colm = length(unique(datax$class))
+                        rowm = 1
+                        colm = colm/((colm + ncol-1)%/%ncol);
+                        rowm = (colm + ncol-1)%/%ncol
+                      }else{
+                        multiFacetColsx <- NULL
+                        multiFacetRowsx <- NULL
+                        colm = 1
+                        rowm = 1
+                      }
+                    }
+
+                    # Add facet or Rows if selected
+                    if(!is.null(col)){
+                      if(!is.null(multiFacetColsx)){
+                        multiFacetColsx <- c(multiFacetColsx,col)
+                        colm <- colm + length(col)
+                      } else { multiFacetColsx <- col; colm <- length(col)}
+                    }
+
+                    if(!is.null(row)){
+                      if(!is.null(multiFacetRowsx)){
+                        multiFacetRowsx <- c(multiFacetRowsx,row)
+                        rowm <- rowm + length(row)
+                      } else { multiFacetRowsx <- row; rowm <- length(row)}
+                    }
+
+
+                    # Check for Duplicates
+                    if(duplicated(datax %>%
+                                  dplyr::select(lat,lon,subRegion,x,dplyr::all_of(multiFacetRowsx),dplyr::all_of(multiFacetColsx))) %>%
+                       any()){stop("Input data data has multiple values. Please check your data.")}
+
+                    # Set title
+                    if(is.null(title)){
+                      if(param_i == "param"){
+                        titlex <- paste(x_i,sep="")
+                      } else {
+                        titlex <- paste(param_i," ",x_i,sep="")
+                      }
+                    } else if(title == F){
+                      titlex <- NULL
+                    } else {
+                      titlex <- title
+                    }
+
+
+                    if(any(grepl("all|kmean",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
+                      rmap::map_plot(save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
+                                     overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
+                                     overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
+                                     underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
+                                     underLayerAlpha = underLayerAlpha, background=background,
+                                     zoom=zoom, zoomx = zoomx, zoomy=zoomy, asp=asp, legendShow=legendShow,
+                                     crop = crop, transparent=transparent,
+                                     alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)),
+                                     ncol=ncol, showNA=showNA, colorNA=colorNA,
+                                     theme = theme, legendTitle=legendTitle,
+                                     legendDigitsOverride=legendDigitsOverride,
+                                     numeric2Cat_list=numeric2Cat_list, catParam = param_i,
+                                     underLayer=underLayer,
+                                     data=datax,
+                                     labelColor=labelColor,
+                                     labelSize=labelSize,
+                                     labelAlpha=labelAlpha,
+                                     labelFill=labelFill,
+                                     labelBorderSize=labelBorderSize,
+                                     legendBreaksn=legendBreaksn,
+                                     legendDigits = animLegendDigits,
+                                     palette = palette,
+                                     width=width*max(1,colm/1),
+                                     height=height*max(1,rowm/1),
+                                     pdfpng = pdfpng, legendSingleColor = legendSingleColor, legendSingleValue =  legendSingleValue,
+                                     labels=labels, labelRepel=labelRepel, underLayerLabels=underLayerLabels, overLayerLabels=overLayerLabels,
+                                     legendBreaks = animKmeanBreaks,
+                                     fillColumn = "value", shapeColumn = shapeColumn,
+                                     col = multiFacetColsx,
+                                     row = multiFacetRowsx,
+                                     title=titlex ,
+                                     fileName = paste("map_",param_i,"_",x_i,nameAppend,"_KMEANS_comb_absDiff",sep=""),
+                                     folder = paste(folder,"/",param_if,"/combScenario/byYear",sep = "")) ->
+                        mapsReturn[[return_i]];
+                      names(mapsReturn)[return_i] <- paste("map_",param_i,"_",x_i,nameAppend,"_KMEANS_comb_absDiff",sep="");
+                      return_i = return_i + 1
+
+                      # theme_ggplot = theme_ggplot
+                      # theme_custom = theme_custom
+                      # theme_rmap = theme_rmap
+                      # legendDigitsOverride=legendDigitsOverride
+                      # numeric2Cat_list=numeric2Cat_list
+                      # underLayer=underLayer
+                      # data=datax
+                      # legendBreaksn=legendBreaksn
+                      # legendDigits = animLegendDigits
+                      # palette = palette
+                      # width=width*max(1,colm/1),
+                      # height=height*max(1,rowm/1),
+                      # pdfpng = pdfpng
+                      # legendSingleColor = legendSingleColor
+                      # legendSingleValue =  legendSingleValue
+                      # labels=labels
+                      # legendBreaks = animKmeanBreaks
+                      # fillColumn = "value"
+                      # col = multiFacetColsx
+                      # row = multiFacetRowsx
+                      # title=paste(param_i," ",x_i,sep="")
+                      # fileName = paste("map_",param_i,"_",x_i,nameAppend,"_KMEANS",sep="")
+                      # folder = paste(folder,"/",param_if,"/combScenario/byYear",sep = "")
+
+                    }
+
+                    if(any(grepl("all|pretty",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
+                      rmap::map_plot(save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
+                                     overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
+                                     overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
+                                     underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
+                                     underLayerAlpha = underLayerAlpha, background=background,
+                                     zoom=zoom, zoomx = zoomx, zoomy=zoomy, asp=asp, legendShow=legendShow,
+                                     crop = crop, transparent=transparent,
+                                     alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)), ncol=ncol,
+                                     showNA=showNA, colorNA=colorNA,
+                                     labelColor=labelColor,
+                                     labelSize=labelSize,
+                                     labelAlpha=labelAlpha,
+                                     labelFill=labelFill,
+                                     labelBorderSize=labelBorderSize,
+                                     theme = theme, legendTitle=legendTitle,
+                                     legendDigitsOverride=legendDigitsOverride,
+                                     numeric2Cat_list=numeric2Cat_list, catParam = param_i,
+                                     underLayer=underLayer,
+                                     data=datax,
+                                     legendBreaksn=legendBreaksn,
+                                     legendDigits = animLegendDigits,
+                                     palette = palette,
+                                     width=width*max(1,colm/1),
+                                     height=height*max(1,rowm/1),
+                                     pdfpng = pdfpng, legendSingleColor = legendSingleColor, legendSingleValue =  legendSingleValue,
+                                     labels=labels, labelRepel=labelRepel, underLayerLabels=underLayerLabels, overLayerLabels=overLayerLabels,
+                                     legendBreaks = animPrettyBreaks,
+                                     fillColumn = "value", shapeColumn = shapeColumn,
+                                     col = multiFacetColsx,
+                                     row = multiFacetRowsx,
+                                     title=titlex ,
+                                     fileName = paste("map_",param_i,"_",x_i,nameAppend,"_PRETTY_comb_absDiff",sep=""),
+                                     folder = paste(folder,"/",param_if,"/combScenario/byYear",sep = "")) ->
+                        mapsReturn[[return_i]];
+                      names(mapsReturn)[return_i] <- paste("map_",param_i,"_",x_i,nameAppend,"_PRETTY_comb_absDiff",sep="");
+                      return_i = return_i + 1
+                    }
+
+                    if(!is.null(legendFixedBreaks)){
+                      rmap::map_plot(save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
+                                     overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
+                                     overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
+                                     underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
+                                     underLayerAlpha = underLayerAlpha, background=background,
+                                     zoom=zoom, zoomx = zoomx, zoomy=zoomy, asp=asp, legendShow=legendShow,
+                                     crop = crop, transparent=transparent,
+                                     alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)), ncol=ncol,
+                                     showNA=showNA, colorNA=colorNA,
+                                     labelColor=labelColor,
+                                     labelSize=labelSize,
+                                     labelAlpha=labelAlpha,
+                                     labelFill=labelFill,
+                                     labelBorderSize=labelBorderSize,
+                                     theme = theme, legendTitle=legendTitle,
+                                     legendDigitsOverride=legendDigitsOverride,
+                                     numeric2Cat_list=numeric2Cat_list, catParam = param_i,
+                                     underLayer=underLayer,
+                                     data=datax,
+                                     legendBreaksn=legendBreaksn,
+                                     legendDigits = animLegendDigits,
+                                     palette = palette,
+                                     width=width*max(1,colm/1),
+                                     height=height*max(1,rowm/1),
+                                     pdfpng = pdfpng, legendSingleColor = legendSingleColor, legendSingleValue =  legendSingleValue,
+                                     labels=labels, labelRepel=labelRepel, underLayerLabels=underLayerLabels, overLayerLabels=overLayerLabels,
+                                     legendBreaks = legendFixedBreaks,
+                                     fillColumn = "value", shapeColumn = shapeColumn,
+                                     col = multiFacetColsx,
+                                     row = multiFacetRowsx,
+                                     title=titlex ,
+                                     fileName = paste("map_",param_i,"_",x_i,nameAppend,"_FIXED_comb_absDiff",sep=""),
+                                     folder = paste(folder,"/",param_if,"/combScenario/byYear",sep = "")) ->
+                        mapsReturn[[return_i]];
+                      names(mapsReturn)[return_i] <- paste("map_",param_i,"_",x_i,nameAppend,"_FIXED_comb_absDiff",sep="");
+                      return_i = return_i + 1
+                    }
+
+                  }
+                } # Close years x_i loop
+
+                # Animations
+                if(animate==T){
+
+                  if(any(grepl("all|pretty",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
+                    animName<-paste("anim_",param_i,nameAppend,"_PRETTY_comb_absDiff.gif",sep="")
+                    animFiles <- list.files(path = paste(folder,"/",param_if,"/combScenario/byYear",sep=""),
+                                            pattern = paste(".*",param_i,".*",nameAppend,".*PRETTY", ".", pdfpng,sep=""), full.names=T,ignore.case = T, include.dirs = T);
+                    animation <- magick::image_animate(magick::image_join(lapply(animFiles, magick::image_read)),fps=fps)
+                    magick::image_write(animation,paste(folder,"/",param_if,"/combScenario/",
+                                                        animName,sep = ""))
+                    print(gsub("//","/",paste("animation saved in :",folder,"/",param_if,"/combScenario/",
+                                              animName,sep = "")))
+                  }
+
+                  if(any(grepl("all|kmean",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
+                    animName<-paste("anim_",param_i,nameAppend,"_KMEANS_comb_absDiff.gif",sep="")
+                    animFiles <- list.files(path = paste(folder,"/",param_if,"/combScenario/byYear",sep=""),
+                                            pattern = paste(".*",param_i,".*",nameAppend,".*KMEANS", ".", pdfpng,sep=""), full.names=T,ignore.case = T, include.dirs = T);
+                    animation <- magick::image_animate(magick::image_join(lapply(animFiles, magick::image_read)),fps=fps)
+                    magick::image_write(animation,paste(folder,"/",param_if,"/combScenario/",
+                                                        animName,sep = ""))
+                    print(gsub("//","/",paste("animation saved in :",folder,"/",param_if,"/combScenario/",
+                                              animName,sep = "")))
+                  }
+
+                  if(!is.null(legendFixedBreaks)){
+                    animName<-paste("anim_",param_i,nameAppend,"_FIXED_comb_absDiff.gif",sep="")
+                    animFiles <- list.files(path = paste(folder,"/",param_if,"/combScenario/byYear",sep=""),
+                                            pattern = paste(".*",param_i,".*",nameAppend,".*FIXED", ".", pdfpng,sep=""), full.names=T,ignore.case = T, include.dirs = T);
+                    animation <- magick::image_animate(magick::image_join(lapply(animFiles, magick::image_read)),fps=fps)
+                    magick::image_write(animation,paste(folder,"/",param_if,"/combScenario/",
+                                                        animName,sep = ""))
+                    print(gsub("//","/",paste("animation saved in :",folder,"/",param_if,"/combScenario/",
+                                              animName,sep = "")))
+                  }
+
+                }
+              }
+
+              # Multi-Year-Single Chart
+              datax<-dataTblx%>%dplyr::filter(param==param_i)
+              if(nrow(datax)>0){
+
+                if(is.null(legendTitleOrig)){legendTitle<-unique(datax$units)}
+                palette<-as.character(unique(datax$palette))
+
+                animScale<-datax$value
+                animScale <- animScale[!is.infinite(animScale)]
+                animScale <- animScale[!is.nan(animScale)]
+                animScale <- animScale[!is.na(animScale)]
+
+                # Choose correct scaleRange
+                if(T){
+                  scaleRange_i=scaleRange
+
+                  if(!is.null(scaleRange_i)){
+                    if(any(param_i %in% unique(scaleRange_i$param))){
+                      if(max(animScale) < (scaleRange_i %>% dplyr::filter(param==param_i))$maxScale){
+                        animScale<-c(animScale,(scaleRange_i %>% dplyr::filter(param==param_i))$maxScale)} else {
+                          animScale <- c((scaleRange_i %>% dplyr::filter(param==param_i))$maxScale,
+                                         animScale[animScale<(scaleRange_i %>% dplyr::filter(param==param_i))$maxScale])
+                        }
+                      if(min(animScale) > (scaleRange_i %>% dplyr::filter(param==param_i))$minScale){
+                        animScale<-c(animScale,(scaleRange_i %>% dplyr::filter(param==param_i))$minScale)} else {
+                          animScale <-  c((scaleRange_i %>% dplyr::filter(param==param_i))$minScale,
+                                          animScale[animScale>(scaleRange_i %>% dplyr::filter(param==param_i))$minScale])
+                        }
+                    }
+                  }
+                  animPrettyBreaks<-scales::pretty_breaks(n=legendBreaksn)(animScale)
+                  animKmeanBreaks<-sort(as.vector((stats::kmeans(animScale,
+                                                                 centers=max(1,min(length(unique(animScale))-1,(legendBreaksn-1)))))$centers[,1]))
+                  if(!min(animScale) %in% animKmeanBreaks){
+                    animKmeanBreaks <- sort(c(min(animScale),animKmeanBreaks))}
+                  if(!max(animScale) %in% animKmeanBreaks){
+                    animKmeanBreaks <- sort(c(animKmeanBreaks,max(animScale)))}
+
+                  if(!is.null(legendFixedBreaks)){
+                    if(min(animScale) < min(legendFixedBreaks)){
+                      legendFixedBreaks <- sort(c(min(animScale),legendFixedBreaks))}
+                    if(max(animScale) > max(legendFixedBreaks)){
+                      legendFixedBreaks <- sort(c(legendFixedBreaks,max(animScale)))};legendFixedBreaks
+                  }
+
+                  if((max(range(animScale))-min(range(animScale)))<1E-10 &
+                     (max(range(animScale))-min(range(animScale)))>-1E-10){animScaleRange=min(animScale)}else{
+                       animScaleRange=range(animScale)
+                     }
+                  if(abs(min(animScaleRange,na.rm = T))==abs(max(animScaleRange,na.rm = T))){animScaleRange=abs(min(animScaleRange,na.rm = T))}
+                  if(mean(animScaleRange,na.rm = T)<0.01 & mean(animScaleRange,na.rm = T)>(-0.01)){animLegendDigits<-5}else{
+                    if(mean(animScaleRange,na.rm = T)<0.1 & mean(animScaleRange,na.rm = T)>(-0.1)){animLegendDigits<-4}else{
+                      if(mean(animScaleRange,na.rm = T)<1 & mean(animScaleRange,na.rm = T)>(-1)){animLegendDigits<-3}else{
+                        if(mean(animScaleRange,na.rm = T)<10 & mean(animScaleRange,na.rm = T)>(-10)){animLegendDigits<-2}else{animLegendDigits<-1}}}}
+                }
+
+                # Set Facets
+                if(length(unique(datax$x))>1){
+                  multiFacetColsx <- "x"
+                  colm <- length(unique(datax$x))
+                  if((length(unique(datax$scenario))>1) & (length(unique(datax$class))>1)){
+                    multiFacetRowsx <- c("scenario","class")
+                    rowm <- length(unique(datax$scenario))*length(unique(datax$class))
+                  }
+                  if((length(unique(datax$scenario))>1) & (!length(unique(datax$class))>1)){
+                    multiFacetRowsx <- c("scenario")
+                    rowm <- length(unique(datax$scenario))
+                  }
+                  if((!length(unique(datax$scenario))>1) & (length(unique(datax$class))>1)){
+                    multiFacetRowsx <- c("class")
+                    rowm <- length(unique(datax$class))
+                  }
+                  if((!length(unique(datax$scenario))>1) & (!length(unique(datax$class))>1)){
+                    multiFacetRowsx <- NULL
+                    rowm <- 1
+                    colm = colm/((colm + ncol-1)%/%ncol);
+                    rowm = (colm + ncol-1)%/%ncol
+                  }
+                }else{
+                  if(length(unique(datax$scenario))>0){
+                    multiFacetColsx <- "scenario"
+                    colm <- length(unique(datax$scenario))
+                    if((length(unique(datax$class))>1)){
+                      multiFacetRowsx <- c("class")
+                      rowm <- length(unique(datax$class))
+                    }else{
+                      multiFacetRowsx <- NULL
+                      rowm <- 1
+                      colm = colm/((colm + ncol-1)%/%ncol);
+                      rowm = (colm + ncol-1)%/%ncol
+                    }
+                  }else{
+                    if((length(unique(datax$class))>1)){
+                      multiFacetColsx <- c("class")
+                      colm <- length(unique(datax$class))
+                      multiFacetRowsx <- NULL
+                      rowm <- 1
+                      colm = colm/((colm + ncol-1)%/%ncol);
+                      rowm = (colm + ncol-1)%/%ncol
+                    }else{
+                      multiFacetColsx <- NULL
+                      multiFacetRowsx <- NULL
+                      colm <- 1
+                      rowm <- 1
+                    }
+                  }
+                }
+
+
+                # Add facet or Rows if selected
+                if(!is.null(col)){
+                  if(!is.null(multiFacetColsx)){
+                    multiFacetColsx <- c(multiFacetColsx,col)
+                    colm <- colm + length(col)
+                  } else { multiFacetColsx <- col; colm <- length(col)}
+                }
+
+                if(!is.null(row)){
+                  if(!is.null(multiFacetRowsx)){
+                    multiFacetRowsx <- c(multiFacetRowsx,row)
+                    rowm <- rowm + length(row)
+                  } else { multiFacetRowsx <- row; rowm <- length(row)}
+                }
+
+                # Check for Duplicates
+                if(duplicated(datax %>%
+                              dplyr::select(subRegion,lat,lon,x,dplyr::all_of(multiFacetRowsx),dplyr::all_of(multiFacetColsx))) %>%
+                   any()){stop("Input data data has multiple values. Please check your data.")}
+
+                # Set title
+                if(is.null(title)){
+                  if(param_i != "param"){
+                    titlex <- paste(param_i,sep="")
+                  } else {
+                    titlex <- NULL
+                  }
+                } else if(title == F){
+                  titlex <- NULL
+                } else {
+                  titlex <- title
+                }
+
+                if(any(grepl("all|kmean",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
+                  rmap::map_plot(save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
+                                 overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
+                                 overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
+                                 underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
+                                 underLayerAlpha = underLayerAlpha, background=background, zoom=zoom,
+                                 zoomx = zoomx, zoomy=zoomy, asp=asp, legendShow=legendShow,
+                                 crop = crop, transparent=transparent,
+                                 alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)), ncol=ncol,
+                                 showNA=showNA, colorNA=colorNA,
+                                 labelColor=labelColor,
+                                 labelSize=labelSize,
+                                 labelAlpha=labelAlpha,
+                                 labelFill=labelFill,
+                                 labelBorderSize=labelBorderSize,
+                                 theme = theme, legendTitle=legendTitle,
+                                 legendDigitsOverride=legendDigitsOverride,
+                                 numeric2Cat_list=numeric2Cat_list, catParam = param_i,
+                                 underLayer=underLayer,
+                                 data=datax,
+                                 legendBreaksn=legendBreaksn,
+                                 legendDigits = animLegendDigits,
+                                 palette = palette,
+                                 width=width*max(1,colm/1),
+                                 height=height*max(1,rowm/1),
+                                 pdfpng = pdfpng, legendSingleColor = legendSingleColor, legendSingleValue =  legendSingleValue,
+                                 labels=labels, labelRepel=labelRepel, underLayerLabels=underLayerLabels, overLayerLabels=overLayerLabels,
+                                 legendBreaks = animKmeanBreaks,
+                                 fillColumn = "value", shapeColumn = shapeColumn,
+                                 col = multiFacetColsx,
+                                 row = multiFacetRowsx,
+                                 title= titlex,
+                                 fileName = paste("map_",param_i,nameAppend,"_KMEANS_comb_absDiff",sep=""),
+                                 folder = sub("/$","",paste(folder,"/",param_if,"/combScenario",sep = ""))) ->
+                    mapsReturn[[return_i]];
+                  names(mapsReturn)[return_i] <- paste("map_",param_i,nameAppend,"_KMEANS_comb_absDiff",sep="");
+                  return_i = return_i + 1
+
+
+                  # save=save
+                  # overLayer=overLayer
+                  # overLayerColor=overLayerColor
+                  # overLayerFill = overLayerFill
+                  # overLayerLwd = overLayerLwd
+                  # overLayerAlpha = overLayerAlpha
+                  # underLayerColor = underLayerColor
+                  # underLayerFill = underLayerFill
+                  # underLayerLwd = underLayerLwd
+                  # underLayerAlpha = underLayerAlpha
+                  # background=background
+                  # zoom=zoom
+                  # zoomx = zoomx
+                  # zoomy=zoomy
+                  # alpha = alpha
+                  # size=max(1,(size+(colm+rowm)*3 - 12))
+                  # ncol=ncol
+                  # showNA=showNA
+                  # colorNA=colorNA
+                  # theme = theme
+                  # legendTitle=legendTitle
+                  # legendDigitsOverride=legendDigitsOverride
+                  # numeric2Cat_list=numeric2Cat_list
+                  # underLayer=underLayer
+                  # data=datax
+                  # legendBreaksn=legendBreaksn
+                  # legendDigits = animLegendDigits
+                  # palette = palette
+                  # width=width*max(1,colm/1)
+                  # height=height*max(1,rowm/1)
+                  # pdfpng = pdfpng
+                  # legendSingleColor = legendSingleColor
+                  # legendSingleValue =  legendSingleValue
+                  # labels=labels
+                  # legendBreaks = animKmeanBreaks
+                  # fillColumn = "value"
+                  # col = multiFacetColsx
+                  # row = multiFacetRowsx
+                  # title=paste(param_i,sep="")
+                  # fileName = paste("map_",param_i,nameAppend,"_KMEANS",sep="")
+                  # folder = sub("/$","",paste(folder,"/",param_if,"/combScenario",sep = ""))
+
+                }
+
+                if(any(grepl("all|pretty",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
+                  rmap::map_plot(save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
+                                 overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
+                                 overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
+                                 underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
+                                 underLayerAlpha = underLayerAlpha, background=background,
+                                 zoom=zoom, zoomx = zoomx, zoomy=zoomy, asp=asp, legendShow=legendShow,
+                                 crop = crop, transparent=transparent,
+                                 alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)), ncol=ncol,
+                                 showNA=showNA, colorNA=colorNA,
+                                 labelColor=labelColor,
+                                 labelSize=labelSize,
+                                 labelAlpha=labelAlpha,
+                                 labelFill=labelFill,
+                                 labelBorderSize=labelBorderSize,
+                                 theme = theme, legendTitle=legendTitle,
+                                 legendDigitsOverride=legendDigitsOverride,
+                                 numeric2Cat_list=numeric2Cat_list, catParam = param_i,
+                                 underLayer=underLayer,
+                                 data=datax,
+                                 legendBreaksn=legendBreaksn,
+                                 legendDigits = animLegendDigits,
+                                 palette = palette,
+                                 width=width*max(1,colm/1),
+                                 height=height*max(1,rowm/1),
+                                 pdfpng = pdfpng, legendSingleColor = legendSingleColor, legendSingleValue =  legendSingleValue,
+                                 labels=labels, labelRepel=labelRepel, underLayerLabels=underLayerLabels, overLayerLabels=overLayerLabels,
+                                 legendBreaks = animPrettyBreaks,
+                                 fillColumn = "value", shapeColumn = shapeColumn,
+                                 col = multiFacetColsx,
+                                 row = multiFacetRowsx,
+                                 title=titlex,
+                                 fileName = paste("map_",param_i,nameAppend,"_PRETTY_comb_absDiff",sep=""),
+                                 folder = sub("/$","",paste(folder,"/",param_if,"/combScenario",sep = ""))) ->
+                    mapsReturn[[return_i]];
+                  names(mapsReturn)[return_i] <- paste("map_",param_i,nameAppend,"_PRETTY_comb_absDiff",sep="");
+                  return_i = return_i + 1
+                }
+
+                if(!is.null(legendFixedBreaks)){
+                  rmap::map_plot(save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
+                                 overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
+                                 overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
+                                 underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
+                                 underLayerAlpha = underLayerAlpha, background=background,
+                                 zoom=zoom, zoomx = zoomx, zoomy=zoomy, asp=asp, legendShow=legendShow,
+                                 crop = crop, transparent=transparent,
+                                 alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)), ncol=ncol,
+                                 showNA=showNA, colorNA=colorNA,
+                                 labelColor=labelColor,
+                                 labelSize=labelSize,
+                                 labelAlpha=labelAlpha,
+                                 labelFill=labelFill,
+                                 labelBorderSize=labelBorderSize,
+                                 theme = theme, legendTitle=legendTitle,
+                                 legendDigitsOverride=legendDigitsOverride,
+                                 numeric2Cat_list=numeric2Cat_list, catParam = param_i,
+                                 underLayer=underLayer,
+                                 data=datax,
+                                 legendBreaksn=legendBreaksn,
+                                 legendDigits = animLegendDigits,
+                                 palette = palette,
+                                 width=width*max(1,colm/1),
+                                 height=height*max(1,rowm/1),
+                                 pdfpng = pdfpng, legendSingleColor = legendSingleColor, legendSingleValue =  legendSingleValue,
+                                 labels=labels, labelRepel=labelRepel, underLayerLabels=underLayerLabels, overLayerLabels=overLayerLabels,
+                                 legendBreaks = legendFixedBreaks,
+                                 fillColumn = "value", shapeColumn = shapeColumn,
+                                 col = multiFacetColsx,
+                                 row = multiFacetRowsx,
+                                 title=titlex,
+                                 fileName = paste("map_",param_i,nameAppend,"_FIXED_comb_absDiff",sep=""),
+                                 folder = sub("/$","",paste(folder,"/",param_if,"/combScenario",sep = ""))) ->
+                    mapsReturn[[return_i]];
+                  names(mapsReturn)[return_i] <- paste("map_",param_i,nameAppend,"_FIXED_comb_absDiff",sep="");
+                  return_i = return_i + 1
+                }
+
+              } # if(nrow(datax)>0){
+
+              # Mean for all years provided
+              datax<-dataTblx%>%dplyr::filter(param==param_i)
+
+              if(length(unique(datax$x))>1){
+
+                if(nrow(datax)>0){
+
+                  if(is.null(legendTitleOrig)){legendTitle<-unique(datax$units)}
+                  palette<-as.character(unique(datax$palette))
+
+                  meanCol = paste("Mean_",min(datax$x),"to",max(datax$x),sep="")
+
+
+                  colsPresentGroup =  c("lat","lon","subRegion","scenario","class")
+                  colsPresentGroup = colsPresentGroup[colsPresentGroup %in% names(datax)]
+
+                  datax<-datax%>%
+                    dplyr::select(lat,lon,subRegion,scenario,class,x,value)%>%
+                    dplyr::group_by_at(dplyr::all_of(colsPresentGroup))%>%
+                    dplyr::summarize(!!meanCol:=mean(value))%>%
+                    dplyr::ungroup()
+
+                  animScale<-datax[[meanCol]];animScale
+                  animScale <- animScale[!is.infinite(animScale)]
+                  animScale <- animScale[!is.nan(animScale)]
+                  animScale <- animScale[!is.na(animScale)]
+
+                  # Choose correct scaleRange
+                  if(T){
+                    scaleRange_i=scaleRange
+
+                    if(!is.null(scaleRange_i)){
+                      if(any(param_i %in% unique(scaleRange_i$param))){
+                        if(max(animScale) < (scaleRange_i %>% dplyr::filter(param==param_i))$maxScale){
+                          animScale<-c(animScale,(scaleRange_i %>% dplyr::filter(param==param_i))$maxScale)} else {
+                            animScale <- c((scaleRange_i %>% dplyr::filter(param==param_i))$maxScale,
+                                           animScale[animScale<(scaleRange_i %>% dplyr::filter(param==param_i))$maxScale])
+                          }
+                        if(min(animScale) > (scaleRange_i %>% dplyr::filter(param==param_i))$minScale){
+                          animScale<-c(animScale,(scaleRange_i %>% dplyr::filter(param==param_i))$minScale)} else {
+                            animScale <-  c((scaleRange_i %>% dplyr::filter(param==param_i))$minScale,
+                                            animScale[animScale>(scaleRange_i %>% dplyr::filter(param==param_i))$minScale])
+                          }
+                      }
+                    }
+                    animPrettyBreaks<-scales::pretty_breaks(n=legendBreaksn)(animScale)
+                    animKmeanBreaks<-sort(as.vector((stats::kmeans(animScale,
+                                                                   centers=max(1,min(length(unique(animScale))-1,(legendBreaksn-1)))))$centers[,1]))
+                    if(!min(animScale) %in% animKmeanBreaks){
+                      animKmeanBreaks <- sort(c(min(animScale),animKmeanBreaks))}
+                    if(!max(animScale) %in% animKmeanBreaks){
+                      animKmeanBreaks <- sort(c(animKmeanBreaks,max(animScale)))}
+
+                    if(!is.null(legendFixedBreaks)){
+                      if(min(animScale) < min(legendFixedBreaks)){
+                        legendFixedBreaks <- sort(c(min(animScale),legendFixedBreaks))}
+                      if(max(animScale) > max(legendFixedBreaks)){
+                        legendFixedBreaks <- sort(c(legendFixedBreaks,max(animScale)))};legendFixedBreaks
+                    }
+
+                    if((max(range(animScale))-min(range(animScale)))<1E-10 &
+                       (max(range(animScale))-min(range(animScale)))>-1E-10){animScaleRange=min(animScale)}else{
+                         animScaleRange=range(animScale)
+                       }
+                    if(abs(min(animScaleRange,na.rm = T))==abs(max(animScaleRange,na.rm = T))){animScaleRange=abs(min(animScaleRange,na.rm = T))}
+                    if(mean(animScaleRange,na.rm = T)<0.01 & mean(animScaleRange,na.rm = T)>(-0.01)){animLegendDigits<-5}else{
+                      if(mean(animScaleRange,na.rm = T)<0.1 & mean(animScaleRange,na.rm = T)>(-0.1)){animLegendDigits<-4}else{
+                        if(mean(animScaleRange,na.rm = T)<1 & mean(animScaleRange,na.rm = T)>(-1)){animLegendDigits<-3}else{
+                          if(mean(animScaleRange,na.rm = T)<10 & mean(animScaleRange,na.rm = T)>(-10)){animLegendDigits<-2}else{animLegendDigits<-1}}}}
+                  }
+
+                  # Set Facets
+                  if(length(unique(datax$scenario))>0){
+                    multiFacetColsx <- "scenario"
+                    colm <- length(unique(datax$scenario))
+                    if((length(unique(datax$class))>1)){
+                      multiFacetRowsx <- c("class")
+                      rowm <- length(unique(datax$class))
+                    }else{
+                      multiFacetRowsx <- NULL
+                      rowm <- 1
+                      colm = colm/((colm + ncol-1)%/%ncol);
+                      rowm = (colm + ncol-1)%/%ncol
+                    }
+                  }else{
+                    if((length(unique(datax$class))>1)){
+                      multiFacetColsx <- c("class")
+                      colm <- length(unique(datax$class))
+                      multiFacetRowsx <- NULL
+                      rowm <- 1
+                      colm = colm/((colm + ncol-1)%/%ncol);
+                      rowm = (colm + ncol-1)%/%ncol
+                    }else{
+                      multiFacetColsx <- NULL
+                      multiFacetRowsx <- NULL
+                      colm <- 1
+                      rowm <- 1
+                    }
+                  }
+
+                  # Add facet or Rows if selected
+                  if(!is.null(col)){
+                    if(!is.null(multiFacetColsx)){
+                      multiFacetColsx <- c(multiFacetColsx,col)
+                      colm <- colm + length(col)
+                    } else { multiFacetColsx <- col; colm <- length(col)}
+                  }
+
+                  if(!is.null(row)){
+                    if(!is.null(multiFacetRowsx)){
+                      multiFacetRowsx <- c(multiFacetRowsx,row)
+                      rowm <- rowm + length(row)
+                    } else { multiFacetRowsx <- row; rowm <- length(row)}
+                  }
+
+
+
+                  # Check for Duplicates
+                  if(duplicated(datax %>%
+                                dplyr::select(lat,lon,subRegion,x,dplyr::all_of(multiFacetRowsx),dplyr::all_of(multiFacetColsx))) %>%
+                     any()){stop("Input data data has multiple values. Please check your data.")}
+
+                  # Set title
+                  if(is.null(title)){
+                    if(param_i == "param"){
+                      titlex <- paste(meanCol,sep="")
+                    } else {
+                      titlex <- paste(param_i," ",meanCol,sep="")
+                    }
+                  } else if(title == F){
+                    titlex <- NULL
+                  } else {
+                    titlex <- title
+                  }
+
+                  if(any(grepl("all|kmean",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
+                    rmap::map_plot(save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
+                                   overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
+                                   overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
+                                   underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
+                                   underLayerAlpha = underLayerAlpha, background=background,
+                                   zoom=zoom, zoomx = zoomx, zoomy=zoomy, asp=asp, legendShow=legendShow,
+                                   crop = crop, transparent=transparent,
+                                   alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)),
+                                   ncol=ncol, showNA=showNA, colorNA=colorNA,
+                                   labelColor=labelColor,
+                                   labelSize=labelSize,
+                                   labelAlpha=labelAlpha,
+                                   labelFill=labelFill,
+                                   labelBorderSize=labelBorderSize,
+                                   theme = theme, legendTitle=legendTitle,
+                                   legendDigitsOverride=legendDigitsOverride,
+                                   numeric2Cat_list=numeric2Cat_list, catParam = param_i,
+                                   underLayer=underLayer,
+                                   data=datax,
+                                   legendBreaksn=legendBreaksn,
+                                   legendDigits = animLegendDigits,
+                                   palette = palette,
+                                   width=width*max(1,colm/1),
+                                   height=height*max(1,rowm/1),
+                                   pdfpng = pdfpng, legendSingleColor = legendSingleColor, legendSingleValue =  legendSingleValue,
+                                   labels=labels, labelRepel=labelRepel, underLayerLabels=underLayerLabels, overLayerLabels=overLayerLabels,
+                                   legendBreaks = animKmeanBreaks,
+                                   fillColumn = meanCol,
+                                   col = multiFacetColsx,
+                                   row = multiFacetRowsx,
+                                   title = titlex,
+                                   fileName = paste("map_",param_i,nameAppend,"_MEAN_KMEANS_comb_absDiff",sep=""),
+                                   folder = sub("/$","",paste(folder,"/",param_if,"/combScenario",sep = ""))) ->
+                      mapsReturn[[return_i]];
+                    names(mapsReturn)[return_i] <- paste("map_",param_i,nameAppend,"_MEAN_KMEANS_comb_absDiff",sep="");
+                    return_i = return_i + 1
+                  }
+
+                  if(any(grepl("all|pretty",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
+                    rmap::map_plot(save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
+                                   overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
+                                   overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
+                                   underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
+                                   underLayerAlpha = underLayerAlpha, background=background,
+                                   zoom=zoom, zoomx = zoomx, zoomy=zoomy, asp=asp,
+                                   legendShow=legendShow,  crop = crop,
+                                   transparent=transparent,alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)),
+                                   ncol=ncol, showNA=showNA, colorNA=colorNA,
+                                   labelColor=labelColor,
+                                   labelSize=labelSize,
+                                   labelAlpha=labelAlpha,
+                                   labelFill=labelFill,
+                                   labelBorderSize=labelBorderSize,
+                                   theme = theme, legendTitle=legendTitle,
+                                   legendDigitsOverride=legendDigitsOverride,
+                                   numeric2Cat_list=numeric2Cat_list, catParam = param_i,
+                                   underLayer=underLayer,
+                                   data=datax,
+                                   legendBreaksn=legendBreaksn,
+                                   legendDigits = animLegendDigits,
+                                   palette = palette,
+                                   width=width*max(1,colm/1),
+                                   height=height*max(1,rowm/1),
+                                   pdfpng = pdfpng, legendSingleColor = legendSingleColor, legendSingleValue =  legendSingleValue,
+                                   labels=labels, labelRepel=labelRepel, underLayerLabels=underLayerLabels, overLayerLabels=overLayerLabels,
+                                   legendBreaks = animPrettyBreaks,
+                                   fillColumn = meanCol,
+                                   col = multiFacetColsx,
+                                   row = multiFacetRowsx,
+                                   title = titlex,
+                                   fileName = paste("map_",param_i,nameAppend,"_MEAN_PRETTY_comb_absDiff",sep=""),
+                                   folder = sub("/$","",paste(folder,"/",param_if,"/combScenario",sep = ""))) ->
+                      mapsReturn[[return_i]];
+                    names(mapsReturn)[return_i] <- paste("map_",param_i,nameAppend,"_MEAN_PRETTY_comb_absDiff",sep="");
+                    return_i = return_i + 1
+                  }
+
+                  if(!is.null(legendFixedBreaks)){
+                    rmap::map_plot(save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
+                                   overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
+                                   overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
+                                   underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
+                                   underLayerAlpha = underLayerAlpha, background=background,
+                                   zoom=zoom, zoomx = zoomx, zoomy=zoomy, asp=asp, legendShow=legendShow,
+                                   crop = crop, transparent=transparent,
+                                   alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)), ncol=ncol,
+                                   showNA=showNA, colorNA=colorNA,
+                                   labelColor=labelColor,
+                                   labelSize=labelSize,
+                                   labelAlpha=labelAlpha,
+                                   labelFill=labelFill,
+                                   labelBorderSize=labelBorderSize,
+                                   theme = theme, legendTitle=legendTitle,
+                                   legendDigitsOverride=legendDigitsOverride,
+                                   numeric2Cat_list=numeric2Cat_list, catParam = param_i,
+                                   underLayer=underLayer,
+                                   data=datax,
+                                   legendBreaksn=legendBreaksn,
+                                   legendDigits = animLegendDigits,
+                                   palette = palette,
+                                   width=width*max(1,colm/1),
+                                   height=height*max(1,rowm/1),
+                                   pdfpng = pdfpng, legendSingleColor = legendSingleColor, legendSingleValue =  legendSingleValue,
+                                   labels=labels, labelRepel=labelRepel, underLayerLabels=underLayerLabels, overLayerLabels=overLayerLabels,
+                                   legendBreaks = legendFixedBreaks,
+                                   fillColumn = meanCol,
+                                   col = multiFacetColsx,
+                                   row = multiFacetRowsx,
+                                   title = titlex,
+                                   fileName = paste("map_",param_i,nameAppend,"_MEAN_FIXED_comb_absDiff",sep=""),
+                                   folder = sub("/$","",paste(folder,"/",param_if,"/combScenario",sep = ""))) ->
+                      mapsReturn[[return_i]];
+                    names(mapsReturn)[return_i] <- paste("map_",param_i,nameAppend,"_MEAN_FIXED_comb_absDiff",sep="");
+                    return_i = return_i + 1
+                  }
+
+                } # if(nrow(datax)>0){
+              }# If multiple years
+
+            } # if nrow of dataTblx dplyr::filtered for Diff scenarios
+
+          }# Close if nrow dataTbl < 0
+        } # Close Combined Diff Abs Scenario
+
+        # Combined Diff Abs Scenarios
+        if((combinedOnly & length(dataTbl_scenariosOrig[grepl("DiffPrcnt",dataTbl_scenariosOrig)])==1) |
+           (length(dataTbl_scenariosOrig[grepl("DiffPrcnt",dataTbl_scenariosOrig)])>1)
+        ){
+
+          if(length(unique(dataTblOrig$param))==1){param_if=NULL}else{param_if=param_i}
+
+          if(nrow(dataTblOrig%>%dplyr::filter(param==param_i))>0){
+
+            dataTblx <- dataTblOrig%>%dplyr::filter(param==param_i,
+                                                    scenario %in% dataTbl_scenariosOrig[grepl("DiffPrcnt",dataTbl_scenariosOrig)])
+
+            if(nrow(dataTblx)>0){
+
+              #.................-
+              # Create data Table Folders If Needed
+              #.................-
+              if(save){
+
+                if(!dir.exists(paste(folder,"/",sep = ""))){
+                  dir.create(paste(folder,"/",sep = ""))}
+
+                if(!dir.exists(paste(folder,"/",param_if,sep = ""))){
+                  dir.create(paste(folder,"/",param_if,sep = ""))}
+
+                if(!dir.exists(paste(folder,"/",param_if,"/combScenario",sep = ""))){
+                  dir.create(paste(folder, "/",param_if,"/combScenario",sep = ""))}
+
+                if(length(unique(dataTblx$x))>1){
+                  if(!dir.exists(paste(folder,"/",param_if,"/combScenario/byYear",sep = ""))){
+                    dir.create(paste(folder, "/",param_if,"/combScenario/byYear",sep = ""))}
+                }
+              } # Create data table folder if needed
+
+              #.................--
+              # Save Map related Data Table
+              #.................--
+
+              if(save){
+                if(nrow(dataTblx %>% dplyr::filter(param==param_i))>0){
+                  data.table::fwrite(dataTblx %>% dplyr::filter(param==param_i)%>%
+                                       dplyr::select(scenario,lat,lon,subRegion,param,class,x,value,units),
+                                     paste(folder,"/",param_if,"/combScenario/","map_",param_i,nameAppend,".csv",sep = ""))
+                  print(paste("Map data table written to ",folder,"/",param_if,"/combScenario/","map_",param_i,nameAppend,".csv",sep = ""))
+                }
+              }
+
+              #.............................
+              # By Year
+              #.............................
+
+              # Set Legends
+              if(T){
+                animScale<-dataTblx$value
+                animScale <- animScale[!is.infinite(animScale)]
+                animScale <- animScale[!is.nan(animScale)]
+                animScale <- animScale[!is.na(animScale)]
+
+                # Choose correct scaleRange
+                scaleRange_i=scaleRange
+
+                if(!is.null(scaleRange_i)){
+                  if(any(param_i %in% unique(scaleRange_i$param))){
+                    if(max(animScale) < (scaleRange_i %>% dplyr::filter(param==param_i))$maxScale){
+                      animScale<-c(animScale,(scaleRange_i %>% dplyr::filter(param==param_i))$maxScale)} else {
+                        animScale <- c((scaleRange_i %>% dplyr::filter(param==param_i))$maxScale,
+                                       animScale[animScale<(scaleRange_i %>% dplyr::filter(param==param_i))$maxScale])
+                      }
+                    if(min(animScale) > (scaleRange_i %>% dplyr::filter(param==param_i))$minScale){
+                      animScale<-c(animScale,(scaleRange_i %>% dplyr::filter(param==param_i))$minScale)} else {
+                        animScale <-  c((scaleRange_i %>% dplyr::filter(param==param_i))$minScale,
+                                        animScale[animScale>(scaleRange_i %>% dplyr::filter(param==param_i))$minScale])
+                      }
+                  }
+                }
+
+                animPrettyBreaks<-scales::pretty_breaks(n=legendBreaksn)(animScale); animPrettyBreaks
+                animKmeanBreaks<-sort(as.vector((stats::kmeans(animScale,
+                                                               centers=max(1,min(length(unique(animScale))-1,(legendBreaksn-1)))))$centers[,1]));animKmeanBreaks
+                if(!min(animScale) %in% animKmeanBreaks){
+                  animKmeanBreaks <- sort(c(min(animScale),animKmeanBreaks))}
+                if(!max(animScale) %in% animKmeanBreaks){
+                  animKmeanBreaks <- sort(c(animKmeanBreaks,max(animScale)))};animKmeanBreaks
+
+                if(!is.null(legendFixedBreaks)){
+                  if(min(animScale) < min(legendFixedBreaks)){
+                    legendFixedBreaks <- sort(c(min(animScale),legendFixedBreaks))}
+                  if(max(animScale) > max(legendFixedBreaks)){
+                    legendFixedBreaks <- sort(c(legendFixedBreaks,max(animScale)))};legendFixedBreaks
+                }
+
+
+                if((max(range(animScale))-min(range(animScale)))<1E-10 &
+                   (max(range(animScale))-min(range(animScale)))>-1E-10){animScaleRange=min(animScale)}else{
+                     animScaleRange=range(animScale)
+                   }
+
+                if(abs(min(animScaleRange,na.rm = T))==abs(max(animScaleRange,na.rm = T))){animScaleRange=abs(min(animScaleRange,na.rm = T))}
+                if(mean(animScaleRange,na.rm = T)<0.01 & mean(animScaleRange,na.rm = T)>(-0.01)){animLegendDigits<-5}else{
+                  if(mean(animScaleRange,na.rm = T)<0.1 & mean(animScaleRange,na.rm = T)>(-0.1)){animLegendDigits<-4}else{
+                    if(mean(animScaleRange,na.rm = T)<1 & mean(animScaleRange,na.rm = T)>(-1)){animLegendDigits<-3}else{
+                      if(mean(animScaleRange,na.rm = T)<10 & mean(animScaleRange,na.rm = T)>(-10)){animLegendDigits<-2}else{animLegendDigits<-1}}}}
+
+              }
+
+              # By Year
+              if(length(unique(dataTblx$x))>1){
+
+                for (x_i in unique(dataTblx$x)){
+
+                  datax<-dataTblx%>%dplyr::filter(x==x_i)
+
+                  if(nrow(datax)>0){
+                    if(is.null(legendTitleOrig)){legendTitle<-unique(datax$units)}
+                    palette<-as.character(unique(datax$palette))
+
+                    # Set Facets
+                    if(length(unique(datax$scenario))>0){
+                      multiFacetColsx <- "scenario"
+                      colm <- length(unique(datax$scenario))
+                      if((length(unique(datax$class))>1)){
+                        multiFacetRowsx <- c("class")
+                        rowm <- length(unique(datax$scenario))
+                      }else{
+                        multiFacetRowsx <- NULL
+                        rowm = 1
+                        colm = colm/((colm + ncol-1)%/%ncol);
+                        rowm = (colm + ncol-1)%/%ncol
+                      }
+                    }else{
+                      if((length(unique(datax$class))>1)){
+                        multiFacetColsx <- c("class")
+                        multiFacetRowsx <- NULL
+                        colm = length(unique(datax$class))
+                        rowm = 1
+                        colm = colm/((colm + ncol-1)%/%ncol);
+                        rowm = (colm + ncol-1)%/%ncol
+                      }else{
+                        multiFacetColsx <- NULL
+                        multiFacetRowsx <- NULL
+                        colm = 1
+                        rowm = 1
+                      }
+                    }
+
+                    # Add facet or Rows if selected
+                    if(!is.null(col)){
+                      if(!is.null(multiFacetColsx)){
+                        multiFacetColsx <- c(multiFacetColsx,col)
+                        colm <- colm + length(col)
+                      } else { multiFacetColsx <- col; colm <- length(col)}
+                    }
+
+                    if(!is.null(row)){
+                      if(!is.null(multiFacetRowsx)){
+                        multiFacetRowsx <- c(multiFacetRowsx,row)
+                        rowm <- rowm + length(row)
+                      } else { multiFacetRowsx <- row; rowm <- length(row)}
+                    }
+
+
+                    # Check for Duplicates
+                    if(duplicated(datax %>%
+                                  dplyr::select(lat,lon,subRegion,x,dplyr::all_of(multiFacetRowsx),dplyr::all_of(multiFacetColsx))) %>%
+                       any()){stop("Input data data has multiple values. Please check your data.")}
+
+                    # Set title
+                    if(is.null(title)){
+                      if(param_i == "param"){
+                        titlex <- paste(x_i,sep="")
+                      } else {
+                        titlex <- paste(param_i," ",x_i,sep="")
+                      }
+                    } else if(title == F){
+                      titlex <- NULL
+                    } else {
+                      titlex <- title
+                    }
+
+
+                    if(any(grepl("all|kmean",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
+                      rmap::map_plot(save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
+                                     overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
+                                     overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
+                                     underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
+                                     underLayerAlpha = underLayerAlpha, background=background,
+                                     zoom=zoom, zoomx = zoomx, zoomy=zoomy, asp=asp, legendShow=legendShow,
+                                     crop = crop, transparent=transparent,
+                                     alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)),
+                                     ncol=ncol, showNA=showNA, colorNA=colorNA,
+                                     theme = theme, legendTitle=legendTitle,
+                                     legendDigitsOverride=legendDigitsOverride,
+                                     numeric2Cat_list=numeric2Cat_list, catParam = param_i,
+                                     underLayer=underLayer,
+                                     data=datax,
+                                     labelColor=labelColor,
+                                     labelSize=labelSize,
+                                     labelAlpha=labelAlpha,
+                                     labelFill=labelFill,
+                                     labelBorderSize=labelBorderSize,
+                                     legendBreaksn=legendBreaksn,
+                                     legendDigits = animLegendDigits,
+                                     palette = palette,
+                                     width=width*max(1,colm/1),
+                                     height=height*max(1,rowm/1),
+                                     pdfpng = pdfpng, legendSingleColor = legendSingleColor, legendSingleValue =  legendSingleValue,
+                                     labels=labels, labelRepel=labelRepel, underLayerLabels=underLayerLabels, overLayerLabels=overLayerLabels,
+                                     legendBreaks = animKmeanBreaks,
+                                     fillColumn = "value", shapeColumn = shapeColumn,
+                                     col = multiFacetColsx,
+                                     row = multiFacetRowsx,
+                                     title=titlex ,
+                                     fileName = paste("map_",param_i,"_",x_i,nameAppend,"_KMEANS_comb_prcntDiff",sep=""),
+                                     folder = paste(folder,"/",param_if,"/combScenario/byYear",sep = "")) ->
+                        mapsReturn[[return_i]];
+                      names(mapsReturn)[return_i] <- paste("map_",param_i,"_",x_i,nameAppend,"_KMEANS_comb_prcntDiff",sep="");
+                      return_i = return_i + 1
+
+                      # theme_ggplot = theme_ggplot
+                      # theme_custom = theme_custom
+                      # theme_rmap = theme_rmap
+                      # legendDigitsOverride=legendDigitsOverride
+                      # numeric2Cat_list=numeric2Cat_list
+                      # underLayer=underLayer
+                      # data=datax
+                      # legendBreaksn=legendBreaksn
+                      # legendDigits = animLegendDigits
+                      # palette = palette
+                      # width=width*max(1,colm/1),
+                      # height=height*max(1,rowm/1),
+                      # pdfpng = pdfpng
+                      # legendSingleColor = legendSingleColor
+                      # legendSingleValue =  legendSingleValue
+                      # labels=labels
+                      # legendBreaks = animKmeanBreaks
+                      # fillColumn = "value"
+                      # col = multiFacetColsx
+                      # row = multiFacetRowsx
+                      # title=paste(param_i," ",x_i,sep="")
+                      # fileName = paste("map_",param_i,"_",x_i,nameAppend,"_KMEANS",sep="")
+                      # folder = paste(folder,"/",param_if,"/combScenario/byYear",sep = "")
+
+                    }
+
+                    if(any(grepl("all|pretty",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
+                      rmap::map_plot(save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
+                                     overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
+                                     overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
+                                     underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
+                                     underLayerAlpha = underLayerAlpha, background=background,
+                                     zoom=zoom, zoomx = zoomx, zoomy=zoomy, asp=asp, legendShow=legendShow,
+                                     crop = crop, transparent=transparent,
+                                     alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)), ncol=ncol,
+                                     showNA=showNA, colorNA=colorNA,
+                                     labelColor=labelColor,
+                                     labelSize=labelSize,
+                                     labelAlpha=labelAlpha,
+                                     labelFill=labelFill,
+                                     labelBorderSize=labelBorderSize,
+                                     theme = theme, legendTitle=legendTitle,
+                                     legendDigitsOverride=legendDigitsOverride,
+                                     numeric2Cat_list=numeric2Cat_list, catParam = param_i,
+                                     underLayer=underLayer,
+                                     data=datax,
+                                     legendBreaksn=legendBreaksn,
+                                     legendDigits = animLegendDigits,
+                                     palette = palette,
+                                     width=width*max(1,colm/1),
+                                     height=height*max(1,rowm/1),
+                                     pdfpng = pdfpng, legendSingleColor = legendSingleColor, legendSingleValue =  legendSingleValue,
+                                     labels=labels, labelRepel=labelRepel, underLayerLabels=underLayerLabels, overLayerLabels=overLayerLabels,
+                                     legendBreaks = animPrettyBreaks,
+                                     fillColumn = "value", shapeColumn = shapeColumn,
+                                     col = multiFacetColsx,
+                                     row = multiFacetRowsx,
+                                     title=titlex ,
+                                     fileName = paste("map_",param_i,"_",x_i,nameAppend,"_PRETTY_comb_prcntDiff",sep=""),
+                                     folder = paste(folder,"/",param_if,"/combScenario/byYear",sep = "")) ->
+                        mapsReturn[[return_i]];
+                      names(mapsReturn)[return_i] <- paste("map_",param_i,"_",x_i,nameAppend,"_PRETTY_comb_prcntDiff",sep="");
+                      return_i = return_i + 1
+                    }
+
+                    if(!is.null(legendFixedBreaks)){
+                      rmap::map_plot(save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
+                                     overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
+                                     overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
+                                     underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
+                                     underLayerAlpha = underLayerAlpha, background=background,
+                                     zoom=zoom, zoomx = zoomx, zoomy=zoomy, asp=asp, legendShow=legendShow,
+                                     crop = crop, transparent=transparent,
+                                     alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)), ncol=ncol,
+                                     showNA=showNA, colorNA=colorNA,
+                                     labelColor=labelColor,
+                                     labelSize=labelSize,
+                                     labelAlpha=labelAlpha,
+                                     labelFill=labelFill,
+                                     labelBorderSize=labelBorderSize,
+                                     theme = theme, legendTitle=legendTitle,
+                                     legendDigitsOverride=legendDigitsOverride,
+                                     numeric2Cat_list=numeric2Cat_list, catParam = param_i,
+                                     underLayer=underLayer,
+                                     data=datax,
+                                     legendBreaksn=legendBreaksn,
+                                     legendDigits = animLegendDigits,
+                                     palette = palette,
+                                     width=width*max(1,colm/1),
+                                     height=height*max(1,rowm/1),
+                                     pdfpng = pdfpng, legendSingleColor = legendSingleColor, legendSingleValue =  legendSingleValue,
+                                     labels=labels, labelRepel=labelRepel, underLayerLabels=underLayerLabels, overLayerLabels=overLayerLabels,
+                                     legendBreaks = legendFixedBreaks,
+                                     fillColumn = "value", shapeColumn = shapeColumn,
+                                     col = multiFacetColsx,
+                                     row = multiFacetRowsx,
+                                     title=titlex ,
+                                     fileName = paste("map_",param_i,"_",x_i,nameAppend,"_FIXED_comb_prcntDiff",sep=""),
+                                     folder = paste(folder,"/",param_if,"/combScenario/byYear",sep = "")) ->
+                        mapsReturn[[return_i]];
+                      names(mapsReturn)[return_i] <- paste("map_",param_i,"_",x_i,nameAppend,"_FIXED_comb_prcntDiff",sep="");
+                      return_i = return_i + 1
+                    }
+
+                  }
+                } # Close years x_i loop
+
+                # Animations
+                if(animate==T){
+
+                  if(any(grepl("all|pretty",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
+                    animName<-paste("anim_",param_i,nameAppend,"_PRETTY_comb_prcntDiff.gif",sep="")
+                    animFiles <- list.files(path = paste(folder,"/",param_if,"/combScenario/byYear",sep=""),
+                                            pattern = paste(".*",param_i,".*",nameAppend,".*PRETTY", ".", pdfpng,sep=""), full.names=T,ignore.case = T, include.dirs = T);
+                    animation <- magick::image_animate(magick::image_join(lapply(animFiles, magick::image_read)),fps=fps)
+                    magick::image_write(animation,paste(folder,"/",param_if,"/combScenario/",
+                                                        animName,sep = ""))
+                    print(gsub("//","/",paste("animation saved in :",folder,"/",param_if,"/combScenario/",
+                                              animName,sep = "")))
+                  }
+
+                  if(any(grepl("all|kmean",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
+                    animName<-paste("anim_",param_i,nameAppend,"_KMEANS_comb_prcntDiff.gif",sep="")
+                    animFiles <- list.files(path = paste(folder,"/",param_if,"/combScenario/byYear",sep=""),
+                                            pattern = paste(".*",param_i,".*",nameAppend,".*KMEANS", ".", pdfpng,sep=""), full.names=T,ignore.case = T, include.dirs = T);
+                    animation <- magick::image_animate(magick::image_join(lapply(animFiles, magick::image_read)),fps=fps)
+                    magick::image_write(animation,paste(folder,"/",param_if,"/combScenario/",
+                                                        animName,sep = ""))
+                    print(gsub("//","/",paste("animation saved in :",folder,"/",param_if,"/combScenario/",
+                                              animName,sep = "")))
+                  }
+
+                  if(!is.null(legendFixedBreaks)){
+                    animName<-paste("anim_",param_i,nameAppend,"_FIXED_comb_prcntDiff.gif",sep="")
+                    animFiles <- list.files(path = paste(folder,"/",param_if,"/combScenario/byYear",sep=""),
+                                            pattern = paste(".*",param_i,".*",nameAppend,".*FIXED", ".", pdfpng,sep=""), full.names=T,ignore.case = T, include.dirs = T);
+                    animation <- magick::image_animate(magick::image_join(lapply(animFiles, magick::image_read)),fps=fps)
+                    magick::image_write(animation,paste(folder,"/",param_if,"/combScenario/",
+                                                        animName,sep = ""))
+                    print(gsub("//","/",paste("animation saved in :",folder,"/",param_if,"/combScenario/",
+                                              animName,sep = "")))
+                  }
+
+                }
+              }
+
+              # Multi-Year-Single Chart
+              datax<-dataTblx%>%dplyr::filter(param==param_i)
+              if(nrow(datax)>0){
+
+                if(is.null(legendTitleOrig)){legendTitle<-unique(datax$units)}
+                palette<-as.character(unique(datax$palette))
+
+                animScale<-datax$value
+                animScale <- animScale[!is.infinite(animScale)]
+                animScale <- animScale[!is.nan(animScale)]
+                animScale <- animScale[!is.na(animScale)]
+
+                # Choose correct scaleRange
+                if(T){
+                  scaleRange_i=scaleRange
+
+                  if(!is.null(scaleRange_i)){
+                    if(any(param_i %in% unique(scaleRange_i$param))){
+                      if(max(animScale) < (scaleRange_i %>% dplyr::filter(param==param_i))$maxScale){
+                        animScale<-c(animScale,(scaleRange_i %>% dplyr::filter(param==param_i))$maxScale)} else {
+                          animScale <- c((scaleRange_i %>% dplyr::filter(param==param_i))$maxScale,
+                                         animScale[animScale<(scaleRange_i %>% dplyr::filter(param==param_i))$maxScale])
+                        }
+                      if(min(animScale) > (scaleRange_i %>% dplyr::filter(param==param_i))$minScale){
+                        animScale<-c(animScale,(scaleRange_i %>% dplyr::filter(param==param_i))$minScale)} else {
+                          animScale <-  c((scaleRange_i %>% dplyr::filter(param==param_i))$minScale,
+                                          animScale[animScale>(scaleRange_i %>% dplyr::filter(param==param_i))$minScale])
+                        }
+                    }
+                  }
+                  animPrettyBreaks<-scales::pretty_breaks(n=legendBreaksn)(animScale)
+                  animKmeanBreaks<-sort(as.vector((stats::kmeans(animScale,
+                                                                 centers=max(1,min(length(unique(animScale))-1,(legendBreaksn-1)))))$centers[,1]))
+                  if(!min(animScale) %in% animKmeanBreaks){
+                    animKmeanBreaks <- sort(c(min(animScale),animKmeanBreaks))}
+                  if(!max(animScale) %in% animKmeanBreaks){
+                    animKmeanBreaks <- sort(c(animKmeanBreaks,max(animScale)))}
+
+                  if(!is.null(legendFixedBreaks)){
+                    if(min(animScale) < min(legendFixedBreaks)){
+                      legendFixedBreaks <- sort(c(min(animScale),legendFixedBreaks))}
+                    if(max(animScale) > max(legendFixedBreaks)){
+                      legendFixedBreaks <- sort(c(legendFixedBreaks,max(animScale)))};legendFixedBreaks
+                  }
+
+                  if((max(range(animScale))-min(range(animScale)))<1E-10 &
+                     (max(range(animScale))-min(range(animScale)))>-1E-10){animScaleRange=min(animScale)}else{
+                       animScaleRange=range(animScale)
+                     }
+                  if(abs(min(animScaleRange,na.rm = T))==abs(max(animScaleRange,na.rm = T))){animScaleRange=abs(min(animScaleRange,na.rm = T))}
+                  if(mean(animScaleRange,na.rm = T)<0.01 & mean(animScaleRange,na.rm = T)>(-0.01)){animLegendDigits<-5}else{
+                    if(mean(animScaleRange,na.rm = T)<0.1 & mean(animScaleRange,na.rm = T)>(-0.1)){animLegendDigits<-4}else{
+                      if(mean(animScaleRange,na.rm = T)<1 & mean(animScaleRange,na.rm = T)>(-1)){animLegendDigits<-3}else{
+                        if(mean(animScaleRange,na.rm = T)<10 & mean(animScaleRange,na.rm = T)>(-10)){animLegendDigits<-2}else{animLegendDigits<-1}}}}
+                }
+
+                # Set Facets
+                if(length(unique(datax$x))>1){
+                  multiFacetColsx <- "x"
+                  colm <- length(unique(datax$x))
+                  if((length(unique(datax$scenario))>1) & (length(unique(datax$class))>1)){
+                    multiFacetRowsx <- c("scenario","class")
+                    rowm <- length(unique(datax$scenario))*length(unique(datax$class))
+                  }
+                  if((length(unique(datax$scenario))>1) & (!length(unique(datax$class))>1)){
+                    multiFacetRowsx <- c("scenario")
+                    rowm <- length(unique(datax$scenario))
+                  }
+                  if((!length(unique(datax$scenario))>1) & (length(unique(datax$class))>1)){
+                    multiFacetRowsx <- c("class")
+                    rowm <- length(unique(datax$class))
+                  }
+                  if((!length(unique(datax$scenario))>1) & (!length(unique(datax$class))>1)){
+                    multiFacetRowsx <- NULL
+                    rowm <- 1
+                    colm = colm/((colm + ncol-1)%/%ncol);
+                    rowm = (colm + ncol-1)%/%ncol
+                  }
+                }else{
+                  if(length(unique(datax$scenario))>0){
+                    multiFacetColsx <- "scenario"
+                    colm <- length(unique(datax$scenario))
+                    if((length(unique(datax$class))>1)){
+                      multiFacetRowsx <- c("class")
+                      rowm <- length(unique(datax$class))
+                    }else{
+                      multiFacetRowsx <- NULL
+                      rowm <- 1
+                      colm = colm/((colm + ncol-1)%/%ncol);
+                      rowm = (colm + ncol-1)%/%ncol
+                    }
+                  }else{
+                    if((length(unique(datax$class))>1)){
+                      multiFacetColsx <- c("class")
+                      colm <- length(unique(datax$class))
+                      multiFacetRowsx <- NULL
+                      rowm <- 1
+                      colm = colm/((colm + ncol-1)%/%ncol);
+                      rowm = (colm + ncol-1)%/%ncol
+                    }else{
+                      multiFacetColsx <- NULL
+                      multiFacetRowsx <- NULL
+                      colm <- 1
+                      rowm <- 1
+                    }
+                  }
+                }
+
+
+                # Add facet or Rows if selected
+                if(!is.null(col)){
+                  if(!is.null(multiFacetColsx)){
+                    multiFacetColsx <- c(multiFacetColsx,col)
+                    colm <- colm + length(col)
+                  } else { multiFacetColsx <- col; colm <- length(col)}
+                }
+
+                if(!is.null(row)){
+                  if(!is.null(multiFacetRowsx)){
+                    multiFacetRowsx <- c(multiFacetRowsx,row)
+                    rowm <- rowm + length(row)
+                  } else { multiFacetRowsx <- row; rowm <- length(row)}
+                }
+
+                # Check for Duplicates
+                if(duplicated(datax %>%
+                              dplyr::select(subRegion,lat,lon,x,dplyr::all_of(multiFacetRowsx),dplyr::all_of(multiFacetColsx))) %>%
+                   any()){stop("Input data data has multiple values. Please check your data.")}
+
+                # Set title
+                if(is.null(title)){
+                  if(param_i != "param"){
+                    titlex <- paste(param_i,sep="")
+                  } else {
+                    titlex <- NULL
+                  }
+                } else if(title == F){
+                  titlex <- NULL
+                } else {
+                  titlex <- title
+                }
+
+                if(any(grepl("all|kmean",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
+                  rmap::map_plot(save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
+                                 overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
+                                 overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
+                                 underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
+                                 underLayerAlpha = underLayerAlpha, background=background, zoom=zoom,
+                                 zoomx = zoomx, zoomy=zoomy, asp=asp, legendShow=legendShow,
+                                 crop = crop, transparent=transparent,
+                                 alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)), ncol=ncol,
+                                 showNA=showNA, colorNA=colorNA,
+                                 labelColor=labelColor,
+                                 labelSize=labelSize,
+                                 labelAlpha=labelAlpha,
+                                 labelFill=labelFill,
+                                 labelBorderSize=labelBorderSize,
+                                 theme = theme, legendTitle=legendTitle,
+                                 legendDigitsOverride=legendDigitsOverride,
+                                 numeric2Cat_list=numeric2Cat_list, catParam = param_i,
+                                 underLayer=underLayer,
+                                 data=datax,
+                                 legendBreaksn=legendBreaksn,
+                                 legendDigits = animLegendDigits,
+                                 palette = palette,
+                                 width=width*max(1,colm/1),
+                                 height=height*max(1,rowm/1),
+                                 pdfpng = pdfpng, legendSingleColor = legendSingleColor, legendSingleValue =  legendSingleValue,
+                                 labels=labels, labelRepel=labelRepel, underLayerLabels=underLayerLabels, overLayerLabels=overLayerLabels,
+                                 legendBreaks = animKmeanBreaks,
+                                 fillColumn = "value", shapeColumn = shapeColumn,
+                                 col = multiFacetColsx,
+                                 row = multiFacetRowsx,
+                                 title= titlex,
+                                 fileName = paste("map_",param_i,nameAppend,"_KMEANS_comb_prcntDiff",sep=""),
+                                 folder = sub("/$","",paste(folder,"/",param_if,"/combScenario",sep = ""))) ->
+                    mapsReturn[[return_i]];
+                  names(mapsReturn)[return_i] <- paste("map_",param_i,nameAppend,"_KMEANS_comb_prcntDiff",sep="");
+                  return_i = return_i + 1
+
+
+                  # save=save
+                  # overLayer=overLayer
+                  # overLayerColor=overLayerColor
+                  # overLayerFill = overLayerFill
+                  # overLayerLwd = overLayerLwd
+                  # overLayerAlpha = overLayerAlpha
+                  # underLayerColor = underLayerColor
+                  # underLayerFill = underLayerFill
+                  # underLayerLwd = underLayerLwd
+                  # underLayerAlpha = underLayerAlpha
+                  # background=background
+                  # zoom=zoom
+                  # zoomx = zoomx
+                  # zoomy=zoomy
+                  # alpha = alpha
+                  # size=max(1,(size+(colm+rowm)*3 - 12))
+                  # ncol=ncol
+                  # showNA=showNA
+                  # colorNA=colorNA
+                  # theme = theme
+                  # legendTitle=legendTitle
+                  # legendDigitsOverride=legendDigitsOverride
+                  # numeric2Cat_list=numeric2Cat_list
+                  # underLayer=underLayer
+                  # data=datax
+                  # legendBreaksn=legendBreaksn
+                  # legendDigits = animLegendDigits
+                  # palette = palette
+                  # width=width*max(1,colm/1)
+                  # height=height*max(1,rowm/1)
+                  # pdfpng = pdfpng
+                  # legendSingleColor = legendSingleColor
+                  # legendSingleValue =  legendSingleValue
+                  # labels=labels
+                  # legendBreaks = animKmeanBreaks
+                  # fillColumn = "value"
+                  # col = multiFacetColsx
+                  # row = multiFacetRowsx
+                  # title=paste(param_i,sep="")
+                  # fileName = paste("map_",param_i,nameAppend,"_KMEANS",sep="")
+                  # folder = sub("/$","",paste(folder,"/",param_if,"/combScenario",sep = ""))
+
+                }
+
+                if(any(grepl("all|pretty",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
+                  rmap::map_plot(save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
+                                 overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
+                                 overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
+                                 underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
+                                 underLayerAlpha = underLayerAlpha, background=background,
+                                 zoom=zoom, zoomx = zoomx, zoomy=zoomy, asp=asp, legendShow=legendShow,
+                                 crop = crop, transparent=transparent,
+                                 alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)), ncol=ncol,
+                                 showNA=showNA, colorNA=colorNA,
+                                 labelColor=labelColor,
+                                 labelSize=labelSize,
+                                 labelAlpha=labelAlpha,
+                                 labelFill=labelFill,
+                                 labelBorderSize=labelBorderSize,
+                                 theme = theme, legendTitle=legendTitle,
+                                 legendDigitsOverride=legendDigitsOverride,
+                                 numeric2Cat_list=numeric2Cat_list, catParam = param_i,
+                                 underLayer=underLayer,
+                                 data=datax,
+                                 legendBreaksn=legendBreaksn,
+                                 legendDigits = animLegendDigits,
+                                 palette = palette,
+                                 width=width*max(1,colm/1),
+                                 height=height*max(1,rowm/1),
+                                 pdfpng = pdfpng, legendSingleColor = legendSingleColor, legendSingleValue =  legendSingleValue,
+                                 labels=labels, labelRepel=labelRepel, underLayerLabels=underLayerLabels, overLayerLabels=overLayerLabels,
+                                 legendBreaks = animPrettyBreaks,
+                                 fillColumn = "value", shapeColumn = shapeColumn,
+                                 col = multiFacetColsx,
+                                 row = multiFacetRowsx,
+                                 title=titlex,
+                                 fileName = paste("map_",param_i,nameAppend,"_PRETTY_comb_prcntDiff",sep=""),
+                                 folder = sub("/$","",paste(folder,"/",param_if,"/combScenario",sep = ""))) ->
+                    mapsReturn[[return_i]];
+                  names(mapsReturn)[return_i] <- paste("map_",param_i,nameAppend,"_PRETTY_comb_prcntDiff",sep="");
+                  return_i = return_i + 1
+                }
+
+                if(!is.null(legendFixedBreaks)){
+                  rmap::map_plot(save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
+                                 overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
+                                 overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
+                                 underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
+                                 underLayerAlpha = underLayerAlpha, background=background,
+                                 zoom=zoom, zoomx = zoomx, zoomy=zoomy, asp=asp, legendShow=legendShow,
+                                 crop = crop, transparent=transparent,
+                                 alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)), ncol=ncol,
+                                 showNA=showNA, colorNA=colorNA,
+                                 labelColor=labelColor,
+                                 labelSize=labelSize,
+                                 labelAlpha=labelAlpha,
+                                 labelFill=labelFill,
+                                 labelBorderSize=labelBorderSize,
+                                 theme = theme, legendTitle=legendTitle,
+                                 legendDigitsOverride=legendDigitsOverride,
+                                 numeric2Cat_list=numeric2Cat_list, catParam = param_i,
+                                 underLayer=underLayer,
+                                 data=datax,
+                                 legendBreaksn=legendBreaksn,
+                                 legendDigits = animLegendDigits,
+                                 palette = palette,
+                                 width=width*max(1,colm/1),
+                                 height=height*max(1,rowm/1),
+                                 pdfpng = pdfpng, legendSingleColor = legendSingleColor, legendSingleValue =  legendSingleValue,
+                                 labels=labels, labelRepel=labelRepel, underLayerLabels=underLayerLabels, overLayerLabels=overLayerLabels,
+                                 legendBreaks = legendFixedBreaks,
+                                 fillColumn = "value", shapeColumn = shapeColumn,
+                                 col = multiFacetColsx,
+                                 row = multiFacetRowsx,
+                                 title=titlex,
+                                 fileName = paste("map_",param_i,nameAppend,"_FIXED_comb_prcntDiff",sep=""),
+                                 folder = sub("/$","",paste(folder,"/",param_if,"/combScenario",sep = ""))) ->
+                    mapsReturn[[return_i]];
+                  names(mapsReturn)[return_i] <- paste("map_",param_i,nameAppend,"_FIXED_comb_prcntDiff",sep="");
+                  return_i = return_i + 1
+                }
+
+              } # if(nrow(datax)>0){
+
+              # Mean for all years provided
+              datax<-dataTblx%>%dplyr::filter(param==param_i)
+
+              if(length(unique(datax$x))>1){
+
+                if(nrow(datax)>0){
+
+                  if(is.null(legendTitleOrig)){legendTitle<-unique(datax$units)}
+                  palette<-as.character(unique(datax$palette))
+
+                  meanCol = paste("Mean_",min(datax$x),"to",max(datax$x),sep="")
+
+
+                  colsPresentGroup =  c("lat","lon","subRegion","scenario","class")
+                  colsPresentGroup = colsPresentGroup[colsPresentGroup %in% names(datax)]
+
+                  datax<-datax%>%
+                    dplyr::select(lat,lon,subRegion,scenario,class,x,value)%>%
+                    dplyr::group_by_at(dplyr::all_of(colsPresentGroup))%>%
+                    dplyr::summarize(!!meanCol:=mean(value))%>%
+                    dplyr::ungroup()
+
+                  animScale<-datax[[meanCol]];animScale
+                  animScale <- animScale[!is.infinite(animScale)]
+                  animScale <- animScale[!is.nan(animScale)]
+                  animScale <- animScale[!is.na(animScale)]
+
+                  # Choose correct scaleRange
+                  if(T){
+                    scaleRange_i=scaleRange
+
+                    if(!is.null(scaleRange_i)){
+                      if(any(param_i %in% unique(scaleRange_i$param))){
+                        if(max(animScale) < (scaleRange_i %>% dplyr::filter(param==param_i))$maxScale){
+                          animScale<-c(animScale,(scaleRange_i %>% dplyr::filter(param==param_i))$maxScale)} else {
+                            animScale <- c((scaleRange_i %>% dplyr::filter(param==param_i))$maxScale,
+                                           animScale[animScale<(scaleRange_i %>% dplyr::filter(param==param_i))$maxScale])
+                          }
+                        if(min(animScale) > (scaleRange_i %>% dplyr::filter(param==param_i))$minScale){
+                          animScale<-c(animScale,(scaleRange_i %>% dplyr::filter(param==param_i))$minScale)} else {
+                            animScale <-  c((scaleRange_i %>% dplyr::filter(param==param_i))$minScale,
+                                            animScale[animScale>(scaleRange_i %>% dplyr::filter(param==param_i))$minScale])
+                          }
+                      }
+                    }
+                    animPrettyBreaks<-scales::pretty_breaks(n=legendBreaksn)(animScale)
+                    animKmeanBreaks<-sort(as.vector((stats::kmeans(animScale,
+                                                                   centers=max(1,min(length(unique(animScale))-1,(legendBreaksn-1)))))$centers[,1]))
+                    if(!min(animScale) %in% animKmeanBreaks){
+                      animKmeanBreaks <- sort(c(min(animScale),animKmeanBreaks))}
+                    if(!max(animScale) %in% animKmeanBreaks){
+                      animKmeanBreaks <- sort(c(animKmeanBreaks,max(animScale)))}
+
+                    if(!is.null(legendFixedBreaks)){
+                      if(min(animScale) < min(legendFixedBreaks)){
+                        legendFixedBreaks <- sort(c(min(animScale),legendFixedBreaks))}
+                      if(max(animScale) > max(legendFixedBreaks)){
+                        legendFixedBreaks <- sort(c(legendFixedBreaks,max(animScale)))};legendFixedBreaks
+                    }
+
+                    if((max(range(animScale))-min(range(animScale)))<1E-10 &
+                       (max(range(animScale))-min(range(animScale)))>-1E-10){animScaleRange=min(animScale)}else{
+                         animScaleRange=range(animScale)
+                       }
+                    if(abs(min(animScaleRange,na.rm = T))==abs(max(animScaleRange,na.rm = T))){animScaleRange=abs(min(animScaleRange,na.rm = T))}
+                    if(mean(animScaleRange,na.rm = T)<0.01 & mean(animScaleRange,na.rm = T)>(-0.01)){animLegendDigits<-5}else{
+                      if(mean(animScaleRange,na.rm = T)<0.1 & mean(animScaleRange,na.rm = T)>(-0.1)){animLegendDigits<-4}else{
+                        if(mean(animScaleRange,na.rm = T)<1 & mean(animScaleRange,na.rm = T)>(-1)){animLegendDigits<-3}else{
+                          if(mean(animScaleRange,na.rm = T)<10 & mean(animScaleRange,na.rm = T)>(-10)){animLegendDigits<-2}else{animLegendDigits<-1}}}}
+                  }
+
+                  # Set Facets
+                  if(length(unique(datax$scenario))>0){
+                    multiFacetColsx <- "scenario"
+                    colm <- length(unique(datax$scenario))
+                    if((length(unique(datax$class))>1)){
+                      multiFacetRowsx <- c("class")
+                      rowm <- length(unique(datax$class))
+                    }else{
+                      multiFacetRowsx <- NULL
+                      rowm <- 1
+                      colm = colm/((colm + ncol-1)%/%ncol);
+                      rowm = (colm + ncol-1)%/%ncol
+                    }
+                  }else{
+                    if((length(unique(datax$class))>1)){
+                      multiFacetColsx <- c("class")
+                      colm <- length(unique(datax$class))
+                      multiFacetRowsx <- NULL
+                      rowm <- 1
+                      colm = colm/((colm + ncol-1)%/%ncol);
+                      rowm = (colm + ncol-1)%/%ncol
+                    }else{
+                      multiFacetColsx <- NULL
+                      multiFacetRowsx <- NULL
+                      colm <- 1
+                      rowm <- 1
+                    }
+                  }
+
+                  # Add facet or Rows if selected
+                  if(!is.null(col)){
+                    if(!is.null(multiFacetColsx)){
+                      multiFacetColsx <- c(multiFacetColsx,col)
+                      colm <- colm + length(col)
+                    } else { multiFacetColsx <- col; colm <- length(col)}
+                  }
+
+                  if(!is.null(row)){
+                    if(!is.null(multiFacetRowsx)){
+                      multiFacetRowsx <- c(multiFacetRowsx,row)
+                      rowm <- rowm + length(row)
+                    } else { multiFacetRowsx <- row; rowm <- length(row)}
+                  }
+
+
+
+                  # Check for Duplicates
+                  if(duplicated(datax %>%
+                                dplyr::select(lat,lon,subRegion,x,dplyr::all_of(multiFacetRowsx),dplyr::all_of(multiFacetColsx))) %>%
+                     any()){stop("Input data data has multiple values. Please check your data.")}
+
+                  # Set title
+                  if(is.null(title)){
+                    if(param_i == "param"){
+                      titlex <- paste(meanCol,sep="")
+                    } else {
+                      titlex <- paste(param_i," ",meanCol,sep="")
+                    }
+                  } else if(title == F){
+                    titlex <- NULL
+                  } else {
+                    titlex <- title
+                  }
+
+                  if(any(grepl("all|kmean",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
+                    rmap::map_plot(save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
+                                   overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
+                                   overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
+                                   underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
+                                   underLayerAlpha = underLayerAlpha, background=background,
+                                   zoom=zoom, zoomx = zoomx, zoomy=zoomy, asp=asp, legendShow=legendShow,
+                                   crop = crop, transparent=transparent,
+                                   alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)),
+                                   ncol=ncol, showNA=showNA, colorNA=colorNA,
+                                   labelColor=labelColor,
+                                   labelSize=labelSize,
+                                   labelAlpha=labelAlpha,
+                                   labelFill=labelFill,
+                                   labelBorderSize=labelBorderSize,
+                                   theme = theme, legendTitle=legendTitle,
+                                   legendDigitsOverride=legendDigitsOverride,
+                                   numeric2Cat_list=numeric2Cat_list, catParam = param_i,
+                                   underLayer=underLayer,
+                                   data=datax,
+                                   legendBreaksn=legendBreaksn,
+                                   legendDigits = animLegendDigits,
+                                   palette = palette,
+                                   width=width*max(1,colm/1),
+                                   height=height*max(1,rowm/1),
+                                   pdfpng = pdfpng, legendSingleColor = legendSingleColor, legendSingleValue =  legendSingleValue,
+                                   labels=labels, labelRepel=labelRepel, underLayerLabels=underLayerLabels, overLayerLabels=overLayerLabels,
+                                   legendBreaks = animKmeanBreaks,
+                                   fillColumn = meanCol,
+                                   col = multiFacetColsx,
+                                   row = multiFacetRowsx,
+                                   title = titlex,
+                                   fileName = paste("map_",param_i,nameAppend,"_MEAN_KMEANS_comb_prcntDiff",sep=""),
+                                   folder = sub("/$","",paste(folder,"/",param_if,"/combScenario",sep = ""))) ->
+                      mapsReturn[[return_i]];
+                    names(mapsReturn)[return_i] <- paste("map_",param_i,nameAppend,"_MEAN_KMEANS_comb_prcntDiff",sep="");
+                    return_i = return_i + 1
+                  }
+
+                  if(any(grepl("all|pretty",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
+                    rmap::map_plot(save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
+                                   overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
+                                   overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
+                                   underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
+                                   underLayerAlpha = underLayerAlpha, background=background,
+                                   zoom=zoom, zoomx = zoomx, zoomy=zoomy, asp=asp,
+                                   legendShow=legendShow,  crop = crop,
+                                   transparent=transparent,alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)),
+                                   ncol=ncol, showNA=showNA, colorNA=colorNA,
+                                   labelColor=labelColor,
+                                   labelSize=labelSize,
+                                   labelAlpha=labelAlpha,
+                                   labelFill=labelFill,
+                                   labelBorderSize=labelBorderSize,
+                                   theme = theme, legendTitle=legendTitle,
+                                   legendDigitsOverride=legendDigitsOverride,
+                                   numeric2Cat_list=numeric2Cat_list, catParam = param_i,
+                                   underLayer=underLayer,
+                                   data=datax,
+                                   legendBreaksn=legendBreaksn,
+                                   legendDigits = animLegendDigits,
+                                   palette = palette,
+                                   width=width*max(1,colm/1),
+                                   height=height*max(1,rowm/1),
+                                   pdfpng = pdfpng, legendSingleColor = legendSingleColor, legendSingleValue =  legendSingleValue,
+                                   labels=labels, labelRepel=labelRepel, underLayerLabels=underLayerLabels, overLayerLabels=overLayerLabels,
+                                   legendBreaks = animPrettyBreaks,
+                                   fillColumn = meanCol,
+                                   col = multiFacetColsx,
+                                   row = multiFacetRowsx,
+                                   title = titlex,
+                                   fileName = paste("map_",param_i,nameAppend,"_MEAN_PRETTY_comb_prcntDiff",sep=""),
+                                   folder = sub("/$","",paste(folder,"/",param_if,"/combScenario",sep = ""))) ->
+                      mapsReturn[[return_i]];
+                    names(mapsReturn)[return_i] <- paste("map_",param_i,nameAppend,"_MEAN_PRETTY_comb_prcntDiff",sep="");
+                    return_i = return_i + 1
+                  }
+
+                  if(!is.null(legendFixedBreaks)){
+                    rmap::map_plot(save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
+                                   overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
+                                   overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
+                                   underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
+                                   underLayerAlpha = underLayerAlpha, background=background,
+                                   zoom=zoom, zoomx = zoomx, zoomy=zoomy, asp=asp, legendShow=legendShow,
+                                   crop = crop, transparent=transparent,
+                                   alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)), ncol=ncol,
+                                   showNA=showNA, colorNA=colorNA,
+                                   labelColor=labelColor,
+                                   labelSize=labelSize,
+                                   labelAlpha=labelAlpha,
+                                   labelFill=labelFill,
+                                   labelBorderSize=labelBorderSize,
+                                   theme = theme, legendTitle=legendTitle,
+                                   legendDigitsOverride=legendDigitsOverride,
+                                   numeric2Cat_list=numeric2Cat_list, catParam = param_i,
+                                   underLayer=underLayer,
+                                   data=datax,
+                                   legendBreaksn=legendBreaksn,
+                                   legendDigits = animLegendDigits,
+                                   palette = palette,
+                                   width=width*max(1,colm/1),
+                                   height=height*max(1,rowm/1),
+                                   pdfpng = pdfpng, legendSingleColor = legendSingleColor, legendSingleValue =  legendSingleValue,
+                                   labels=labels, labelRepel=labelRepel, underLayerLabels=underLayerLabels, overLayerLabels=overLayerLabels,
+                                   legendBreaks = legendFixedBreaks,
+                                   fillColumn = meanCol,
+                                   col = multiFacetColsx,
+                                   row = multiFacetRowsx,
+                                   title = titlex,
+                                   fileName = paste("map_",param_i,nameAppend,"_MEAN_FIXED_comb_prcntDiff",sep=""),
+                                   folder = sub("/$","",paste(folder,"/",param_if,"/combScenario",sep = ""))) ->
+                      mapsReturn[[return_i]];
+                    names(mapsReturn)[return_i] <- paste("map_",param_i,nameAppend,"_MEAN_FIXED_comb_prcntDiff",sep="");
+                    return_i = return_i + 1
+                  }
+
+                } # if(nrow(datax)>0){
+              }# If multiple years
+
+            } # if nrow of dataTblx dplyr::filtered for Diff scenarios
+
+          }# Close if nrow dataTbl < 0
+        } # Close Combined Diff Prcnt Scenario
+        } # Close if scenRef chosen to run combined diff plots
 
         # By Scenario
+        if(!combinedOnly){
         for (scenario_i in unique(dataTblOrig$scenario)){
 
           if(length(unique(dataTblOrig$scenario))==1){scenario_if=NULL}else{scenario_if = scenario_i}
@@ -2882,6 +4751,7 @@ map <- function(data = NULL,
 
           }# Close if nrow dataTbl < 0
         } # close Scenarios
+        }
 
       } # Close params loop
 

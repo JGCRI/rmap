@@ -211,4 +211,72 @@ rmap::map(data,
           underLayerLabels = T,
           zoom=-6)
 
-# Test Rows and Columns
+# Map with rivers
+library(rmap)
+library(rgdal)
+library(dplyr)
+examplePolyFolder<-paste("C:/Users/khan404/Downloads/Lakes_and_Rivers_Shapefile",sep="")
+examplePolyFile<-paste("hydrography_l_rivers_v2",sep="")
+x=rgdal::readOGR(dsn=examplePolyFolder,layer=examplePolyFile,use_iconv=T,encoding='UTF-8')
+names(x@data); head(x@data);
+# sp::plot(x)
+# Rename subRegion column
+x@data <- x@data %>% dplyr::mutate(subRegion=UIDENT,
+                                   subRegion=as.character(subRegion));
+x1 <- rmap::shape_to_df(x); head(x1)
+# Generate some random data for each subRegion
+
+head(data)
+
+
+# Intersection Data
+library(rmap)
+library(dplyr)
+
+data <- read.csv("C:/Z/models/rmap/inst/extras/basin_reg_2050_data.csv", header=T);
+data
+data$subRegion%>%unique() %in% (rmap::mapIntersectGCAMBasin32Reg@data)$subRegion%>%unique()
+rmap::map(rmap::mapIntersectGCAMBasin32Reg)
+rmap::map(data)
+
+
+# CombinedOnly
+library(rmap);
+
+dataa = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
+                                "Austria","Spain", "Italy", "Germany","Greece",
+                                "Austria","Spain", "Italy", "Germany","Greece"),
+                  scenario = c("scen1","scen1","scen1","scen1","scen1",
+                               "scen2","scen2","scen2","scen2","scen2",
+                               "scen3","scen3","scen3","scen3","scen3"),
+                  value = c(32, 38, 54, 63, 24,
+                            37, 53, 23, 12, 45,
+                            40, 44, 12, 30, 99))
+
+dataa = readRDS("C:/Z/models/argus/inst/app/chartz.RDS")
+head(dataa)
+
+mapx <- rmap::map(data = dataa %>% filter(x==1995),
+                  underLayer = rmap::mapCountries,
+                  combinedOnly = T,
+                  diffOnly = T,
+                  save=F,
+                  show=F,
+                  scenRef = "GCAM_SSP2",
+                  #scenDiff = c("scen2"),
+                  background = T);
+
+names(mapx)
+mapx[[1]]
+mapx[[2]]
+
+#
+# data = dataa
+# underLayer = rmap::mapCountries
+# combinedOnly = T
+# diffOnly = T
+# save=F
+# show=F
+# scenRef = "GCAM_SSP2"
+# #scenDiff = c("scen2"),
+# background = T
