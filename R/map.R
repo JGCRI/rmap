@@ -1331,7 +1331,7 @@ map <- function(data = NULL,
                 if(any(grepl("all|pretty",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                   animName<-paste("anim_",param_i,nameAppend,"_PRETTY_comb.gif",sep="")
                   animFiles <- list.files(path = paste(folder,"/",param_if,"/combScenario/byYear",sep=""),
-                                          pattern = paste(".*",param_i,".*",nameAppend,".*PRETTY", ".", pdfpng,sep=""), full.names=T,ignore.case = T, include.dirs = T);
+                                          pattern = paste(".*",param_i,".*",nameAppend,".*PRETTY_comb", ".", pdfpng,sep=""), full.names=T,ignore.case = T, include.dirs = T);
                   animation <- magick::image_animate(magick::image_join(lapply(animFiles, magick::image_read)),fps=fps)
                   magick::image_write(animation,paste(folder,"/",param_if,"/combScenario/",
                                                       animName,sep = ""))
@@ -1342,7 +1342,7 @@ map <- function(data = NULL,
                 if(any(grepl("all|kmean",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                   animName<-paste("anim_",param_i,nameAppend,"_KMEANS_comb.gif",sep="")
                   animFiles <- list.files(path = paste(folder,"/",param_if,"/combScenario/byYear",sep=""),
-                                          pattern = paste(".*",param_i,".*",nameAppend,".*KMEANS", ".", pdfpng,sep=""), full.names=T,ignore.case = T, include.dirs = T);
+                                          pattern = paste(".*",param_i,".*",nameAppend,".*KMEANS_comb", ".", pdfpng,sep=""), full.names=T,ignore.case = T, include.dirs = T);
                   animation <- magick::image_animate(magick::image_join(lapply(animFiles, magick::image_read)),fps=fps)
                   magick::image_write(animation,paste(folder,"/",param_if,"/combScenario/",
                                                       animName,sep = ""))
@@ -1353,7 +1353,7 @@ map <- function(data = NULL,
                 if(!is.null(legendFixedBreaks)){
                   animName<-paste("anim_",param_i,nameAppend,"_FIXED_comb.gif",sep="")
                   animFiles <- list.files(path = paste(folder,"/",param_if,"/combScenario/byYear",sep=""),
-                                          pattern = paste(".*",param_i,".*",nameAppend,".*FIXED", ".", pdfpng,sep=""), full.names=T,ignore.case = T, include.dirs = T);
+                                          pattern = paste(".*",param_i,".*",nameAppend,".*FIXED_comb", ".", pdfpng,sep=""), full.names=T,ignore.case = T, include.dirs = T);
                   animation <- magick::image_animate(magick::image_join(lapply(animFiles, magick::image_read)),fps=fps)
                   magick::image_write(animation,paste(folder,"/",param_if,"/combScenario/",
                                                       animName,sep = ""))
@@ -2263,7 +2263,7 @@ map <- function(data = NULL,
                   if(any(grepl("all|pretty",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                     animName<-paste("anim_",param_i,nameAppend,"_PRETTY_comb_absDiff.gif",sep="")
                     animFiles <- list.files(path = paste(folder,"/",param_if,"/combScenario/byYear",sep=""),
-                                            pattern = paste(".*",param_i,".*",nameAppend,".*PRETTY", ".", pdfpng,sep=""), full.names=T,ignore.case = T, include.dirs = T);
+                                            pattern = paste(".*",param_i,".*",nameAppend,".*PRETTY_comb_absDiff", ".", pdfpng,sep=""), full.names=T,ignore.case = T, include.dirs = T);
                     animation <- magick::image_animate(magick::image_join(lapply(animFiles, magick::image_read)),fps=fps)
                     magick::image_write(animation,paste(folder,"/",param_if,"/combScenario/",
                                                         animName,sep = ""))
@@ -2274,7 +2274,7 @@ map <- function(data = NULL,
                   if(any(grepl("all|kmean",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                     animName<-paste("anim_",param_i,nameAppend,"_KMEANS_comb_absDiff.gif",sep="")
                     animFiles <- list.files(path = paste(folder,"/",param_if,"/combScenario/byYear",sep=""),
-                                            pattern = paste(".*",param_i,".*",nameAppend,".*KMEANS", ".", pdfpng,sep=""), full.names=T,ignore.case = T, include.dirs = T);
+                                            pattern = paste(".*",param_i,".*",nameAppend,".*KMEANS_comb_absDiff", ".", pdfpng,sep=""), full.names=T,ignore.case = T, include.dirs = T);
                     animation <- magick::image_animate(magick::image_join(lapply(animFiles, magick::image_read)),fps=fps)
                     magick::image_write(animation,paste(folder,"/",param_if,"/combScenario/",
                                                         animName,sep = ""))
@@ -2285,7 +2285,7 @@ map <- function(data = NULL,
                   if(!is.null(legendFixedBreaks)){
                     animName<-paste("anim_",param_i,nameAppend,"_FIXED_comb_absDiff.gif",sep="")
                     animFiles <- list.files(path = paste(folder,"/",param_if,"/combScenario/byYear",sep=""),
-                                            pattern = paste(".*",param_i,".*",nameAppend,".*FIXED", ".", pdfpng,sep=""), full.names=T,ignore.case = T, include.dirs = T);
+                                            pattern = paste(".*",param_i,".*",nameAppend,".*FIXED_comb_absDiff", ".", pdfpng,sep=""), full.names=T,ignore.case = T, include.dirs = T);
                     animation <- magick::image_animate(magick::image_join(lapply(animFiles, magick::image_read)),fps=fps)
                     magick::image_write(animation,paste(folder,"/",param_if,"/combScenario/",
                                                         animName,sep = ""))
@@ -3192,7 +3192,7 @@ map <- function(data = NULL,
                   if(any(grepl("all|pretty",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                     animName<-paste("anim_",param_i,nameAppend,"_PRETTY_comb_prcntDiff.gif",sep="")
                     animFiles <- list.files(path = paste(folder,"/",param_if,"/combScenario/byYear",sep=""),
-                                            pattern = paste(".*",param_i,".*",nameAppend,".*PRETTY", ".", pdfpng,sep=""), full.names=T,ignore.case = T, include.dirs = T);
+                                            pattern = paste(".*",param_i,".*",nameAppend,".*PRETTY_comb_prcntDiff", ".", pdfpng,sep=""), full.names=T,ignore.case = T, include.dirs = T);
                     animation <- magick::image_animate(magick::image_join(lapply(animFiles, magick::image_read)),fps=fps)
                     magick::image_write(animation,paste(folder,"/",param_if,"/combScenario/",
                                                         animName,sep = ""))
@@ -3203,7 +3203,7 @@ map <- function(data = NULL,
                   if(any(grepl("all|kmean",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                     animName<-paste("anim_",param_i,nameAppend,"_KMEANS_comb_prcntDiff.gif",sep="")
                     animFiles <- list.files(path = paste(folder,"/",param_if,"/combScenario/byYear",sep=""),
-                                            pattern = paste(".*",param_i,".*",nameAppend,".*KMEANS", ".", pdfpng,sep=""), full.names=T,ignore.case = T, include.dirs = T);
+                                            pattern = paste(".*",param_i,".*",nameAppend,".*KMEANS_comb_prcntDiff", ".", pdfpng,sep=""), full.names=T,ignore.case = T, include.dirs = T);
                     animation <- magick::image_animate(magick::image_join(lapply(animFiles, magick::image_read)),fps=fps)
                     magick::image_write(animation,paste(folder,"/",param_if,"/combScenario/",
                                                         animName,sep = ""))
@@ -3214,7 +3214,7 @@ map <- function(data = NULL,
                   if(!is.null(legendFixedBreaks)){
                     animName<-paste("anim_",param_i,nameAppend,"_FIXED_comb_prcntDiff.gif",sep="")
                     animFiles <- list.files(path = paste(folder,"/",param_if,"/combScenario/byYear",sep=""),
-                                            pattern = paste(".*",param_i,".*",nameAppend,".*FIXED", ".", pdfpng,sep=""), full.names=T,ignore.case = T, include.dirs = T);
+                                            pattern = paste(".*",param_i,".*",nameAppend,".*FIXED_comb_prcntDiff", ".", pdfpng,sep=""), full.names=T,ignore.case = T, include.dirs = T);
                     animation <- magick::image_animate(magick::image_join(lapply(animFiles, magick::image_read)),fps=fps)
                     magick::image_write(animation,paste(folder,"/",param_if,"/combScenario/",
                                                         animName,sep = ""))
@@ -3929,6 +3929,7 @@ map <- function(data = NULL,
                 if(length(unique(dataTblx$class))>1){
                   multiFacetColsx = "class"
                   colm <- length(unique(datax$class))
+                  multiFacetRowsx <- NULL
                   rowm <- 1
                 } else {
                     multiFacetColsx <- NULL
