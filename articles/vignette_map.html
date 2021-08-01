@@ -831,8 +831,8 @@
           xRef <span class="op">=</span> <span class="fl">2010</span>, 
           xDiff <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2020</span>,<span class="fl">2030</span><span class="op">)</span><span class="op">)</span>
 
-<span class="va">mapx</span><span class="op">$</span><span class="va">map_param_scenario_DiffxAbs_2030_2010_KMEANS</span>
-<span class="va">mapx</span><span class="op">$</span><span class="va">map_param_scenario_DiffxPrcnt_2030_2010_KMEANS</span></code></pre></div>
+<span class="va">mapx</span><span class="op">$</span><span class="va">map_param_KMEANS_xDiffAbs</span>
+<span class="va">mapx</span><span class="op">$</span><span class="va">map_param_KMEANS_xDiffPrcnt</span></code></pre></div>
 <p><img src="vignette_map_files/figure-html/unnamed-chunk-43-1.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-43-2.png" width="700"></p>
 </div>
 <div id="gridded-data-multi-year-diff" class="section level2">
@@ -848,9 +848,8 @@
           xRef <span class="op">=</span> <span class="fl">1990</span>, 
           xDiff <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2010</span>,<span class="fl">2015</span><span class="op">)</span><span class="op">)</span>
 
-<span class="va">mapx</span><span class="op">$</span><span class="va">map_param_scenario_DiffxAbs_2015_1990_KMEANS</span>
-<span class="va">mapx</span><span class="op">$</span><span class="va">map_param_scenario_DiffxPrcnt_2015_1990_KMEANS</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-45-1.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-45-2.png" width="700"></p>
+<span class="va">mapx</span><span class="op">$</span><span class="va">map_param_xDiffAbs_2015_1990_KMEANS</span>
+<span class="va">mapx</span><span class="op">$</span><span class="va">map_param_xDiffPrcnt_2015_1990_KMEANS</span></code></pre></div>
 <!-------------------------->
 <!-------------------------->
 </div>
@@ -996,11 +995,11 @@
 <span class="va">mapx</span> <span class="op">&lt;-</span> <span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, 
           underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapCountries.html">mapCountries</a></span>,
           scenRef <span class="op">=</span> <span class="st">"scen1"</span>,
-          scenDiff <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"scen2"</span><span class="op">)</span>,
+          scenDiff <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"scen2"</span>,<span class="st">"scen3"</span><span class="op">)</span>, <span class="co"># Can omit this to get difference against all scenarios</span>
           background <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>
 
-<span class="va">mapx</span><span class="op">$</span><span class="va">map_param_DiffAbs_scen2_scen1_KMEANS</span>
-<span class="va">mapx</span><span class="op">$</span><span class="va">map_param_DiffPrcnt_scen2_scen1_KMEANS</span></code></pre></div>
+<span class="va">mapx</span><span class="op">$</span><span class="va">map_param_KMEANS_DiffAbs</span>
+<span class="va">mapx</span><span class="op">$</span><span class="va">map_param_KMEANS_DiffPrcnt</span></code></pre></div>
 <p><img src="vignette_map_files/figure-html/unnamed-chunk-53-1.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-53-2.png" width="700"></p>
 </div>
 <div id="gridded-data-multi-scenario-diff" class="section level2">
@@ -1027,7 +1026,6 @@
 
 <span class="va">mapx</span><span class="op">$</span><span class="va">map_param_DiffAbs_scenario3_scenario1_KMEANS</span>
 <span class="va">mapx</span><span class="op">$</span><span class="va">map_param_DiffPrcnt_scenario3_scenario1_KMEANS</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-55-1.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-55-2.png" width="700"></p>
 <!-------------------------->
 <!-------------------------->
 </div>
@@ -1123,7 +1121,7 @@
           scaleRange <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">30</span>,<span class="fl">40</span><span class="op">)</span>, 
           scaleRangeDiffAbs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">100</span>,<span class="fl">100</span><span class="op">)</span>, 
           scaleRangeDiffPrcnt <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">60</span>,<span class="fl">60</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-58-1.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-58-2.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-58-3.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-58-4.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-58-5.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-58-1.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-58-2.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-58-3.png" width="700"></p>
 <div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># For Year Diff plots</span>
 <span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>subRegion <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Austria"</span>,<span class="st">"Spain"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>,<span class="st">"Greece"</span>,
@@ -1136,16 +1134,17 @@
           background <span class="op">=</span> <span class="cn">T</span>, 
           underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapCountries.html">mapCountries</a></span>,
           xRef <span class="op">=</span> <span class="fl">2010</span>,
+          forceFacets <span class="op">=</span> <span class="cn">T</span>,
           scaleRange <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">50</span><span class="op">)</span>, 
-          scaleRangeDiffxAbs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">100</span>,<span class="fl">100</span><span class="op">)</span>, 
-          scaleRangeDiffxPrcnt <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">60</span>,<span class="fl">60</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-58-6.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-58-7.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-58-8.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-58-9.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-58-10.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-58-11.png" width="700"></p>
+          scaleRangexDiffAbs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">100</span>,<span class="fl">100</span><span class="op">)</span>, 
+          scaleRangexDiffPrcnt <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">60</span>,<span class="fl">60</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-58-4.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-58-5.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-58-6.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-58-7.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-58-8.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-58-9.png" width="700"></p>
 <div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># If multiple parameters in data users can set up scaleRange for each param as:</span>
 <span class="co"># scaleRange_i = data.frame(param = c("param1","param2"),</span>
 <span class="co">#                                   min = c(0,0),</span>
 <span class="co">#                                   max = c(15000,2000))</span>
-<span class="co"># scaleRangeDiffxAbs_i = data.frame(param = c("param1","param2"),</span>
+<span class="co"># scaleRangexDiffAbs_i = data.frame(param = c("param1","param2"),</span>
 <span class="co">#                                   min = c(0,0),</span>
 <span class="co">#                                   max = c(15000,2000))</span></code></pre></div>
 <!-------------------------->
@@ -1175,7 +1174,7 @@
           scenRef <span class="op">=</span> <span class="st">"scen1"</span>,
           palette <span class="op">=</span> <span class="st">"pal_wet"</span>,
           paletteDiff <span class="op">=</span> <span class="st">"pal_div_BrGn"</span><span class="op">)</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-59-1.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-59-2.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-59-3.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-59-4.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-59-5.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-59-1.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-59-2.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-59-3.png" width="700"></p>
 <!-------------------------->
 <!-------------------------->
 </div>
@@ -1359,7 +1358,8 @@
 <span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">dfClass</span>, 
           background <span class="op">=</span> <span class="cn">T</span>, 
           underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapGCAMReg32.html">mapGCAMReg32</a></span>,
-          shape <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapGCAMReg32.html">mapGCAMReg32</a></span><span class="op">)</span></code></pre></div>
+          shape <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapGCAMReg32.html">mapGCAMReg32</a></span>,
+          save<span class="op">=</span><span class="cn">F</span><span class="op">)</span></code></pre></div>
 <p><img src="vignette_map_files/figure-html/unnamed-chunk-64-1.png" width="700"></p>
 <details><summary><p class="button">
 Expand to see more extensive results for rmap::exampleMapDataParam…
@@ -1370,8 +1370,13 @@ Expand to see more extensive results for rmap::exampleMapDataParam…
 <span class="va">dfParam</span> <span class="op">&lt;-</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/exampleMapDataParam.html">exampleMapDataParam</a></span> <span class="op">%&gt;%</span>
   <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">region</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"India"</span>,<span class="st">"China"</span>,<span class="st">"Pakistan"</span><span class="op">)</span>,
                 <span class="va">param</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"elecByTechTWh"</span><span class="op">)</span>,
-                <span class="va">x</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2010</span>,<span class="fl">2050</span><span class="op">)</span>,
+                <span class="va">x</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2010</span>,<span class="fl">2025</span>,<span class="fl">2050</span><span class="op">)</span>,
                 <span class="va">scenario</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"GCAM_SSP3"</span>,<span class="st">"GCAM_SSP5"</span><span class="op">)</span><span class="op">)</span>; <span class="va">dfParam</span>
+
+<span class="co"># Add another scenario (Optional test)</span>
+<span class="va">dfParam</span> <span class="op">&lt;-</span> <span class="va">dfParam</span> <span class="op">%&gt;%</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows</a></span><span class="op">(</span>
+  <span class="va">dfParam</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">scenario</span><span class="op">==</span><span class="st">"GCAM_SSP5"</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>value<span class="op">=</span><span class="va">value</span><span class="op">*</span><span class="fl">1.5</span>, scenario <span class="op">=</span><span class="st">"GCAM_X"</span><span class="op">)</span>
+<span class="op">)</span>
 
 <span class="co"># Plot data aggregated by param</span>
 <span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">dfParam</span>, 
@@ -1380,7 +1385,7 @@ Expand to see more extensive results for rmap::exampleMapDataParam…
           shape <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapGCAMReg32.html">mapGCAMReg32</a></span>,
           xRef <span class="op">=</span> <span class="st">"2010"</span>,
           scenRef <span class="op">=</span> <span class="st">"GCAM_SSP3"</span><span class="op">)</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-65-1.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-2.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-3.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-4.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-5.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-6.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-7.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-8.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-9.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-10.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-11.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-12.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-13.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-14.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-15.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-16.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-17.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-18.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-19.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-20.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-21.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-22.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-23.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-24.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-65-1.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-2.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-3.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-4.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-5.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-6.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-7.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-8.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-9.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-10.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-11.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-12.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-13.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-14.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-15.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-16.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-17.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-18.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-19.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-20.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-21.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-22.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-23.png" width="700"></p>
 </details>
 </div>
   </div>

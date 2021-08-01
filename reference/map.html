@@ -194,8 +194,8 @@ Each figure is accompanied with a csv table.</p>
   scaleRangeDiffPrcnt <span class='op'>=</span> <span class='cn'>NULL</span>,
   xRef <span class='op'>=</span> <span class='cn'>NULL</span>,
   xDiff <span class='op'>=</span> <span class='cn'>NULL</span>,
-  scaleRangeDiffxAbs <span class='op'>=</span> <span class='cn'>NULL</span>,
-  scaleRangeDiffxPrcnt <span class='op'>=</span> <span class='cn'>NULL</span>,
+  scaleRangexDiffAbs <span class='op'>=</span> <span class='cn'>NULL</span>,
+  scaleRangexDiffPrcnt <span class='op'>=</span> <span class='cn'>NULL</span>,
   col <span class='op'>=</span> <span class='cn'>NULL</span>,
   row <span class='op'>=</span> <span class='cn'>NULL</span>,
   title <span class='op'>=</span> <span class='cn'>NULL</span>,
@@ -213,7 +213,9 @@ Each figure is accompanied with a csv table.</p>
   alpha <span class='op'>=</span> <span class='fl'>1</span>,
   background <span class='op'>=</span> <span class='cn'>F</span>,
   transparent <span class='op'>=</span> <span class='cn'>T</span>,
-  legendShow <span class='op'>=</span> <span class='cn'>T</span>
+  legendShow <span class='op'>=</span> <span class='cn'>T</span>,
+  diffOnly <span class='op'>=</span> <span class='cn'>F</span>,
+  forceFacets <span class='op'>=</span> <span class='cn'>F</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -432,11 +434,11 @@ Each figure is accompanied with a csv table.</p>
       <td><p>years to Diff. Default = NULL</p></td>
     </tr>
     <tr>
-      <th>scaleRangeDiffxAbs</th>
+      <th>scaleRangexDiffAbs</th>
       <td><p>Default =NULL, A vector with c(max,min) (Applied to all params) or a dataframe with cols param, max, min</p></td>
     </tr>
     <tr>
-      <th>scaleRangeDiffxPrcnt</th>
+      <th>scaleRangexDiffPrcnt</th>
       <td><p>Default =NULL, A vector with c(max,min) (Applied to all params) or a dataframe with cols param, max, min</p></td>
     </tr>
     <tr>
@@ -510,6 +512,14 @@ Each figure is accompanied with a csv table.</p>
     <tr>
       <th>legendShow</th>
       <td><p>Default = T</p></td>
+    </tr>
+    <tr>
+      <th>diffOnly</th>
+      <td><p>Default = F. Only run diff plots and not individual scenarios.</p></td>
+    </tr>
+    <tr>
+      <th>forceFacets</th>
+      <td><p>Default = F. Used to force facet label for single scenario which is usually dropped.</p></td>
     </tr>
     </table>
 
