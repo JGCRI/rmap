@@ -942,43 +942,43 @@ if(!is.null(datax)){
       if(length(col)==1){
       if(length(row)==1){
         map <- map +
-          ggplot2::facet_grid(get(row[1]) ~ get(col[1]))}
+          ggplot2::facet_grid(get(row[1]) ~ get(col[1]), switch ="y")}
 
       if(length(row)==2){
         map <- map +
-          ggplot2::facet_grid(get(row[1]) + get(row[2]) ~ get(col[1]))}
+          ggplot2::facet_grid(get(row[1]) + get(row[2]) ~ get(col[1]), switch ="y")}
 
       if(length(row)==3){
         map <- map +
-          ggplot2::facet_grid(get(row[1])+ get(row[2])+ get(row[3]) ~ get(col[1]))}
+          ggplot2::facet_grid(get(row[1])+ get(row[2])+ get(row[3]) ~ get(col[1]), switch ="y")}
       }
 
       if(length(col)==2){
         if(length(row)==1){
           map <- map +
-            ggplot2::facet_grid(get(row[1]) ~ get(col[1]) +  get(col[2]))}
+            ggplot2::facet_grid(get(row[1]) ~ get(col[1]) +  get(col[2]), switch ="y")}
 
         if(length(row)==2){
           map <- map +
-            ggplot2::facet_grid(get(row[1]) + get(row[2]) ~ get(col[1]) +  get(col[2]))}
+            ggplot2::facet_grid(get(row[1]) + get(row[2]) ~ get(col[1]) +  get(col[2]), switch ="y")}
 
         if(length(row)==3){
           map <- map +
-            ggplot2::facet_grid(get(row[1])+ get(row[2])+ get(row[3]) ~ get(col[1]) +  get(col[2]))}
+            ggplot2::facet_grid(get(row[1])+ get(row[2])+ get(row[3]) ~ get(col[1]) +  get(col[2]), switch ="y")}
       }
 
       if(length(col)==3){
         if(length(row)==1){
           map <- map +
-            ggplot2::facet_grid(get(row[1]) ~ get(col[1]) +  get(col[2]) + get(col[3]))}
+            ggplot2::facet_grid(get(row[1]) ~ get(col[1]) +  get(col[2]) + get(col[3]), switch ="y")}
 
         if(length(row)==2){
           map <- map +
-            ggplot2::facet_grid(get(row[1]) + get(row[2]) ~ get(col[1]) +  get(col[2]) + get(col[3]))}
+            ggplot2::facet_grid(get(row[1]) + get(row[2]) ~ get(col[1]) +  get(col[2]) + get(col[3]), switch ="y")}
 
         if(length(row)==3){
           map <- map +
-            ggplot2::facet_grid(get(row[1])+ get(row[2])+ get(row[3]) ~ get(col[1]) +  get(col[2]) + get(col[3]))}
+            ggplot2::facet_grid(get(row[1])+ get(row[2])+ get(row[3]) ~ get(col[1]) +  get(col[2]) + get(col[3]), switch ="y")}
       }
 
 
@@ -990,15 +990,15 @@ if(!is.null(datax)){
       # Upto three multifacet rows
       if(length(row)==1){
         map <- map +
-          ggplot2::facet_grid(get(row[1]) ~ ., ncol = ncol)}
+          ggplot2::facet_grid(get(row[1]) ~ ., ncol = ncol, switch ="y")}
 
       if(length(row)==2){
         map <- map +
-          ggplot2::facet_grid(get(row[1]) + get(row[2]) ~ .)}
+          ggplot2::facet_grid(get(row[1]) + get(row[2]) ~ ., switch ="y")}
 
       if(length(row)==3){
         map <- map +
-          ggplot2::facet_grid(get(row[1])+ get(row[2])+ get(row[3]) ~ .)}
+          ggplot2::facet_grid(get(row[1])+ get(row[2])+ get(row[3]) ~ ., switch ="y")}
 
     }
     }
@@ -1013,11 +1013,11 @@ if(!is.null(datax)){
 
       if(length(col)==2){
         map <- map +
-          ggplot2::facet_grid(. ~ get(col[1]) + get(col[2]))}
+          ggplot2::facet_grid(. ~ get(col[1]) + get(col[2]), switch ="y")}
 
       if(length(col)==3){
         map <- map +
-          ggplot2::facet_grid(. ~ get(col[1]) + get(col[2]) + get(col[3]))}
+          ggplot2::facet_grid(. ~ get(col[1]) + get(col[2]) + get(col[3]), switch ="y")}
 
 
     }
@@ -1106,6 +1106,7 @@ map <- map +
     axis.text = ggplot2::element_blank(),
     axis.ticks = ggplot2::element_blank(),
     panel.border = ggplot2::element_blank(),
+    strip.background = ggplot2::element_blank(),
     strip.text = ggplot2::element_text(size = 12),
     panel.background =  ggplot2::element_rect(fill = "transparent",colour = NA)) +
   ggplot2::xlab(NULL) + ggplot2::ylab(NULL) +
@@ -1117,7 +1118,9 @@ if(background){
     ggplot2::theme(
     panel.border = ggplot2::element_rect(color="black",size=0.1, fill = NA),
     panel.background = ggplot2::element_rect(fill="lightcyan2"),
-    strip.background = ggplot2::element_rect(color="black",size=0.1, fill="gray90"))
+    strip.background = ggplot2::element_rect(color="black",size=0.1, fill="gray30"),
+    strip.text = ggplot2::element_text(color = "white"))
+
 }
 
 map <- map +

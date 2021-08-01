@@ -58,8 +58,8 @@ map(
   scaleRangeDiffPrcnt = NULL,
   xRef = NULL,
   xDiff = NULL,
-  scaleRangeDiffxAbs = NULL,
-  scaleRangeDiffxPrcnt = NULL,
+  scaleRangexDiffAbs = NULL,
+  scaleRangexDiffPrcnt = NULL,
   col = NULL,
   row = NULL,
   title = NULL,
@@ -78,8 +78,8 @@ map(
   background = F,
   transparent = T,
   legendShow = T,
-  combinedOnly = F,
-  diffOnly = F
+  diffOnly = F,
+  forceFacets = F
 )
 }
 \arguments{
@@ -189,9 +189,9 @@ map(
 
 \item{xDiff}{years to Diff. Default = NULL}
 
-\item{scaleRangeDiffxAbs}{Default =NULL, A vector with c(max,min) (Applied to all params) or a dataframe with cols param, max, min}
+\item{scaleRangexDiffAbs}{Default =NULL, A vector with c(max,min) (Applied to all params) or a dataframe with cols param, max, min}
 
-\item{scaleRangeDiffxPrcnt}{Default =NULL, A vector with c(max,min) (Applied to all params) or a dataframe with cols param, max, min}
+\item{scaleRangexDiffPrcnt}{Default =NULL, A vector with c(max,min) (Applied to all params) or a dataframe with cols param, max, min}
 
 \item{col}{Default ="multiFacetRow",}
 
@@ -229,9 +229,9 @@ map(
 
 \item{legendShow}{Default = T}
 
-\item{combinedOnly}{Default = F. Only run combined plots and not individual scenarios.}
-
 \item{diffOnly}{Default = F. Only run diff plots and not individual scenarios.}
+
+\item{forceFacets}{Default = F. Used to force facet label for single scenario which is usually dropped.}
 }
 \value{
 Returns the formatted data used to produce chart

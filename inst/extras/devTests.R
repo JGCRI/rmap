@@ -253,18 +253,15 @@ dataa = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
                             37, 53, 23, 12, 45,
                             40, 44, 12, 30, 99))
 
-dataa = readRDS("C:/Z/models/argus/inst/app/chartz.RDS")
 head(dataa)
 
-mapx <- rmap::map(data = dataa %>% filter(x==1995),
+mapx <- rmap::map(data = dataa,
                   underLayer = rmap::mapCountries,
-                  combinedOnly = T,
-                  diffOnly = T,
-                  save=F,
+                  diffOnly = F,
+                  save=T,
                   show=F,
-                  scenRef = "GCAM_SSP2",
-                  #scenDiff = c("scen2"),
-                  background = T);
+                  scenRef = "scen1",
+                  background = T)
 
 names(mapx)
 mapx[[1]]

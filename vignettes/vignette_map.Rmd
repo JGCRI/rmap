@@ -390,11 +390,11 @@ data = data.frame(subRegion = c("FL","ID","MO","TX","WY"),
                   value = c(10,15,34,2,7))
 
 # Setting crop to F will zoom out to the extent of the largest layer (In this case the underLayer)
-m0 = rmap::map(data,underLayer = rmap::mapUS49,zoom = 0, show=F)
-m1 = rmap::map(data,underLayer = rmap::mapUS49,zoom = 7, show=F)
-m2 = rmap::map(data,underLayer = rmap::mapUS49,zoom = -10, show=F)
-m3 = rmap::map(data,underLayer = rmap::mapUS49,zoomx = 3, show=F)
-m4 = rmap::map(data,underLayer = rmap::mapUS49,zoomy = 2, show=F)
+m0 = rmap::map(data,underLayer = rmap::mapUS49,zoom = 0, show=F, save = T)
+m1 = rmap::map(data,underLayer = rmap::mapUS49,zoom = 7, show=F, save = T)
+m2 = rmap::map(data,underLayer = rmap::mapUS49,zoom = -10, show=F, save = T)
+m3 = rmap::map(data,underLayer = rmap::mapUS49,zoomx = 3, show=F, save = T)
+m4 = rmap::map(data,underLayer = rmap::mapUS49,zoomy = 2, show=F, save = T)
 
 cowplot::plot_grid(m0[[1]],m1[[1]], m2[[1]],m3[[1]], m4[[1]],
                    labels = c('zoom = 0',
@@ -730,10 +730,10 @@ mapx <- rmap::map(data = data,
           underLayer = rmap::mapCountries,
           background = T,
           ncol = 4,
-          show=F)
+          show=F, save = T)
 
-mapx$map_param_scenario_KMEANS
-mapx$map_param_scenario_MEAN_KMEANS
+mapx$map_param_KMEANS
+mapx$map_param_MEAN_KMEANS
 
 ```
 
@@ -771,10 +771,10 @@ data = example_gridData_GWPv4To2015;
 mapx <- rmap::map(data = data,
           overLayer = rmap::mapCountries,
           background = T,
-          show=F)
+          show=F, save = T)
 
-mapx$map_param_scenario_KMEANS
-mapx$map_param_scenario_MEAN_KMEANS
+mapx$map_param_KMEANS
+mapx$map_param_MEAN_KMEANS
 ```
 
 <!-- <p align="center"> <img src="vignetteFigs/anim_param_scenario_KMEANS_gridded.gif"></p> -->
@@ -808,8 +808,8 @@ mapx <- rmap::map(data = data,
           xRef = 2010, 
           xDiff = c(2020,2030))
 
-mapx$map_param_scenario_DiffxAbs_2030_2010_KMEANS
-mapx$map_param_scenario_DiffxPrcnt_2030_2010_KMEANS
+mapx$map_param_KMEANS_xDiffAbs
+mapx$map_param_KMEANS_xDiffPrcnt
 
 ```
 
@@ -831,8 +831,8 @@ mapx <- rmap::map(data = data,
           xDiff = c(2020,2030),
           show = F)
 
-mapx$map_param_scenario_DiffxAbs_2030_2010_KMEANS
-mapx$map_param_scenario_DiffxPrcnt_2030_2010_KMEANS
+mapx$map_param_KMEANS_xDiffAbs
+mapx$map_param_KMEANS_xDiffPrcnt
 
 ```
 
@@ -849,8 +849,8 @@ mapx <- rmap::map(data = data,
           xRef = 1990, 
           xDiff = c(2010,2015))
 
-mapx$map_param_scenario_DiffxAbs_2015_1990_KMEANS
-mapx$map_param_scenario_DiffxPrcnt_2015_1990_KMEANS
+mapx$map_param_xDiffAbs_2015_1990_KMEANS
+mapx$map_param_xDiffPrcnt_2015_1990_KMEANS
 ```
 
 ```{r, results = 'hide', eval=T, echo=F, warning=FALSE, error = FALSE, message = FALSE}
@@ -862,10 +862,10 @@ mapx <- rmap::map(data = data,
           underLayer = rmap::mapCountries,
           xRef = 1990, 
           xDiff = c(2010,2015),
-          show=F)
+          show=F, save = T)
 
-mapx$map_param_scenario_DiffxAbs_2015_1990_KMEANS
-mapx$map_param_scenario_DiffxPrcnt_2015_1990_KMEANS
+mapx$map_param_xDiffAbs_2015_1990_KMEANS
+mapx$map_param_xDiffPrcnt_2015_1990_KMEANS
 
 ```
 
@@ -1048,11 +1048,11 @@ data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
 mapx <- rmap::map(data = data, 
           underLayer = rmap::mapCountries,
           scenRef = "scen1",
-          scenDiff = c("scen2"),
+          scenDiff = c("scen2","scen3"), # Can omit this to get difference against all scenarios
           background = T)
 
-mapx$map_param_DiffAbs_scen2_scen1_KMEANS
-mapx$map_param_DiffPrcnt_scen2_scen1_KMEANS
+mapx$map_param_KMEANS_DiffAbs
+mapx$map_param_KMEANS_DiffPrcnt
 
 ```
 
@@ -1071,12 +1071,12 @@ data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
 mapx <- rmap::map(data = data, 
           underLayer = rmap::mapCountries,
           scenRef = "scen1",
-          scenDiff = c("scen2"),
+          scenDiff = c("scen2","scen3"),
           background = T,
           show = F)
 
-mapx$map_param_DiffAbs_scen2_scen1_KMEANS
-mapx$map_param_DiffPrcnt_scen2_scen1_KMEANS
+mapx$map_param_KMEANS_DiffAbs
+mapx$map_param_KMEANS_DiffPrcnt
 
 ```
 
@@ -1123,7 +1123,7 @@ mapx <- rmap::map(data = data,
           scenRef = "scenario1",
           scenDiff = c("scenario3"),
           background = T,
-          show=F)
+          show=F, save = T)
 
 mapx$map_param_DiffAbs_scenario3_scenario1_KMEANS
 mapx$map_param_DiffPrcnt_scenario3_scenario1_KMEANS
@@ -1231,15 +1231,16 @@ rmap::map(data = data,
           background = T, 
           underLayer = rmap::mapCountries,
           xRef = 2010,
+          forceFacets = T,
           scaleRange = c(0,50), 
-          scaleRangeDiffxAbs = c(-100,100), 
-          scaleRangeDiffxPrcnt = c(-60,60))
+          scaleRangexDiffAbs = c(-100,100), 
+          scaleRangexDiffPrcnt = c(-60,60))
 
 # If multiple parameters in data users can set up scaleRange for each param as:
 # scaleRange_i = data.frame(param = c("param1","param2"),
 #                                   min = c(0,0),
 #                                   max = c(15000,2000))
-# scaleRangeDiffxAbs_i = data.frame(param = c("param1","param2"),
+# scaleRangexDiffAbs_i = data.frame(param = c("param1","param2"),
 #                                   min = c(0,0),
 #                                   max = c(15000,2000))
 
@@ -1460,7 +1461,8 @@ dfClass <- rmap::exampleMapDataClass %>%
 rmap::map(data = dfClass, 
           background = T, 
           underLayer = rmap::mapGCAMReg32,
-          shape = rmap::mapGCAMReg32)
+          shape = rmap::mapGCAMReg32,
+          save=F)
 
 ```
 
@@ -1476,8 +1478,13 @@ library(rmap)
 dfParam <- rmap::exampleMapDataParam %>%
   dplyr::filter(region %in% c("India","China","Pakistan"),
                 param %in% c("elecByTechTWh"),
-                x %in% c(2010,2050),
+                x %in% c(2010,2025,2050),
                 scenario %in% c("GCAM_SSP3","GCAM_SSP5")); dfParam
+
+# Add another scenario (Optional test)
+dfParam <- dfParam %>% dplyr::bind_rows(
+  dfParam %>% filter(scenario=="GCAM_SSP5") %>% mutate(value=value*1.5, scenario ="GCAM_X")
+)
 
 # Plot data aggregated by param
 rmap::map(data = dfParam, 
