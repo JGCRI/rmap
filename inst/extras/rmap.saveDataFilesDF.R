@@ -5,7 +5,6 @@
 #---------------------------
 library(data.table)
 library(usethis)
-library(broom)
 library(dplyr)
 library(rmap)
 
@@ -33,7 +32,7 @@ tidyx <- function(x, region = NULL, ...) {
 }
 
 #-------------------
-# Save Maps as ggplot broom dataframes
+# Save Maps as ggplot dataframes
 #-------------------
 
 # Worldmap countries

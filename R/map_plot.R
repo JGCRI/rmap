@@ -207,6 +207,30 @@ if(T){ # Initialize
     overLayer <- shape_to_df(shape=overLayer, shapeColumn = shapeColumn)
   }
 
+  #-----------------------------
+  # Custom functions
+  #---------------------------
+
+  tidyx <- function(x, region = NULL, ...) {
+
+    attr <- as.data.frame(x)
+    attr <- attr %>% as.data.frame()
+    # If not specified, split into regions based on polygons
+    if (is.null(region)) {
+      coords <- map_df(x@polygons, tidy)
+      message("Regions defined for each Polygons")
+    } else {
+      cp <- sp::polygons(x)
+
+      # Union together all polygons that make up a region
+      unioned <- maptools::unionSpatialPolygons(cp, attr[, region])
+      coords <- tidy(unioned)
+      coords$order <- 1:nrow(coords)
+    }
+    as_tibble(coords)
+  }
+
+
 
 } # initialize
 
@@ -231,7 +255,7 @@ if(!is.null(data)){
 
     # If shape provided then use shape
     if(!is.null(shape)){
-      # If SpatialPolygonsDataFrame then convert to dataframe using broom
+      # If SpatialPolygonsDataFrame then convert to dataframe
       if(any(grepl("SpatialPolygonsDataFrame",class(shape)))){
 
         # Check that shape file has relevant columns
@@ -242,7 +266,7 @@ if(!is.null(data)){
         shape <- shape[shape@data$subRegion %in% unique(data$subRegion),]
         shape@data <- shape@data %>% droplevels()
 
-        data_shape <- broom::tidy(shape, region="subRegion") %>%
+        data_shape <- tidyx(shape, region="subRegion") %>%
           dplyr::rename(subRegion=id)%>%
           dplyr::inner_join(shape@data, by="subRegion") %>%
           dplyr::rename(lon=long) %>%
@@ -258,7 +282,7 @@ if(!is.null(data)){
         data_shape <- shape
 
       } else {
-        stop("shape provided must be a SpatialPolygonsDataFrame or a fortified (broom) dataframe and have a column named 'subRegion' in its data.")
+        stop("shape provided must be a SpatialPolygonsDataFrame or a fortified dataframe and have a column named 'subRegion' in its data.")
       }
 
       # Make sure subRegions in data are present in shape provided
