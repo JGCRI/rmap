@@ -2,13 +2,13 @@
 #'
 #' Given a data.frame with a subRegion column, this function searches for an appropriate map from the pre-loaded rmap maps.
 #'
-#' @param dataTbl Palette name to view the palette colors. Eg. colors("pal_Basic")
+#' @param data data table to be processed
 #' @keywords map, find
 #' @return dataframe with modified subRegions, subRegion shapefile and subRegion type
 #' @export
 
 
-map_find_df <- function(dataTbl) {
+map_find_df <- function(data) {
 
   #......................................................
   # Initialize
@@ -16,7 +16,7 @@ map_find_df <- function(dataTbl) {
 
     if(T){
     NULL -> subRegShapeFoundx -> subRegShapeTypeFoundx -> subRegNotInShapeFoundx ->
-      dataTblFound -> subRegionShapex -> mapStatesx -> subRegionAlt -> subRegion -> mapFindx -> subRegion1 ->
+      dataFound -> subRegionShapex -> mapStatesx -> subRegionAlt -> subRegion -> mapFindx -> subRegion1 ->
         subRegNum-> subRegionMap->long}
 
   #......................................................
@@ -25,7 +25,7 @@ map_find_df <- function(dataTbl) {
 
   if(T){
 
-    # Check dataTbl to make sure basic columns are available
+    # Check data to make sure basic columns are available
     addMissing<-function(data){
       if(any(grepl("\\<subregion\\>",names(data),ignore.case = T))){
         data <- data %>% dplyr::rename(!!"subRegion" := (names(data)[grepl("\\<subregion\\>",names(data),ignore.case = T)])[1])}
@@ -33,25 +33,25 @@ map_find_df <- function(dataTbl) {
         data <- data %>% dplyr::rename(!!"subRegion" := (names(data)[grepl("\\<subregions\\>",names(data),ignore.case = T)])[1])}
     return(data)
       }
-    dataTbl <- addMissing(dataTbl)
+    data <- addMissing(data)
 
-    if(!all(c("subRegion") %in% names(dataTbl))){stop("dataTbl must have subRegion columns.")}
+    if(!all(c("subRegion") %in% names(data))){stop("data must have subRegion columns.")}
 
-    subRegShapeTblOrig <- unique(dataTbl$subRegion)
+    subRegShapeTblOrig <- unique(data$subRegion)
 
     # Map subRegions to rmap regions
-    dataTbl <- dataTbl %>%
+    data <- data %>%
       dplyr::left_join(rmap::mappings("mappingGCAMBasins"),by="subRegion")%>%
       dplyr::mutate(subRegion=dplyr::case_when(!is.na(subRegionMap)~subRegionMap,
                                         TRUE~subRegion))%>%
       dplyr::select(-subRegionMap)
 
-    subRegShapeTbl <- gsub("-", "_", tolower(unique(dataTbl$subRegion)))
+    subRegShapeTbl <- gsub("-", "_", tolower(unique(data$subRegion)))
 
   }
 
     #.....................................................
-    # Find how many regions in the datatbl belong to different maps
+    # Find how many regions in the data belong to different maps
     #.....................................................
 
     if (T) {
@@ -156,7 +156,7 @@ map_find_df <- function(dataTbl) {
 
     if(T){
 
-      subRegNotInShapeFoundx <- unique(dataTbl$subRegion)[!unique(dataTbl$subRegion) %in% unique(mapFindx$subRegion)]
+      subRegNotInShapeFoundx <- unique(data$subRegion)[!unique(data$subRegion) %in% unique(mapFindx$subRegion)]
 
       if (!is.null(subRegNotInShapeFoundx)) {
         if (length(subRegNotInShapeFoundx) > 0) {

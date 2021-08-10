@@ -40,7 +40,8 @@ Imports:
 Remotes: github::JGCRI/jgcricolors
 Suggests: 
     rmarkdown,
-	testthat,
-	knitr
+    testthat (>= 3.0.0),
+    knitr
 VignetteBuilder: 
     knitr
+Config/testthat/edition: 3

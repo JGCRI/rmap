@@ -903,6 +903,9 @@ if(redoMaps){
   m2 <- mapCountries
   m2 <- sp::spTransform(m2,raster::crs(m1))
   mapx<-raster::intersect(m1,m2)
+
+  mapx@data%>%head()%>%as.data.frame()
+
   mapx@data <- mapx@data %>%
     dplyr::mutate(subRegion=paste(subRegion.1,subRegion.2,sep="_X_"),
                   region=region.1,
@@ -920,7 +923,14 @@ if(redoMaps){
     dplyr::mutate(areaSubRegion_Country = sum(area_sqkm),
                   ratioAreaIntersect = round((area_sqkm/areaSubRegion_Country),4))%>%
     dplyr::ungroup()
-  head(mapx@data)
+
+  mapx@data%>%head()%>%as.data.frame()
+  mapx1 <- mapx[grepl("Colombia",mapx@data$subRegion_Country),]; mapx1@data%>%head()%>%as.data.frame()
+  mapx1@data <- droplevels(mapx1@data)
+  sp::plot(mapx1)
+
+  maptools::unionSpatialPolygons(rmap::mapUS49, "subRegion")
+
   mapx<-rgeos::gBuffer(mapx, byid=TRUE, width=0)
   format(object.size(mapx), units="Mb")
   mapIntersectGCAMBasinCountry<-mapx

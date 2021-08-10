@@ -3,15 +3,12 @@ library(rmap); library(testthat); library(dplyr)
 
 test_that("map plots shape correctly", {
 
-  testthat::skip_on_cran(); testthat::skip_on_travis()
   mapx <- rmap::map(rmap::mapUS49, show = F, save=F)
   tVal1 <- length(mapx)
   testthat::expect_gt(tVal1,0)
 })
 
 test_that("map plots polygonData correctly", {
-
-  testthat::skip_on_cran(); testthat::skip_on_travis()
 
   data = data.frame(subRegion=c("FL","ID"),
                     value=c(1,3))
@@ -22,7 +19,6 @@ test_that("map plots polygonData correctly", {
 
 test_that("map saves and outputs correctly", {
 
-  testthat::skip_on_cran(); testthat::skip_on_travis()
 
   data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
                                   "Austria","Spain", "Italy", "Germany","Greece",
@@ -44,8 +40,6 @@ test_that("map saves and outputs correctly", {
 
 test_that("map plots grid data correctly", {
 
-  testthat::skip_on_cran(); testthat::skip_on_travis()
-
   data = example_gridData_GWPv4To2015 %>%
     dplyr::filter(x == 2015);
   mapx <- rmap::map(data, show = F, save=F)
@@ -54,8 +48,6 @@ test_that("map plots grid data correctly", {
 })
 
 test_that("map plots multi-class, multi-x, multi-scen data correctly", {
-
-  testthat::skip_on_cran(); testthat::skip_on_travis()
 
   data = rmap::exampleMapDataClass %>%
     dplyr::filter(region %in% c("India","China","Pakistan"),

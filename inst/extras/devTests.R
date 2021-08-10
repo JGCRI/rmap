@@ -277,3 +277,14 @@ mapx[[2]]
 # scenRef = "GCAM_SSP2"
 # #scenDiff = c("scen2"),
 # background = T
+
+
+
+#----------------
+# covr
+#--------------
+library(covr)
+cov <- package_coverage()
+as.data.frame(cov)
+head(cov)
+zero_coverage(cov)
