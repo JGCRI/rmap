@@ -32,7 +32,6 @@ Imports:
 	stringr,
 	ggplot2,
 	ggrepel,
-	broom,
 	maptools,
 	jgcricolors,
 	cowplot,

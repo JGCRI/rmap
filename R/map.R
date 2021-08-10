@@ -315,7 +315,7 @@ map <- function(data = NULL,
       shapex <- shape
 
     } else {
-      stop("shape provided must be a SpatialPolygonsDataFrame or a fortified (broom) dataframe and have a column named 'subRegion' in its data.")
+      stop("shape provided must be a SpatialPolygonsDataFrame or a fortified dataframe and have a column named 'subRegion' in its data.")
     }
   }else{
     shapex = NULL
