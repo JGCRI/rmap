@@ -2,7 +2,7 @@
 #'
 #' Given a data.frame with a subRegion column, this function searches for an appropriate map from the pre-loaded rmap maps.
 #'
-#' @param dataTbl Palette name to view the palette colors. Eg. colors("pal_Basic")
+#' @param data data to process
 #' @keywords map, find
 #' @return dataframe with modified subRegions, subRegion shapefile and subRegion type
 #' @importFrom rlang :=
@@ -13,7 +13,7 @@
 #' rmap::map_find(data)
 
 
-map_find <- function(dataTbl) {
+map_find <- function(data) {
 
   #......................................................
   # Initialize
@@ -21,7 +21,7 @@ map_find <- function(dataTbl) {
 
     if(T){
     NULL -> subRegShapeFoundx -> subRegShapeTypeFoundx -> subRegNotInShapeFoundx ->
-      dataTblFound -> subRegionShapex -> mapStatesx -> subRegionAlt -> subRegion -> map_findx -> subRegion1 ->
+      dataFound -> subRegionShapex -> mapStatesx -> subRegionAlt -> subRegion -> map_findx -> subRegion1 ->
         subRegNum-> subRegionMap}
 
   #......................................................
@@ -30,7 +30,7 @@ map_find <- function(dataTbl) {
 
   if(T){
 
-    # Check dataTbl to make sure basic columns are available
+    # Check data to make sure basic columns are available
     addMissing<-function(data){
       if(any(grepl("\\<subregion\\>",names(data),ignore.case = T))){
         data <- data %>% dplyr::rename(!!"subRegion" := (names(data)[grepl("\\<subregion\\>",names(data),ignore.case = T)])[1])}
@@ -38,21 +38,21 @@ map_find <- function(dataTbl) {
         data <- data %>% dplyr::rename(!!"subRegion" := (names(data)[grepl("\\<subregions\\>",names(data),ignore.case = T)])[1])}
     return(data)
       }
-    dataTbl <- addMissing(dataTbl)
+    data <- addMissing(data)
 
-    if(!all(c("subRegion") %in% names(dataTbl))){stop("dataTbl must have subRegion columns.")}
+    if(!all(c("subRegion") %in% names(data))){stop("data must have subRegion columns.")}
 
-    subRegShapeTblOrig <- unique(dataTbl$subRegion)
+    subRegShapeTblOrig <- unique(data$subRegion)
 
     # Map subRegions to rmap regions
-    dataTblOrig <- dataTbl
-    dataTbl <- dataTbl %>%
+    dataOrig <- data
+    data <- data %>%
       dplyr::left_join(rmap::mappings("mappingGCAMBasins"),by="subRegion")%>%
       dplyr::mutate(subRegion=dplyr::case_when(!is.na(subRegionMap)~subRegionMap,
                                         TRUE~subRegion))%>%
       dplyr::select(-subRegionMap)
 
-    subRegShapeTbl <- gsub("-", "_", tolower(unique(dataTbl$subRegion)))
+    subRegShapeTbl <- gsub("-", "_", tolower(unique(data$subRegion)))
     subRegShapeTblOrigLower <- gsub("-", "_", tolower(unique(subRegShapeTblOrig)))
 
     if(!all(subRegShapeTblOrigLower %in% subRegShapeTbl)){
@@ -259,7 +259,7 @@ map_find <- function(dataTbl) {
     }
 
     #.....................................................
-    # Find how many regions in the datatbl belong to different maps
+    # Find how many regions in the data belong to different maps
     #.....................................................
 
     if (T) {
@@ -360,7 +360,7 @@ map_find <- function(dataTbl) {
         print(paste0("Original names were : ", subRegShapeTblOrigLower[!subRegShapeTblOrigLower %in% subRegShapeTbl]))
         print(paste0("New names are : ", subRegShapeTbl[!subRegShapeTbl %in% subRegShapeTblOrigLower]))
         subRegShapeTbl <- subRegShapeTblOrigLower
-        dataTbl <- dataTblOrig
+        data <- dataOrig
         }
       }
 
@@ -760,7 +760,7 @@ map_find <- function(dataTbl) {
     #.....................................................
 
     if(T){
-    if (!is.null(subRegShapeFoundx) & nrow(dataTbl) > 0) {
+    if (!is.null(subRegShapeFoundx) & nrow(data) > 0) {
 
       subRegShapeFoundx <- subRegShapeFoundx[!is.na(subRegShapeFoundx@data$subRegion),]
       subRegShapeFoundx@data <- subRegShapeFoundx@data %>%
@@ -777,13 +777,13 @@ map_find <- function(dataTbl) {
         )
 
       subRegx
-      dataTblFound <- dataTbl %>%
+      dataFound <- data %>%
         dplyr::mutate(subRegion = gsub("-","_",tolower(as.character(subRegion))),
                       subRegType = subRegShapeTypeFoundx) %>%
         dplyr::left_join(subRegx, by = "subRegion") %>%
         dplyr::mutate(subRegion = subRegionShapex) %>%
         dplyr::select(-subRegionShapex)
-      dataTblFound
+      dataFound
     }
     }
 
@@ -793,11 +793,11 @@ map_find <- function(dataTbl) {
     #.....................................................
 
     if(T){
-    if (is.null(dataTblFound)) {
+    if (is.null(dataFound)) {
       print(
         paste(
           "None of the subregions in the data provided: ",
-          paste(dataTbl$subRegion %>% unique(), collapse = ", "),
+          paste(data$subRegion %>% unique(), collapse = ", "),
           " are available in any of the rmap shapefiles available. Please provide a shapefile with at least one of the subRegions from the data.",
           sep = ""
         )
@@ -810,7 +810,7 @@ map_find <- function(dataTbl) {
     #.....................................................
 
     map_findx <- list(
-      dataTblFound = dataTblFound,
+      dataFound = dataFound,
       subRegShapeFound = subRegShapeFoundx,
       subRegShapeTypeFound = subRegShapeTypeFoundx,
       subRegNotInShapeFound = subRegNotInShapeFoundx

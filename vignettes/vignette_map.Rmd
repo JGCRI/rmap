@@ -210,6 +210,29 @@ library(rmap);
 rmap::map(mapHydroShed3)
 ```
 
+## mapIntersectGCAMBasinCountry
+```{r, results = 'hide', eval=TRUE, echo=FALSE, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap);
+rmap::map(mapIntersectGCAMBasinCountry)
+```
+
+## mapIntersectGCAMBasin32Reg
+```{r, results = 'hide', eval=TRUE, echo=FALSE, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap);
+rmap::map(mapIntersectGCAMBasin32Reg)
+```
+
+## mapIntersectGCAMBasinUS52
+```{r, results = 'hide', eval=TRUE, echo=FALSE, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap);
+rmap::map(mapIntersectGCAMBasinUS52)
+```
+
+## mapIntersectGCAMBasinUS52County
+```{r, results = 'hide', eval=TRUE, echo=FALSE, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap);
+rmap::map(mapIntersectGCAMBasinUS52County)
+```
 
 <!-------------------------->
 <!-------------------------->

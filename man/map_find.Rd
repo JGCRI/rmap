@@ -4,10 +4,10 @@
 \alias{map_find}
 \title{map_find}
 \usage{
-map_find(dataTbl)
+map_find(data)
 }
 \arguments{
-\item{dataTbl}{Palette name to view the palette colors. Eg. colors("pal_Basic")}
+\item{data}{data to process}
 }
 \value{
 dataframe with modified subRegions, subRegion shapefile and subRegion type

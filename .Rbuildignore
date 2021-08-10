@@ -26,3 +26,5 @@ rmapCheatsheet.pdf
 ^\.github$
 ^_config.yml$
 ^articles$
+^paper$
+^/paper$
