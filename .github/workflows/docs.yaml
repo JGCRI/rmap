@@ -25,12 +25,13 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ${{ env.R_LIBS_USER }}
-          key: ${{ runner.os }}-foo-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
-          restore-keys: ${{ runner.os }}-foo-${{ hashFiles('.github/R-version') }}-1-
+          key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
+          restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
         
       - name: Install dependencies
         run: |
-          install.packages(c("remotes", "rcmdcheck"), repos = "https://cloud.r-project.org")
+          install.packages(c("remotes","devtools","rcmdcheck"), repos = "https://cloud.r-project.org")
+          devtools::install_github("JGCRI/jgcricolors")
           remotes::install_deps(dependencies = TRUE)
           install.packages("pkgdown", type = "binary")
         shell: Rscript {0}
