@@ -272,6 +272,26 @@
 <h2 class="hasAnchor">
 <a href="#maphydroshed3" class="anchor"></a>mapHydroShed3</h2>
 <p><img src="vignette_map_files/figure-html/unnamed-chunk-20-1.png" width="700"></p>
+</div>
+<div id="mapintersectgcambasincountry" class="section level2">
+<h2 class="hasAnchor">
+<a href="#mapintersectgcambasincountry" class="anchor"></a>mapIntersectGCAMBasinCountry</h2>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-21-1.png" width="700"></p>
+</div>
+<div id="mapintersectgcambasin32reg" class="section level2">
+<h2 class="hasAnchor">
+<a href="#mapintersectgcambasin32reg" class="anchor"></a>mapIntersectGCAMBasin32Reg</h2>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-22-1.png" width="700"></p>
+</div>
+<div id="mapintersectgcambasinus52" class="section level2">
+<h2 class="hasAnchor">
+<a href="#mapintersectgcambasinus52" class="anchor"></a>mapIntersectGCAMBasinUS52</h2>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-23-1.png" width="700"></p>
+</div>
+<div id="mapintersectgcambasinus52county" class="section level2">
+<h2 class="hasAnchor">
+<a href="#mapintersectgcambasinus52county" class="anchor"></a>mapIntersectGCAMBasinUS52County</h2>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-24-1.png" width="700"></p>
 <!-------------------------->
 <!-------------------------->
 </div>
@@ -292,16 +312,16 @@
                   value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">5</span>,<span class="fl">10</span>,<span class="fl">15</span>,<span class="fl">34</span>,<span class="fl">2</span>,<span class="fl">7</span><span class="op">)</span><span class="op">)</span>
 
 <span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span> <span class="co"># Will choose the contiguous US map and plot this data for you as the only layer</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-21-1.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-25-1.png" width="700"></p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span>, 
           underLayer<span class="op">=</span><span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapUS49.html">mapUS49</a></span><span class="op">)</span> <span class="co"># Will add an underlayer of the US49 map zoomed in to your data set</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-21-2.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-25-2.png" width="700"></p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span>, 
           underLayer<span class="op">=</span><span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapUS49.html">mapUS49</a></span>, 
           overLayer<span class="op">=</span><span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapGCAMBasinsUS49.html">mapGCAMBasinsUS49</a></span><span class="op">)</span> <span class="co"># will add GCAM basins ontop of the previous map</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-21-3.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-25-3.png" width="700"></p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Modify the fill and outline of the different layers</span>
 <span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span>, 
@@ -312,7 +332,7 @@
           overLayer<span class="op">=</span><span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapGCAMBasinsUS49.html">mapGCAMBasinsUS49</a></span>,
           overLayerColor <span class="op">=</span> <span class="st">"red"</span>,
           overLayerLwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="co"># Will adjust the borders of the different layers to highlight them.</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-21-4.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-25-4.png" width="700"></p>
 <!-------------------------->
 <!-------------------------->
 </div>
@@ -336,7 +356,7 @@
           labels <span class="op">=</span> <span class="cn">T</span>,
           labelSize <span class="op">=</span> <span class="fl">10</span>,
           labelColor <span class="op">=</span> <span class="st">"blue"</span><span class="op">)</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-22-1.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-26-1.png" width="700"></p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Add labels with a transparent background box</span>
 <span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span>,
@@ -346,7 +366,7 @@
           labelFill <span class="op">=</span> <span class="st">"white"</span>,
           labelAlpha <span class="op">=</span> <span class="fl">0.8</span>,
           labelBorderSize <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-22-2.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-26-2.png" width="700"></p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Repel the labels out with a leader line for crowded labels (labelRepel from 0 to 1)</span>
 <span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span>,
@@ -357,7 +377,7 @@
           labelAlpha <span class="op">=</span> <span class="fl">0.8</span>,
           labelBorderSize <span class="op">=</span> <span class="fl">1</span>,
           labelRepel <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-22-3.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-26-3.png" width="700"></p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Choose which layers to apply these label options to.</span>
 <span class="co"># Labels for data (labels=T), labels for underlayer (underLayerLabels=T), labels for overLayer (overLayerLabels=T)</span>
@@ -366,7 +386,7 @@
 <span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span>,
           underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapUS49.html">mapUS49</a></span>,
           underLayerLabels <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-22-4.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-26-4.png" width="700"></p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># OverLayer Examples</span>
 <span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span>,
@@ -380,7 +400,7 @@
           labelAlpha <span class="op">=</span> <span class="fl">0.8</span>,
           labelBorderSize <span class="op">=</span> <span class="fl">0.1</span>,
           labelRepel <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-22-5.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-26-5.png" width="700"></p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># All Labels (Not recommended as too confusing)</span>
 <span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span>,
@@ -395,7 +415,7 @@
           labelAlpha <span class="op">=</span> <span class="fl">0.8</span>,
           labelBorderSize <span class="op">=</span> <span class="fl">0.1</span>,
           labelRepel <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-22-6.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-26-6.png" width="700"></p>
 <!-------------------------->
 <!-------------------------->
 </div>
@@ -421,7 +441,7 @@
           labels <span class="op">=</span> <span class="cn">T</span>,
           crop <span class="op">=</span> <span class="cn">T</span>,
           title <span class="op">=</span> <span class="st">"Crop = T"</span><span class="op">)</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-23-1.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-27-1.png" width="700"></p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span>,
           underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapUS49.html">mapUS49</a></span>,
@@ -429,7 +449,7 @@
           labels <span class="op">=</span> <span class="cn">T</span>,
           crop <span class="op">=</span> <span class="cn">F</span>,
           title <span class="op">=</span> <span class="st">"Crop = F"</span><span class="op">)</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-23-2.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-27-2.png" width="700"></p>
 <!-------------------------->
 <!-------------------------->
 </div>
@@ -454,7 +474,7 @@
 <span class="va">m2</span> <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span>,underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapUS49.html">mapUS49</a></span>,zoom <span class="op">=</span> <span class="op">-</span><span class="fl">10</span><span class="op">)</span>
 <span class="va">m3</span> <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span>,underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapUS49.html">mapUS49</a></span>,zoomx <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>
 <span class="va">m4</span> <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span>,underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapUS49.html">mapUS49</a></span>,zoomy <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-25-1.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-29-1.png" width="700"></p>
 <!-------------------------->
 <!-------------------------->
 </div>
@@ -479,14 +499,14 @@
           underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapCountriesUS52.html">mapCountriesUS52</a></span>,
           background <span class="op">=</span> <span class="cn">F</span>,
           title <span class="op">=</span> <span class="st">"Background = F"</span><span class="op">)</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-26-1.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-30-1.png" width="700"></p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span>,
           labels <span class="op">=</span> <span class="cn">T</span>,
           underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapCountriesUS52.html">mapCountriesUS52</a></span>,
           background <span class="op">=</span> <span class="cn">T</span>,
           title <span class="op">=</span> <span class="st">"Background = T"</span><span class="op">)</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-26-2.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-30-2.png" width="700"></p>
 <!-------------------------->
 <!-------------------------->
 </div>
@@ -514,7 +534,7 @@
 
 <span class="co"># Now Print with different ggplot elements</span>
 <span class="va">m1</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="op">+</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"No Theme"</span><span class="op">)</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-27-1.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-31-1.png" width="700"></p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Apply the ggplot theme_dark()</span>
 <span class="va">m1</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="op">+</span> 
@@ -522,7 +542,7 @@
   <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Theme Dark"</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="st">"MY X Label"</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span><span class="op">(</span><span class="st">"MY Y Label"</span><span class="op">)</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-27-2.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-31-2.png" width="700"></p>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Apply custom ggplot theme to an element</span>
 <span class="va">m1</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="op">+</span>
@@ -531,7 +551,7 @@
   <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"bottom"</span>,
                  legend.text <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>size<span class="op">=</span><span class="fl">20</span><span class="op">)</span>,
                  axis.title.x <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>size<span class="op">=</span><span class="fl">20</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-27-3.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-31-3.png" width="700"></p>
 <!-------------------------->
 <!-------------------------->
 </div>
@@ -550,7 +570,7 @@
 <span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>subRegion <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"CA"</span>,<span class="st">"FL"</span>,<span class="st">"ID"</span>,<span class="st">"MO"</span>,<span class="st">"TX"</span>,<span class="st">"WY"</span><span class="op">)</span>,
                   value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">5</span>,<span class="fl">10</span>,<span class="fl">15</span>,<span class="fl">34</span>,<span class="fl">2</span>,<span class="fl">7</span><span class="op">)</span><span class="op">)</span>
 <span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-28-1.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-32-1.png" width="700"></p>
 <!-------------------------->
 <!-------------------------->
 </div>
@@ -571,12 +591,12 @@
 
 <span class="co"># Auto selection by rmap will choose rmap::mapCountries</span>
 <span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-29-1.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-33-1.png" width="700"></p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># User can specify that they want to plot this data on rmap::mapGCAMReg32</span>
 <span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span>,
           shape <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapGCAMReg32.html">mapGCAMReg32</a></span><span class="op">)</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-29-2.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-33-2.png" width="700"></p>
 <!-------------------------->
 <!-------------------------->
 </div>
@@ -613,17 +633,17 @@
 ## 6 -180.  67.2 2015   77.6</code></pre>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-31-1.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-35-1.png" width="700"></p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Plot part of data (first 10000 rows)</span>
 <span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fl">10000</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-31-2.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-35-2.png" width="700"></p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Add an underlayer to gridded data</span>
 <span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span>,
           overLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapCountriesUS52.html">mapCountriesUS52</a></span>,
           background<span class="op">=</span><span class="cn">T</span><span class="op">)</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-31-3.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-35-3.png" width="700"></p>
 <!-------------------------->
 <!-------------------------->
 </div>
@@ -645,7 +665,7 @@
 <span class="va">shapeSubset</span> <span class="op">&lt;-</span> <span class="va">shapeSubset</span><span class="op">[</span><span class="va">shapeSubset</span><span class="op">@</span><span class="va">data</span><span class="op">$</span><span class="va">region</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Colombia"</span><span class="op">)</span>,<span class="op">]</span> <span class="co"># Subset the shapefile to Colombia</span>
 <span class="va">shapeSubset</span><span class="op">@</span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/droplevels.html">droplevels</a></span><span class="op">(</span><span class="va">shapeSubset</span><span class="op">@</span><span class="va">data</span><span class="op">)</span>
 <span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">shapeSubset</span><span class="op">)</span> <span class="co"># View custom shape</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-32-1.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-36-1.png" width="700"></p>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">shapeSubset</span><span class="op">@</span><span class="va">data</span><span class="op">)</span> <span class="co"># review data</span>
 <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">shapeSubset</span><span class="op">@</span><span class="va">data</span><span class="op">$</span><span class="va">states</span><span class="op">)</span> <span class="co"># Get a list of the unique subRegions</span>
@@ -659,7 +679,7 @@
           shape <span class="op">=</span> <span class="va">shapeSubset</span>,
           underLayer <span class="op">=</span> <span class="va">shapeSubset</span>,
           crop<span class="op">=</span><span class="cn">F</span><span class="op">)</span> <span class="co"># Must rename the states column to 'subRegion'</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-32-2.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-36-2.png" width="700"></p>
 </div>
 <div id="crop-a-shape-to-another-shape" class="section level2">
 <h2 class="hasAnchor">
@@ -677,7 +697,7 @@
 <span class="va">shapeCrop</span><span class="op">@</span><span class="va">data</span> <span class="op">&lt;-</span> <span class="va">shapeCrop</span><span class="op">@</span><span class="va">data</span><span class="op">%&gt;%</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">subRegion</span><span class="op">)</span>
 <span class="va">shapeCrop</span><span class="op">$</span><span class="va">subRegion</span><span class="op">%&gt;%</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/unique.html">unique</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># Check subRegion names</span>
 <span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">shapeCrop</span><span class="op">)</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-33-1.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-37-1.png" width="700"></p>
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Plot data on subset</span>
 <span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>subRegion <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Wise_TX"</span>,<span class="st">"Scurry_TX"</span>,<span class="st">"Kendall_TX"</span>,<span class="st">"Frio_TX"</span>,<span class="st">"Hunt_TX"</span>,<span class="st">"Austin_TX"</span><span class="op">)</span>,
@@ -686,7 +706,7 @@
           shape <span class="op">=</span> <span class="va">shapeCrop</span>,
           underLayer <span class="op">=</span> <span class="va">shapeCrop</span>,
           crop<span class="op">=</span><span class="cn">F</span><span class="op">)</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-33-2.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-37-2.png" width="700"></p>
 </div>
 <div id="saveShape" class="section level2">
 <h2 class="hasAnchor">
@@ -770,7 +790,7 @@
           background <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>
 
 <span class="co"># NOTE: Animation files are only saved to file and not as a direct output of the rmap::map() function.</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-37-1.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-37-2.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-41-1.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-41-2.png" width="700"></p>
 <p align="center">
 <img src="vignetteFigs/anim_param_scenario_KMEANS_polygon.gif"></p>
 </div>
@@ -797,7 +817,7 @@
           background <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>
 
 <span class="co"># NOTE: Animation files are only saved to file and not as a direct output of the rmap::map() function.</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-41-1.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-41-2.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-45-1.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-45-2.png" width="700"></p>
 <!-- <p align="center"> <img src="/Users/runner/work/rmap/rmap/vignettes/vignetteFigs/anim_param_scenario_KMEANS_gridded.gif"></p> -->
 <!-------------------------->
 <!-------------------------->
@@ -833,7 +853,7 @@
 
 <span class="va">mapx</span><span class="op">$</span><span class="va">map_param_KMEANS_xDiffAbs</span>
 <span class="va">mapx</span><span class="op">$</span><span class="va">map_param_KMEANS_xDiffPrcnt</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-43-1.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-43-2.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-47-1.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-47-2.png" width="700"></p>
 </div>
 <div id="gridded-data-multi-year-diff" class="section level2">
 <h2 class="hasAnchor">
@@ -882,7 +902,7 @@
 <span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>,
           underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapCountries.html">mapCountries</a></span>,
           background <span class="op">=</span> <span class="cn">T</span> <span class="op">)</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-46-1.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-50-1.png" width="700"></p>
 </div>
 <div id="gridded-data-multi-class" class="section level2">
 <h2 class="hasAnchor">
@@ -906,7 +926,7 @@
 <span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>,
           overLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapCountries.html">mapCountries</a></span>,
           background <span class="op">=</span> <span class="cn">T</span> <span class="op">)</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-47-1.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-51-1.png" width="700"></p>
 <!-------------------------->
 <!-------------------------->
 </div>
@@ -941,7 +961,7 @@
           background <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>
 
 <span class="va">mapx</span><span class="op">$</span><span class="va">map_param_KMEANS</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-49-1.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-53-1.png" width="700"></p>
 </div>
 <div id="gridded-data-multi-scenario" class="section level2">
 <h2 class="hasAnchor">
@@ -964,7 +984,7 @@
           background <span class="op">=</span> <span class="cn">T</span><span class="op">)</span>
 
 <span class="va">mapx</span><span class="op">$</span><span class="va">map_param_KMEANS</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-51-1.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-55-1.png" width="700"></p>
 <!-------------------------->
 <!-------------------------->
 </div>
@@ -1000,7 +1020,7 @@
 
 <span class="va">mapx</span><span class="op">$</span><span class="va">map_param_KMEANS_DiffAbs</span>
 <span class="va">mapx</span><span class="op">$</span><span class="va">map_param_KMEANS_DiffPrcnt</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-53-1.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-53-2.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-57-1.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-57-2.png" width="700"></p>
 </div>
 <div id="gridded-data-multi-scenario-diff" class="section level2">
 <h2 class="hasAnchor">
@@ -1065,7 +1085,7 @@
           row <span class="op">=</span> <span class="st">"rcp"</span>,
           col <span class="op">=</span> <span class="st">"gcm"</span>,
           background <span class="op">=</span> <span class="cn">T</span> <span class="op">)</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-56-1.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-60-1.png" width="700"></p>
 </div>
 <div id="gridded-data-multi-facet" class="section level2">
 <h2 class="hasAnchor">
@@ -1092,7 +1112,7 @@
           row<span class="op">=</span> <span class="st">"rcp"</span>,
           col <span class="op">=</span> <span class="st">"gcm"</span>,
           background <span class="op">=</span> <span class="cn">T</span> <span class="op">)</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-57-1.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-61-1.png" width="700"></p>
 <!-------------------------->
 <!-------------------------->
 </div>
@@ -1121,7 +1141,7 @@
           scaleRange <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">30</span>,<span class="fl">40</span><span class="op">)</span>, 
           scaleRangeDiffAbs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">100</span>,<span class="fl">100</span><span class="op">)</span>, 
           scaleRangeDiffPrcnt <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">60</span>,<span class="fl">60</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-58-1.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-58-2.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-58-3.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-62-1.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-62-2.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-62-3.png" width="700"></p>
 <div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># For Year Diff plots</span>
 <span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>subRegion <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Austria"</span>,<span class="st">"Spain"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>,<span class="st">"Greece"</span>,
@@ -1138,7 +1158,7 @@
           scaleRange <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">50</span><span class="op">)</span>, 
           scaleRangexDiffAbs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">100</span>,<span class="fl">100</span><span class="op">)</span>, 
           scaleRangexDiffPrcnt <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">60</span>,<span class="fl">60</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-58-4.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-58-5.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-58-6.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-58-7.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-58-8.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-58-9.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-62-4.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-62-5.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-62-6.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-62-7.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-62-8.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-62-9.png" width="700"></p>
 <div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># If multiple parameters in data users can set up scaleRange for each param as:</span>
 <span class="co"># scaleRange_i = data.frame(param = c("param1","param2"),</span>
@@ -1174,7 +1194,7 @@
           scenRef <span class="op">=</span> <span class="st">"scen1"</span>,
           palette <span class="op">=</span> <span class="st">"pal_wet"</span>,
           paletteDiff <span class="op">=</span> <span class="st">"pal_div_BrGn"</span><span class="op">)</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-59-1.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-59-2.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-59-3.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-63-1.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-63-2.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-63-3.png" width="700"></p>
 <!-------------------------->
 <!-------------------------->
 </div>
@@ -1208,19 +1228,19 @@
     background <span class="op">=</span> <span class="cn">T</span>,
     underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapCountries.html">mapCountries</a></span>,
     legendFixedBreaks<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">30</span>,<span class="fl">32</span>,<span class="fl">1000</span><span class="op">)</span><span class="op">)</span>  <span class="co"># Will append 24 to these breaks because they are part of the data.</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-60-1.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-64-1.png" width="700"></p>
 <div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, 
     background <span class="op">=</span> <span class="cn">T</span>,
     underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapCountries.html">mapCountries</a></span>,
     legendType <span class="op">=</span> <span class="st">"kmeans"</span><span class="op">)</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-60-2.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-64-2.png" width="700"></p>
 <div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, 
     background <span class="op">=</span> <span class="cn">T</span>,
     underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapCountries.html">mapCountries</a></span>,
     legendType <span class="op">=</span> <span class="st">"pretty"</span><span class="op">)</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-60-3.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-64-3.png" width="700"></p>
 <!-------------------------->
 </div>
 <div id="legend-breaks-number" class="section level2">
@@ -1244,14 +1264,14 @@
           underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapCountries.html">mapCountries</a></span>,
           legendType <span class="op">=</span> <span class="st">"pretty"</span>,
           legendBreaksn<span class="op">=</span><span class="fl">3</span><span class="op">)</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-61-1.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-65-1.png" width="700"></p>
 <div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, 
           background <span class="op">=</span> <span class="cn">T</span>,
           underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapCountries.html">mapCountries</a></span>,
           legendType <span class="op">=</span> <span class="st">"pretty"</span>,
           legendBreaksn<span class="op">=</span><span class="fl">9</span><span class="op">)</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-61-2.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-65-2.png" width="700"></p>
 <!-------------------------->
 </div>
 <div id="legend-single-value" class="section level2">
@@ -1269,14 +1289,14 @@
 <span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, 
           background <span class="op">=</span> <span class="cn">T</span>,
           underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapCountries.html">mapCountries</a></span><span class="op">)</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-62-1.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-66-1.png" width="700"></p>
 <div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># With legendSingelValue = T (will choose the minimum value or if 0 (if present) and set it to single)</span>
 <span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, 
           background <span class="op">=</span> <span class="cn">T</span>,
           underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapCountries.html">mapCountries</a></span>,
           legendSingleValue <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-62-2.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-66-2.png" width="700"></p>
 <div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># With legendSingelValue = 38 and set to "green"</span>
 <span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, 
@@ -1284,7 +1304,7 @@
           underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapCountries.html">mapCountries</a></span>,
           legendSingleValue <span class="op">=</span> <span class="fl">54</span>,
           legendSingleColor <span class="op">=</span> <span class="st">"green"</span><span class="op">)</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-62-3.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-66-3.png" width="700"></p>
 <!-------------------------->
 <!-------------------------->
 </div>
@@ -1331,7 +1351,7 @@
           background <span class="op">=</span> <span class="cn">T</span>,
           underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapCountries.html">mapCountries</a></span>,
           numeric2Cat_list <span class="op">=</span> <span class="va">numeric2Cat_list</span><span class="op">)</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-63-1.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-63-2.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-67-1.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-67-2.png" width="700"></p>
 <!-------------------------->
 <!-------------------------->
 </div>
@@ -1360,7 +1380,7 @@
           underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapGCAMReg32.html">mapGCAMReg32</a></span>,
           shape <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapGCAMReg32.html">mapGCAMReg32</a></span>,
           save<span class="op">=</span><span class="cn">F</span><span class="op">)</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-64-1.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-68-1.png" width="700"></p>
 <details><summary><p class="button">
 Expand to see more extensive results for rmap::exampleMapDataParam…
 </p>
@@ -1385,7 +1405,7 @@ Expand to see more extensive results for rmap::exampleMapDataParam…
           shape <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapGCAMReg32.html">mapGCAMReg32</a></span>,
           xRef <span class="op">=</span> <span class="st">"2010"</span>,
           scenRef <span class="op">=</span> <span class="st">"GCAM_SSP3"</span><span class="op">)</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-65-1.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-2.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-3.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-4.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-5.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-6.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-7.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-8.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-9.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-10.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-11.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-12.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-13.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-14.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-15.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-16.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-17.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-18.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-19.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-20.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-21.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-22.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-23.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-69-1.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-69-2.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-69-3.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-69-4.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-69-5.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-69-6.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-69-7.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-69-8.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-69-9.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-69-10.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-69-11.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-69-12.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-69-13.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-69-14.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-69-15.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-69-16.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-69-17.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-69-18.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-69-19.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-69-20.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-69-21.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-69-22.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-69-23.png" width="700"></p>
 </details>
 </div>
   </div>
