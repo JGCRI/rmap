@@ -8,6 +8,12 @@ on:
 jobs:
   build:
     runs-on: macOS-latest
+    
+    env:
+      R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
+      RSPM: ${{ matrix.config.rspm }}
+      GITHUB_PAT: ${{ secrets.GH_PAT}}
+      
     strategy:
       matrix:
         r: ['3.6']
@@ -25,9 +31,12 @@ jobs:
             imagemagick@6 \
             gdal
       - name: Install dependencies
-        env:
-          R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
-        run: Rscript -e "install.packages(c('remotes', 'rcmdcheck', 'covr'))" -e "remotes::install_deps(dependencies = TRUE)"
+        run: |
+          install.packages(c("remotes","rcmdcheck"), repos = "https://cloud.r-project.org")
+          remotes::install_github("JGCRI/jgcricolors")
+          remotes::install_deps(dependencies = TRUE)
+          install.packages("pkgdown", type = "binary")
+        shell: Rscript {0}
       - name: Test coverage
         if: matrix.config.os == 'macOS-latest' && matrix.config.r == 'release'
         run: |
