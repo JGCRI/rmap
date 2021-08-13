@@ -117,6 +117,14 @@ map_find_df <- function(data) {
         "subRegUS52HUC2Alt",32,
         "subRegUS49HUC4Alt",35,
         "subRegUS52HUC4Alt",36,
+        "mapIntersectGCAMBasin32Reg",37,
+        "mapIntersectGCAMBasinCountry",38,
+        "mapIntersectGCAMBasinUS52", 39,
+        "mapIntersectGCAMBasinUS52County", 40,
+        "mapIntersectGCAMBasin32RegAlt",41,
+        "mapIntersectGCAMBasinCountryAlt",42,
+        "mapIntersectGCAMBasinUS52Alt", 43,
+        "mapIntersectGCAMBasinUS52CountyAlt", 44
       )
 
       mapRanked %>% dplyr::arrange(rank)
@@ -126,7 +134,7 @@ map_find_df <- function(data) {
     # Choose maps with highest number of regions and if more than one then attach rank and choose highest rnank(lowest rank number)
     #.....................................................
 
-    if (T) {
+    if (nrow(mapReg)>0) {
       mapMax <- mapReg %>%
         dplyr::filter(subRegNum == max(subRegNum)) %>%
         dplyr::left_join(mapRanked, by = "map")
@@ -142,12 +150,13 @@ map_find_df <- function(data) {
       subRegChosen <- (mapMax %>%
                          dplyr::filter(rank == min(rank)))$map
       subRegChosen
-    }
+
 
 
     mapFindx <- get(paste(gsub("subReg","map",subRegChosen),"df",sep=""))
 
     print(paste("Using map: ", unique(mapFindx$subRegionType), sep = ""))
+    }
 
 
     #.....................................................

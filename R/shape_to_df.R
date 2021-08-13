@@ -20,28 +20,6 @@ shape_to_df <- function(shape=NULL,
   # Initialize
   NULL->id->long->subRegionOrig->regionOrig->subRegion
 
-  # Custom functions
-
-  tidyx <- function(x, region = NULL, ...) {
-
-    attr <- as.data.frame(x)
-    attr <- attr %>% as.data.frame()
-    # If not specified, split into regions based on polygons
-    if (is.null(region)) {
-      coords <- map_df(x@polygons, tidy)
-      message("Regions defined for each Polygons")
-    } else {
-      cp <- sp::polygons(x)
-
-      # Union together all polygons that make up a region
-      unioned <- maptools::unionSpatialPolygons(cp, attr[, region])
-      coords <- tidy(unioned)
-      coords$order <- 1:nrow(coords)
-    }
-    as_tibble(coords)
-  }
-
-
   # Convert
   if(!is.null(shape)){
     if("name" %in% names(shape@data) & is.null(shapeColumn)){ # If rmap data maps
@@ -52,13 +30,13 @@ shape_to_df <- function(shape=NULL,
         dplyr::filter(subRegion %in% subRegionOrig)
       } else { # Create a fortified map for ggplot
         if(is.null(shapeColumn)){
-          shape_df <- tidyx(shape, region="subRegion") %>%
+          shape_df <- tidy_shape(shape, shapeColumn="subRegion") %>%
             dplyr::rename(subRegion=id) %>%
             dplyr::rename(lon=long) %>%
             dplyr::left_join(shape@data,by=shapeColumn)
         } else {
           if(shapeColumn %in% names(shape@data)){
-            shape_df <- tidyx(shape, region = shapeColumn) %>%
+            shape_df <- tidy_shape(shape, shapeColumn = shapeColumn) %>%
               dplyr::rename(subRegion=id) %>%
               dplyr::rename(lon=long)%>%
               dplyr::left_join(shape@data,by=shapeColumn)
@@ -69,13 +47,13 @@ shape_to_df <- function(shape=NULL,
       }
     } else { # Create a fortified map for ggplot
       if(is.null(shapeColumn)){
-      shape_df <- tidyx(shape, region="subRegion") %>%
+      shape_df <- tidy_shape(shape, shapeColumn="subRegion") %>%
         dplyr::rename(subRegion=id) %>%
         dplyr::rename(lon=long)%>%
         dplyr::left_join(shape@data,by=shapeColumn)
       } else {
         if(shapeColumn %in% names(shape@data)){
-          shape_df <- tidyx(shape, region = shapeColumn) %>%
+          shape_df <- tidy_shape(shape, shapeColumn = shapeColumn) %>%
             dplyr::rename(subRegion=id) %>%
             dplyr::rename(lon=long)%>%
             dplyr::left_join(shape@data,by=shapeColumn)

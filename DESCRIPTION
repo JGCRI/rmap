@@ -35,7 +35,9 @@ Imports:
 	maptools,
 	jgcricolors,
 	cowplot,
-    markdown
+    markdown,
+	broom,
+	purrr
 Remotes: github::JGCRI/jgcricolors
 Suggests: 
     rmarkdown,

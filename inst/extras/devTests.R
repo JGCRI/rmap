@@ -152,6 +152,7 @@ if(T){
 
 
 # Test Xanthos gird
+if(T){
 a <- data.table::fread("C:/Z/models/im3components/output/resampled_wrf_to_xanthos_monthly_RAINC_mm_2009_01_to_2009_01.csv") %>%
   tibble::as_tibble() %>% dplyr::select(lat,lon,value=`2009_01`); a
 a1<-rmap::map(data=a,
@@ -189,9 +190,10 @@ a1<-rmap::map(data=a,
               zoom=-1,
               labelRepel = 0
               )
-
+}
 
 # Test Shapefile
+if(T){
 library(rgdal)
 examplePolyFolder<-paste("C:/Z/data/mapFiles/gis/shapefiles_Argentina",sep="")
 examplePolyFile<-paste("ArgentinaLocalBasin",sep="")
@@ -210,8 +212,10 @@ rmap::map(data,
           underLayer=rmap::mapStates,
           underLayerLabels = T,
           zoom=-6)
+}
 
 # Map with rivers
+if(T){
 library(rmap)
 library(rgdal)
 library(dplyr)
@@ -227,20 +231,11 @@ x1 <- rmap::shape_to_df(x); head(x1)
 # Generate some random data for each subRegion
 
 head(data)
-
-
-# Intersection Data
-library(rmap)
-library(dplyr)
-
-data <- read.csv("C:/Z/models/rmap/inst/extras/basin_reg_2050_data.csv", header=T);
-data
-data$subRegion%>%unique() %in% (rmap::mapIntersectGCAMBasin32Reg@data)$subRegion%>%unique()
-rmap::map(rmap::mapIntersectGCAMBasin32Reg)
-rmap::map(data)
+}
 
 
 # CombinedOnly
+if(T){
 library(rmap);
 
 dataa = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
@@ -277,14 +272,23 @@ mapx[[2]]
 # scenRef = "GCAM_SSP2"
 # #scenDiff = c("scen2"),
 # background = T
+}
 
 
 
-#----------------
 # covr
-#--------------
+if(T){
 library(covr)
 cov <- package_coverage()
 as.data.frame(cov)
 head(cov)
 zero_coverage(cov)
+}
+
+
+# Intersected maps
+if(T){
+data <- data.frame(subRegion=c("New_England_X_Canada","New_England_X_USA"), value = c(5,10))
+map_find_df(data)
+rmap::map(data)
+}
