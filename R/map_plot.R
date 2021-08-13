@@ -174,9 +174,10 @@ map_plot<-function(data=NULL,
 # .........................
 
 if(T){ # Initialize
+
   NULL->raster->map->checkFacets->catBreaks->catLabels->catPalette->legendLabelsX->
     singleValLoc->label->long->lat->group->dataShape->dataPolygon->dataGrid->data_shape->
-    lon->hole->piece->subRegion->X1->X2->id->name->value
+    lon->hole->piece->subRegion->X1->X2->id->name->value->datax
 
   if(!is.null(legendTitle)){
     legendTitle=gsub(" ","\n",legendTitle)
@@ -206,31 +207,6 @@ if(T){ # Initialize
   if(any(grepl("SpatialPolygonsDataFrame",class(overLayer)))){
     overLayer <- shape_to_df(shape=overLayer, shapeColumn = shapeColumn)
   }
-
-  #-----------------------------
-  # Custom functions
-  #---------------------------
-
-  tidyx <- function(x, region = NULL, ...) {
-
-    attr <- as.data.frame(x)
-    attr <- attr %>% as.data.frame()
-    # If not specified, split into regions based on polygons
-    if (is.null(region)) {
-      coords <- map_df(x@polygons, tidy)
-      message("Regions defined for each Polygons")
-    } else {
-      cp <- sp::polygons(x)
-
-      # Union together all polygons that make up a region
-      unioned <- maptools::unionSpatialPolygons(cp, attr[, region])
-      coords <- tidy(unioned)
-      coords$order <- 1:nrow(coords)
-    }
-    as_tibble(coords)
-  }
-
-
 
 } # initialize
 
@@ -266,7 +242,7 @@ if(!is.null(data)){
         shape <- shape[shape@data$subRegion %in% unique(data$subRegion),]
         shape@data <- shape@data %>% droplevels()
 
-        data_shape <- tidyx(shape, region="subRegion") %>%
+        data_shape <- tidy_shape(shape, shapeColumn="subRegion") %>%
           dplyr::rename(subRegion=id)%>%
           dplyr::inner_join(shape@data, by="subRegion") %>%
           dplyr::rename(lon=long) %>%
@@ -295,14 +271,20 @@ if(!is.null(data)){
         dplyr::filter(subRegion %in% unique(data$subRegion))
 
     } else {
-      data_shape <- rmap::map_find_df(data) %>%
+
+      map_find_dfx <- rmap::map_find_df(data)
+      if(!is.null(map_find_dfx)){
+      data_shape <- map_find_dfx %>%
         dplyr::select(lon, lat, order, hole, piece, group, subRegion, name) %>%
         dplyr::filter(subRegion %in% unique(data$subRegion))
+      }
     }
 
+    if(!is.null(data_shape)){
     dataPolygon <-  data_shape %>%
       dplyr::filter(subRegion %in% unique(data$subRegion)) %>%
       dplyr::left_join(data,by="subRegion")
+    }
 
   } else {
     stop("Data provided in not in the correct format. Data should be a shapefile or fortified dataframe.")
@@ -413,6 +395,8 @@ if(!is.null(datax)){
 }
 
 }
+
+if(!is.null(dataGrid) | !is.null(dataShape) | !is.null(dataPolygon)){
 
 #.........................
 # Remove Inf values
@@ -769,7 +753,7 @@ if(T){
 # Plot
 #....................
 
-if(!is.null(datax)){
+if(T){
 
   # Convert labels to factors for cat values
   if(T){
@@ -1207,6 +1191,13 @@ rmap::printPdfPng(figure=map,
     #print("save set to F so no figure will be saved.")
       if(show){print(map)}
     }
+
+} else {
+
+  print(paste0("None of the subRegions provided are available in any pre-loaded shapefile."))
+  print(paste("SubRegions from data: ", paste(data$subRegion%>%unique(), collapse=", "), collapse =""))
+  print(paste0("Please provide a shapefile with data attributes with a column subRegion correpsonding to each polygon in your data."))
+}
 
 #....................
 # Return
