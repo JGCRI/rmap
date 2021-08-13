@@ -874,56 +874,56 @@
 # Intersections
 #--------------------
 
-#' #' Intersection of GCAM Basins and countries.
-#' #' @source JGCRI
-#' #' @format R tibble
-#' #' @examples
-#' #' \dontrun{
-#' #'  library(sp); library(rmap); library(ggplot2)
-#' #'  ggplot() +
-#' #'  geom_polygon(data = mapIntersectGCAMBasinCountrydf, aes(x = long, y = lat, group = group),
-#' #'              colour = "black", fill = NA)
-#' #'  head(mapIntersectGCAMBasinCountrydf)
-#' #' }
-#' "mapIntersectGCAMBasinCountrydf"
+#' Intersection of GCAM Basins and countries.
+#' @source JGCRI
+#' @format R tibble
+#' @examples
+#' \dontrun{
+#'  library(sp); library(rmap); library(ggplot2)
+#'  ggplot() +
+#'  geom_polygon(data = mapIntersectGCAMBasinCountrydf, aes(x = long, y = lat, group = group),
+#'              colour = "black", fill = NA)
+#'  head(mapIntersectGCAMBasinCountrydf)
+#' }
+"mapIntersectGCAMBasinCountrydf"
 
-#' #' Intersection of GCAM Basins and GCAM 32 Regions.
-#' #' @source JGCRI
-#' #' @format R tibble
-#' #' @examples
-#' #' \dontrun{
-#' #'  library(sp); library(rmap); library(ggplot2)
-#' #'  ggplot() +
-#' #'  geom_polygon(data = mapIntersectGCAMBasin32Regdf, aes(x = long, y = lat, group = group),
-#' #'              colour = "black", fill = NA)
-#' #'  head(mapIntersectGCAMBasin32Regdf)
-#' #' }
-#' "mapIntersectGCAMBasin32Regdf"
+#' Intersection of GCAM Basins and GCAM 32 Regions.
+#' @source JGCRI
+#' @format R tibble
+#' @examples
+#' \dontrun{
+#'  library(sp); library(rmap); library(ggplot2)
+#'  ggplot() +
+#'  geom_polygon(data = mapIntersectGCAMBasin32Regdf, aes(x = long, y = lat, group = group),
+#'              colour = "black", fill = NA)
+#'  head(mapIntersectGCAMBasin32Regdf)
+#' }
+"mapIntersectGCAMBasin32Regdf"
 
-#' #' Intersection of GCAM Basins and US 52 Regions.
-#' #' @source JGCRI
-#' #' @format R tibble
-#' #' @examples
-#' #' \dontrun{
-#' #'  library(sp); library(rmap); library(ggplot2)
-#' #'  ggplot() +
-#' #'  geom_polygon(data = mapIntersectGCAMBasinUS52df, aes(x = long, y = lat, group = group),
-#' #'              colour = "black", fill = NA)
-#' #'  head(mapIntersectGCAMBasinUS52df)
-#' #' }
-#' "mapIntersectGCAMBasinUS52df"
-#'
-#'
-#' #' Intersection of GCAM Basins and US 52 County Regions.
-#' #' @source JGCRI
-#' #' @format R tibble
-#' #' @examples
-#' #' \dontrun{
-#' #'  library(sp); library(rmap); library(ggplot2)
-#' #'  ggplot() +
-#' #'  geom_polygon(data = mapIntersectGCAMBasinUS52Countydf, aes(x = long, y = lat, group = group),
-#' #'              colour = "black", fill = NA)
-#' #'  head(mapIntersectGCAMBasinUS52Countydf)
-#' #' }
-#' "mapIntersectGCAMBasinUS52Countydf"
+#' Intersection of GCAM Basins and US 52 Regions.
+#' @source JGCRI
+#' @format R tibble
+#' @examples
+#' \dontrun{
+#'  library(sp); library(rmap); library(ggplot2)
+#'  ggplot() +
+#'  geom_polygon(data = mapIntersectGCAMBasinUS52df, aes(x = long, y = lat, group = group),
+#'              colour = "black", fill = NA)
+#'  head(mapIntersectGCAMBasinUS52df)
+#' }
+"mapIntersectGCAMBasinUS52df"
+
+
+#' Intersection of GCAM Basins and US 52 County Regions.
+#' @source JGCRI
+#' @format R tibble
+#' @examples
+#' \dontrun{
+#'  library(sp); library(rmap); library(ggplot2)
+#'  ggplot() +
+#'  geom_polygon(data = mapIntersectGCAMBasinUS52Countydf, aes(x = long, y = lat, group = group),
+#'              colour = "black", fill = NA)
+#'  head(mapIntersectGCAMBasinUS52Countydf)
+#' }
+"mapIntersectGCAMBasinUS52Countydf"
 

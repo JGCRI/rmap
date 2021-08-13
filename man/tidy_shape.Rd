@@ -4,7 +4,7 @@
 \alias{tidy_shape}
 \title{tidy_shape}
 \usage{
-tidy_shape(shape, shapeColumn = NULL, ...)
+tidy_shape(shape, shapeColumn = NULL)
 }
 \arguments{
 \item{shape}{Default = NULL. SpatialPolygonDataFrame map (e.g. rmap::mapCountries)}
