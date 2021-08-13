@@ -19,7 +19,8 @@ jobs:
 
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
-      RSPM: ${{ matrix.config.rspm }}
+      RSPM: ${{ matrix.config.rspm }}      
+      GITHUB_PAT: ${{ secrets.GH_PAT}}
 
     steps:
       - uses: actions/checkout@v2
@@ -34,7 +35,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          install.packages(c("remotes", "rcmdcheck"), repos = "https://cloud.r-project.org")
+          install.packages(c("remotes", "rcmdcheck"), repos = "https://cloud.r-project.org")          
+          remotes::install_github("JGCRI/jgcricolors")
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
 
