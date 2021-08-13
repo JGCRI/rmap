@@ -38,7 +38,8 @@ Imports:
     markdown,
 	broom,
 	purrr
-Remotes: github::JGCRI/jgcricolors
+Remotes: 
+    github::JGCRI/jgcricolors
 Suggests: 
     rmarkdown,
     testthat (>= 3.0.0),

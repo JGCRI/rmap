@@ -13,7 +13,7 @@
 #' df = rmap::tidy_shape(shape)
 
 
-tidy_shape <- function(shape, shapeColumn = NULL, ...) {
+tidy_shape <- function(shape, shapeColumn = NULL) {
 
   attr <- as.data.frame(shape)
   attr <- attr %>% as.data.frame()
