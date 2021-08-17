@@ -1228,10 +1228,10 @@ map <- function(data = NULL,
                                   col = multiFacetColsx,
                                   row = multiFacetRowsx,
                                   title=titlex ,
-                                  fileName = paste("map_",param_i,"_",x_i,nameAppend,"_KMEANS",sep=""),
+                                  fileName = paste("map_",param_i,"_",x_i,"_",fileNameTag,nameAppend,sep=""),
                                   folder = paste(folder,"/",param_if,"/byYear",sep = "")) ->
                       mapsReturn[[return_i]];
-                      names(mapsReturn)[return_i] <- paste("map_",param_i,"_",x_i,nameAppend,"_KMEANS",sep="");
+                      names(mapsReturn)[return_i] <- paste("map_",param_i,"_",x_i,"_",fileNameTag,nameAppend,sep="");
                       return_i = return_i + 1
 
                       # theme_ggplot = theme_ggplot
@@ -1255,7 +1255,7 @@ map <- function(data = NULL,
                       # col = multiFacetColsx
                       # row = multiFacetRowsx
                       # title=paste(param_i," ",x_i,sep="")
-                      # fileName = paste("map_",param_i,"_",x_i,nameAppend,"_KMEANS",sep="")
+                      # fileName = paste("map_",param_i,"_",x_i,"_",fileNameTag,nameAppend,sep="")
                       # folder = paste(folder,"/",param_if,"/byYear",sep = "")
 
 
@@ -1265,9 +1265,9 @@ map <- function(data = NULL,
 
               # Animations
               if(animate==T){
-                  animName<-paste("anim_",param_i,nameAppend,"_",fileNameTag,".gif",sep="")
+                  animName<-paste("anim_",param_i,"_",fileNameTag,nameAppend,".gif",sep="")
                   animFiles <- list.files(path = paste(folder,"/",param_if,"/byYear",sep=""),
-                                          pattern = paste(".*",param_i,".*",nameAppend,".*",fileNameTag,"", ".", pdfpng,sep=""), full.names=T,ignore.case = T, include.dirs = T);
+                                          pattern = paste(".*",param_i,".*",fileNameTag,nameAppend,"", ".", pdfpng,sep=""), full.names=T,ignore.case = T, include.dirs = T);
                   animation <- magick::image_animate(magick::image_join(lapply(animFiles, magick::image_read)),fps=fps)
                   magick::image_write(animation,paste(folder,"/",param_if,"/",
                                                       animName,sep = ""))
@@ -1473,10 +1473,10 @@ map <- function(data = NULL,
                                 col = multiFacetColsx,
                                 row = multiFacetRowsx,
                                 title= titlex,
-                                fileName = paste("map_",param_i,nameAppend,"_KMEANS",sep=""),
+                                fileName = paste("map_",param_i,"_",fileNameTag,nameAppend,sep=""),
                                 folder = sub("/$","",paste(folder,"/",param_if,sep = ""))) ->
                     mapsReturn[[return_i]];
-                  names(mapsReturn)[return_i] <- paste("map_",param_i,nameAppend,"_KMEANS",sep="");
+                  names(mapsReturn)[return_i] <- paste("map_",param_i,"_",fileNameTag,nameAppend,sep="");
                   return_i = return_i + 1
 
                   } # if(nrow(datax)>0){
@@ -1666,10 +1666,10 @@ map <- function(data = NULL,
                                   col = multiFacetColsx,
                                   row = multiFacetRowsx,
                                   title = titlex,
-                                  fileName = paste("map_",param_i,nameAppend,"_MEAN_KMEANS",sep=""),
+                                  fileName = paste("map_",param_i,"_MEAN_",fileNameTag,nameAppend,sep=""),
                                   folder = sub("/$","",paste(folder,"/",param_if,sep = ""))) ->
                       mapsReturn[[return_i]];
-                    names(mapsReturn)[return_i] <- paste("map_",param_i,nameAppend,"_MEAN_KMEANS",sep="");
+                    names(mapsReturn)[return_i] <- paste("map_",param_i,"_MEAN_",fileNameTag,nameAppend,sep="");
                     return_i = return_i + 1
 
 
@@ -1919,10 +1919,10 @@ map <- function(data = NULL,
                                      col = multiFacetColsx,
                                      row = multiFacetRowsx,
                                      title=titlex ,
-                                     fileName = paste("map_",param_i,"_",x_i,nameAppend,"_",fileNameTag,"_DiffAbs",sep=""),
+                                     fileName = paste("map_",param_i,"_",x_i,"_",fileNameTag,"_DiffAbs",nameAppend,sep=""),
                                      folder = paste(folder,"/",param_if,"/byYear",sep = "")) ->
                         mapsReturn[[return_i]];
-                      names(mapsReturn)[return_i] <- paste("map_",param_i,"_",x_i,nameAppend,"_",fileNameTag,"_DiffAbs",sep="");
+                      names(mapsReturn)[return_i] <- paste("map_",param_i,"_",x_i,"_",fileNameTag,"_DiffAbs",nameAppend,sep="");
                       return_i = return_i + 1
                       }
                 } # Close years x_i loop
@@ -1930,9 +1930,9 @@ map <- function(data = NULL,
                 # Animations
                 if(animate==T){
 
-                    animName<-paste("anim_",param_i,nameAppend,"_",fileNameTag,"_DiffAbs.gif",sep="")
+                    animName<-paste("anim_",param_i,"_",fileNameTag,"_DiffAbs",nameAppend,".gif",sep="")
                     animFiles <- list.files(path = paste(folder,"/",param_if,"/byYear",sep=""),
-                                            pattern = paste(".*",param_i,".*",nameAppend,".*",fileNameTag,"_DiffAbs", ".", pdfpng,sep=""), full.names=T,ignore.case = T, include.dirs = T);
+                                            pattern = paste(".*",param_i,".*",fileNameTag,"_DiffAbs",nameAppend, ".", pdfpng,sep=""), full.names=T,ignore.case = T, include.dirs = T);
                     animation <- magick::image_animate(magick::image_join(lapply(animFiles, magick::image_read)),fps=fps)
                     magick::image_write(animation,paste(folder,"/",param_if,"/",
                                                         animName,sep = ""))
@@ -2143,10 +2143,10 @@ map <- function(data = NULL,
                                  col = multiFacetColsx,
                                  row = multiFacetRowsx,
                                  title= titlex,
-                                 fileName = paste("map_",param_i,nameAppend,"_",fileNameTag,"_DiffAbs",sep=""),
+                                 fileName = paste("map_",param_i,"_",fileNameTag,"_DiffAbs",nameAppend,sep=""),
                                  folder = sub("/$","",paste(folder,"/",param_if,sep = ""))) ->
                     mapsReturn[[return_i]];
-                  names(mapsReturn)[return_i] <- paste("map_",param_i,nameAppend,"_",fileNameTag,"_DiffAbs",sep="");
+                  names(mapsReturn)[return_i] <- paste("map_",param_i,"_",fileNameTag,"_DiffAbs",nameAppend,sep="");
                   return_i = return_i + 1
                   } # if(nrow(datax)>0){
 
@@ -2350,10 +2350,10 @@ map <- function(data = NULL,
                                    col = multiFacetColsx,
                                    row = multiFacetRowsx,
                                    title = titlex,
-                                   fileName = paste("map_",param_i,nameAppend,"_MEAN_",fileNameTag,"_DiffAbs",sep=""),
+                                   fileName = paste("map_",param_i,"_MEAN_",fileNameTag,"_DiffAbs",nameAppend,sep=""),
                                    folder = sub("/$","",paste(folder,"/",param_if,sep = ""))) ->
                       mapsReturn[[return_i]];
-                    names(mapsReturn)[return_i] <- paste("map_",param_i,nameAppend,"_MEAN_",fileNameTag,"_DiffAbs",sep="");
+                    names(mapsReturn)[return_i] <- paste("map_",param_i,"_MEAN_",fileNameTag,"_DiffAbs",nameAppend,sep="");
                     return_i = return_i + 1
 
 
@@ -2598,10 +2598,10 @@ map <- function(data = NULL,
                                      col = multiFacetColsx,
                                      row = multiFacetRowsx,
                                      title=titlex ,
-                                     fileName = paste("map_",param_i,"_",x_i,nameAppend,"_",fileNameTag,"_DiffPrcnt",sep=""),
+                                     fileName = paste("map_",param_i,"_",x_i,"_",fileNameTag,"_DiffPrcnt",nameAppend,sep=""),
                                      folder = paste(folder,"/",param_if,"/byYear",sep = "")) ->
                         mapsReturn[[return_i]];
-                      names(mapsReturn)[return_i] <- paste("map_",param_i,"_",x_i,nameAppend,"_",fileNameTag,"_DiffPrcnt",sep="");
+                      names(mapsReturn)[return_i] <- paste("map_",param_i,"_",x_i,"_",fileNameTag,"_DiffPrcnt",nameAppend,sep="");
                       return_i = return_i + 1
                       }
                 } # Close years x_i loop
@@ -2609,9 +2609,9 @@ map <- function(data = NULL,
                 # Animations
                 if(animate==T){
 
-                    animName<-paste("anim_",param_i,nameAppend,"_",fileNameTag,"_DiffPrcnt.gif",sep="")
+                    animName<-paste("anim_",param_i,"_",fileNameTag,"_DiffPrcnt",nameAppend,".gif",sep="")
                     animFiles <- list.files(path = paste(folder,"/",param_if,"/byYear",sep=""),
-                                            pattern = paste(".*",param_i,".*",nameAppend,".*",fileNameTag,"_DiffPrcnt", ".", pdfpng,sep=""), full.names=T,ignore.case = T, include.dirs = T);
+                                            pattern = paste(".*",param_i,".*",fileNameTag,"_DiffPrcnt",nameAppend, ".", pdfpng,sep=""), full.names=T,ignore.case = T, include.dirs = T);
                     animation <- magick::image_animate(magick::image_join(lapply(animFiles, magick::image_read)),fps=fps)
                     magick::image_write(animation,paste(folder,"/",param_if,"/",
                                                         animName,sep = ""))
@@ -2822,10 +2822,10 @@ map <- function(data = NULL,
                                  col = multiFacetColsx,
                                  row = multiFacetRowsx,
                                  title= titlex,
-                                 fileName = paste("map_",param_i,nameAppend,"_",fileNameTag,"_DiffPrcnt",sep=""),
+                                 fileName = paste("map_",param_i,"_",fileNameTag,"_DiffPrcnt",nameAppend,sep=""),
                                  folder = sub("/$","",paste(folder,"/",param_if,sep = ""))) ->
                     mapsReturn[[return_i]];
-                  names(mapsReturn)[return_i] <- paste("map_",param_i,nameAppend,"_",fileNameTag,"_DiffPrcnt",sep="");
+                  names(mapsReturn)[return_i] <- paste("map_",param_i,"_",fileNameTag,"_DiffPrcnt",nameAppend,sep="");
                   return_i = return_i + 1
 
 
@@ -2868,7 +2868,7 @@ map <- function(data = NULL,
                   # col = multiFacetColsx
                   # row = multiFacetRowsx
                   # title=paste(param_i,sep="")
-                  # fileName = paste("map_",param_i,nameAppend,"_KMEANS",sep="")
+                  # fileName = paste("map_",param_i,"_",fileNameTag,nameAppend,sep="")
                   # folder = sub("/$","",paste(folder,"/",param_if,sep = ""))
 
 
@@ -3068,10 +3068,10 @@ map <- function(data = NULL,
                                    col = multiFacetColsx,
                                    row = multiFacetRowsx,
                                    title = titlex,
-                                   fileName = paste("map_",param_i,nameAppend,"_MEAN_",fileNameTag,"_DiffPrcnt",sep=""),
+                                   fileName = paste("map_",param_i,"_MEAN_",fileNameTag,"_DiffPrcnt",nameAppend,sep=""),
                                    folder = sub("/$","",paste(folder,"/",param_if,sep = ""))) ->
                       mapsReturn[[return_i]];
-                    names(mapsReturn)[return_i] <- paste("map_",param_i,nameAppend,"_MEAN_",fileNameTag,"_DiffPrcnt",sep="");
+                    names(mapsReturn)[return_i] <- paste("map_",param_i,"_MEAN_",fileNameTag,"_DiffPrcnt",nameAppend,sep="");
                     return_i = return_i + 1
 
 
@@ -3318,10 +3318,10 @@ map <- function(data = NULL,
                                      col = multiFacetColsx,
                                      row = multiFacetRowsx,
                                      title=titlex ,
-                                     fileName = paste("map_",param_i,"_",x_i,nameAppend,"_",fileNameTag,"_xDiffAbs",sep=""),
+                                     fileName = paste("map_",param_i,"_",x_i,"_",fileNameTag,"_xDiffAbs",nameAppend,sep=""),
                                      folder = paste(folder,"/",param_if,"/byYear",sep = "")) ->
                         mapsReturn[[return_i]];
-                      names(mapsReturn)[return_i] <- paste("map_",param_i,"_",x_i,nameAppend,"_",fileNameTag,"_xDiffAbs",sep="");
+                      names(mapsReturn)[return_i] <- paste("map_",param_i,"_",x_i,"_",fileNameTag,"_xDiffAbs",nameAppend,sep="");
                       return_i = return_i + 1
                     }
                   } # Close years x_i loop
@@ -3329,9 +3329,9 @@ map <- function(data = NULL,
                   # Animations
                   if(animate==T){
 
-                      animName<-paste("anim_",param_i,nameAppend,"_",fileNameTag,"_xDiffAbs.gif",sep="")
+                      animName<-paste("anim_",param_i,"_",fileNameTag,"_xDiffAbs",nameAppend,".gif",sep="")
                       animFiles <- list.files(path = paste(folder,"/",param_if,"/byYear",sep=""),
-                                              pattern = paste(".*",param_i,".*",nameAppend,".*",fileNameTag,"_xDiffAbs", ".", pdfpng,sep=""), full.names=T,ignore.case = T, include.dirs = T);
+                                              pattern = paste(".*",param_i,".*",fileNameTag,"_xDiffAbs",nameAppend, ".", pdfpng,sep=""), full.names=T,ignore.case = T, include.dirs = T);
                       animation <- magick::image_animate(magick::image_join(lapply(animFiles, magick::image_read)),fps=fps)
                       magick::image_write(animation,paste(folder,"/",param_if,"/",
                                                           animName,sep = ""))
@@ -3549,10 +3549,10 @@ map <- function(data = NULL,
                                    col = multiFacetColsx,
                                    row = multiFacetRowsx,
                                    title= titlex,
-                                   fileName = paste("map_",param_i,nameAppend,"_",fileNameTag,"_xDiffAbs",sep=""),
+                                   fileName = paste("map_",param_i,"_",fileNameTag,"_xDiffAbs",nameAppend,sep=""),
                                    folder = sub("/$","",paste(folder,"/",param_if,sep = ""))) ->
                       mapsReturn[[return_i]];
-                    names(mapsReturn)[return_i] <- paste("map_",param_i,nameAppend,"_",fileNameTag,"_xDiffAbs",sep="");
+                    names(mapsReturn)[return_i] <- paste("map_",param_i,"_",fileNameTag,"_xDiffAbs",nameAppend,sep="");
                     return_i = return_i + 1
 
 
@@ -3595,7 +3595,7 @@ map <- function(data = NULL,
                     # col = multiFacetColsx
                     # row = multiFacetRowsx
                     # title=paste(param_i,sep="")
-                    # fileName = paste("map_",param_i,nameAppend,"_KMEANS",sep="")
+                    # fileName = paste("map_",param_i,"_",fileNameTag,nameAppend,sep="")
                     # folder = sub("/$","",paste(folder,"/",param_if,sep = ""))
 
 
@@ -3790,10 +3790,10 @@ map <- function(data = NULL,
                                      col = multiFacetColsx,
                                      row = multiFacetRowsx,
                                      title = titlex,
-                                     fileName = paste("map_",param_i,nameAppend,"_MEAN_",fileNameTag,"_xDiffAbs",sep=""),
+                                     fileName = paste("map_",param_i,"_MEAN_",fileNameTag,"_xDiffAbs",nameAppend,sep=""),
                                      folder = sub("/$","",paste(folder,"/",param_if,sep = ""))) ->
                         mapsReturn[[return_i]];
-                      names(mapsReturn)[return_i] <- paste("map_",param_i,nameAppend,"_MEAN_",fileNameTag,"_xDiffAbs",sep="");
+                      names(mapsReturn)[return_i] <- paste("map_",param_i,"_MEAN_",fileNameTag,"_xDiffAbs",nameAppend,sep="");
                       return_i = return_i + 1
 
 
@@ -4035,10 +4035,10 @@ map <- function(data = NULL,
                                        col = multiFacetColsx,
                                        row = multiFacetRowsx,
                                        title=titlex ,
-                                       fileName = paste("map_",param_i,"_",x_i,nameAppend,"_",fileNameTag,"_xDiffPrcnt",sep=""),
+                                       fileName = paste("map_",param_i,"_",x_i,"_",fileNameTag,"_xDiffPrcnt",nameAppend,sep=""),
                                        folder = paste(folder,"/",param_if,"/byYear",sep = "")) ->
                           mapsReturn[[return_i]];
-                        names(mapsReturn)[return_i] <- paste("map_",param_i,"_",x_i,nameAppend,"_",fileNameTag,"_xDiffPrcnt",sep="");
+                        names(mapsReturn)[return_i] <- paste("map_",param_i,"_",x_i,"_",fileNameTag,"_xDiffPrcnt",nameAppend,sep="");
                         return_i = return_i + 1
 
                         # theme_ggplot = theme_ggplot
@@ -4062,7 +4062,7 @@ map <- function(data = NULL,
                         # col = multiFacetColsx
                         # row = multiFacetRowsx
                         # title=paste(param_i," ",x_i,sep="")
-                        # fileName = paste("map_",param_i,"_",x_i,nameAppend,"_KMEANS",sep="")
+                        # fileName = paste("map_",param_i,"_",x_i,"_",fileNameTag,nameAppend,sep="")
                         # folder = paste(folder,"/",param_if,"/byYear",sep = "")
 
 
@@ -4073,9 +4073,9 @@ map <- function(data = NULL,
                   # Animations
                   if(animate==T){
 
-                      animName<-paste("anim_",param_i,nameAppend,"_",fileNameTag,"_xDiffPrcnt.gif",sep="")
+                      animName<-paste("anim_",param_i,"_",fileNameTag,"_xDiffPrcnt",nameAppend,".gif",sep="")
                       animFiles <- list.files(path = paste(folder,"/",param_if,"/byYear",sep=""),
-                                              pattern = paste(".*",param_i,".*",nameAppend,".*",fileNameTag,"_xDiffPrcnt", ".", pdfpng,sep=""), full.names=T,ignore.case = T, include.dirs = T);
+                                              pattern = paste(".*",param_i,".*",fileNameTag,"_xDiffPrcnt",nameAppend, ".", pdfpng,sep=""), full.names=T,ignore.case = T, include.dirs = T);
                       animation <- magick::image_animate(magick::image_join(lapply(animFiles, magick::image_read)),fps=fps)
                       magick::image_write(animation,paste(folder,"/",param_if,"/",
                                                           animName,sep = ""))
@@ -4294,10 +4294,10 @@ map <- function(data = NULL,
                                    col = multiFacetColsx,
                                    row = multiFacetRowsx,
                                    title= titlex,
-                                   fileName = paste("map_",param_i,nameAppend,"_",fileNameTag,"_xDiffPrcnt",sep=""),
+                                   fileName = paste("map_",param_i,"_",fileNameTag,"_xDiffPrcnt",nameAppend,sep=""),
                                    folder = sub("/$","",paste(folder,"/",param_if,sep = ""))) ->
                       mapsReturn[[return_i]];
-                    names(mapsReturn)[return_i] <- paste("map_",param_i,nameAppend,"_",fileNameTag,"_xDiffPrcnt",sep="");
+                    names(mapsReturn)[return_i] <- paste("map_",param_i,"_",fileNameTag,"_xDiffPrcnt",nameAppend,sep="");
                     return_i = return_i + 1
 
 
@@ -4340,7 +4340,7 @@ map <- function(data = NULL,
                     # col = multiFacetColsx
                     # row = multiFacetRowsx
                     # title=paste(param_i,sep="")
-                    # fileName = paste("map_",param_i,nameAppend,"_KMEANS",sep="")
+                    # fileName = paste("map_",param_i,"_",fileNameTag,nameAppend,sep="")
                     # folder = sub("/$","",paste(folder,"/",param_if,sep = ""))
 
 
@@ -4539,10 +4539,10 @@ map <- function(data = NULL,
                                      col = multiFacetColsx,
                                      row = multiFacetRowsx,
                                      title = titlex,
-                                     fileName = paste("map_",param_i,nameAppend,"_MEAN_",fileNameTag,"_xDiffPrcnt",sep=""),
+                                     fileName = paste("map_",param_i,"_MEAN_",fileNameTag,"_xDiffPrcnt",nameAppend,sep=""),
                                      folder = sub("/$","",paste(folder,"/",param_if,sep = ""))) ->
                         mapsReturn[[return_i]];
-                      names(mapsReturn)[return_i] <- paste("map_",param_i,nameAppend,"_MEAN_",fileNameTag,"_xDiffPrcnt",sep="");
+                      names(mapsReturn)[return_i] <- paste("map_",param_i,"_MEAN_",fileNameTag,"_xDiffPrcnt",nameAppend,sep="");
                       return_i = return_i + 1
 
 

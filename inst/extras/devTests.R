@@ -285,7 +285,6 @@ head(cov)
 zero_coverage(cov)
 }
 
-
 # Intersected maps
 if(T){
 data <- data.frame(subRegion=c("New_England_X_Canada","New_England_X_USA"), value = c(5,10))
