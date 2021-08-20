@@ -8,28 +8,6 @@ library(usethis)
 library(dplyr)
 library(rmap)
 
-#-----------------------------
-# Custom functions
-#---------------------------
-
-tidyx <- function(x, region = NULL, ...) {
-
-  attr <- as.data.frame(x)
-  attr <- attr %>% as.data.frame()
-  # If not specified, split into regions based on polygons
-  if (is.null(region)) {
-    coords <- map_df(x@polygons, tidy)
-    message("Regions defined for each Polygons")
-  } else {
-    cp <- sp::polygons(x)
-
-    # Union together all polygons that make up a region
-    unioned <- maptools::unionSpatialPolygons(cp, attr[, region])
-    coords <- tidy(unioned)
-    coords$order <- 1:nrow(coords)
-  }
-  as_tibble(coords)
-}
 
 #-------------------
 # Save Maps as ggplot dataframes
@@ -38,7 +16,7 @@ tidyx <- function(x, region = NULL, ...) {
 # Worldmap countries
 #-------------------
 mapx <- rmap::mapCountries
-mapCountriesdf <- tidyx(mapx, region="subRegion") %>%
+mapCountriesdf <- rmap::tidy_shape(shape=mapx, shapeColum="subRegion") %>%
   dplyr::rename(subRegion=id)%>%
   dplyr::inner_join(mapx@data, by="subRegion") %>% dplyr::rename(lon=long) %>% dplyr::mutate(name = paste0(name,"df"));
 mapCountriesdf %>% head()
@@ -47,7 +25,7 @@ use_data(mapCountriesdf, overwrite=T)
 # Worldmap states
 #-------------------
 mapx <- rmap::mapStates
-mapStatesdf <- tidyx(mapx, region="subRegion") %>%
+mapStatesdf <- rmap::tidy_shape(shape=mapx, shapeColum="subRegion") %>%
   dplyr::rename(subRegion=id)%>%
   dplyr::inner_join(mapx@data, by="subRegion") %>% dplyr::rename(lon=long) %>% dplyr::mutate(name = paste0(name,"df"));
 mapStatesdf %>% head()
@@ -60,7 +38,7 @@ use_data(mapStatesdf, overwrite=T)
 # GCAM 32 Regions
 #------------------
 mapx <- rmap::mapGCAMReg32
-mapGCAMReg32df <- tidyx(mapx, region="subRegion") %>%
+mapGCAMReg32df <- rmap::tidy_shape(shape=mapx, shapeColum="subRegion") %>%
   dplyr::rename(subRegion=id)%>%
   dplyr::inner_join(mapx@data, by="subRegion") %>% dplyr::rename(lon=long) %>% dplyr::mutate(name = paste0(name,"df"));
 mapGCAMReg32df %>% head()
@@ -69,7 +47,7 @@ use_data(mapGCAMReg32df, overwrite=T)
 # GCAM Basins
 #------------------
 mapx <- rmap::mapGCAMBasins
-mapGCAMBasinsdf <- tidyx(mapx, region="subRegion") %>%
+mapGCAMBasinsdf <- rmap::tidy_shape(shape=mapx, shapeColum="subRegion") %>%
   dplyr::rename(subRegion=id)%>%
   dplyr::inner_join(mapx@data, by="subRegion") %>% dplyr::rename(lon=long) %>% dplyr::mutate(name = paste0(name,"df"));
 mapGCAMBasinsdf %>% head()
@@ -78,7 +56,7 @@ use_data(mapGCAMBasinsdf, overwrite=T)
 # GCAM Land
 #------------------
 mapx <- rmap::mapGCAMLand
-mapGCAMLanddf <- tidyx(mapx, region="subRegion") %>%
+mapGCAMLanddf <- rmap::tidy_shape(shape=mapx, shapeColum="subRegion") %>%
   dplyr::rename(subRegion=id)%>%
   dplyr::inner_join(mapx@data, by="subRegion") %>% dplyr::rename(lon=long) %>% dplyr::mutate(name = paste0(name,"df"));
 mapGCAMLanddf %>% head()
@@ -96,7 +74,7 @@ use_data(mapGCAMLanddf, overwrite=T)
 # HydroSheds Level 1
 #-------------------
 mapx <- rmap::mapHydroShed1
-mapHydroShed1df <- tidyx(mapx, region="subRegion") %>%
+mapHydroShed1df <- rmap::tidy_shape(shape=mapx, shapeColum="subRegion") %>%
   dplyr::rename(subRegion=id)%>%
   dplyr::inner_join(mapx@data, by="subRegion") %>% dplyr::rename(lon=long) %>% dplyr::mutate(name = paste0(name,"df"));
 mapHydroShed1df %>% head()
@@ -104,7 +82,7 @@ use_data(mapHydroShed1df, overwrite=T)
 
 # HydroSheds Level 2#-------------------
 mapx <- rmap::mapHydroShed2
-mapHydroShed2df <- tidyx(mapx, region="subRegion") %>%
+mapHydroShed2df <- rmap::tidy_shape(shape=mapx, shapeColum="subRegion") %>%
   dplyr::rename(subRegion=id)%>%
   dplyr::inner_join(mapx@data, by="subRegion") %>% dplyr::rename(lon=long) %>% dplyr::mutate(name = paste0(name,"df"));
 mapHydroShed2df %>% head()
@@ -113,7 +91,7 @@ use_data(mapHydroShed2df, overwrite=T)
 # HydroSheds Level 3
 #-------------------
 mapx <- rmap::mapHydroShed3
-mapHydroShed3df <- tidyx(mapx, region="subRegion") %>%
+mapHydroShed3df <- rmap::tidy_shape(shape=mapx, shapeColum="subRegion") %>%
   dplyr::rename(subRegion=id)%>%
   dplyr::inner_join(mapx@data, by="subRegion") %>% dplyr::rename(lon=long) %>% dplyr::mutate(name = paste0(name,"df"));
 mapHydroShed3df %>% head()
@@ -159,7 +137,7 @@ use_data(mapHydroShed3df, overwrite=T)
 # US52 HUC 2
 #-------------------
 mapx <- rmap::mapUS52HUC2
-mapUS52HUC2df <- tidyx(mapx, region="subRegion") %>%
+mapUS52HUC2df <- rmap::tidy_shape(shape=mapx, shapeColum="subRegion") %>%
   dplyr::rename(subRegion=id)%>%
   dplyr::inner_join(mapx@data, by="subRegion") %>% dplyr::rename(lon=long) %>% dplyr::mutate(name = paste0(name,"df"));
 mapUS52HUC2df %>% head()
@@ -168,7 +146,7 @@ use_data(mapUS52HUC2df, overwrite=T)
 # US49 HUC 2
 #-------------------
 mapx <- rmap::mapUS49HUC2
-mapUS49HUC2df <- tidyx(mapx, region="subRegion") %>%
+mapUS49HUC2df <- rmap::tidy_shape(shape=mapx, shapeColum="subRegion") %>%
   dplyr::rename(subRegion=id)%>%
   dplyr::inner_join(mapx@data, by="subRegion") %>% dplyr::rename(lon=long) %>% dplyr::mutate(name = paste0(name,"df"));
 mapUS49HUC2df %>% head()
@@ -177,7 +155,7 @@ use_data(mapUS49HUC2df, overwrite=T)
 # US52 HUC 4
 #-------------------
 mapx <- rmap::mapUS52HUC4
-mapUS52HUC4df <- tidyx(mapx, region="subRegion") %>%
+mapUS52HUC4df <- rmap::tidy_shape(shape=mapx, shapeColum="subRegion") %>%
   dplyr::rename(subRegion=id)%>%
   dplyr::inner_join(mapx@data, by="subRegion") %>% dplyr::rename(lon=long) %>% dplyr::mutate(name = paste0(name,"df"));
 mapUS52HUC4df %>% head()
@@ -186,7 +164,7 @@ use_data(mapUS52HUC4df, overwrite=T)
 # US49 HUC 4
 #-------------------
 mapx <- rmap::mapUS49HUC4
-mapUS49HUC4df <- tidyx(mapx, region="subRegion") %>%
+mapUS49HUC4df <- rmap::tidy_shape(shape=mapx, shapeColum="subRegion") %>%
   dplyr::rename(subRegion=id)%>%
   dplyr::inner_join(mapx@data, by="subRegion") %>% dplyr::rename(lon=long) %>% dplyr::mutate(name = paste0(name,"df"));
 mapUS49HUC4df %>% head()
@@ -199,7 +177,7 @@ use_data(mapUS49HUC4df, overwrite=T)
 # US 52 (including Alaska, Hawaii and Puerto Rico)
 #-------------------
 mapx <- rmap::mapUS52
-mapUS52df <- tidyx(mapx, region="subRegion") %>%
+mapUS52df <- rmap::tidy_shape(shape=mapx, shapeColum="subRegion") %>%
   dplyr::rename(subRegion=id)%>%
   dplyr::inner_join(mapx@data, by="subRegion") %>% dplyr::rename(lon=long) %>% dplyr::mutate(name = paste0(name,"df"));
 mapUS52df %>% head()
@@ -208,7 +186,7 @@ use_data(mapUS52df, overwrite=T)
 # US 52 with Alaska (AK), Hawaii (HI) and Puerto Rico (PR) shrunken and shifted
 #-------------------
 mapx <- rmap::mapUS52Compact
-mapUS52Compactdf <- tidyx(mapx, region="subRegion") %>%
+mapUS52Compactdf <- rmap::tidy_shape(shape=mapx, shapeColum="subRegion") %>%
   dplyr::rename(subRegion=id)%>%
   dplyr::inner_join(mapx@data, by="subRegion") %>% dplyr::rename(lon=long) %>% dplyr::mutate(name = paste0(name,"df"));
 mapUS52Compactdf %>% head()
@@ -218,7 +196,7 @@ use_data(mapUS52Compactdf, overwrite=T)
 # US 49 (Excluding Alsaka, Hawaii and Puerto Rico)
 #-------------------
 mapx <- rmap::mapUS49
-mapUS49df <- tidyx(mapx, region="subRegion") %>%
+mapUS49df <- rmap::tidy_shape(shape=mapx, shapeColum="subRegion") %>%
   dplyr::rename(subRegion=id)%>%
   dplyr::inner_join(mapx@data, by="subRegion") %>% dplyr::rename(lon=long) %>% dplyr::mutate(name = paste0(name,"df"));
 mapUS49df %>% head()
@@ -227,7 +205,7 @@ use_data(mapUS49df, overwrite=T)
 # US 52 Counties
 #-------------------
 mapx <- rmap::mapUS52County
-mapUS52Countydf <- tidyx(mapx, region="subRegion") %>%
+mapUS52Countydf <- rmap::tidy_shape(shape=mapx, shapeColum="subRegion") %>%
   dplyr::rename(subRegion=id)%>%
   dplyr::inner_join(mapx@data, by="subRegion") %>% dplyr::rename(lon=long) %>% dplyr::mutate(name = paste0(name,"df"));
 mapUS52Countydf %>% head()
@@ -236,7 +214,7 @@ use_data(mapUS52Countydf, overwrite=T)
 # US 52 Counties with Alaska (AK), Hawaii (HI) and Puerto Rico (PR) shrunken and shifted
 #-------------------
 mapx <- rmap::mapUS52CountyCompact
-mapUS52CountyCompactdf <- tidyx(mapx, region="subRegion") %>%
+mapUS52CountyCompactdf <- rmap::tidy_shape(shape=mapx, shapeColum="subRegion") %>%
   dplyr::rename(subRegion=id)%>%
   dplyr::inner_join(mapx@data, by="subRegion") %>% dplyr::rename(lon=long) %>% dplyr::mutate(name = paste0(name,"df"));
 mapUS52CountyCompactdf %>% head()
@@ -245,7 +223,7 @@ use_data(mapUS52CountyCompactdf, overwrite=T)
 # US 49 Counties
 #-------------------
 mapx <- rmap::mapUS49County
-mapUS49Countydf <- tidyx(mapx, region="subRegion") %>%
+mapUS49Countydf <- rmap::tidy_shape(shape=mapx, shapeColum="subRegion") %>%
   dplyr::rename(subRegion=id)%>%
   dplyr::inner_join(mapx@data, by="subRegion") %>% dplyr::rename(lon=long) %>% dplyr::mutate(name = paste0(name,"df"));
 mapUS49Countydf %>% head()
@@ -255,7 +233,7 @@ use_data(mapUS49Countydf, overwrite=T)
 #-------------------
 # Merge US52 with GCAM Regs
 mapx <- rmap::mapGCAMReg32US52
-mapGCAMReg32US52df <- tidyx(mapx, region="subRegion") %>%
+mapGCAMReg32US52df <- rmap::tidy_shape(shape=mapx, shapeColum="subRegion") %>%
   dplyr::rename(subRegion=id)%>%
   dplyr::inner_join(mapx@data, by="subRegion") %>% dplyr::rename(lon=long) %>% dplyr::mutate(name = paste0(name,"df"));
 mapGCAMReg32US52df %>% head()
@@ -264,11 +242,19 @@ use_data(mapGCAMReg32US52df, overwrite=T)
 
 # Merge US52 with Countries file
 mapx <- rmap::mapCountriesUS52
-mapCountriesUS52df <- tidyx(mapx, region="subRegion") %>%
+mapCountriesUS52df <- rmap::tidy_shape(shape=mapx, shapeColum="subRegion") %>%
   dplyr::rename(subRegion=id)%>%
   dplyr::inner_join(mapx@data, by="subRegion") %>% dplyr::rename(lon=long) %>% dplyr::mutate(name = paste0(name,"df"));
 mapCountriesUS52df %>% head()
 use_data(mapCountriesUS52df, overwrite=T)
+
+# Merge Uruguay with GCAM Regs
+mapx <- rmap::mapGCAMReg32Uruguay
+mapGCAMReg32Uruguaydf <- rmap::tidy_shape(shape=mapx, shapeColum="subRegion") %>%
+  dplyr::rename(subRegion=id)%>%
+  dplyr::inner_join(mapx@data, by="subRegion") %>% dplyr::rename(lon=long) %>% dplyr::mutate(name = paste0(name,"df"));
+mapGCAMReg32Uruguaydf %>% head()
+use_data(mapGCAMReg32Uruguaydf, overwrite=T)
 
 # Intersections
 #-------------------
@@ -277,7 +263,7 @@ use_data(mapCountriesUS52df, overwrite=T)
 
 #Intersection of GCAM Basins and Countries
 mapx <- rmap::mapIntersectGCAMBasinCountry
-mapIntersectGCAMBasinCountrydf <- tidyx(mapx, region="subRegion") %>%
+mapIntersectGCAMBasinCountrydf <- rmap::tidy_shape(shape=mapx, shapeColum="subRegion") %>%
   dplyr::rename(subRegion=id)%>%
   dplyr::inner_join(mapx@data, by="subRegion") %>% dplyr::rename(lon=long) %>% dplyr::mutate(name = paste0(name,"df"));
 mapIntersectGCAMBasinCountrydf %>% head()
@@ -286,7 +272,7 @@ use_data(mapIntersectGCAMBasinCountrydf, overwrite=T)
 
 # Intersection of GCAM Basins and 32 GCAM Regions
 mapx <- rmap::mapIntersectGCAMBasin32Reg
-mapIntersectGCAMBasin32Regdf <- tidyx(mapx, region="subRegion") %>%
+mapIntersectGCAMBasin32Regdf <- rmap::tidy_shape(shape=mapx, shapeColum="subRegion") %>%
   dplyr::rename(subRegion=id)%>%
   dplyr::inner_join(mapx@data, by="subRegion") %>% dplyr::rename(lon=long) %>% dplyr::mutate(name = paste0(name,"df"));
 mapIntersectGCAMBasin32Regdf %>% head()
@@ -294,7 +280,7 @@ use_data(mapIntersectGCAMBasin32Regdf, overwrite=T)
 
 # Intersection of GCAM Basins and US 52 States
 mapx <- rmap::mapIntersectGCAMBasinUS52
-mapIntersectGCAMBasinUS52df <- tidyx(mapx, region="subRegion") %>%
+mapIntersectGCAMBasinUS52df <- rmap::tidy_shape(shape=mapx, shapeColum="subRegion") %>%
   dplyr::rename(subRegion=id)%>%
   dplyr::inner_join(mapx@data, by="subRegion") %>% dplyr::rename(lon=long) %>% dplyr::mutate(name = paste0(name,"df"));
 mapIntersectGCAMBasinUS52df %>% head()
@@ -302,18 +288,34 @@ use_data(mapIntersectGCAMBasinUS52df, overwrite=T)
 
 # Intersection of GCAM Basins and US 52 County
 mapx <- rmap::mapIntersectGCAMBasinUS52County
-mapIntersectGCAMBasinUS52Countydf <- tidyx(mapx, region="subRegion") %>%
+mapIntersectGCAMBasinUS52Countydf <- rmap::tidy_shape(shape=mapx, shapeColum="subRegion") %>%
   dplyr::rename(subRegion=id)%>%
   dplyr::inner_join(mapx@data, by="subRegion") %>% dplyr::rename(lon=long) %>% dplyr::mutate(name = paste0(name,"df"));
 mapIntersectGCAMBasinUS52Countydf %>% head()
 use_data(mapIntersectGCAMBasinUS52Countydf, overwrite=T)
+
+# Intersection of GCAM Basins and US 52 County
+mapx <- rmap::mapIntersectGCAMBasinUS52County
+mapIntersectGCAMBasinUS52Countydf <- rmap::tidy_shape(shape=mapx, shapeColum="subRegion") %>%
+  dplyr::rename(subRegion=id)%>%
+  dplyr::inner_join(mapx@data, by="subRegion") %>% dplyr::rename(lon=long) %>% dplyr::mutate(name = paste0(name,"df"));
+mapIntersectGCAMBasinUS52Countydf %>% head()
+use_data(mapIntersectGCAMBasinUS52Countydf, overwrite=T)
+
+# Intersection of GCAM Basins and US 52 States
+mapx <- rmap::mapIntersectGCAMBasin32RegUruguay
+mapIntersectGCAMBasin32RegUruguaydf <- rmap::tidy_shape(shape=mapx, shapeColum="subRegion") %>%
+  dplyr::rename(subRegion=id)%>%
+  dplyr::inner_join(mapx@data, by="subRegion") %>% dplyr::rename(lon=long) %>% dplyr::mutate(name = paste0(name,"df"));
+mapIntersectGCAMBasin32RegUruguaydf %>% head()
+use_data(mapIntersectGCAMBasin32RegUruguaydf, overwrite=T)
 
 # Cropped Files
 #------------------------------
 
 # Cropped GCAM Basins and US 52
 mapx <- rmap::mapGCAMBasinsUS52
-mapGCAMBasinsUS52df <- tidyx(mapx, region="subRegion") %>%
+mapGCAMBasinsUS52df <- rmap::tidy_shape(shape=mapx, shapeColum="subRegion") %>%
   dplyr::rename(subRegion=id)%>%
   dplyr::inner_join(mapx@data, by="subRegion") %>% dplyr::rename(lon=long) %>% dplyr::mutate(name = paste0(name,"df"));
 mapGCAMBasinsUS52df %>% head()
@@ -322,7 +324,7 @@ use_data(mapGCAMBasinsUS52df, overwrite=T)
 
 # Cropped GCAM Basins and US 49 States
 mapx <- rmap::mapGCAMBasinsUS49
-mapGCAMBasinsUS49df <- tidyx(mapx, region="subRegion") %>%
+mapGCAMBasinsUS49df <- rmap::tidy_shape(shape=mapx, shapeColum="subRegion") %>%
   dplyr::rename(subRegion=id)%>%
   dplyr::inner_join(mapx@data, by="subRegion") %>% dplyr::rename(lon=long) %>% dplyr::mutate(name = paste0(name,"df"));
 mapGCAMBasinsUS49df %>% head()
@@ -330,7 +332,7 @@ use_data(mapGCAMBasinsUS49df, overwrite=T)
 
 # Cropped GCAM Land and US 52
 mapx <- rmap::mapGCAMLandUS52
-mapGCAMLandUS52df <- tidyx(mapx, region="subRegion") %>%
+mapGCAMLandUS52df <- rmap::tidy_shape(shape=mapx, shapeColum="subRegion") %>%
   dplyr::rename(subRegion=id)%>%
   dplyr::inner_join(mapx@data, by="subRegion") %>% dplyr::rename(lon=long) %>% dplyr::mutate(name = paste0(name,"df"));
 mapGCAMLandUS52df %>% head()
@@ -338,7 +340,7 @@ use_data(mapGCAMLandUS52df, overwrite=T)
 
 # Cropped GCAM Land and US 49 States
 mapx <- rmap::mapGCAMLandUS49
-mapGCAMLandUS49df <- tidyx(mapx, region="subRegion") %>%
+mapGCAMLandUS49df <- rmap::tidy_shape(shape=mapx, shapeColum="subRegion") %>%
   dplyr::rename(subRegion=id)%>%
   dplyr::inner_join(mapx@data, by="subRegion") %>% dplyr::rename(lon=long) %>% dplyr::mutate(name = paste0(name,"df"));
 mapGCAMLandUS49df %>% head()
@@ -373,6 +375,9 @@ if(T){
     tolower(rmap::mapUS52@data$subRegion %>% unique() %>% as.character %>% sort()),
   "subRegGCAMReg32" =
     tolower(rmap::mapGCAMReg32@data$subRegion %>% unique() %>% as.character %>%
+              sort()),
+  "subRegGCAMReg32Uruguay" =
+    tolower(rmap::mapGCAMReg32Uruguay@data$subRegion %>% unique() %>% as.character %>%
               sort()),
   "subRegCountries" =
     tolower(rmap::mapCountries@data$subRegion %>% unique() %>% as.character %>%
@@ -421,6 +426,9 @@ if(T){
               sort()),
   "mapIntersectGCAMBasin32Reg" =
     tolower(rmap::mapIntersectGCAMBasin32Reg@data$subRegion %>% unique() %>% as.character %>%
+              sort()),
+  "mapIntersectGCAMBasin32RegUruguay" =
+    tolower(rmap::mapIntersectGCAMBasin32RegUruguay@data$subRegion %>% unique() %>% as.character %>%
               sort()),
   "mapIntersectGCAMBasinCountry" =
     tolower(rmap::mapIntersectGCAMBasinCountry@data$subRegion %>% unique() %>% as.character %>%
