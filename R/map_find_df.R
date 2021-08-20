@@ -127,6 +127,7 @@ map_find_df <- function(data) {
         "mapIntersectGCAMBasinUS52Alt", 43,
         "mapIntersectGCAMBasinUS52CountyAlt", 44,
         "mapIntersectGCAMBasin32RegUruguay",45,
+        "mapIntersectGCAMBasin32RegAltUruguay",46
       )
 
       mapRanked %>% dplyr::arrange(rank)
