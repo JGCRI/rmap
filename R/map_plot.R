@@ -223,7 +223,7 @@ if(!is.null(data)){
     if(!("value" %in% names(data))){
       dataShape <- data
     }
-  } else if(!("value" %in% names(data))){
+  } else if(!("value" %in% names(data)) & !grepl("Mean_",fillColumn)){
     dataShape <- data
   } else if(any(grepl("lat|lon",names(data)))){
     dataGrid <- data

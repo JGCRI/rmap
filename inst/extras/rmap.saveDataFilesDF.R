@@ -499,6 +499,9 @@ if(T){
   "mapIntersectGCAMBasin32RegAlt" =
     tolower(rmap::mapIntersectGCAMBasin32Reg@data$subRegionAlt %>% unique() %>% as.character %>%
               sort()),
+  "mapIntersectGCAMBasin32RegUruguayAlt" =
+    tolower(rmap::mapIntersectGCAMBasin32RegUruguay@data$subRegionAlt %>% unique() %>% as.character %>%
+              sort()),
   "mapIntersectGCAMBasinCountryAlt" =
     tolower(rmap::mapIntersectGCAMBasinCountry@data$subRegionAlt %>% unique() %>% as.character %>%
               sort()),
