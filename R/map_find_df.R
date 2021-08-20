@@ -81,8 +81,9 @@ map_find_df <- function(data) {
         ~	map	, ~ rank,
         "subRegUS49",1,
         "subRegUS52",2,
-        "subRegGCAMReg32",12,
         "subRegCountries",11,
+        "subRegGCAMReg32",12,
+        "subRegGCAMReg32Uruguay",12.5,
         "subRegGCAMReg32US52",15.5,
         "subRegCountriesUS52",15,
         "subRegStates",9,
@@ -124,7 +125,8 @@ map_find_df <- function(data) {
         "mapIntersectGCAMBasin32RegAlt",41,
         "mapIntersectGCAMBasinCountryAlt",42,
         "mapIntersectGCAMBasinUS52Alt", 43,
-        "mapIntersectGCAMBasinUS52CountyAlt", 44
+        "mapIntersectGCAMBasinUS52CountyAlt", 44,
+        "mapIntersectGCAMBasin32RegUruguay",45,
       )
 
       mapRanked %>% dplyr::arrange(rank)

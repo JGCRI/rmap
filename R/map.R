@@ -229,6 +229,13 @@ map <- function(data = NULL,
   # shape = NULL
   # diffOnly = F
   # forceFacets = F
+  # labels = F
+  # labelRepel = 0
+  # labelColor = "black"
+  # labelSize = 2
+  # labelAlpha = 1
+  # labelFill = NA
+  # labelBorderSize = NA
 
   print("Starting map...")
 
@@ -368,7 +375,9 @@ map <- function(data = NULL,
       width = width,
       height = height,
       title=title) ->
-      mapsReturn[[return_i]]; names(mapsReturn)[return_i] <- fileName; return_i = return_i + 1
+      mapsReturn[[return_i]];
+
+    names(mapsReturn)[return_i] <- fileName; return_i = return_i + 1
 
     # overLayer=overLayer
     # overLayerColor=overLayerColor
