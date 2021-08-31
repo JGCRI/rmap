@@ -61,6 +61,8 @@ map_plot(
   alpha = 1,
   background = F,
   crop = T,
+  crop_to_underLayer = F,
+  crop_to_overLayer = F,
   transparent = F
 )
 }
@@ -176,6 +178,10 @@ map_plot(
 \item{background}{Default = F. Add background water color, border and default underlayer map.}
 
 \item{crop}{Default = T. Crop to boundary data.}
+
+\item{crop_to_underLayer}{Default = F. Crop to the underLayer boundary provided.}
+
+\item{crop_to_overLayer}{Default = F. Crop to the overLayer boundary provided.}
 
 \item{transparent}{Default = F. To make map background transparent for maps without backgrounds.}
 }
