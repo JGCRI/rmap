@@ -59,6 +59,8 @@
 #' @param alpha Default = 1. Transparency of fill colors.
 #' @param background Default = F. Add background water color, border and default underlayer map.
 #' @param crop Default = T. Crop to boundary data.
+#' @param crop_to_underLayer Default = F. Crop to the underLayer boundary provided.
+#' @param crop_to_overLayer Default = F. Crop to the overLayer boundary provided.
 #' @param transparent Default = F. To make map background transparent for maps without backgrounds.
 #' @keywords charts, diffplots
 #' @return Returns the formatted data used to produce chart
@@ -122,12 +124,16 @@ map_plot<-function(data=NULL,
                   alpha = 1,
                   background = F,
                   crop = T,
+                  crop_to_underLayer = F,
+                  crop_to_overLayer = F,
                   transparent = F
                   ){
 
   # data=NULL
   # fillColumn=NULL # Or give column data with
   # shapeColumn=NULL
+  # crop_to_underLayer = F
+  # crop_to_overLayer = F
   # theme = ggplot2::theme_bw()
   # palette="Spectral"
   # labels=F
@@ -763,16 +769,6 @@ if(T){
       }
     }
 
-  # Zoom out
-  if(T){
-    if(is.null(zoomx)){zoomx = zoom}
-    if(is.null(zoomy)){zoomy = zoom}
-    lonLimMin <- min(datax1$lon)+abs(max(range(datax1$lon))-min(range(datax1$lon)))*zoomx/10;lonLimMin
-    lonLimMax <- max(datax1$lon)-abs(max(range(datax1$lon))-min(range(datax1$lon)))*zoomx/10;lonLimMax
-    latLimMin <- min(datax1$lat)+abs(max(range(datax1$lon))-min(range(datax1$lon)))*zoomy/10;latLimMin
-    latLimMax <- max(datax1$lat)-abs(max(range(datax1$lon))-min(range(datax1$lon)))*zoomy/10;latLimMax
-  }
-
   # UnderLayer
   if(T){
   if(is.null(underLayer)){
@@ -787,11 +783,7 @@ if(T){
                        colour = underLayerColor,
                        fill = underLayerFill,
                        lwd= underLayerLwd,
-                       alpha = underLayerAlpha) +
-          ggplot2::coord_fixed(ratio = asp,
-                               ylim=c(max(latLimMin,-90),min(latLimMax,90)),
-                               xlim=c(max(-180,lonLimMin),min(lonLimMax,180)),
-                               expand = FALSE)
+                       alpha = underLayerAlpha)
 
         if(underLayerLabels){
           shapex <- rmap::df_to_shape(underLayerx)
@@ -835,10 +827,6 @@ if(T){
 
   map <- underLayer +
     ggplot2::geom_tile(data=datax1, ggplot2::aes_string(x="lon", y="lat", fill="label"), alpha=alpha) +
-    ggplot2::coord_fixed(ratio = asp,
-                         ylim=c(max(latLimMin,-90),min(latLimMax,90)),
-                         xlim=c(max(-180,lonLimMin),min(lonLimMax,180)),
-                         expand = FALSE) +
     ggplot2::scale_fill_manual(breaks=names(paletteX), values=paletteX, drop=F,
                                name = legendTitle)
   }
@@ -1042,11 +1030,7 @@ if(T){
                      colour = overLayerColor,
                      fill = overLayerFill,
                      lwd= overLayerLwd,
-                     alpha = overLayerAlpha) +
-        ggplot2::coord_fixed(ratio = asp,
-                             ylim=c(max(latLimMin,-90),min(latLimMax,90)),
-                             xlim=c(max(-180,lonLimMin),min(lonLimMax,180)),
-                             expand = FALSE)
+                     alpha = overLayerAlpha)
 
       if(overLayerLabels){
         shapex <- rmap::df_to_shape(overLayer)
@@ -1056,13 +1040,6 @@ if(T){
           dplyr::bind_cols(sp::coordinates(shapex) %>%
                              data.frame() %>% dplyr::rename(lon=X1,lat=X2))%>%
           dplyr::filter(subRegion %in% unique(overLayer$subRegion))
-
-        if(crop){
-        labels_df_over <- labels_df_over %>%
-            dplyr::filter(lat < latLimMax,
-                          lat > latLimMin,
-                          lon < lonLimMax,
-                          lon > lonLimMin)}
 
         if(labelRepel != 0){
         map <- map +
@@ -1137,11 +1114,48 @@ map <- map +
 
 if(!legendShow){map = map + ggplot2::guides(fill="none")}
 
-if(crop==T){
+
+# Set Zoom Levels
+if(T){
+  if(is.null(zoomx)){zoomx = zoom}
+  if(is.null(zoomy)){zoomy = zoom}
+}
+
+# Set lat lon limits
+if(crop){
+  lonLimMin <- min(datax1$lon)+abs(max(range(datax1$lon))-min(range(datax1$lon)))*zoomx/10;lonLimMin
+  lonLimMax <- max(datax1$lon)-abs(max(range(datax1$lon))-min(range(datax1$lon)))*zoomx/10;lonLimMax
+  latLimMin <- min(datax1$lat)+abs(max(range(datax1$lon))-min(range(datax1$lon)))*zoomy/10;latLimMin
+  latLimMax <- max(datax1$lat)-abs(max(range(datax1$lon))-min(range(datax1$lon)))*zoomy/10;latLimMax
+}
+
+if(crop_to_underLayer){
+  if(!is.null(underLayer)){
+      lonLimMin <- min(underLayerx$lon)+abs(max(range(underLayerx$lon))-min(range(underLayerx$lon)))*zoomx/10;lonLimMin
+      lonLimMax <- max(underLayerx$lon)-abs(max(range(underLayerx$lon))-min(range(underLayerx$lon)))*zoomx/10;lonLimMax
+      latLimMin <- min(underLayerx$lat)+abs(max(range(underLayerx$lon))-min(range(underLayerx$lon)))*zoomy/10;latLimMin
+      latLimMax <- max(underLayerx$lat)-abs(max(range(underLayerx$lon))-min(range(underLayerx$lon)))*zoomy/10;latLimMax
+    }
+    }
+
+if(crop_to_overLayer){
+      if(!is.null(overLayer)){
+        lonLimMin <- min(overLayer$lon)+abs(max(range(overLayer$lon))-min(range(overLayer$lon)))*zoomx/10;lonLimMin
+        lonLimMax <- max(overLayer$lon)-abs(max(range(overLayer$lon))-min(range(overLayer$lon)))*zoomx/10;lonLimMax
+        latLimMin <- min(overLayer$lat)+abs(max(range(overLayer$lon))-min(range(overLayer$lon)))*zoomy/10;latLimMin
+        latLimMax <- max(overLayer$lat)-abs(max(range(overLayer$lon))-min(range(overLayer$lon)))*zoomy/10;latLimMax
+      }
+    }
+
+if(crop|crop_to_underLayer|crop_to_overLayer){
   map <- map +
     ggplot2::coord_fixed(ratio = asp,
                          ylim=c(max(latLimMin,-90),min(latLimMax,90)),
                          xlim=c(max(-180,lonLimMin),min(lonLimMax,180)),
+                         expand = FALSE)
+} else {
+  map <- map +
+    ggplot2::coord_fixed(ratio = asp,
                          expand = FALSE)
 }
 

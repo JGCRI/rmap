@@ -32,6 +32,8 @@ map(
   animate = T,
   fps = 1,
   crop = T,
+  crop_to_underLayer = F,
+  crop_to_overLayer = F,
   underLayer = NULL,
   underLayerColor = "gray40",
   underLayerFill = "gray90",
@@ -136,6 +138,10 @@ map(
 \item{fps}{Default = 1,}
 
 \item{crop}{Default = T. This crops the map to the extent of your data regions. If false will zoom out to the extent of the larget layer.}
+
+\item{crop_to_underLayer}{Default = F. Crop to the underLayer boundary provided.}
+
+\item{crop_to_overLayer}{Default = F. Crop to the overLayer boundary provided.}
 
 \item{underLayer}{Default = NULL}
 

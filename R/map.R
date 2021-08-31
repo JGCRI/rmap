@@ -70,6 +70,8 @@
 #' @param palette Default = NULL
 #' @param paletteDiff Default = "pal_div_BrGn"
 #' @param crop Default = T. This crops the map to the extent of your data regions. If false will zoom out to the extent of the larget layer.
+#' @param crop_to_underLayer Default = F. Crop to the underLayer boundary provided.
+#' @param crop_to_overLayer Default = F. Crop to the overLayer boundary provided.
 #' @param colorNA Default = "gray50"
 #' @param showNA Default = T
 #' @param ncol Default = 3. Number of columns to wrap maps
@@ -112,6 +114,8 @@ map <- function(data = NULL,
                 animate = T,
                 fps = 1,
                 crop = T,
+                crop_to_underLayer = F,
+                crop_to_overLayer = F,
                 underLayer = NULL,
                 underLayerColor = "gray40",
                 underLayerFill = "gray90",
@@ -236,6 +240,8 @@ map <- function(data = NULL,
   # labelAlpha = 1
   # labelFill = NA
   # labelBorderSize = NA
+  # crop_to_underLayer = F
+  # crop_to_overLayer = F
 
   print("Starting map...")
 
@@ -355,7 +361,7 @@ map <- function(data = NULL,
       underLayerLwd = underLayerLwd,
       underLayerAlpha = underLayerAlpha,
       background=background,
-      zoom=zoom, zoomx = zoomx, zoomy=zoomy, asp=asp, legendShow=legendShow,  crop = crop, transparent=transparent,
+      zoom=zoom, zoomx = zoomx, zoomy=zoomy, asp=asp, legendShow=legendShow,  crop = crop, crop_to_underLayer = crop_to_underLayer, crop_to_overLayer = crop_to_overLayer, transparent=transparent,
       alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)),
       theme = theme,
       legendTitle=NULL,
@@ -394,7 +400,7 @@ map <- function(data = NULL,
     # zoomy=zoomy
     # asp=asp
     # legendShow=legendShow
-    # crop = crop
+    # crop = crop, crop_to_underLayer = crop_to_underLayer, crop_to_overLayer = crop_to_overLayer
     # transparent=transparen
     # alpha = alpha
     # size=max(1,(size+(colm+rowm)*3 - 12))
@@ -674,6 +680,10 @@ map <- function(data = NULL,
         dplyr::select(lat,lon,subRegion,subRegType,param,x,xLabel,vintage,units,aggregate,palette,class,scenario,value)%>%
         tidyr::spread(scenario,value)
 
+      # If paletteDiff is a character vector collapse it to a string.
+      if(length(paletteDiff)>1){
+        paletteDiff <-paste(paletteDiff,collapse=",")
+        }
 
       for (scenario_i in unique(dataTblDiffa$scenario)[unique(dataTblDiffa$scenario) %in% scenDiff_i]){
         tbl_temp1 <-dataTblDiffb%>%
@@ -995,6 +1005,30 @@ map <- function(data = NULL,
     }
   }
 
+
+  #.................-
+  # Set Palettes
+  #.................-
+
+    if(T){
+      if(!is.null(dataTbl)){
+        if(nrow(dataTbl)>0){
+
+          if(length(paletteOrig)>1){
+            dataTbl <- dataTbl %>%
+              dplyr::mutate(palette = dplyr::case_when(palette=="pal_hot" ~ paste(paletteOrig,collapse=","),
+                                                       TRUE ~ palette))
+          }
+
+          if(length(paletteDiff)>1){
+            dataTbl <- dataTbl %>%
+              dplyr::mutate(palette = dplyr::case_when(palette=="pal_div_BluRd" ~ paste(paletteDiff,collapse=","),
+                                                       TRUE ~ palette))
+          }
+        }
+      }
+    }
+
   # .................--
   # Create Plots
   # .................--
@@ -1122,7 +1156,8 @@ map <- function(data = NULL,
 
                 if(nrow(datax)>0){
                   if(is.null(legendTitleOrig)){legendTitle<-unique(datax$units)}
-                  palette<-as.character(unique(datax$palette))
+                  palette<-as.character(unique(datax$palette)); if(grepl(",",palette)){palette = unlist(stringr::str_split(palette,","))}
+
 
                   # Set Facets
                   if(length(unique(datax$scenario))>1){
@@ -1212,7 +1247,7 @@ map <- function(data = NULL,
                                   underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
                                   underLayerAlpha = underLayerAlpha, background=background,
                                   zoom=zoom, zoomx = zoomx, zoomy=zoomy, asp=asp, legendShow=legendShow,
-                                  crop = crop, transparent=transparent,
+                                  crop = crop, crop_to_underLayer = crop_to_underLayer, crop_to_overLayer = crop_to_overLayer, transparent=transparent,
                                   alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)),
                                   ncol=ncol, showNA=showNA, colorNA=colorNA,
                                   theme = theme, legendTitle=legendTitle,
@@ -1291,7 +1326,7 @@ map <- function(data = NULL,
               if(nrow(datax)>0){
 
                 if(is.null(legendTitleOrig)){legendTitle<-unique(datax$units)}
-                palette<-as.character(unique(datax$palette))
+                palette<-as.character(unique(datax$palette)); if(grepl(",",palette)){palette = unlist(stringr::str_split(palette,","))}
 
                 scalex<-datax$value
                 scalex <- scalex[!is.infinite(scalex)]
@@ -1457,7 +1492,7 @@ map <- function(data = NULL,
                                  underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
                                  underLayerAlpha = underLayerAlpha, background=background, zoom=zoom,
                                  zoomx = zoomx, zoomy=zoomy, asp=asp, legendShow=legendShow,
-                                 crop = crop, transparent=transparent,
+                                 crop = crop, crop_to_underLayer = crop_to_underLayer, crop_to_overLayer = crop_to_overLayer, transparent=transparent,
                                  alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)), ncol=ncol,
                                  showNA=showNA, colorNA=colorNA,
                                  labelColor=labelColor,
@@ -1498,7 +1533,7 @@ map <- function(data = NULL,
                 if(nrow(datax)>0){
 
                   if(is.null(legendTitleOrig)){legendTitle<-unique(datax$units)}
-                  palette<-as.character(unique(datax$palette))
+                  palette<-as.character(unique(datax$palette)); if(grepl(",",palette)){palette = unlist(stringr::str_split(palette,","))}
 
                   meanCol = paste("Mean_",min(datax$x),"to",max(datax$x),sep="")
 
@@ -1650,7 +1685,7 @@ map <- function(data = NULL,
                                    underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
                                    underLayerAlpha = underLayerAlpha, background=background,
                                    zoom=zoom, zoomx = zoomx, zoomy=zoomy, asp=asp, legendShow=legendShow,
-                                   crop = crop, transparent=transparent,
+                                   crop = crop, crop_to_underLayer = crop_to_underLayer, crop_to_overLayer = crop_to_overLayer, transparent=transparent,
                                    alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)),
                                    ncol=ncol, showNA=showNA, colorNA=colorNA,
                                    labelColor=labelColor,
@@ -1805,7 +1840,7 @@ map <- function(data = NULL,
 
                   if(nrow(datax)>0){
                     if(is.null(legendTitleOrig)){legendTitle<-unique(datax$units)}
-                    palette<-as.character(unique(datax$palette))
+                    palette<-as.character(unique(datax$palette)); if(grepl(",",palette)){palette = unlist(stringr::str_split(palette,","))}
 
                     # Set Facets
                     if(length(unique(datax$scenario))>1){
@@ -1903,7 +1938,7 @@ map <- function(data = NULL,
                                      underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
                                      underLayerAlpha = underLayerAlpha, background=background,
                                      zoom=zoom, zoomx = zoomx, zoomy=zoomy, asp=asp, legendShow=legendShow,
-                                     crop = crop, transparent=transparent,
+                                     crop = crop, crop_to_underLayer = crop_to_underLayer, crop_to_overLayer = crop_to_overLayer, transparent=transparent,
                                      alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)),
                                      ncol=ncol, showNA=showNA, colorNA=colorNA,
                                      theme = theme, legendTitle=legendTitle,
@@ -1957,7 +1992,7 @@ map <- function(data = NULL,
               if(nrow(datax)>0){
 
                 if(is.null(legendTitleOrig)){legendTitle<-unique(datax$units)}
-                palette<-as.character(unique(datax$palette))
+                palette<-as.character(unique(datax$palette)); if(grepl(",",palette)){palette = unlist(stringr::str_split(palette,","))}
 
                 scalex<-datax$value
                 scalex <- scalex[!is.infinite(scalex)]
@@ -2127,7 +2162,7 @@ map <- function(data = NULL,
                                  underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
                                  underLayerAlpha = underLayerAlpha, background=background, zoom=zoom,
                                  zoomx = zoomx, zoomy=zoomy, asp=asp, legendShow=legendShow,
-                                 crop = crop, transparent=transparent,
+                                 crop = crop, crop_to_underLayer = crop_to_underLayer, crop_to_overLayer = crop_to_overLayer, transparent=transparent,
                                  alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)), ncol=ncol,
                                  showNA=showNA, colorNA=colorNA,
                                  labelColor=labelColor,
@@ -2167,7 +2202,7 @@ map <- function(data = NULL,
                 if(nrow(datax)>0){
 
                   if(is.null(legendTitleOrig)){legendTitle<-unique(datax$units)}
-                  palette<-as.character(unique(datax$palette))
+                  palette<-as.character(unique(datax$palette)); if(grepl(",",palette)){palette = unlist(stringr::str_split(palette,","))}
 
                   meanCol = paste("Mean_",min(datax$x),"to",max(datax$x),sep="")
 
@@ -2334,7 +2369,7 @@ map <- function(data = NULL,
                                    underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
                                    underLayerAlpha = underLayerAlpha, background=background,
                                    zoom=zoom, zoomx = zoomx, zoomy=zoomy, asp=asp, legendShow=legendShow,
-                                   crop = crop, transparent=transparent,
+                                   crop = crop, crop_to_underLayer = crop_to_underLayer, crop_to_overLayer = crop_to_overLayer, transparent=transparent,
                                    alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)),
                                    ncol=ncol, showNA=showNA, colorNA=colorNA,
                                    labelColor=labelColor,
@@ -2485,7 +2520,7 @@ map <- function(data = NULL,
 
                   if(nrow(datax)>0){
                     if(is.null(legendTitleOrig)){legendTitle<-unique(datax$units)}
-                    palette<-as.character(unique(datax$palette))
+                    palette<-as.character(unique(datax$palette)); if(grepl(",",palette)){palette = unlist(stringr::str_split(palette,","))}
 
                     # Set Facets
                     if(length(unique(datax$scenario))>1){
@@ -2582,7 +2617,7 @@ map <- function(data = NULL,
                                      underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
                                      underLayerAlpha = underLayerAlpha, background=background,
                                      zoom=zoom, zoomx = zoomx, zoomy=zoomy, asp=asp, legendShow=legendShow,
-                                     crop = crop, transparent=transparent,
+                                     crop = crop, crop_to_underLayer = crop_to_underLayer, crop_to_overLayer = crop_to_overLayer, transparent=transparent,
                                      alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)),
                                      ncol=ncol, showNA=showNA, colorNA=colorNA,
                                      theme = theme, legendTitle=legendTitle,
@@ -2636,7 +2671,7 @@ map <- function(data = NULL,
               if(nrow(datax)>0){
 
                 if(is.null(legendTitleOrig)){legendTitle<-unique(datax$units)}
-                palette<-as.character(unique(datax$palette))
+                palette<-as.character(unique(datax$palette)); if(grepl(",",palette)){palette = unlist(stringr::str_split(palette,","))}
 
                 scalex<-datax$value
                 scalex <- scalex[!is.infinite(scalex)]
@@ -2806,7 +2841,7 @@ map <- function(data = NULL,
                                  underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
                                  underLayerAlpha = underLayerAlpha, background=background, zoom=zoom,
                                  zoomx = zoomx, zoomy=zoomy, asp=asp, legendShow=legendShow,
-                                 crop = crop, transparent=transparent,
+                                 crop = crop, crop_to_underLayer = crop_to_underLayer, crop_to_overLayer = crop_to_overLayer, transparent=transparent,
                                  alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)), ncol=ncol,
                                  showNA=showNA, colorNA=colorNA,
                                  labelColor=labelColor,
@@ -2892,7 +2927,7 @@ map <- function(data = NULL,
                 if(nrow(datax)>0){
 
                   if(is.null(legendTitleOrig)){legendTitle<-unique(datax$units)}
-                  palette<-as.character(unique(datax$palette))
+                  palette<-as.character(unique(datax$palette)); if(grepl(",",palette)){palette = unlist(stringr::str_split(palette,","))}
 
                   meanCol = paste("Mean_",min(datax$x),"to",max(datax$x),sep="")
 
@@ -3052,7 +3087,7 @@ map <- function(data = NULL,
                                    underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
                                    underLayerAlpha = underLayerAlpha, background=background,
                                    zoom=zoom, zoomx = zoomx, zoomy=zoomy, asp=asp, legendShow=legendShow,
-                                   crop = crop, transparent=transparent,
+                                   crop = crop, crop_to_underLayer = crop_to_underLayer, crop_to_overLayer = crop_to_overLayer, transparent=transparent,
                                    alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)),
                                    ncol=ncol, showNA=showNA, colorNA=colorNA,
                                    labelColor=labelColor,
@@ -3209,7 +3244,7 @@ map <- function(data = NULL,
 
                     if(nrow(datax)>0){
                       if(is.null(legendTitleOrig)){legendTitle<-unique(datax$units)}
-                      palette<-as.character(unique(datax$palette))
+                      palette<-as.character(unique(datax$palette)); if(grepl(",",palette)){palette = unlist(stringr::str_split(palette,","))}
 
                       # Set Facets
                       if(length(unique(datax$scenario))>1){
@@ -3302,7 +3337,7 @@ map <- function(data = NULL,
                                      underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
                                      underLayerAlpha = underLayerAlpha, background=background,
                                      zoom=zoom, zoomx = zoomx, zoomy=zoomy, asp=asp, legendShow=legendShow,
-                                     crop = crop, transparent=transparent,
+                                     crop = crop, crop_to_underLayer = crop_to_underLayer, crop_to_overLayer = crop_to_overLayer, transparent=transparent,
                                      alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)),
                                      ncol=ncol, showNA=showNA, colorNA=colorNA,
                                      theme = theme, legendTitle=legendTitle,
@@ -3355,7 +3390,7 @@ map <- function(data = NULL,
                 if(nrow(datax)>0){
 
                   if(is.null(legendTitleOrig)){legendTitle<-unique(datax$units)}
-                  palette<-as.character(unique(datax$palette))
+                  palette<-as.character(unique(datax$palette)); if(grepl(",",palette)){palette = unlist(stringr::str_split(palette,","))}
 
                   scalex<-datax$value
                   scalex <- scalex[!is.infinite(scalex)]
@@ -3533,7 +3568,7 @@ map <- function(data = NULL,
                                    underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
                                    underLayerAlpha = underLayerAlpha, background=background, zoom=zoom,
                                    zoomx = zoomx, zoomy=zoomy, asp=asp, legendShow=legendShow,
-                                   crop = crop, transparent=transparent,
+                                   crop = crop, crop_to_underLayer = crop_to_underLayer, crop_to_overLayer = crop_to_overLayer, transparent=transparent,
                                    alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)), ncol=ncol,
                                    showNA=showNA, colorNA=colorNA,
                                    labelColor=labelColor,
@@ -3618,7 +3653,7 @@ map <- function(data = NULL,
                   if(nrow(datax)>0){
 
                     if(is.null(legendTitleOrig)){legendTitle<-unique(datax$units)}
-                    palette<-as.character(unique(datax$palette))
+                    palette<-as.character(unique(datax$palette)); if(grepl(",",palette)){palette = unlist(stringr::str_split(palette,","))}
 
                     meanCol = paste("Mean_",min(datax$x),"to",max(datax$x),sep="")
 
@@ -3774,7 +3809,7 @@ map <- function(data = NULL,
                                      underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
                                      underLayerAlpha = underLayerAlpha, background=background,
                                      zoom=zoom, zoomx = zoomx, zoomy=zoomy, asp=asp, legendShow=legendShow,
-                                     crop = crop, transparent=transparent,
+                                     crop = crop, crop_to_underLayer = crop_to_underLayer, crop_to_overLayer = crop_to_overLayer, transparent=transparent,
                                      alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)),
                                      ncol=ncol, showNA=showNA, colorNA=colorNA,
                                      labelColor=labelColor,
@@ -3926,7 +3961,7 @@ map <- function(data = NULL,
 
                     if(nrow(datax)>0){
                       if(is.null(legendTitleOrig)){legendTitle<-unique(datax$units)}
-                      palette<-as.character(unique(datax$palette))
+                      palette<-as.character(unique(datax$palette)); if(grepl(",",palette)){palette = unlist(stringr::str_split(palette,","))}
 
                       # Set Facets
                       if(length(unique(datax$scenario))>1){
@@ -4019,7 +4054,7 @@ map <- function(data = NULL,
                                        underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
                                        underLayerAlpha = underLayerAlpha, background=background,
                                        zoom=zoom, zoomx = zoomx, zoomy=zoomy, asp=asp, legendShow=legendShow,
-                                       crop = crop, transparent=transparent,
+                                       crop = crop, crop_to_underLayer = crop_to_underLayer, crop_to_overLayer = crop_to_overLayer, transparent=transparent,
                                        alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)),
                                        ncol=ncol, showNA=showNA, colorNA=colorNA,
                                        theme = theme, legendTitle=legendTitle,
@@ -4100,7 +4135,7 @@ map <- function(data = NULL,
                 if(nrow(datax)>0){
 
                   if(is.null(legendTitleOrig)){legendTitle<-unique(datax$units)}
-                  palette<-as.character(unique(datax$palette))
+                  palette<-as.character(unique(datax$palette)); if(grepl(",",palette)){palette = unlist(stringr::str_split(palette,","))}
 
                   scalex<-datax$value
                   scalex <- scalex[!is.infinite(scalex)]
@@ -4278,7 +4313,7 @@ map <- function(data = NULL,
                                    underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
                                    underLayerAlpha = underLayerAlpha, background=background, zoom=zoom,
                                    zoomx = zoomx, zoomy=zoomy, asp=asp, legendShow=legendShow,
-                                   crop = crop, transparent=transparent,
+                                   crop = crop, crop_to_underLayer = crop_to_underLayer, crop_to_overLayer = crop_to_overLayer, transparent=transparent,
                                    alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)), ncol=ncol,
                                    showNA=showNA, colorNA=colorNA,
                                    labelColor=labelColor,
@@ -4364,7 +4399,7 @@ map <- function(data = NULL,
                   if(nrow(datax)>0){
 
                     if(is.null(legendTitleOrig)){legendTitle<-unique(datax$units)}
-                    palette<-as.character(unique(datax$palette))
+                    palette<-as.character(unique(datax$palette)); if(grepl(",",palette)){palette = unlist(stringr::str_split(palette,","))}
 
                     meanCol = paste("Mean_",min(datax$x),"to",max(datax$x),sep="")
 
@@ -4523,7 +4558,7 @@ map <- function(data = NULL,
                                      underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
                                      underLayerAlpha = underLayerAlpha, background=background,
                                      zoom=zoom, zoomx = zoomx, zoomy=zoomy, asp=asp, legendShow=legendShow,
-                                     crop = crop, transparent=transparent,
+                                     crop = crop, crop_to_underLayer = crop_to_underLayer, crop_to_overLayer = crop_to_overLayer, transparent=transparent,
                                      alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)),
                                      ncol=ncol, showNA=showNA, colorNA=colorNA,
                                      labelColor=labelColor,
