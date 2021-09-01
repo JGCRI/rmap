@@ -426,7 +426,7 @@
 <!-------------------------->
 <p align="center">
 <img src="vignetteFigs/divider.png"></p>
-<p>By default the maps are cropped to the extent of the subRegions provided in the data. If the argument <code>crop</code> is set to <code>FALSE</code> then the map will zoom to extents of the largest layer in the map as shown below:</p>
+<p>By default the maps are cropped to the extent of the subRegions provided in the data. If the argument <code>crop</code> is set to <code>FALSE</code> then the map will zoom to extents of the largest layer in the map as shown below. Maps can also be cropped to the underLayer or overLayer by setting the <code>crop_to_underLayer</code> and <code>crop_to_overLayer</code> arguments to <code>TRUE</code>.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>;
 
@@ -440,7 +440,7 @@
           underLayerLabels <span class="op">=</span> <span class="cn">T</span>,
           labels <span class="op">=</span> <span class="cn">T</span>,
           crop <span class="op">=</span> <span class="cn">T</span>,
-          title <span class="op">=</span> <span class="st">"Crop = T"</span><span class="op">)</span></code></pre></div>
+          title <span class="op">=</span> <span class="st">"crop = T"</span><span class="op">)</span></code></pre></div>
 <p><img src="vignette_map_files/figure-html/unnamed-chunk-27-1.png" width="700"></p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span>,
@@ -448,8 +448,22 @@
           underLayerLabels <span class="op">=</span> <span class="cn">T</span>,
           labels <span class="op">=</span> <span class="cn">T</span>,
           crop <span class="op">=</span> <span class="cn">F</span>,
-          title <span class="op">=</span> <span class="st">"Crop = F"</span><span class="op">)</span></code></pre></div>
+          title <span class="op">=</span> <span class="st">"crop = F"</span><span class="op">)</span></code></pre></div>
 <p><img src="vignette_map_files/figure-html/unnamed-chunk-27-2.png" width="700"></p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span>,
+          underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapUS49.html">mapUS49</a></span>,
+          <span class="va">overLayer</span> <span class="op">-</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapGCAMBasinsUS52.html">mapGCAMBasinsUS52</a></span>,
+          crop_to_underLayer <span class="op">=</span> <span class="cn">T</span>,
+          title <span class="op">=</span> <span class="st">"crop_to_underLayer = T"</span><span class="op">)</span></code></pre></div>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-27-3.png" width="700"></p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span>,
+          underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapUS49.html">mapUS49</a></span>,
+          <span class="va">overLayer</span> <span class="op">-</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapGCAMBasinsUS52.html">mapGCAMBasinsUS52</a></span>,
+          crop_to_overLayer <span class="op">=</span> <span class="cn">T</span>,
+          title <span class="op">=</span> <span class="st">"crop_to_overLayer = T"</span><span class="op">)</span></code></pre></div>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-27-4.png" width="700"></p>
 <!-------------------------->
 <!-------------------------->
 </div>
@@ -461,7 +475,7 @@
 <p align="center">
 <img src="vignetteFigs/divider.png"></p>
 <p>Users can use <code>zoom</code> to zoom out or into a cropped map as desired. Options are available to zoom along x only (<code>zoomx</code>), along y only (<code>zoomy</code>) or both (<code>zoom</code>).</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>;
 
 <span class="co"># Create data table with a few US states</span>
@@ -486,7 +500,7 @@
 <p align="center">
 <img src="vignetteFigs/divider.png"></p>
 <p>While users can adjust all the elements of the map using ggplot themes as explained in the <a href="#themes">Themes</a> section, we have provided a quick argument to simply add blue for oceans and a border to the map if the <code>background</code> argument is set to <code>T</code>.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>;
 
 <span class="co"># Create data table with a few US states</span>
@@ -500,7 +514,7 @@
           background <span class="op">=</span> <span class="cn">F</span>,
           title <span class="op">=</span> <span class="st">"Background = F"</span><span class="op">)</span></code></pre></div>
 <p><img src="vignette_map_files/figure-html/unnamed-chunk-30-1.png" width="700"></p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span>,
           labels <span class="op">=</span> <span class="cn">T</span>,
           underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapCountriesUS52.html">mapCountriesUS52</a></span>,
@@ -518,7 +532,7 @@
 <p align="center">
 <img src="vignetteFigs/divider.png"></p>
 <p>The outputs of <code><a href="../reference/map.html">rmap::map()</a></code> is a list with <code>ggplot2</code> objects which can be modified using standard ggplot2 <a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">themes</a> or by adjusting any individual component of <a href="https://ggplot2.tidyverse.org/reference/theme.html">ggplot2 elements</a>. Some examples are shown below.</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>; <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span>
 
 <span class="co"># Create data table with a few US states</span>
@@ -535,7 +549,7 @@
 <span class="co"># Now Print with different ggplot elements</span>
 <span class="va">m1</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="op">+</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"No Theme"</span><span class="op">)</span></code></pre></div>
 <p><img src="vignette_map_files/figure-html/unnamed-chunk-31-1.png" width="700"></p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Apply the ggplot theme_dark()</span>
 <span class="va">m1</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="op">+</span> 
   <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_dark</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>
@@ -543,7 +557,7 @@
   <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">xlab</a></span><span class="op">(</span><span class="st">"MY X Label"</span><span class="op">)</span> <span class="op">+</span>
   <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ylab</a></span><span class="op">(</span><span class="st">"MY Y Label"</span><span class="op">)</span></code></pre></div>
 <p><img src="vignette_map_files/figure-html/unnamed-chunk-31-2.png" width="700"></p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Apply custom ggplot theme to an element</span>
 <span class="va">m1</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="op">+</span>
   <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">ggtitle</a></span><span class="op">(</span><span class="st">"Themes: x label and legend position"</span><span class="op">)</span> <span class="op">+</span>
@@ -563,7 +577,7 @@
 <p align="center">
 <img src="vignetteFigs/divider.png"></p>
 <p>For a given data table in the correct format (see <a href="#inputs">Input Format</a>) <code><a href="../reference/map.html">map()</a></code> will search through the list of <a href="https://jgcri.github.io/rmap/reference/index.html">maps</a> to see if it can find the “subRegions” provided in the data and then plot the data on the most appropriate map. Users can specify a specific map. Some examples are provided below:</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>;
 
 <span class="co"># US Contiguous States </span>
@@ -582,7 +596,7 @@
 <p align="center">
 <img src="vignetteFigs/divider.png"></p>
 <p>Sometimes subRegions can be present on multiple maps. For example “Colombia”, China" and “India” are all members of <code><a href="../reference/mapGCAMReg32.html">rmap::mapGCAMReg32</a></code> as well as <code><a href="../reference/mapCountries.html">rmap::mapCountries</a></code>. If a user knows which map they want to plot their data on they should specify the map in the <code>shape</code> argument.</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>
 
 <span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>subRegion <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"China"</span>,<span class="st">"India"</span>,<span class="st">"Pakistan"</span><span class="op">)</span>,
@@ -592,7 +606,7 @@
 <span class="co"># Auto selection by rmap will choose rmap::mapCountries</span>
 <span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span></code></pre></div>
 <p><img src="vignette_map_files/figure-html/unnamed-chunk-33-1.png" width="700"></p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># User can specify that they want to plot this data on rmap::mapGCAMReg32</span>
 <span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span>,
           shape <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapGCAMReg32.html">mapGCAMReg32</a></span><span class="op">)</span></code></pre></div>
@@ -608,7 +622,7 @@
 <p align="center">
 <img src="vignetteFigs/divider.png"></p>
 <p>For a given data table in the correct format (see <a href="#inputs">Input Format</a>) <code><a href="../reference/map.html">map()</a></code> will search through the list of <a href="https://jgcri.github.io/rmap/reference/index.html">maps</a> to see if it can find the “subRegions” provided in the data and then plot the data on the most appropriate map. Users can specify a specific map. Some examples are provided below:</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>; <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
 
 <span class="co"># Using example grid data provided in rmap</span>
@@ -631,14 +645,14 @@
 ## 4 -180.  66.2 2015   70.1
 ## 5 -180.  66.8 2015   79.2
 ## 6 -180.  67.2 2015   77.6</code></pre>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span></code></pre></div>
 <p><img src="vignette_map_files/figure-html/unnamed-chunk-35-1.png" width="700"></p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Plot part of data (first 10000 rows)</span>
 <span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span> <span class="op">%&gt;%</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="fl">10000</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="vignette_map_files/figure-html/unnamed-chunk-35-2.png" width="700"></p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Add an underlayer to gridded data</span>
 <span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span>,
           overLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapCountriesUS52.html">mapCountriesUS52</a></span>,
@@ -658,7 +672,7 @@
 <div id="subset-existing-shape" class="section level2">
 <h2 class="hasAnchor">
 <a href="#subset-existing-shape" class="anchor"></a>Subset existing shape</h2>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>
 
 <span class="va">shapeSubset</span> <span class="op">&lt;-</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapStates.html">mapStates</a></span> <span class="co"># Read in World States shape file</span>
@@ -666,7 +680,7 @@
 <span class="va">shapeSubset</span><span class="op">@</span><span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/droplevels.html">droplevels</a></span><span class="op">(</span><span class="va">shapeSubset</span><span class="op">@</span><span class="va">data</span><span class="op">)</span>
 <span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">shapeSubset</span><span class="op">)</span> <span class="co"># View custom shape</span></code></pre></div>
 <p><img src="vignette_map_files/figure-html/unnamed-chunk-36-1.png" width="700"></p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">shapeSubset</span><span class="op">@</span><span class="va">data</span><span class="op">)</span> <span class="co"># review data</span>
 <span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span><span class="op">(</span><span class="va">shapeSubset</span><span class="op">@</span><span class="va">data</span><span class="op">$</span><span class="va">states</span><span class="op">)</span> <span class="co"># Get a list of the unique subRegions</span>
 
@@ -685,7 +699,7 @@
 <h2 class="hasAnchor">
 <a href="#crop-a-shape-to-another-shape" class="anchor"></a>Crop a shape to another shape</h2>
 <p>For example if someone wants to analyze counties in Texas.</p>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>; <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/raster">raster</a></span><span class="op">)</span>
 
 <span class="va">shapeSubRegions</span> <span class="op">&lt;-</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapUS49County.html">mapUS49County</a></span>
@@ -698,7 +712,7 @@
 <span class="va">shapeCrop</span><span class="op">$</span><span class="va">subRegion</span><span class="op">%&gt;%</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/unique.html">unique</a></span><span class="op">(</span><span class="op">)</span> <span class="co"># Check subRegion names</span>
 <span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">shapeCrop</span><span class="op">)</span></code></pre></div>
 <p><img src="vignette_map_files/figure-html/unnamed-chunk-37-1.png" width="700"></p>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Plot data on subset</span>
 <span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>subRegion <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Wise_TX"</span>,<span class="st">"Scurry_TX"</span>,<span class="st">"Kendall_TX"</span>,<span class="st">"Frio_TX"</span>,<span class="st">"Hunt_TX"</span>,<span class="st">"Austin_TX"</span><span class="op">)</span>,
                   value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">5</span>,<span class="fl">10</span>,<span class="fl">15</span>,<span class="fl">34</span>,<span class="fl">2</span>,<span class="fl">7</span><span class="op">)</span><span class="op">)</span>
@@ -712,7 +726,7 @@
 <h2 class="hasAnchor">
 <a href="#saveShape" class="anchor"></a>Save Custom Shapefile</h2>
 <p>A cropped or custom shapefile which may be much smaller in size can be saved offline as an <code>ESRI Shapefile</code> for later use in <code>rmap</code> or other software if desired as follows:</p>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://rgdal.r-forge.r-project.org">rgdal</a></span><span class="op">)</span>
 
 <span class="fu">rgdal</span><span class="fu">::</span><span class="fu"><a href="http://rgdal.r-forge.r-project.org/reference/writeOGR.html">writeOGR</a></span><span class="op">(</span>obj<span class="op">=</span><span class="va">shapeCrop</span>,
@@ -731,7 +745,7 @@
 <li>custom_shape.shx</li>
 </ul>
 <p>After reading in the shapefile (e.g. as <code>my_custom_map</code>), users will need to insure that the data argument (<code>my_custom_map@data</code>) contains a <code>subRegion</code> column corresponding to the features in the shape.</p>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>; <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://rgdal.r-forge.r-project.org">rgdal</a></span><span class="op">)</span>; <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/edzer/sp/">sp</a></span><span class="op">)</span>
 
 <span class="co"># Assuming custom_shape files are in folder custom_shape_folder</span>
@@ -768,7 +782,7 @@
 <div id="polygon-data-multi-year" class="section level2">
 <h2 class="hasAnchor">
 <a href="#polygon-data-multi-year" class="anchor"></a>Polygon Data Multi-Year</h2>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>;
 
 <span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>subRegion <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Austria"</span>,<span class="st">"Spain"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>,<span class="st">"Greece"</span>,
@@ -797,7 +811,7 @@
 <div id="gridded-data-multi-year" class="section level2">
 <h2 class="hasAnchor">
 <a href="#gridded-data-multi-year" class="anchor"></a>Gridded Data Multi-Year</h2>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>;
 <span class="va">data</span> <span class="op">=</span> <span class="va">example_gridData_GWPv4To2015</span>;
 <span class="fu"><a href="https://rdrr.io/pkg/raster/man/headtail.html">head</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span></code></pre></div>
@@ -810,7 +824,7 @@
 ## 4 -180.  66.2 1990   215.
 ## 5 -180.  66.8 1990   243.
 ## 6 -180.  67.2 1990   238.</code></pre>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>;
 <span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>,
           overLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapCountries.html">mapCountries</a></span>,
@@ -834,7 +848,7 @@
 <div id="polygon-data-multi-year-diff" class="section level2">
 <h2 class="hasAnchor">
 <a href="#polygon-data-multi-year-diff" class="anchor"></a>Polygon Data Multi-Year Diff</h2>
-<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>;
 
 <span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>subRegion <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Austria"</span>,<span class="st">"Spain"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>,<span class="st">"Greece"</span>,
@@ -858,7 +872,7 @@
 <div id="gridded-data-multi-year-diff" class="section level2">
 <h2 class="hasAnchor">
 <a href="#gridded-data-multi-year-diff" class="anchor"></a>Gridded Data Multi-Year Diff</h2>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>;
 
 <span class="va">data</span> <span class="op">=</span> <span class="va">example_gridData_GWPv4To2015</span>
@@ -884,7 +898,7 @@
 <div id="polygon-data-multi-class" class="section level2">
 <h2 class="hasAnchor">
 <a href="#polygon-data-multi-class" class="anchor"></a>Polygon Data Multi-Class</h2>
-<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>;
 
 <span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>subRegion <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Austria"</span>,<span class="st">"Spain"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>,<span class="st">"Greece"</span>,
@@ -907,7 +921,7 @@
 <div id="gridded-data-multi-class" class="section level2">
 <h2 class="hasAnchor">
 <a href="#gridded-data-multi-class" class="anchor"></a>Gridded Data Multi-Class</h2>
-<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>;<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
 
 <span class="co"># Change the years in the gridded data to classes</span>
@@ -942,7 +956,7 @@
 <div id="polygon-data-multi-scenario" class="section level2">
 <h2 class="hasAnchor">
 <a href="#polygon-data-multi-scenario" class="anchor"></a>Polygon Data Multi-Scenario</h2>
-<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>;
 
 <span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>subRegion <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Austria"</span>,<span class="st">"Spain"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>,<span class="st">"Greece"</span>,
@@ -966,7 +980,7 @@
 <div id="gridded-data-multi-scenario" class="section level2">
 <h2 class="hasAnchor">
 <a href="#gridded-data-multi-scenario" class="anchor"></a>Gridded Data Multi-Scenario</h2>
-<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>;
 
 <span class="co"># Change the years in the example gridded data to scenarios</span>
@@ -1000,7 +1014,7 @@
 <div id="polygon-data-multi-scenario-diff" class="section level2">
 <h2 class="hasAnchor">
 <a href="#polygon-data-multi-scenario-diff" class="anchor"></a>Polygon Data Multi-Scenario Diff</h2>
-<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>;
 
 <span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>subRegion <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Austria"</span>,<span class="st">"Spain"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>,<span class="st">"Greece"</span>,
@@ -1025,7 +1039,7 @@
 <div id="gridded-data-multi-scenario-diff" class="section level2">
 <h2 class="hasAnchor">
 <a href="#gridded-data-multi-scenario-diff" class="anchor"></a>Gridded Data Multi-Scenario Diff</h2>
-<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>;
 
 <span class="co"># Change the years in the example gridded data to scenarios</span>
@@ -1061,7 +1075,7 @@
 <div id="polygon-data-multi-facet" class="section level2">
 <h2 class="hasAnchor">
 <a href="#polygon-data-multi-facet" class="anchor"></a>Polygon Data Multi-Facet</h2>
-<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>;
 
 <span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>subRegion <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Austria"</span>,<span class="st">"Spain"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>,<span class="st">"Greece"</span>,
@@ -1090,7 +1104,7 @@
 <div id="gridded-data-multi-facet" class="section level2">
 <h2 class="hasAnchor">
 <a href="#gridded-data-multi-facet" class="anchor"></a>Gridded Data Multi-Facet</h2>
-<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>;<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
 
 <span class="co"># Create data with new columns RCPs and GCMs</span>
@@ -1124,7 +1138,7 @@
 <!-------------------------->
 <p align="center">
 <img src="vignetteFigs/divider.png"></p>
-<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>
 
 <span class="co"># For Scenario Diff plots</span>
@@ -1142,7 +1156,7 @@
           scaleRangeDiffAbs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">100</span>,<span class="fl">100</span><span class="op">)</span>, 
           scaleRangeDiffPrcnt <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">60</span>,<span class="fl">60</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="vignette_map_files/figure-html/unnamed-chunk-62-1.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-62-2.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-62-3.png" width="700"></p>
-<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># For Year Diff plots</span>
 <span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>subRegion <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Austria"</span>,<span class="st">"Spain"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>,<span class="st">"Greece"</span>,
                                 <span class="st">"Austria"</span>,<span class="st">"Spain"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>,<span class="st">"Greece"</span><span class="op">)</span>,
@@ -1159,7 +1173,7 @@
           scaleRangexDiffAbs <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">100</span>,<span class="fl">100</span><span class="op">)</span>, 
           scaleRangexDiffPrcnt <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">60</span>,<span class="fl">60</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="vignette_map_files/figure-html/unnamed-chunk-62-4.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-62-5.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-62-6.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-62-7.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-62-8.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-62-9.png" width="700"></p>
-<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># If multiple parameters in data users can set up scaleRange for each param as:</span>
 <span class="co"># scaleRange_i = data.frame(param = c("param1","param2"),</span>
 <span class="co">#                                   min = c(0,0),</span>
@@ -1178,7 +1192,7 @@
 <p align="center">
 <img src="vignetteFigs/divider.png"></p>
 <p>Can use any <a href="https://www.nceas.ucsb.edu/sites/default/files/2020-04/colorPaletteCheatsheet.pdf">R color palette</a> or choose from a list of colors from the <a href="https://jgcri.github.io/jgcricolors/articles/vignette_examples.html">jgcricolors package</a>.</p>
-<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>
 
 <span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>subRegion <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Austria"</span>,<span class="st">"Spain"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>,<span class="st">"Greece"</span>,
@@ -1218,7 +1232,7 @@
 <li>Fixed legend breaks can be set using <code>legendFixedBreaks</code> to set custom and uneven breaks as shown in the example.</li>
 <li>If <code>legendFixedBreaks</code> does not capture the full range of data, the maximum and minimum values will be appended to the breaks provided.</li>
 </ul>
-<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>
 
 <span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>subRegion <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Austria"</span>,<span class="st">"Spain"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>,<span class="st">"Greece"</span><span class="op">)</span>,
@@ -1229,13 +1243,13 @@
     underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapCountries.html">mapCountries</a></span>,
     legendFixedBreaks<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">30</span>,<span class="fl">32</span>,<span class="fl">1000</span><span class="op">)</span><span class="op">)</span>  <span class="co"># Will append 24 to these breaks because they are part of the data.</span></code></pre></div>
 <p><img src="vignette_map_files/figure-html/unnamed-chunk-64-1.png" width="700"></p>
-<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, 
     background <span class="op">=</span> <span class="cn">T</span>,
     underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapCountries.html">mapCountries</a></span>,
     legendType <span class="op">=</span> <span class="st">"kmeans"</span><span class="op">)</span></code></pre></div>
 <p><img src="vignette_map_files/figure-html/unnamed-chunk-64-2.png" width="700"></p>
-<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, 
     background <span class="op">=</span> <span class="cn">T</span>,
     underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapCountries.html">mapCountries</a></span>,
@@ -1253,7 +1267,7 @@
 <li>“Kmeans” will ignore the value chosen for <code>legendBreaksn</code>since it calculates the best breaks it self to highlight the distribution of the data.</li>
 <li>The <code>legendBreaksn</code> will apply in the same way to Diff Plots.</li>
 </ul>
-<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>
 
 <span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>subRegion <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Austria"</span>,<span class="st">"Spain"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>,<span class="st">"Greece"</span><span class="op">)</span>,
@@ -1265,7 +1279,7 @@
           legendType <span class="op">=</span> <span class="st">"pretty"</span>,
           legendBreaksn<span class="op">=</span><span class="fl">3</span><span class="op">)</span></code></pre></div>
 <p><img src="vignette_map_files/figure-html/unnamed-chunk-65-1.png" width="700"></p>
-<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, 
           background <span class="op">=</span> <span class="cn">T</span>,
           underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapCountries.html">mapCountries</a></span>,
@@ -1279,7 +1293,7 @@
 <a href="#legend-single-value" class="anchor"></a>Legend Single Value</h2>
 <!-------------------------->
 <p>Users can add a single value to the legend ranges. Sometimes it is important to see the <code>0</code> or minimum value in a rnage of data and this allows users to do that. Users can simply set <code>legendSingleValue=T</code> to use the minimum value (or 0 if present) of their dataset as the minimum value or set the value to a particular number. Users cna also set the color of the single value they choose as shown in the examples below.</p>
-<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>
 
 <span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>subRegion <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Austria"</span>,<span class="st">"Spain"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>,<span class="st">"Greece"</span><span class="op">)</span>,
@@ -1290,14 +1304,14 @@
           background <span class="op">=</span> <span class="cn">T</span>,
           underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapCountries.html">mapCountries</a></span><span class="op">)</span></code></pre></div>
 <p><img src="vignette_map_files/figure-html/unnamed-chunk-66-1.png" width="700"></p>
-<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># With legendSingelValue = T (will choose the minimum value or if 0 (if present) and set it to single)</span>
 <span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, 
           background <span class="op">=</span> <span class="cn">T</span>,
           underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapCountries.html">mapCountries</a></span>,
           legendSingleValue <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></code></pre></div>
 <p><img src="vignette_map_files/figure-html/unnamed-chunk-66-2.png" width="700"></p>
-<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># With legendSingelValue = 38 and set to "green"</span>
 <span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, 
           background <span class="op">=</span> <span class="cn">T</span>,
@@ -1317,7 +1331,7 @@
 <p align="center">
 <img src="vignetteFigs/divider.png"></p>
 <p>The <code>numeric2cat</code> parameter in the map function allows users to assign their own categorical legend labels for chosen ranges of numeric values.</p>
-<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>;<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/jgcricolors">jgcricolors</a></span><span class="op">)</span>
 
 <span class="co"># Create a list of ranges and categorical color scales for each parameter</span>
@@ -1364,7 +1378,7 @@
 <img src="vignetteFigs/divider.png"></p>
 <p>In this example data was extracted from the preloaded GCAM output <code><a href="../reference/exampleGCAMproj.html">rmap::exampleGCAMproj</a></code> and aggregated by paramater and class into <code><a href="../reference/exampleMapDataParam.html">rmap::exampleMapDataParam</a></code> and <code><a href="../reference/exampleMapDataClass.html">rmap::exampleMapDataClass</a></code>. Users can process their own GCAM data outputs into similar tables using the <a href="https://jgcri.github.io/gcamextractor/">gcamextractor</a> R package available at <a href="https://jgcri.github.io/gcamextractor/">https://jgcri.github.io/gcamextractor/</a>.</p>
 <p><strong>Note: The exampleGCAMproj comes with only a few parameters: “elecByTechTWh”,“pop”,“watWithdrawBySec”,“watSupRunoffBasin”,“landAlloc” and “agProdByCrop”</strong></p>
-<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb64"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>
 
 <span class="va">dfClass</span> <span class="op">&lt;-</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/exampleMapDataClass.html">exampleMapDataClass</a></span> <span class="op">%&gt;%</span>
@@ -1384,7 +1398,7 @@
 <details><summary><p class="button">
 Expand to see more extensive results for rmap::exampleMapDataParam…
 </p>
-<p></p></summary><div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
+<p></p></summary><div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>
 
 <span class="va">dfParam</span> <span class="op">&lt;-</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/exampleMapDataParam.html">exampleMapDataParam</a></span> <span class="op">%&gt;%</span>

@@ -168,6 +168,8 @@ Each figure is accompanied with a csv table.</p>
   animate <span class='op'>=</span> <span class='cn'>T</span>,
   fps <span class='op'>=</span> <span class='fl'>1</span>,
   crop <span class='op'>=</span> <span class='cn'>T</span>,
+  crop_to_underLayer <span class='op'>=</span> <span class='cn'>F</span>,
+  crop_to_overLayer <span class='op'>=</span> <span class='cn'>F</span>,
   underLayer <span class='op'>=</span> <span class='cn'>NULL</span>,
   underLayerColor <span class='op'>=</span> <span class='st'>"gray40"</span>,
   underLayerFill <span class='op'>=</span> <span class='st'>"gray90"</span>,
@@ -328,6 +330,14 @@ Each figure is accompanied with a csv table.</p>
     <tr>
       <th>crop</th>
       <td><p>Default = T. This crops the map to the extent of your data regions. If false will zoom out to the extent of the larget layer.</p></td>
+    </tr>
+    <tr>
+      <th>crop_to_underLayer</th>
+      <td><p>Default = F. Crop to the underLayer boundary provided.</p></td>
+    </tr>
+    <tr>
+      <th>crop_to_overLayer</th>
+      <td><p>Default = F. Crop to the overLayer boundary provided.</p></td>
     </tr>
     <tr>
       <th>underLayer</th>
