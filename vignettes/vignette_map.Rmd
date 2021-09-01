@@ -380,13 +380,13 @@ rmap::map(data,
 
 rmap::map(data,
           underLayer = rmap::mapUS49,
-          overLayer - rmap::mapGCAMBasinsUS52,
+          overLayer = rmap::mapGCAMBasinsUS52,
           crop_to_underLayer = T,
           title = "crop_to_underLayer = T")
 
 rmap::map(data,
           underLayer = rmap::mapUS49,
-          overLayer - rmap::mapGCAMBasinsUS52,
+          overLayer = rmap::mapGCAMBasinsUS52,
           crop_to_overLayer = T,
           title = "crop_to_overLayer = T")
 
