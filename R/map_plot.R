@@ -62,6 +62,7 @@
 #' @param crop_to_underLayer Default = F. Crop to the underLayer boundary provided.
 #' @param crop_to_overLayer Default = F. Crop to the overLayer boundary provided.
 #' @param transparent Default = F. To make map background transparent for maps without backgrounds.
+#' @param legendType Default = "continuous".
 #' @keywords charts, diffplots
 #' @return Returns the formatted data used to produce chart
 #' @importFrom rlang :=
@@ -75,6 +76,7 @@ map_plot<-function(data=NULL,
                   theme = NULL,
                   show = T,
                   palette="Spectral",
+                  legendType="kmeans",
                   labels=F,
                   labelRepel = 0,
                   labelColor = "black",
@@ -825,14 +827,32 @@ if(T){
   # If grid
   if(!is.null(dataGrid)){
 
+  if(grepl("continuous",legendType,ignore.case = T)){
+    map <- underLayer +
+      ggplot2::geom_tile(data=datax1, ggplot2::aes_string(x="lon", y="lat", fill="value"), alpha=alpha) +
+      ggplot2::scale_fill_gradientn(colors=paletteX, name = legendTitle)
+
+  } else {
   map <- underLayer +
     ggplot2::geom_tile(data=datax1, ggplot2::aes_string(x="lon", y="lat", fill="label"), alpha=alpha) +
     ggplot2::scale_fill_manual(breaks=names(paletteX), values=paletteX, drop=F,
                                name = legendTitle)
   }
 
+  }
+
   # If polygon
   if(!is.null(dataPolygon)){
+
+    if(grepl("continuous",legendType,ignore.case = T)){
+      map <- underLayer +
+        ggplot2::geom_polygon(data = datax1,
+                              ggplot2::aes_string(x="lon", y="lat", group="group",fill="value"),
+                              color = "grey40", lwd=0.1) +
+        ggplot2::coord_fixed(ratio = asp) +
+        ggplot2::scale_fill_gradientn(colors=paletteX, name = legendTitle)
+
+    } else {
     map <- underLayer +
       ggplot2::geom_polygon(data = datax1,
                             ggplot2::aes_string(x="lon", y="lat", group="group",fill="label"),
@@ -840,6 +860,7 @@ if(T){
       ggplot2::coord_fixed(ratio = asp) +
       ggplot2::scale_fill_manual(breaks=names(paletteX), values=paletteX, drop=F,
                                  name = legendTitle)
+    }
 
     if(labels){
       if(!is.null(shape)){
@@ -883,6 +904,7 @@ if(T){
 
   # If shape
   if(!is.null(dataShape)){
+
     map <- underLayer +
       ggplot2::geom_polygon(data = dataShape,
                             ggplot2::aes_string(x="lon", y="lat", group="group",fill="subRegion"),
@@ -1109,8 +1131,12 @@ if(background){
 }
 
 map <- map +
-  ggplot2::guides(fill = ggplot2::guide_legend(override.aes = list(colour = "black", lwd=0.1))) +
-  ggplot2::theme(text=ggplot2::element_text(size=size))
+      ggplot2::theme(text=ggplot2::element_text(size=size))
+
+if(!grepl("continuous",legendType,ignore.case = T)){
+  map <- map +
+    ggplot2::guides(fill = ggplot2::guide_legend(override.aes = list(colour = "black", lwd=0.1)))
+      }
 
 if(!legendShow){map = map + ggplot2::guides(fill="none")}
 

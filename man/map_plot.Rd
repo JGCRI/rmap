@@ -12,6 +12,7 @@ map_plot(
   theme = NULL,
   show = T,
   palette = "Spectral",
+  legendType = "kmeans",
   labels = F,
   labelRepel = 0,
   labelColor = "black",
@@ -80,6 +81,8 @@ map_plot(
 \item{show}{Default = T. Print maps in console as they are processed.}
 
 \item{palette}{Default = "Spectral"}
+
+\item{legendType}{Default = "continuous".}
 
 \item{labels}{Default = FALSE}
 
