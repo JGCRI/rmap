@@ -1254,7 +1254,7 @@
 <a href="#legend-type" class="anchor"></a>Legend Type</h2>
 <!-------------------------->
 <ul>
-<li>There are three types of legend options (<code>legendType</code>): “kmeans”, “pretty”, and “fixed”.</li>
+<li>There are four types of legend options (<code>legendType</code>): “kmeans”, “continuous”, “pretty”, and “fixed”.</li>
 <li>The default is “kmeans”. Users can set <code>legendType = "all"</code> or any combination of <code>legendType = c("kmeans","pretty")</code>
 </li>
 <li>Fixed legend breaks can be set using <code>legendFixedBreaks</code> to set custom and uneven breaks as shown in the example.</li>
@@ -1283,6 +1283,12 @@
     underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapCountries.html">mapCountries</a></span>,
     legendType <span class="op">=</span> <span class="st">"pretty"</span><span class="op">)</span></code></pre></div>
 <p><img src="vignette_map_files/figure-html/unnamed-chunk-66-3.png" width="700"></p>
+<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, 
+    background <span class="op">=</span> <span class="cn">T</span>,
+    underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapCountries.html">mapCountries</a></span>,
+    legendType <span class="op">=</span> <span class="st">"continuous"</span><span class="op">)</span></code></pre></div>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-66-4.png" width="700"></p>
 <!-------------------------->
 </div>
 <div id="legend-breaks-number" class="section level2">
@@ -1295,7 +1301,7 @@
 <li>“Kmeans” will ignore the value chosen for <code>legendBreaksn</code>since it calculates the best breaks it self to highlight the distribution of the data.</li>
 <li>The <code>legendBreaksn</code> will apply in the same way to Diff Plots.</li>
 </ul>
-<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>
 
 <span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>subRegion <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Austria"</span>,<span class="st">"Spain"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>,<span class="st">"Greece"</span><span class="op">)</span>,
@@ -1307,7 +1313,7 @@
           legendType <span class="op">=</span> <span class="st">"pretty"</span>,
           legendBreaksn<span class="op">=</span><span class="fl">3</span><span class="op">)</span></code></pre></div>
 <p><img src="vignette_map_files/figure-html/unnamed-chunk-67-1.png" width="700"></p>
-<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, 
           background <span class="op">=</span> <span class="cn">T</span>,
           underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapCountries.html">mapCountries</a></span>,
@@ -1321,7 +1327,7 @@
 <a href="#legend-single-value" class="anchor"></a>Legend Single Value</h2>
 <!-------------------------->
 <p>Users can add a single value to the legend ranges. Sometimes it is important to see the <code>0</code> or minimum value in a rnage of data and this allows users to do that. Users can simply set <code>legendSingleValue=T</code> to use the minimum value (or 0 if present) of their dataset as the minimum value or set the value to a particular number. Users cna also set the color of the single value they choose as shown in the examples below.</p>
-<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>
 
 <span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>subRegion <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Austria"</span>,<span class="st">"Spain"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>,<span class="st">"Greece"</span><span class="op">)</span>,
@@ -1332,14 +1338,14 @@
           background <span class="op">=</span> <span class="cn">T</span>,
           underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapCountries.html">mapCountries</a></span><span class="op">)</span></code></pre></div>
 <p><img src="vignette_map_files/figure-html/unnamed-chunk-68-1.png" width="700"></p>
-<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># With legendSingelValue = T (will choose the minimum value or if 0 (if present) and set it to single)</span>
 <span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, 
           background <span class="op">=</span> <span class="cn">T</span>,
           underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapCountries.html">mapCountries</a></span>,
           legendSingleValue <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></code></pre></div>
 <p><img src="vignette_map_files/figure-html/unnamed-chunk-68-2.png" width="700"></p>
-<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb64"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># With legendSingelValue = 38 and set to "green"</span>
 <span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, 
           background <span class="op">=</span> <span class="cn">T</span>,
@@ -1359,7 +1365,7 @@
 <p align="center">
 <img src="vignetteFigs/divider.png"></p>
 <p>The <code>numeric2cat</code> parameter in the map function allows users to assign their own categorical legend labels for chosen ranges of numeric values.</p>
-<div class="sourceCode" id="cb64"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>;<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/jgcricolors">jgcricolors</a></span><span class="op">)</span>
 
 <span class="co"># Create a list of ranges and categorical color scales for each parameter</span>
@@ -1406,7 +1412,7 @@
 <img src="vignetteFigs/divider.png"></p>
 <p>In this example data was extracted from the preloaded GCAM output <code><a href="../reference/exampleGCAMproj.html">rmap::exampleGCAMproj</a></code> and aggregated by paramater and class into <code><a href="../reference/exampleMapDataParam.html">rmap::exampleMapDataParam</a></code> and <code><a href="../reference/exampleMapDataClass.html">rmap::exampleMapDataClass</a></code>. Users can process their own GCAM data outputs into similar tables using the <a href="https://jgcri.github.io/gcamextractor/">gcamextractor</a> R package available at <a href="https://jgcri.github.io/gcamextractor/">https://jgcri.github.io/gcamextractor/</a>.</p>
 <p><strong>Note: The exampleGCAMproj comes with only a few parameters: “elecByTechTWh”,“pop”,“watWithdrawBySec”,“watSupRunoffBasin”,“landAlloc” and “agProdByCrop”</strong></p>
-<div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>
 
 <span class="va">dfClass</span> <span class="op">&lt;-</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/exampleMapDataClass.html">exampleMapDataClass</a></span> <span class="op">%&gt;%</span>
@@ -1426,7 +1432,7 @@
 <details><summary><p class="button">
 Expand to see more extensive results for rmap::exampleMapDataParam…
 </p>
-<p></p></summary><div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
+<p></p></summary><div class="sourceCode" id="cb67"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>
 
 <span class="va">dfParam</span> <span class="op">&lt;-</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/exampleMapDataParam.html">exampleMapDataParam</a></span> <span class="op">%&gt;%</span>
