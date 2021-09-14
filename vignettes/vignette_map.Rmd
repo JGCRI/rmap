@@ -1383,7 +1383,7 @@ There are several options to customize your legend as shown below:
 ## Legend Type
 <!-------------------------->
 
-* There are three types of legend options (`legendType`): "kmeans", "pretty", and "fixed".
+* There are four types of legend options (`legendType`): "kmeans", "continuous", "pretty", and "fixed".
 * The default is "kmeans". Users can set `legendType = "all"` or any combination of `legendType = c("kmeans","pretty")`
 * Fixed legend breaks can be set using ```legendFixedBreaks``` to set custom and uneven breaks as shown in the example.
 * If ```legendFixedBreaks``` does not capture the full range of data, the maximum and minimum values will be appended to the breaks provided.
@@ -1409,6 +1409,11 @@ rmap::map(data = data,
     background = T,
     underLayer = rmap::mapCountries,
     legendType = "pretty")
+
+rmap::map(data = data, 
+    background = T,
+    underLayer = rmap::mapCountries,
+    legendType = "continuous")
 
 ```
 

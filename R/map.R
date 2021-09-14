@@ -350,7 +350,7 @@ map <- function(data = NULL,
     colm=1
     rowm=1
 
-    rmap::map_plot(
+    rmap::map_plot(legendType=legendType,
       overLayer=overLayer,
       overLayerColor=overLayerColor,
       overLayerFill = overLayerFill,
@@ -1233,6 +1233,9 @@ map <- function(data = NULL,
                   if(any(grepl("all|kmean",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                     fileNameTag <- "KMEANS"
                     legendBreaksx <- kmeanBreaks
+                  } else if(any(grepl("all|continuous",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))) {
+                    fileNameTag <- "CONTINUOUS"
+                    legendBreaksx <- prettyBreaks
                   } else if(any(grepl("all|pretty",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))) {
                     fileNameTag <- "PRETTY"
                     legendBreaksx <- prettyBreaks
@@ -1242,7 +1245,7 @@ map <- function(data = NULL,
                   }
 
 
-                    rmap::map_plot(save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
+                    rmap::map_plot(legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
                                   overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
                                   overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
                                   underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
@@ -1479,6 +1482,9 @@ map <- function(data = NULL,
                 if(any(grepl("all|kmean",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                   fileNameTag <- "KMEANS"
                   legendBreaksx <- kmeanBreaks
+                } else if(any(grepl("all|continuous",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))) {
+                  fileNameTag <- "CONTINUOUS"
+                  legendBreaksx <- prettyBreaks
                 } else if(any(grepl("all|pretty",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))) {
                   fileNameTag <- "PRETTY"
                   legendBreaksx <- prettyBreaks
@@ -1487,7 +1493,7 @@ map <- function(data = NULL,
                   legendBreaksx <- legendFixedBreaks
                 }
 
-                  rmap::map_plot(save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
+                  rmap::map_plot(legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
                                  overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
                                  overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
                                  underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
@@ -1672,6 +1678,9 @@ map <- function(data = NULL,
                   if(any(grepl("all|kmean",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                     fileNameTag <- "KMEANS"
                     legendBreaksx <- kmeanBreaks
+                  } else if(any(grepl("all|continuous",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))) {
+                    fileNameTag <- "CONTINUOUS"
+                    legendBreaksx <- prettyBreaks
                   } else if(any(grepl("all|pretty",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))) {
                     fileNameTag <- "PRETTY"
                     legendBreaksx <- prettyBreaks
@@ -1680,7 +1689,7 @@ map <- function(data = NULL,
                     legendBreaksx <- legendFixedBreaks
                   }
 
-                    rmap::map_plot(save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
+                    rmap::map_plot(legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
                                    overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
                                    overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
                                    underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
@@ -1925,6 +1934,9 @@ map <- function(data = NULL,
                     if(any(grepl("all|kmean",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                       fileNameTag <- "KMEANS"
                       legendBreaksx <- kmeanBreaks
+                    } else if(any(grepl("all|continuous",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))) {
+                      fileNameTag <- "CONTINUOUS"
+                      legendBreaksx <- prettyBreaks
                     } else if(any(grepl("all|pretty",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))) {
                       fileNameTag <- "PRETTY"
                       legendBreaksx <- prettyBreaks
@@ -1933,7 +1945,7 @@ map <- function(data = NULL,
                       legendBreaksx <- legendFixedBreaks
                     }
 
-                      rmap::map_plot(save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
+                      rmap::map_plot(legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
                                      overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
                                      overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
                                      underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
@@ -2149,6 +2161,9 @@ map <- function(data = NULL,
                 if(any(grepl("all|kmean",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                   fileNameTag <- "KMEANS"
                   legendBreaksx <- kmeanBreaks
+                } else if(any(grepl("all|continuous",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))) {
+                  fileNameTag <- "CONTINUOUS"
+                  legendBreaksx <- prettyBreaks
                 } else if(any(grepl("all|pretty",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))) {
                   fileNameTag <- "PRETTY"
                   legendBreaksx <- prettyBreaks
@@ -2157,7 +2172,7 @@ map <- function(data = NULL,
                   legendBreaksx <- legendFixedBreaks
                 }
 
-                  rmap::map_plot(save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
+                  rmap::map_plot(legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
                                  overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
                                  overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
                                  underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
@@ -2356,6 +2371,9 @@ map <- function(data = NULL,
                   if(any(grepl("all|kmean",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                     fileNameTag <- "KMEANS"
                     legendBreaksx <- kmeanBreaks
+                  } else if(any(grepl("all|continuous",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))) {
+                    fileNameTag <- "CONTINUOUS"
+                    legendBreaksx <- prettyBreaks
                   } else if(any(grepl("all|pretty",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))) {
                     fileNameTag <- "PRETTY"
                     legendBreaksx <- prettyBreaks
@@ -2364,7 +2382,7 @@ map <- function(data = NULL,
                     legendBreaksx <- legendFixedBreaks
                   }
 
-                    rmap::map_plot(save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
+                    rmap::map_plot(legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
                                    overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
                                    overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
                                    underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
@@ -2604,6 +2622,9 @@ map <- function(data = NULL,
                     if(any(grepl("all|kmean",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                       fileNameTag <- "KMEANS"
                       legendBreaksx <- kmeanBreaks
+                    } else if(any(grepl("all|continuous",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))) {
+                      fileNameTag <- "CONTINUOUS"
+                      legendBreaksx <- prettyBreaks
                     } else if(any(grepl("all|pretty",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))) {
                       fileNameTag <- "PRETTY"
                       legendBreaksx <- prettyBreaks
@@ -2612,7 +2633,7 @@ map <- function(data = NULL,
                       legendBreaksx <- legendFixedBreaks
                     }
 
-                      rmap::map_plot(save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
+                      rmap::map_plot(legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
                                      overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
                                      overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
                                      underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
@@ -2828,6 +2849,9 @@ map <- function(data = NULL,
                 if(any(grepl("all|kmean",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                   fileNameTag <- "KMEANS"
                   legendBreaksx <- kmeanBreaks
+                } else if(any(grepl("all|continuous",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))) {
+                  fileNameTag <- "CONTINUOUS"
+                  legendBreaksx <- prettyBreaks
                 } else if(any(grepl("all|pretty",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))) {
                   fileNameTag <- "PRETTY"
                   legendBreaksx <- prettyBreaks
@@ -2836,7 +2860,7 @@ map <- function(data = NULL,
                   legendBreaksx <- legendFixedBreaks
                 }
 
-                  rmap::map_plot(save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
+                  rmap::map_plot(legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
                                  overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
                                  overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
                                  underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
@@ -3074,6 +3098,9 @@ map <- function(data = NULL,
                   if(any(grepl("all|kmean",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                     fileNameTag <- "KMEANS"
                     legendBreaksx <- kmeanBreaks
+                  } else if(any(grepl("all|continuous",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))) {
+                    fileNameTag <- "CONTINUOUS"
+                    legendBreaksx <- prettyBreaks
                   } else if(any(grepl("all|pretty",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))) {
                     fileNameTag <- "PRETTY"
                     legendBreaksx <- prettyBreaks
@@ -3082,7 +3109,7 @@ map <- function(data = NULL,
                     legendBreaksx <- legendFixedBreaks
                   }
 
-                    rmap::map_plot(save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
+                    rmap::map_plot(legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
                                    overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
                                    overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
                                    underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
@@ -3320,6 +3347,9 @@ map <- function(data = NULL,
                       if(any(grepl("all|kmean",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                         fileNameTag <- "KMEANS"
                         legendBreaksx <- kmeanBreaks
+                      } else if(any(grepl("all|continuous",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))) {
+                        fileNameTag <- "CONTINUOUS"
+                        legendBreaksx <- prettyBreaks
                       } else if(any(grepl("all|pretty",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))) {
                         fileNameTag <- "PRETTY"
                         legendBreaksx <- prettyBreaks
@@ -3332,7 +3362,7 @@ map <- function(data = NULL,
                       datax <- datax %>%
                         dplyr::mutate(scenario= gsub("_xDiff.*","",scenario))
 
-                      rmap::map_plot(save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
+                      rmap::map_plot(legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
                                      overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
                                      overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
                                      underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
@@ -3551,6 +3581,9 @@ map <- function(data = NULL,
                   if(any(grepl("all|kmean",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                     fileNameTag <- "KMEANS"
                     legendBreaksx <- kmeanBreaks
+                  } else if(any(grepl("all|continuous",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))) {
+                    fileNameTag <- "CONTINUOUS"
+                    legendBreaksx <- prettyBreaks
                   } else if(any(grepl("all|pretty",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))) {
                     fileNameTag <- "PRETTY"
                     legendBreaksx <- prettyBreaks
@@ -3563,7 +3596,7 @@ map <- function(data = NULL,
                   datax <- datax %>%
                     dplyr::mutate(scenario= gsub("_xDiff.*","",scenario))
 
-                    rmap::map_plot(save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
+                    rmap::map_plot(legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
                                    overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
                                    overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
                                    underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
@@ -3792,6 +3825,9 @@ map <- function(data = NULL,
                     if(any(grepl("all|kmean",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                       fileNameTag <- "KMEANS"
                       legendBreaksx <- kmeanBreaks
+                    } else if(any(grepl("all|continuous",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))) {
+                      fileNameTag <- "CONTINUOUS"
+                      legendBreaksx <- prettyBreaks
                     } else if(any(grepl("all|pretty",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))) {
                       fileNameTag <- "PRETTY"
                       legendBreaksx <- prettyBreaks
@@ -3804,7 +3840,7 @@ map <- function(data = NULL,
                     datax <- datax %>%
                       dplyr::mutate(scenario= gsub("_xDiff.*","",scenario))
 
-                      rmap::map_plot(save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
+                      rmap::map_plot(legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
                                      overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
                                      overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
                                      underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
@@ -4037,6 +4073,9 @@ map <- function(data = NULL,
                       if(any(grepl("all|kmean",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                         fileNameTag <- "KMEANS"
                         legendBreaksx <- kmeanBreaks
+                      } else if(any(grepl("all|continuous",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))) {
+                        fileNameTag <- "CONTINUOUS"
+                        legendBreaksx <- prettyBreaks
                       } else if(any(grepl("all|pretty",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))) {
                         fileNameTag <- "PRETTY"
                         legendBreaksx <- prettyBreaks
@@ -4049,7 +4088,7 @@ map <- function(data = NULL,
                       datax <- datax %>%
                         dplyr::mutate(scenario= gsub("_xDiff.*","",scenario))
 
-                        rmap::map_plot(save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
+                        rmap::map_plot(legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
                                        overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
                                        overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
                                        underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
@@ -4296,6 +4335,9 @@ map <- function(data = NULL,
                   if(any(grepl("all|kmean",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                     fileNameTag <- "KMEANS"
                     legendBreaksx <- kmeanBreaks
+                  } else if(any(grepl("all|continuous",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))) {
+                    fileNameTag <- "CONTINUOUS"
+                    legendBreaksx <- prettyBreaks
                   } else if(any(grepl("all|pretty",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))) {
                     fileNameTag <- "PRETTY"
                     legendBreaksx <- prettyBreaks
@@ -4308,7 +4350,7 @@ map <- function(data = NULL,
                   datax <- datax %>%
                     dplyr::mutate(scenario= gsub("_xDiff.*","",scenario))
 
-                    rmap::map_plot(save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
+                    rmap::map_plot(legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
                                    overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
                                    overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
                                    underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
@@ -4541,6 +4583,9 @@ map <- function(data = NULL,
                     if(any(grepl("all|kmean",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))){
                       fileNameTag <- "KMEANS"
                       legendBreaksx <- kmeanBreaks
+                    } else if(any(grepl("all|continuous",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))) {
+                      fileNameTag <- "CONTINUOUS"
+                      legendBreaksx <- prettyBreaks
                     } else if(any(grepl("all|pretty",legendType,ignore.case = T)) & (is.null(legendFixedBreaks))) {
                       fileNameTag <- "PRETTY"
                       legendBreaksx <- prettyBreaks
@@ -4553,7 +4598,7 @@ map <- function(data = NULL,
                     datax <- datax %>%
                       dplyr::mutate(scenario= gsub("_xDiff.*","",scenario))
 
-                      rmap::map_plot(save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
+                      rmap::map_plot(legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
                                      overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
                                      overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
                                      underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
