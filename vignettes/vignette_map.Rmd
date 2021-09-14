@@ -1013,6 +1013,63 @@ mapx$map_param_KMEANS
 
 ```
 
+
+## Customize Order of Scenarios
+
+```{r, results = 'hide', eval=F, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap);
+
+data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
+                                "Austria","Spain", "Italy", "Germany","Greece",
+                                "Austria","Spain", "Italy", "Germany","Greece"),
+                  scenario = c("scen1","scen1","scen1","scen1","scen1",
+                               "scen2","scen2","scen2","scen2","scen2",
+                               "scen3","scen3","scen3","scen3","scen3"),
+                  year = rep(2010,15),
+                  value = c(32, 38, 54, 63, 24,
+                            37, 53, 23, 12, 45,
+                            40, 44, 12, 30, 99))
+
+# Reorder your scenarios
+data = data %>% 
+  dplyr::mutate(scenario = factor(scenario, levels = c("scen1","scen3","scen2")))
+
+mapx <- rmap::map(data = data, 
+          underLayer = rmap::mapCountries,
+          background = T)
+
+mapx$map_param_KMEANS
+
+```
+
+```{r, results = 'hide', eval=T, echo=F, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap);
+
+data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
+                                "Austria","Spain", "Italy", "Germany","Greece",
+                                "Austria","Spain", "Italy", "Germany","Greece"),
+                  scenario = c("scen1","scen1","scen1","scen1","scen1",
+                               "scen2","scen2","scen2","scen2","scen2",
+                               "scen3","scen3","scen3","scen3","scen3"),
+                  year = rep(2010,15),
+                  value = c(32, 38, 54, 63, 24,
+                            37, 53, 23, 12, 45,
+                            40, 44, 12, 30, 99))
+
+# Reorder your scenarios
+data = data %>% 
+  dplyr::mutate(scenario = factor(scenario, levels = c("scen1","scen3","scen2")))
+
+mapx <- rmap::map(data = data, 
+          underLayer = rmap::mapCountries,
+          background = T,
+          show = F)
+
+mapx$map_param_KMEANS
+
+```
+
+
 ## Gridded Data Multi-Scenario
 
 ```{r, results = 'hide', eval=F, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}

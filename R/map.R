@@ -466,7 +466,8 @@ map <- function(data = NULL,
   addMissing<-function(data){
     if(!any(grepl("\\<scenario\\>",names(data),ignore.case = T))){data<-data%>%dplyr::mutate(scenario="scenario")}else{
       data <- data %>% dplyr::rename(!!"scenario" := (names(data)[grepl("\\<scenario\\>",names(data),ignore.case = T)])[1])
-      data<-data%>%dplyr::mutate(scenario=as.character(scenario),scenario=dplyr::case_when(is.na(scenario)~"scenario",TRUE~scenario))}
+      if(!class(data$scenario)=="factor"){
+      data<-data%>%dplyr::mutate(scenario=as.character(scenario),scenario=dplyr::case_when(is.na(scenario)~"scenario",TRUE~scenario))}}
     if(!any(grepl("\\<scenarios\\>",names(data),ignore.case = T))){}else{
       data <- data %>% dplyr::rename(!!"scenario" := (names(data)[grepl("\\<scenarios\\>",names(data),ignore.case = T)])[1])
       data<-data%>%dplyr::mutate(scenario=as.character(scenario),scenario=dplyr::case_when(is.na(scenario)~"scenario",TRUE~scenario))}
@@ -653,8 +654,8 @@ map <- function(data = NULL,
         NULL -> param_i -> scenRef_i -> scenDiff_i
 
         param_i <- params[i]
-        scenRef_i <- scenRef
-        scenDiff_i <- scenDiff
+        scenRef_i <- as.character(scenRef)
+        scenDiff_i <- as.character(scenDiff)
 
         if(!is.null(param_i) & !is.null(scenRef_i) & !is.null(scenDiff_i)){
 
