@@ -22,6 +22,13 @@ jobs:
           r-version: ${{ matrix.r }}
       - uses: r-lib/actions/setup-pandoc@master
       - uses: r-lib/actions/setup-tinytex@master  
+
+      - name: Cache R packages
+        uses: actions/cache@v2
+        with:
+          path: ${{ env.R_LIBS_USER }}
+          key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
+          restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
         
       - name: Install dependencies
         run: |
@@ -36,6 +43,4 @@ jobs:
 
       - name: Deploy package
         run: |
-          git config --local user.email "actions@github.com"
-          git config --local user.name "GitHub Actions"
-          Rscript -e 'pkgdown::deploy_to_branch(new_process = FALSE)'
+          Rscript -e "pkgdown:::deploy_local(new_process = FALSE, remote_url = 'https://x-access-token:${{secrets.GITHUB_TOKEN}}@github.com/${{github.repository}}.git')" 
