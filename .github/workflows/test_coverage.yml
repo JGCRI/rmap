@@ -11,7 +11,7 @@ jobs:
     
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
-      GITHUB_PAT: ${{ secrets.GH_PAT}}
+      GITHUB_PAT: ${{ secrets.GH_PAT_RMAP}}
 
     steps:
       - uses: actions/checkout@v1
