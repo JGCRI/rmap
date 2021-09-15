@@ -12,7 +12,7 @@ jobs:
     
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
-      GITHUB_PAT: ${{ secrets.GH_PAT}}
+      GITHUB_PAT: ${{ secrets.GH_PAT_RMAP}}
 
     steps:
       - uses: actions/checkout@v1
@@ -50,4 +50,5 @@ jobs:
         run: |
           git config --local user.email "actions@github.com"
           git config --local user.name "GitHub Actions"
+          Rscript -e 'install.packages("pkgdown")'
           Rscript -e 'pkgdown::deploy_to_branch(new_process = FALSE)'
