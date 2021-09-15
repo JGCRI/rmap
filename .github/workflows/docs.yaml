@@ -45,6 +45,6 @@ jobs:
 
       - name: Deploy package
         run: |
-          git config --global user.name "$USERNAME"
-          git config --global user.email "$EMAIL"
+          git config --global user.name "zarrarkhan"
+          git config --global user.email "khanzarrarkhan@gmail.com"
           Rscript -e 'pkgdown::deploy_to_branch(new_process = FALSE)'
