@@ -41,6 +41,10 @@ jobs:
           remotes::install_github("JGCRI/jgcricolors")
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
+        
+      - name: Check
+        run: rcmdcheck::rcmdcheck(args = "--no-manual", error_on = "error")
+        shell: Rscript {0}
 
       - name: Deploy package
         run: |
