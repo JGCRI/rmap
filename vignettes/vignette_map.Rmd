@@ -712,13 +712,20 @@ rmap::map(data,
 
 <!-------------------------->
 <!-------------------------->
-# Multi-Year & Animations
+# Multi-Year-Class-Scenario-Facet
 
 <!-------------------------->
 <!-------------------------->
+
+
+<!-------------------------->
+## Multi-Year & Animations
+
+<!-------------------------->
+
 <p align="center"> <img src="vignetteFigs/divider.png"></p>
 
-## Polygon Data Multi-Year
+### Polygon Data Multi-Year
 
 ```{r, results = 'hide', eval=F, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
 library(rmap);
@@ -775,7 +782,7 @@ mapx$map_param_MEAN_KMEANS
 <p align="center"> <img src="vignetteFigs/anim_param_scenario_KMEANS_polygon.gif"></p>
 
 
-## Gridded Data Multi-Year
+### Gridded Data Multi-Year
 
 ```{r, results = 'hide', eval=F, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
 library(rmap);
@@ -816,10 +823,9 @@ mapx$map_param_MEAN_KMEANS
 
 
 <!-------------------------->
+## Multi-Year Diff plots
 <!-------------------------->
-# Multi-Year Diff plots
-<!-------------------------->
-<!-------------------------->
+
 <p align="center"> <img src="vignetteFigs/divider.png"></p>
 
 When multiple years are present in the data, assigning an `xRef` and `xDiff` will result in `rmap::map()` to calculate the absolute and percentage difference between the chosen `xref` year and `xDiff` years and store them in corresponding folders.
@@ -872,7 +878,7 @@ mapx$map_param_KMEANS_xDiffPrcnt
 ```
 
 
-## Gridded Data Multi-Year Diff
+### Gridded Data Multi-Year Diff
 
 ```{r, results = 'hide', eval=F, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
 library(rmap);
@@ -906,13 +912,11 @@ mapx$map_param_xDiffPrcnt_2015_1990_KMEANS
 
 
 <!-------------------------->
-<!-------------------------->
-# Multi-Class
-<!-------------------------->
+## Multi-Class
 <!-------------------------->
 <p align="center"> <img src="vignetteFigs/divider.png"></p>
 
-## Polygon Data Multi-Class
+### Polygon Data Multi-Class
 
 ```{r, results = 'hide', eval=T, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
 library(rmap);
@@ -934,7 +938,7 @@ rmap::map(data = data,
           background = T )
 ```
 
-## Gridded Data Multi-Class
+### Gridded Data Multi-Class
 
 ```{r, results = 'hide', eval=T, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
 library(rmap);library(dplyr)
@@ -959,15 +963,13 @@ rmap::map(data = data,
 
 
 <!-------------------------->
-<!-------------------------->
-# Multi-Scenario
-<!-------------------------->
+## Multi-Scenario
 <!-------------------------->
 <p align="center"> <img src="vignetteFigs/divider.png"></p>
 
 With multiple scenarios present an additional folder and maps for combined scenarios are produced.
 
-## Polygon Data Multi-Scenario
+### Polygon Data Multi-Scenario
 
 ```{r, results = 'hide', eval=F, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
 library(rmap);
@@ -1014,7 +1016,7 @@ mapx$map_param_KMEANS
 ```
 
 
-## Customize Order of Scenarios
+### Customize Order of Scenarios
 
 ```{r, results = 'hide', eval=F, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
 library(rmap);
@@ -1070,7 +1072,7 @@ mapx$map_param_KMEANS
 ```
 
 
-## Gridded Data Multi-Scenario
+### Gridded Data Multi-Scenario
 
 ```{r, results = 'hide', eval=F, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
 library(rmap);
@@ -1115,15 +1117,13 @@ mapx$map_param_KMEANS
 ```
 
 <!-------------------------->
-<!-------------------------->
-# Multi-Scenario Diff Plots
-<!-------------------------->
+## Multi-Scenario Diff Plots
 <!-------------------------->
 <p align="center"> <img src="vignetteFigs/divider.png"></p>
 
 With multiple scenarios present if `scenRef` and `scenDiff` are chosen `rmap::map()` will produce corresponding absolute and difference maps as shown below.
 
-## Polygon Data Multi-Scenario Diff
+### Polygon Data Multi-Scenario Diff
 
 ```{r, results = 'hide', eval=F, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
 library(rmap);
@@ -1172,7 +1172,7 @@ mapx$map_param_KMEANS_DiffPrcnt
 
 ```
 
-## Gridded Data Multi-Scenario Diff
+### Gridded Data Multi-Scenario Diff
 
 ```{r, results = 'hide', eval=F, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
 library(rmap);
@@ -1224,15 +1224,13 @@ mapx$map_param_DiffPrcnt_scenario3_scenario1_KMEANS
 
 
 <!-------------------------->
-<!-------------------------->
-# Multi-Facet Maps
-<!-------------------------->
+## Multi-Facet Maps
 <!-------------------------->
 <p align="center"> <img src="vignetteFigs/divider.png"></p>
 
 If the data set has additional rows and columns by which the user wants to plot their maps they can set these in the `row` and `col` arguments.
 
-## Polygon Data Multi-Facet
+### Polygon Data Multi-Facet
 
 ```{r, results = 'hide', eval=T, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
 library(rmap);
@@ -1260,7 +1258,7 @@ rmap::map(data = data,
           background = T )
 ```
 
-## Gridded Data Multi-Facet
+### Gridded Data Multi-Facet
 
 ```{r, results = 'hide', eval=T, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
 library(rmap);library(dplyr)
@@ -1388,6 +1386,7 @@ There are several options to customize your legend as shown below:
 * Fixed legend breaks can be set using ```legendFixedBreaks``` to set custom and uneven breaks as shown in the example.
 * If ```legendFixedBreaks``` does not capture the full range of data, the maximum and minimum values will be appended to the breaks provided.
 
+### Legend Fixed Breaks
 
 ```{r, results = 'hide', eval=T, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
 library(rmap)
@@ -1399,24 +1398,40 @@ rmap::map(data = data,
     background = T,
     underLayer = rmap::mapCountries,
     legendFixedBreaks=c(30,32,1000))  # Will append 24 to these breaks because they are part of the data.
+```
+
+### Legend Fixed Breaks
+
+```{r, results = 'hide', eval=T, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap)
 
 rmap::map(data = data, 
     background = T,
     underLayer = rmap::mapCountries,
     legendType = "kmeans")
+```
+
+###  Legend Type Pretty
+
+```{r, results = 'hide', eval=T, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap)
 
 rmap::map(data = data, 
     background = T,
     underLayer = rmap::mapCountries,
     legendType = "pretty")
+```
+
+### Legend Type Continuous
+
+```{r, results = 'hide', eval=T, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap)
 
 rmap::map(data = data, 
     background = T,
     underLayer = rmap::mapCountries,
     legendType = "continuous")
-
 ```
-
 
 <!-------------------------->
 ## Legend Breaks Number
