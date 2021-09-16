@@ -772,16 +772,21 @@
 <!-------------------------->
 </div>
 </div>
-<div id="multi-year-animations" class="section level1">
+<div id="multi-year-class-scenario-facet" class="section level1">
 <h1 class="hasAnchor">
-<a href="#multi-year-animations" class="anchor"></a>Multi-Year &amp; Animations</h1>
+<a href="#multi-year-class-scenario-facet" class="anchor"></a>Multi-Year-Class-Scenario-Facet</h1>
 <!-------------------------->
+<!-------------------------->
+<!-------------------------->
+<div id="multi-year-animations" class="section level2">
+<h2 class="hasAnchor">
+<a href="#multi-year-animations" class="anchor"></a>Multi-Year &amp; Animations</h2>
 <!-------------------------->
 <p align="center">
 <img src="vignetteFigs/divider.png"></p>
-<div id="polygon-data-multi-year" class="section level2">
-<h2 class="hasAnchor">
-<a href="#polygon-data-multi-year" class="anchor"></a>Polygon Data Multi-Year</h2>
+<div id="polygon-data-multi-year" class="section level3">
+<h3 class="hasAnchor">
+<a href="#polygon-data-multi-year" class="anchor"></a>Polygon Data Multi-Year</h3>
 <div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>;
 
@@ -808,9 +813,9 @@
 <p align="center">
 <img src="vignetteFigs/anim_param_scenario_KMEANS_polygon.gif"></p>
 </div>
-<div id="gridded-data-multi-year" class="section level2">
-<h2 class="hasAnchor">
-<a href="#gridded-data-multi-year" class="anchor"></a>Gridded Data Multi-Year</h2>
+<div id="gridded-data-multi-year" class="section level3">
+<h3 class="hasAnchor">
+<a href="#gridded-data-multi-year" class="anchor"></a>Gridded Data Multi-Year</h3>
 <div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>;
 <span class="va">data</span> <span class="op">=</span> <span class="va">example_gridData_GWPv4To2015</span>;
@@ -834,17 +839,16 @@
 <p><img src="vignette_map_files/figure-html/unnamed-chunk-45-1.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-45-2.png" width="700"></p>
 <!-- <p align="center"> <img src="/home/runner/work/rmap/rmap/vignettes/vignetteFigs/anim_param_scenario_KMEANS_gridded.gif"></p> -->
 <!-------------------------->
-<!-------------------------->
 </div>
 </div>
-<div id="multi-year-diff-plots" class="section level1">
-<h1 class="hasAnchor">
-<a href="#multi-year-diff-plots" class="anchor"></a>Multi-Year Diff plots</h1>
-<!-------------------------->
+<div id="multi-year-diff-plots" class="section level2">
+<h2 class="hasAnchor">
+<a href="#multi-year-diff-plots" class="anchor"></a>Multi-Year Diff plots</h2>
 <!-------------------------->
 <p align="center">
 <img src="vignetteFigs/divider.png"></p>
 <p>When multiple years are present in the data, assigning an <code>xRef</code> and <code>xDiff</code> will result in <code><a href="../reference/map.html">rmap::map()</a></code> to calculate the absolute and percentage difference between the chosen <code>xref</code> year and <code>xDiff</code> years and store them in corresponding folders.</p>
+</div>
 <div id="polygon-data-multi-year-diff" class="section level2">
 <h2 class="hasAnchor">
 <a href="#polygon-data-multi-year-diff" class="anchor"></a>Polygon Data Multi-Year Diff</h2>
@@ -868,10 +872,9 @@
 <span class="va">mapx</span><span class="op">$</span><span class="va">map_param_KMEANS_xDiffAbs</span>
 <span class="va">mapx</span><span class="op">$</span><span class="va">map_param_KMEANS_xDiffPrcnt</span></code></pre></div>
 <p><img src="vignette_map_files/figure-html/unnamed-chunk-47-1.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-47-2.png" width="700"></p>
-</div>
-<div id="gridded-data-multi-year-diff" class="section level2">
-<h2 class="hasAnchor">
-<a href="#gridded-data-multi-year-diff" class="anchor"></a>Gridded Data Multi-Year Diff</h2>
+<div id="gridded-data-multi-year-diff" class="section level3">
+<h3 class="hasAnchor">
+<a href="#gridded-data-multi-year-diff" class="anchor"></a>Gridded Data Multi-Year Diff</h3>
 <div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>;
 
@@ -885,19 +888,17 @@
 <span class="va">mapx</span><span class="op">$</span><span class="va">map_param_xDiffAbs_2015_1990_KMEANS</span>
 <span class="va">mapx</span><span class="op">$</span><span class="va">map_param_xDiffPrcnt_2015_1990_KMEANS</span></code></pre></div>
 <!-------------------------->
-<!-------------------------->
 </div>
 </div>
-<div id="multi-class" class="section level1">
-<h1 class="hasAnchor">
-<a href="#multi-class" class="anchor"></a>Multi-Class</h1>
-<!-------------------------->
+<div id="multi-class" class="section level2">
+<h2 class="hasAnchor">
+<a href="#multi-class" class="anchor"></a>Multi-Class</h2>
 <!-------------------------->
 <p align="center">
 <img src="vignetteFigs/divider.png"></p>
-<div id="polygon-data-multi-class" class="section level2">
-<h2 class="hasAnchor">
-<a href="#polygon-data-multi-class" class="anchor"></a>Polygon Data Multi-Class</h2>
+<div id="polygon-data-multi-class" class="section level3">
+<h3 class="hasAnchor">
+<a href="#polygon-data-multi-class" class="anchor"></a>Polygon Data Multi-Class</h3>
 <div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>;
 
@@ -918,9 +919,9 @@
           background <span class="op">=</span> <span class="cn">T</span> <span class="op">)</span></code></pre></div>
 <p><img src="vignette_map_files/figure-html/unnamed-chunk-50-1.png" width="700"></p>
 </div>
-<div id="gridded-data-multi-class" class="section level2">
-<h2 class="hasAnchor">
-<a href="#gridded-data-multi-class" class="anchor"></a>Gridded Data Multi-Class</h2>
+<div id="gridded-data-multi-class" class="section level3">
+<h3 class="hasAnchor">
+<a href="#gridded-data-multi-class" class="anchor"></a>Gridded Data Multi-Class</h3>
 <div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>;<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
 
@@ -942,20 +943,18 @@
           background <span class="op">=</span> <span class="cn">T</span> <span class="op">)</span></code></pre></div>
 <p><img src="vignette_map_files/figure-html/unnamed-chunk-51-1.png" width="700"></p>
 <!-------------------------->
-<!-------------------------->
 </div>
 </div>
-<div id="multi-scenario" class="section level1">
-<h1 class="hasAnchor">
-<a href="#multi-scenario" class="anchor"></a>Multi-Scenario</h1>
-<!-------------------------->
+<div id="multi-scenario" class="section level2">
+<h2 class="hasAnchor">
+<a href="#multi-scenario" class="anchor"></a>Multi-Scenario</h2>
 <!-------------------------->
 <p align="center">
 <img src="vignetteFigs/divider.png"></p>
 <p>With multiple scenarios present an additional folder and maps for combined scenarios are produced.</p>
-<div id="polygon-data-multi-scenario" class="section level2">
-<h2 class="hasAnchor">
-<a href="#polygon-data-multi-scenario" class="anchor"></a>Polygon Data Multi-Scenario</h2>
+<div id="polygon-data-multi-scenario" class="section level3">
+<h3 class="hasAnchor">
+<a href="#polygon-data-multi-scenario" class="anchor"></a>Polygon Data Multi-Scenario</h3>
 <div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>;
 
@@ -977,9 +976,9 @@
 <span class="va">mapx</span><span class="op">$</span><span class="va">map_param_KMEANS</span></code></pre></div>
 <p><img src="vignette_map_files/figure-html/unnamed-chunk-53-1.png" width="700"></p>
 </div>
-<div id="customize-order-of-scenarios" class="section level2">
-<h2 class="hasAnchor">
-<a href="#customize-order-of-scenarios" class="anchor"></a>Customize Order of Scenarios</h2>
+<div id="customize-order-of-scenarios" class="section level3">
+<h3 class="hasAnchor">
+<a href="#customize-order-of-scenarios" class="anchor"></a>Customize Order of Scenarios</h3>
 <div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>;
 
@@ -1005,9 +1004,9 @@
 <span class="va">mapx</span><span class="op">$</span><span class="va">map_param_KMEANS</span></code></pre></div>
 <p><img src="vignette_map_files/figure-html/unnamed-chunk-55-1.png" width="700"></p>
 </div>
-<div id="gridded-data-multi-scenario" class="section level2">
-<h2 class="hasAnchor">
-<a href="#gridded-data-multi-scenario" class="anchor"></a>Gridded Data Multi-Scenario</h2>
+<div id="gridded-data-multi-scenario" class="section level3">
+<h3 class="hasAnchor">
+<a href="#gridded-data-multi-scenario" class="anchor"></a>Gridded Data Multi-Scenario</h3>
 <div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>;
 
@@ -1028,20 +1027,18 @@
 <span class="va">mapx</span><span class="op">$</span><span class="va">map_param_KMEANS</span></code></pre></div>
 <p><img src="vignette_map_files/figure-html/unnamed-chunk-57-1.png" width="700"></p>
 <!-------------------------->
-<!-------------------------->
 </div>
 </div>
-<div id="multi-scenario-diff-plots" class="section level1">
-<h1 class="hasAnchor">
-<a href="#multi-scenario-diff-plots" class="anchor"></a>Multi-Scenario Diff Plots</h1>
-<!-------------------------->
+<div id="multi-scenario-diff-plots" class="section level2">
+<h2 class="hasAnchor">
+<a href="#multi-scenario-diff-plots" class="anchor"></a>Multi-Scenario Diff Plots</h2>
 <!-------------------------->
 <p align="center">
 <img src="vignetteFigs/divider.png"></p>
 <p>With multiple scenarios present if <code>scenRef</code> and <code>scenDiff</code> are chosen <code><a href="../reference/map.html">rmap::map()</a></code> will produce corresponding absolute and difference maps as shown below.</p>
-<div id="polygon-data-multi-scenario-diff" class="section level2">
-<h2 class="hasAnchor">
-<a href="#polygon-data-multi-scenario-diff" class="anchor"></a>Polygon Data Multi-Scenario Diff</h2>
+<div id="polygon-data-multi-scenario-diff" class="section level3">
+<h3 class="hasAnchor">
+<a href="#polygon-data-multi-scenario-diff" class="anchor"></a>Polygon Data Multi-Scenario Diff</h3>
 <div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>;
 
@@ -1064,9 +1061,9 @@
 <span class="va">mapx</span><span class="op">$</span><span class="va">map_param_KMEANS_DiffPrcnt</span></code></pre></div>
 <p><img src="vignette_map_files/figure-html/unnamed-chunk-59-1.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-59-2.png" width="700"></p>
 </div>
-<div id="gridded-data-multi-scenario-diff" class="section level2">
-<h2 class="hasAnchor">
-<a href="#gridded-data-multi-scenario-diff" class="anchor"></a>Gridded Data Multi-Scenario Diff</h2>
+<div id="gridded-data-multi-scenario-diff" class="section level3">
+<h3 class="hasAnchor">
+<a href="#gridded-data-multi-scenario-diff" class="anchor"></a>Gridded Data Multi-Scenario Diff</h3>
 <div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>;
 
@@ -1089,20 +1086,18 @@
 <span class="va">mapx</span><span class="op">$</span><span class="va">map_param_DiffAbs_scenario3_scenario1_KMEANS</span>
 <span class="va">mapx</span><span class="op">$</span><span class="va">map_param_DiffPrcnt_scenario3_scenario1_KMEANS</span></code></pre></div>
 <!-------------------------->
-<!-------------------------->
 </div>
 </div>
-<div id="multi-facet-maps" class="section level1">
-<h1 class="hasAnchor">
-<a href="#multi-facet-maps" class="anchor"></a>Multi-Facet Maps</h1>
-<!-------------------------->
+<div id="multi-facet-maps" class="section level2">
+<h2 class="hasAnchor">
+<a href="#multi-facet-maps" class="anchor"></a>Multi-Facet Maps</h2>
 <!-------------------------->
 <p align="center">
 <img src="vignetteFigs/divider.png"></p>
 <p>If the data set has additional rows and columns by which the user wants to plot their maps they can set these in the <code>row</code> and <code>col</code> arguments.</p>
-<div id="polygon-data-multi-facet" class="section level2">
-<h2 class="hasAnchor">
-<a href="#polygon-data-multi-facet" class="anchor"></a>Polygon Data Multi-Facet</h2>
+<div id="polygon-data-multi-facet" class="section level3">
+<h3 class="hasAnchor">
+<a href="#polygon-data-multi-facet" class="anchor"></a>Polygon Data Multi-Facet</h3>
 <div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>;
 
@@ -1129,9 +1124,9 @@
           background <span class="op">=</span> <span class="cn">T</span> <span class="op">)</span></code></pre></div>
 <p><img src="vignette_map_files/figure-html/unnamed-chunk-62-1.png" width="700"></p>
 </div>
-<div id="gridded-data-multi-facet" class="section level2">
-<h2 class="hasAnchor">
-<a href="#gridded-data-multi-facet" class="anchor"></a>Gridded Data Multi-Facet</h2>
+<div id="gridded-data-multi-facet" class="section level3">
+<h3 class="hasAnchor">
+<a href="#gridded-data-multi-facet" class="anchor"></a>Gridded Data Multi-Facet</h3>
 <div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>;<span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org">dplyr</a></span><span class="op">)</span>
 
@@ -1157,6 +1152,7 @@
 <p><img src="vignette_map_files/figure-html/unnamed-chunk-63-1.png" width="700"></p>
 <!-------------------------->
 <!-------------------------->
+</div>
 </div>
 </div>
 <div id="scale-range" class="section level1">
@@ -1260,6 +1256,9 @@
 <li>Fixed legend breaks can be set using <code>legendFixedBreaks</code> to set custom and uneven breaks as shown in the example.</li>
 <li>If <code>legendFixedBreaks</code> does not capture the full range of data, the maximum and minimum values will be appended to the breaks provided.</li>
 </ul>
+<div id="legend-fixed-breaks" class="section level3">
+<h3 class="hasAnchor">
+<a href="#legend-fixed-breaks" class="anchor"></a>Legend Fixed Breaks</h3>
 <div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>
 
@@ -1271,25 +1270,44 @@
     underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapCountries.html">mapCountries</a></span>,
     legendFixedBreaks<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">30</span>,<span class="fl">32</span>,<span class="fl">1000</span><span class="op">)</span><span class="op">)</span>  <span class="co"># Will append 24 to these breaks because they are part of the data.</span></code></pre></div>
 <p><img src="vignette_map_files/figure-html/unnamed-chunk-66-1.png" width="700"></p>
+</div>
+<div id="legend-fixed-breaks-1" class="section level3">
+<h3 class="hasAnchor">
+<a href="#legend-fixed-breaks-1" class="anchor"></a>Legend Fixed Breaks</h3>
 <div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, 
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>
+
+<span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, 
     background <span class="op">=</span> <span class="cn">T</span>,
     underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapCountries.html">mapCountries</a></span>,
     legendType <span class="op">=</span> <span class="st">"kmeans"</span><span class="op">)</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-66-2.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-67-1.png" width="700"></p>
+</div>
+<div id="legend-type-pretty" class="section level3">
+<h3 class="hasAnchor">
+<a href="#legend-type-pretty" class="anchor"></a>Legend Type Pretty</h3>
 <div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, 
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>
+
+<span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, 
     background <span class="op">=</span> <span class="cn">T</span>,
     underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapCountries.html">mapCountries</a></span>,
     legendType <span class="op">=</span> <span class="st">"pretty"</span><span class="op">)</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-66-3.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-68-1.png" width="700"></p>
+</div>
+<div id="legend-type-continuous" class="section level3">
+<h3 class="hasAnchor">
+<a href="#legend-type-continuous" class="anchor"></a>Legend Type Continuous</h3>
 <div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, 
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap">rmap</a></span><span class="op">)</span>
+
+<span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, 
     background <span class="op">=</span> <span class="cn">T</span>,
     underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapCountries.html">mapCountries</a></span>,
     legendType <span class="op">=</span> <span class="st">"continuous"</span><span class="op">)</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-66-4.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-69-1.png" width="700"></p>
 <!-------------------------->
+</div>
 </div>
 <div id="legend-breaks-number" class="section level2">
 <h2 class="hasAnchor">
@@ -1312,14 +1330,14 @@
           underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapCountries.html">mapCountries</a></span>,
           legendType <span class="op">=</span> <span class="st">"pretty"</span>,
           legendBreaksn<span class="op">=</span><span class="fl">3</span><span class="op">)</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-67-1.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-70-1.png" width="700"></p>
 <div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, 
           background <span class="op">=</span> <span class="cn">T</span>,
           underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapCountries.html">mapCountries</a></span>,
           legendType <span class="op">=</span> <span class="st">"pretty"</span>,
           legendBreaksn<span class="op">=</span><span class="fl">9</span><span class="op">)</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-67-2.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-70-2.png" width="700"></p>
 <!-------------------------->
 </div>
 <div id="legend-single-value" class="section level2">
@@ -1337,14 +1355,14 @@
 <span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, 
           background <span class="op">=</span> <span class="cn">T</span>,
           underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapCountries.html">mapCountries</a></span><span class="op">)</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-68-1.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-71-1.png" width="700"></p>
 <div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># With legendSingelValue = T (will choose the minimum value or if 0 (if present) and set it to single)</span>
 <span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, 
           background <span class="op">=</span> <span class="cn">T</span>,
           underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapCountries.html">mapCountries</a></span>,
           legendSingleValue <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-68-2.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-71-2.png" width="700"></p>
 <div class="sourceCode" id="cb64"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># With legendSingelValue = 38 and set to "green"</span>
 <span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, 
@@ -1352,7 +1370,7 @@
           underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapCountries.html">mapCountries</a></span>,
           legendSingleValue <span class="op">=</span> <span class="fl">54</span>,
           legendSingleColor <span class="op">=</span> <span class="st">"green"</span><span class="op">)</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-68-3.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-71-3.png" width="700"></p>
 <!-------------------------->
 <!-------------------------->
 </div>
@@ -1399,7 +1417,7 @@
           background <span class="op">=</span> <span class="cn">T</span>,
           underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapCountries.html">mapCountries</a></span>,
           numeric2Cat_list <span class="op">=</span> <span class="va">numeric2Cat_list</span><span class="op">)</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-69-1.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-69-2.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-72-1.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-72-2.png" width="700"></p>
 <!-------------------------->
 <!-------------------------->
 </div>
@@ -1428,7 +1446,7 @@
           underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapGCAMReg32.html">mapGCAMReg32</a></span>,
           shape <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapGCAMReg32.html">mapGCAMReg32</a></span>,
           save<span class="op">=</span><span class="cn">F</span><span class="op">)</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-70-1.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-73-1.png" width="700"></p>
 <details><summary><p class="button">
 Expand to see more extensive results for rmap::exampleMapDataParam…
 </p>
@@ -1453,7 +1471,7 @@ Expand to see more extensive results for rmap::exampleMapDataParam…
           shape <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapGCAMReg32.html">mapGCAMReg32</a></span>,
           xRef <span class="op">=</span> <span class="st">"2010"</span>,
           scenRef <span class="op">=</span> <span class="st">"GCAM_SSP3"</span><span class="op">)</span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-71-1.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-71-2.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-71-3.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-71-4.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-71-5.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-71-6.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-71-7.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-71-8.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-71-9.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-71-10.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-71-11.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-71-12.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-71-13.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-71-14.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-71-15.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-71-16.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-71-17.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-71-18.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-71-19.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-71-20.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-71-21.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-71-22.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-71-23.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-74-1.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-74-2.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-74-3.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-74-4.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-74-5.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-74-6.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-74-7.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-74-8.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-74-9.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-74-10.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-74-11.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-74-12.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-74-13.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-74-14.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-74-15.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-74-16.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-74-17.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-74-18.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-74-19.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-74-20.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-74-21.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-74-22.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-74-23.png" width="700"></p>
 </details>
 </div>
   </div>
