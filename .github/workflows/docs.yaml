@@ -33,11 +33,11 @@ jobs:
         run: |
           sudo add-apt-repository ppa:ubuntugis/ppa
           sudo apt-get update
-          sudo apt-get install -y libcurl4-openssl-dev libssl-dev libxml2-dev libudunits2-dev libgdal-dev libgeos-dev libproj-dev libmagick++-dev libavfilter-dev
-      
+          sudo apt-get install -y libcurl4-openssl-dev libssl-dev libxml2-dev libudunits2-dev libgdal-dev libgeos-dev libproj-dev libmagick++-dev libavfilter-dev libharfbuzz-dev libfribidi-dev
+
       - name: Install dependencies
         run: |
-          install.packages(c("remotes","rcmdcheck"), repos = "https://cloud.r-project.org")
+          install.packages(c("remotes","rcmdcheck","pkgdown"), repos = "https://cloud.r-project.org")
           remotes::install_github("JGCRI/jgcricolors")
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
