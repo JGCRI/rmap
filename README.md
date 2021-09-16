@@ -47,9 +47,9 @@ Khan, Z., Zhao, M., Wild, T., Vernon, C., 2021. rmap - An R package to easily pl
 2. Open R studio:
 
 ```r
-install.packages(“devtools”)
-devtools::install_github(“JGCRI/rgcam”)
-devtools::install_github(“JGCRI/rmap”)
+install.packages("devtools")
+devtools::install_github("JGCRI/jgcricolors")
+devtools::install_github("JGCRI/rmap")
 ```
 
 Additional steps for UBUNTU from a terminal
