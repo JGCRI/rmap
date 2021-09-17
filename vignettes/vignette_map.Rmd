@@ -1405,6 +1405,9 @@ rmap::map(data = data,
 ```{r, results = 'hide', eval=T, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
 library(rmap)
 
+data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece"),
+                  value = c(32, 38, 54, 63, 24))
+
 rmap::map(data = data, 
     background = T,
     underLayer = rmap::mapCountries,
@@ -1416,6 +1419,9 @@ rmap::map(data = data,
 ```{r, results = 'hide', eval=T, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
 library(rmap)
 
+data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece"),
+                  value = c(32, 38, 54, 63, 24))
+
 rmap::map(data = data, 
     background = T,
     underLayer = rmap::mapCountries,
@@ -1426,6 +1432,9 @@ rmap::map(data = data,
 
 ```{r, results = 'hide', eval=T, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
 library(rmap)
+
+data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece"),
+                  value = c(32, 38, 54, 63, 24))
 
 rmap::map(data = data, 
     background = T,
