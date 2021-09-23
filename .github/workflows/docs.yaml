@@ -33,7 +33,6 @@ jobs:
       - name: Install dependencies
         run: |
           install.packages(c("remotes","rcmdcheck"), repos = "https://cloud.r-project.org")
-          remotes::install_github("JGCRI/jgcricolors")
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
 

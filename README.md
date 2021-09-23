@@ -13,9 +13,6 @@
 
 `rmap` is comprehensive mapping package to create easily customizable maps and compare across scenarios, years and data classes. The package allows creation of difference maps as well as customizable legends, color palettes and styles.
 
-For more detailed information on using rmap, click the green **User Guide** button below. 
-To access the `rmap` cheatsheet click the yellow **Cheatsheet** button.
-
 <br>
 
 <p align="center">

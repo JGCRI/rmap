@@ -1,10 +1,3 @@
-<!-- ------------------------>
-<!-- ------------------------>
-# rmap 0.1.0 (Under development)
-<p align="center"> <img src="READMEfigs/metisHeaderThick.PNG"></p>
-<!-- ------------------------>
-<!-- ------------------------>
+# rmap 1.0.0
 
-## New features
-
-## Bug Fixes
+First official release of package.

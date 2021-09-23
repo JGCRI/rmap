@@ -14,6 +14,8 @@ navbar:
     - icon: fa-newspaper-o
       text: "News"
       href: news/index.html
+    - text: "Contribute"
+      href: contribute/index.html
     - text: cheatsheet
       href: https://jgcri.github.io/rmap/rmapCheatsheet.pdf
       

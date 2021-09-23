@@ -1,15 +1,16 @@
 Package: rmap
-Title: rmap
+Title: Simple Customizable Mapping
 Version: 1.0.0
 Authors@R: c(person("Zarrar", "Khan", email = "zarrar.khan@pnnl.gov", role = c("aut", "cre"),
 		   comment = c(ORCID ="0000-0002-8147-8553")),
-		   person("Tom", "Wild", role = c("aut"),comment = c(ORCID ="0000-0002-8147-8553")),
-		   person("Chris", "Vernon", role = c("aut"), comment = c(ORCID="0000-0002-3406-6214")))
-Description: R package to plot customizable maps from simple dataframes.
+		   person("Mengqi", "Zhao", role = c("aut"), comment = c(ORCID="0000-0001-5385-2758")),
+		   person("Chris", "Vernon", role = c("aut"), comment = c(ORCID="0000-0002-3406-6214")),
+		   person("Thomas", "Wild", role = c("aut"), comment = c(ORCID="0000-0002-6045-7729")))
+Description: Plot customizable maps from simple dataframes using pre-loaded maps.
 URL: https://github.com/JGCRI/rmap
 BugReports: https://github.com/JGCRI/rmap/issues
 Depends: R (>= 2.10)
-License: MIT + file LICENSE
+License: BSD_2_clause + file LICENSE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.1
@@ -37,9 +38,8 @@ Imports:
 	cowplot,
     markdown,
 	broom,
-	purrr
-Remotes: 
-    github::JGCRI/jgcricolors
+	purrr,
+	jgcricolors
 Suggests: 
     rmarkdown,
     testthat (>= 3.0.0),
