@@ -37,14 +37,14 @@ jobs:
           restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1- 
       
       - name: Ubuntu config
-        if: startsWith(matrix.os, 'ubuntu')
+        if: startsWith(matrix.config.os, 'ubuntu')
         run: |
           sudo add-apt-repository ppa:ubuntugis/ppa
           sudo apt-get update
           sudo apt-get install -y libcurl4-openssl-dev libssl-dev libxml2-dev libudunits2-dev libgdal-dev libgeos-dev libproj-dev libmagick++-dev libavfilter-dev
       
       - name: MacOS Config
-        if: startsWith(matrix.os, 'macOS')
+        if: startsWith(matrix.config.os, 'macOS')
         run: |
             brew install pkg-config
             brew install gdal
