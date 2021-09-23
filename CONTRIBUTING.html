@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>GCAM 32 Regions — mapGCAMReg32 • rmap</title>
+<title>How to Contribute to rmap • rmap</title>
 
 
 <!-- jquery -->
@@ -18,8 +18,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
 
 <!-- bootstrap-toc -->
-<link rel="stylesheet" href="../bootstrap-toc.css">
-<script src="../bootstrap-toc.js"></script>
+<link rel="stylesheet" href="bootstrap-toc.css">
+<script src="bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
@@ -33,14 +33,13 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
-<link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script>
+<link href="pkgdown.css" rel="stylesheet">
+<script src="pkgdown.js"></script>
 
 
 
 
-<meta property="og:title" content="GCAM 32 Regions — mapGCAMReg32" />
-<meta property="og:description" content="GCAM 32 Regions" />
+<meta property="og:title" content="How to Contribute to rmap" />
 
 
 
@@ -59,7 +58,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-topic">
+    <div class="container template-title-body">
       <header>
       <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
   <div class="container">
@@ -71,7 +70,7 @@
         <span class="icon-bar"></span>
       </button>
       <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">rmap</a>
+        <a class="navbar-link" href="index.html">rmap</a>
         <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
       </span>
     </div>
@@ -79,34 +78,34 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
+  <a href="index.html">
     <span class="fa fa-home"></span>
      
   </a>
 </li>
 <li>
-  <a href="../articles/vignette_map.html">
+  <a href="articles/vignette_map.html">
     <span class="fas fa-book"></span>
      
     User Guide
   </a>
 </li>
 <li>
-  <a href="../reference/index.html">
+  <a href="reference/index.html">
     <span class="fa fa-file-code-o"></span>
      
     Reference
   </a>
 </li>
 <li>
-  <a href="../news/index.html">
+  <a href="news/index.html">
     <span class="fa fa-newspaper-o"></span>
      
     News
   </a>
 </li>
 <li>
-  <a href="../contribute/index.html">Contribute</a>
+  <a href="contribute/index.html">Contribute</a>
 </li>
 <li>
   <a href="https://jgcri.github.io/rmap/rmapCheatsheet.pdf">cheatsheet</a>
@@ -130,41 +129,86 @@
       </header>
 
 <div class="row">
-  <div class="col-md-9 contents">
+  <div class="contents col-md-9">
     <div class="page-header">
-    <h1>GCAM 32 Regions</h1>
-    <small class="dont-index">Source: <a href='https://github.com/JGCRI/rmap/blob/master/R/data.R'><code>R/data.R</code></a></small>
-    <div class="hidden name"><code>mapGCAMReg32.Rd</code></div>
+      <h1>How to Contribute to rmap</h1>
     </div>
 
-    <div class="ref-description">
-    <p>GCAM 32 Regions</p>
-    </div>
 
-    <pre class="usage"><span class='va'>mapGCAMReg32</span></pre>
+<div id="how-to-contribute-to-rmap" class="section level1">
+
+<p>Thank you for taking the time to contribute and help us advance the science and architecture of <code>rmap</code>. We provide few guidelines that we ask contributors to follow. The guidelines aim to ease the maintainers’ organizational and logistical duties, while encouraging development by others.</p>
+<p>Before you start:</p>
+<ul>
+<li>Make sure you have a <a href="https://github.com/signup/free">GitHub account</a>.</li>
+<li>Trivial changes to comments or documentation do not require creating a new issue.</li>
+</ul>
+<div id="did-you-find-a-bug" class="section level2">
+<h2 class="hasAnchor">
+<a href="#did-you-find-a-bug" class="anchor"></a>Did you find a bug?</h2>
+<ul>
+<li>Make sure the bug was not already reported in the Github <a href="https://github.com/JGCRI/rmap/issues">Issues</a>.</li>
+<li>
+<a href="https://github.com/JGCRI/rmap/issues/new">Open an issue</a> and clearly describe the issue with as much information as possible. A code sample or an executable test case are recommended.</li>
+</ul>
+</div>
+<div id="did-you-plan-to-write-a-patch-that-fixes-a-bug" class="section level2">
+<h2 class="hasAnchor">
+<a href="#did-you-plan-to-write-a-patch-that-fixes-a-bug" class="anchor"></a>Did you plan to write a patch that fixes a bug?</h2>
+<ul>
+<li>
+<a href="https://github.com/JGCRI/rmap/issues/new">Open an issue</a> and clearly describe the problem and discuss how your solution will affect <code>rmap</code>.</li>
+<li>Fork the repository on GitHub to work on the patch.</li>
+<li>Interact with the project maintainers to refine/change/prioritize your issue.</li>
+</ul>
+</div>
+<div id="making-changes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#making-changes" class="anchor"></a>Making changes</h2>
+<ul>
+<li>Start your work on your fork of the repository.</li>
+<li>Check for unnecessary whitespace with <code>git diff --check</code> and format code.</li>
+<li>Make sure your commit messages are descriptive but succinct, describing what was changed and why, and <strong>reference the relevant issue number</strong>. Make commits of logical units.</li>
+<li>Make sure you have added the necessary tests for your changes.</li>
+<li>Run <strong>all</strong> the tests to assure nothing else was accidentally broken.</li>
+</ul>
+</div>
+<div id="submitting-changes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#submitting-changes" class="anchor"></a>Submitting changes</h2>
+<ul>
+<li>Submit a pull request with clear documentation of the methodology to the main <code>rmap</code> repository.</li>
+<li>
+<strong>Your pull request should include one of the following two statements</strong>:
+<ul>
+<li>You own the copyright on the code being contributed, and you hereby grant PNNL unlimited license to use this code in this version or any future version of <code>rmap</code>. You reserve all other rights to the code.</li>
+<li>Somebody else owns the copyright on the code being contributed (e.g., your employer because you did it as part of your work for them); you are authorized by that owner to grant PNNL an unlimited license to use this code in this version or any future version of <code>rmap</code>, and you hereby do so. All other rights to the code are reserved by the copyright owner.</li>
+</ul>
+</li>
+<li>The core team looks at Pull Requests, and will respond as soon as possible.</li>
+</ul>
+</div>
+</div>
+<div id="additional-resources" class="section level1">
+<h1 class="hasAnchor">
+<a href="#additional-resources" class="anchor"></a>Additional Resources</h1>
+<ul>
+<li><a href="http://help.github.com/">General GitHub documentation</a></li>
+<li><a href="http://help.github.com/send-pull-requests/">GitHub pull request documentation</a></li>
+</ul>
+</div>
 
 
-    <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
-
-    <p>A SpatialPolygonsDataFrame</p>
-    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
-
-    <p>From JGCRI confluence page. <a href='https://confluence.pnnl.gov/confluence/display/JGCRI/GCAM+Shape+Files'>https://confluence.pnnl.gov/confluence/display/JGCRI/GCAM+Shape+Files</a></p>
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
- <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/edzer/sp/'>sp</a></span><span class='op'>)</span>; <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/JGCRI/rmap'>rmap</a></span><span class='op'>)</span>
- <span class='fu'>sp</span><span class='fu'>::</span><span class='fu'>plot</span><span class='op'>(</span><span class='va'>mapGCAMReg32</span><span class='op'>)</span>
- <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>mapGCAMReg32</span><span class='op'>@</span><span class='va'>data</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div></pre>
   </div>
+
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
     </nav>
   </div>
+
 </div>
+
 
 
       <footer>
