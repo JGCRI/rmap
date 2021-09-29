@@ -22,21 +22,22 @@ dataFileFolder <- "C:/Z/data/mapFiles"
 # https://github.com/JGCRI/tethys
 #-------------------
 if(redoMaps){
-  dfpop <- data.table::fread("C:/Z/projects/downscaling/tethys/example/Input/harmonized_inputs/GPW_population.csv"); dfpop
+  dfpop <- data.table::fread("C:/Z/models/tethysExampleFolders/example_v1_3_0/Input/harmonized_inputs/GPW_population.csv"); dfpop
   names(dfpop) <- gsub("X","",names(dfpop)); dfpop
-  dfcoords <- data.table::fread("C:/Z/projects/downscaling/tethys/example/Input/coordinates.csv"); dfcoords
+  dfcoords <- data.table::fread("C:/Z/models/tethysExampleFolders/example_v1_3_0/Input/coordinates.csv"); dfcoords
   nrow(dfcoords); nrow(dfpop)
   dfx <- dfcoords %>%
     dplyr::select(lon=V2,lat=V3) %>%
     dplyr::bind_cols(dfpop); dfx
   grid_pop_GPWv4To2015 <- dfx
-  use_data(grid_pop_GPWv4To2015, overwrite=T)
+  use_data(grid_pop_GPWv4To2015, version=3, overwrite=T)
 
   # Modify to required data format
   example_gridData_GWPv4To2015 <- grid_pop_GPWv4To2015 %>%
     tidyr::gather(key="x",value="value",-lon,-lat) %>%
-    tibble::as_tibble();
-  use_data(example_gridData_GWPv4To2015, overwrite=T)
+    tibble::as_tibble() %>%
+    dplyr::filter(x %in% c(1990,2010));
+  use_data(example_gridData_GWPv4To2015, version=3, overwrite=T)
 }
 
 #-----------------
@@ -69,7 +70,7 @@ if(redoMaps){
   mapCountries <- mapx
   mapCountries@data <- mapCountries@data %>%
     dplyr::mutate(name="mapCountries")
-  use_data(mapCountries, overwrite=T)
+  use_data(mapCountries, version=3, overwrite=T)
 }
 
 # Worldmap states
@@ -101,7 +102,7 @@ if(redoMaps){
   mapStates <- mapx
   mapStates@data <- mapStates@data %>%
     dplyr::mutate(name="mapStates")
-  use_data(mapStates, overwrite=T)
+  use_data(mapStates, version=3, overwrite=T)
 }
 
 #-----------------
@@ -147,7 +148,7 @@ if(redoMaps){
   mapGCAMReg32 <- mapx
   mapGCAMReg32@data <- mapGCAMReg32@data %>%
     dplyr::mutate(name="mapGCAMReg32")
-  use_data(mapGCAMReg32, overwrite=T)
+  use_data(mapGCAMReg32, version=3, overwrite=T)
 }
 
 
@@ -216,7 +217,7 @@ if(redoMaps){
   mapGCAMBasins <- mapx
   mapGCAMBasins@data <- mapGCAMBasins@data %>%
     dplyr::mutate(name="mapGCAMBasins")
-  use_data(mapGCAMBasins, overwrite=T)
+  use_data(mapGCAMBasins, version=3, overwrite=T)
 }
 
 
@@ -260,7 +261,7 @@ if(redoMaps){
   mapGCAMLand <- mapx
   mapGCAMLand@data <- mapGCAMLand@data %>%
     dplyr::mutate(name="mapGCAMLand")
-  use_data(mapGCAMLand, overwrite=T)
+  use_data(mapGCAMLand, version=3, overwrite=T)
 }
 
 
@@ -308,7 +309,7 @@ if(redoMaps){
   mapHydroShed1 <- mapx
   mapHydroShed1@data <- mapHydroShed1@data %>%
     dplyr::mutate(name="mapHydroShed1")
-  use_data(mapHydroShed1, overwrite=T)
+  use_data(mapHydroShed1, version=3, overwrite=T)
 }
 
 # HydroSheds Level 2#-------------------
@@ -341,7 +342,7 @@ if(redoMaps){
   mapHydroShed2 <- mapx
   mapHydroShed2@data <- mapHydroShed2@data %>%
     dplyr::mutate(name="mapHydroShed2")
-  use_data(mapHydroShed2, overwrite=T)
+  use_data(mapHydroShed2, version=3, overwrite=T)
 }
 
 # HydroSheds Level 3
@@ -375,7 +376,7 @@ if(redoMaps){
   mapHydroShed3 <- mapx
   mapHydroShed3@data <- mapHydroShed3@data %>%
     dplyr::mutate(name="mapHydroShed3")
-  use_data(mapHydroShed3, overwrite=T)
+  use_data(mapHydroShed3, version=3, overwrite=T)
 }
 
 # # HydroSheds Level 4
@@ -405,7 +406,7 @@ if(redoMaps){
 # # sp::plot(mapx)
 # # rmap::map(data=mapx,fillColumn = "subRegion",labels=F,save=F, facetsON=F,fileName = "HydroShed1")
 # mapHydroShed4 <- mapx
-# use_data(mapHydroShed4, overwrite=T)
+# use_data(mapHydroShed4, version=3, overwrite=T)
 # }
 
 # HUC USGS
@@ -464,7 +465,7 @@ if(redoMaps){
   mapUS52HUC2 <- mapx
   mapUS52HUC2@data <- mapUS52HUC2@data %>%
     dplyr::mutate(name="mapUS52HUC2")
-  use_data(mapUS52HUC2, overwrite=T)
+  use_data(mapUS52HUC2, version=3, overwrite=T)
 }
 
 # US49 HUC 2
@@ -488,7 +489,7 @@ if(redoMaps){
   mapUS49HUC2 <- mapx
   mapUS49HUC2@data <- mapUS49HUC2@data %>%
     dplyr::mutate(name="mapUS49HUC2")
-  use_data(mapUS49HUC2, overwrite=T)
+  use_data(mapUS49HUC2, version=3, overwrite=T)
 }
 
 # US52 HUC 4
@@ -547,7 +548,7 @@ if(redoMaps){
   mapUS52HUC4 <- mapx
   mapUS52HUC4@data <- mapUS52HUC4@data %>%
     dplyr::mutate(name="mapUS52HUC4")
-  use_data(mapUS52HUC4, overwrite=T)
+  use_data(mapUS52HUC4, version=3, overwrite=T)
 }
 
 # US49 HUC 4
@@ -571,7 +572,7 @@ if(redoMaps){
   mapUS49HUC4 <- mapx
   mapUS49HUC4@data <- mapUS49HUC4@data %>%
     dplyr::mutate(name="mapUS49HUC4")
-  use_data(mapUS49HUC4, overwrite=T)
+  use_data(mapUS49HUC4, version=3, overwrite=T)
 }
 
 
@@ -623,7 +624,7 @@ if(redoMaps){
   mapUS52 <- mapx
   mapUS52@data <- mapUS52@data %>%
     dplyr::mutate(name="mapUS52")
-  use_data(mapUS52, overwrite=T)
+  use_data(mapUS52, version=3, overwrite=T)
 }
 
 
@@ -673,7 +674,7 @@ rmap::map(mapUS52Compact, labels=T)
 #---------------------
 mapUS52Compact@data <- mapUS52Compact@data %>%
   dplyr::mutate(name="mapUS52Compact")
-use_data(mapUS52Compact, overwrite=T)
+use_data(mapUS52Compact, version=3, overwrite=T)
 }
 
 
@@ -691,7 +692,7 @@ if(redoMaps){
   mapUS49<-mapx
   mapUS49@data <- mapUS49@data %>%
     dplyr::mutate(name="mapUS49")
-  use_data(mapUS49, overwrite=T)
+  use_data(mapUS49, version=3, overwrite=T)
 }
 
 
@@ -745,7 +746,7 @@ if(redoMaps){
   mapUS52County <- mapx
   mapUS52County@data <- mapUS52County@data %>%
     dplyr::mutate(name="mapUS52County")
-  use_data(mapUS52County, overwrite=T)
+  use_data(mapUS52County, version=3, overwrite=T)
 }
 
 # US 52 Counties with Alaska (AK), Hawaii (HI) and Puerto Rico (PR) shrunken and shifted
@@ -794,7 +795,7 @@ if(redoMaps){
   #---------------------
   mapUS52CountyCompact@data <- mapUS52CountyCompact@data %>%
     dplyr::mutate(name="mapUS52CountyCompact")
-  use_data(mapUS52CountyCompact, overwrite=T)
+  use_data(mapUS52CountyCompact, version=3, overwrite=T)
 }
 
 # US 49 Counties
@@ -815,7 +816,7 @@ if(redoMaps){
   mapUS49County<-mapx
   mapUS49County@data <- mapUS49County@data %>%
     dplyr::mutate(name="mapUS49County")
-  use_data(mapUS49County, overwrite=T)
+  use_data(mapUS49County, version=3, overwrite=T)
 }
 
 
@@ -854,7 +855,7 @@ if(redoMaps){
     dplyr::mutate(name="mapGCAMReg32US52")
   mapGCAMReg32US52 <- mapGCAMReg32US52[!mapGCAMReg32US52@data$subRegion %in% c("USA"),] # Subset the shapefile to Colombia
   mapGCAMReg32US52@data <- droplevels(mapGCAMReg32US52@data)
-  use_data(mapGCAMReg32US52, overwrite=T)
+  use_data(mapGCAMReg32US52, version=3, overwrite=T)
 }
 
 
@@ -890,7 +891,7 @@ if(redoMaps){
     dplyr::mutate(name="mapCountriesUS52")
   mapCountriesUS52 <- mapCountriesUS52[!mapCountriesUS52@data$subRegion %in% c("USA"),] # Subset the shapefile to Colombia
   mapCountriesUS52@data <- droplevels(mapCountriesUS52@data)
-  use_data(mapCountriesUS52, overwrite=T)
+  use_data(mapCountriesUS52, version=3, overwrite=T)
 }
 
 
@@ -926,7 +927,7 @@ if(redoMaps){
   rmap::map(data=mapx,fillColumn = "subRegion",labels=F,save=F)
   mapGCAMReg32Uruguay@data <- mapGCAMReg32Uruguay@data %>%
     dplyr::mutate(name="mapGCAMReg32Uruguay")
-  use_data(mapGCAMReg32Uruguay, overwrite=T)
+  use_data(mapGCAMReg32Uruguay, version=3, overwrite=T)
 }
 
 
@@ -974,7 +975,7 @@ if(redoMaps){
   rmap::map(data=mapx,fillColumn = "subRegion",labels=F,save=F)
   mapIntersectGCAMBasinCountry@data <- mapIntersectGCAMBasinCountry@data %>%
     dplyr::mutate(name="mapIntersectGCAMBasinCountry")
-  use_data(mapIntersectGCAMBasinCountry, overwrite=T)
+  use_data(mapIntersectGCAMBasinCountry, version=3, overwrite=T)
 }
 
 # Intersection of GCAM Basins and 32 GCAM Regions
@@ -1008,7 +1009,7 @@ if(redoMaps){
   rmap::map(data=mapx,fillColumn = "subRegion",labels=F,save=F)
   mapIntersectGCAMBasin32Reg@data <- mapIntersectGCAMBasin32Reg@data %>%
     dplyr::mutate(name="mapIntersectGCAMBasin32Reg")
-  use_data(mapIntersectGCAMBasin32Reg, overwrite=T)
+  use_data(mapIntersectGCAMBasin32Reg, version=3, overwrite=T)
 }
 
 # Intersection of GCAM Basins and US 52 States
@@ -1042,7 +1043,7 @@ if(redoMaps){
   rmap::map(data=mapx,fillColumn = "subRegion",labels=F,save=F)
   mapIntersectGCAMBasinUS52@data <- mapIntersectGCAMBasinUS52@data %>%
     dplyr::mutate(name="mapIntersectGCAMBasinUS52")
-  use_data(mapIntersectGCAMBasinUS52, overwrite=T)
+  use_data(mapIntersectGCAMBasinUS52, version=3, overwrite=T)
 }
 
 # Intersection of GCAM Basins and US 52 County
@@ -1076,7 +1077,7 @@ if(redoMaps){
   rmap::map(data=mapx,fillColumn = "subRegion",labels=F,save=F)
   mapIntersectGCAMBasinUS52County@data <- mapIntersectGCAMBasinUS52County@data %>%
     dplyr::mutate(name="mapIntersectGCAMBasinUS52County")
-  use_data(mapIntersectGCAMBasinUS52County, overwrite=T)
+  use_data(mapIntersectGCAMBasinUS52County, version=3, overwrite=T)
 }
 
 # Intersection of GCAM Basins and GCAM32Uruguay
@@ -1110,7 +1111,7 @@ if(redoMaps){
   rmap::map(data=mapx,fillColumn = "subRegion",labels=F,save=F)
   mapIntersectGCAMBasin32RegUruguay@data <- mapIntersectGCAMBasin32RegUruguay@data %>%
     dplyr::mutate(name="mapIntersectGCAMBasin32RegUruguay")
-  use_data(mapIntersectGCAMBasin32RegUruguay, overwrite=T)
+  use_data(mapIntersectGCAMBasin32RegUruguay, version=3, overwrite=T)
 }
 
 
@@ -1132,7 +1133,7 @@ if(redoMaps){
   mapGCAMBasinsUS52<-mapx
   mapGCAMBasinsUS52@data <- mapGCAMBasinsUS52@data %>%
     dplyr::mutate(name="mapGCAMBasinsUS52")
-  use_data(mapGCAMBasinsUS52, overwrite=T)
+  use_data(mapGCAMBasinsUS52, version=3, overwrite=T)
 }
 
 # Cropped GCAM Basins and US 49 States
@@ -1151,7 +1152,7 @@ if(redoMaps){
   mapGCAMBasinsUS49<-mapx
   mapGCAMBasinsUS49@data <- mapGCAMBasinsUS49@data %>%
     dplyr::mutate(name="mapGCAMBasinsUS49")
-  use_data(mapGCAMBasinsUS49, overwrite=T)
+  use_data(mapGCAMBasinsUS49, version=3, overwrite=T)
 }
 
 
@@ -1169,7 +1170,7 @@ if(redoMaps){
   mapGCAMLandUS52<-mapx
   mapGCAMLandUS52@data <- mapGCAMLandUS52@data %>%
     dplyr::mutate(name="mapGCAMLandUS52")
-  use_data(mapGCAMLandUS52, overwrite=T)
+  use_data(mapGCAMLandUS52, version=3, overwrite=T)
 }
 
 # Cropped GCAM Land and US 49 States
@@ -1187,7 +1188,7 @@ if(redoMaps){
   mapGCAMLandUS49<-mapx
   mapGCAMLandUS49@data <- mapGCAMLandUS49@data %>%
     dplyr::mutate(name="mapGCAMLandUS49")
-  use_data(mapGCAMLandUS49, overwrite=T)
+  use_data(mapGCAMLandUS49, version=3, overwrite=T)
 }
 
 
@@ -1196,13 +1197,13 @@ if(redoMaps){
 if(!exists("grid025")){
   gridx <-  tibble::as_tibble(data.table::fread(paste(dataFileFolder,"/grids/emptyGrids/grid_025.csv",sep="")));
   grid025<-gridx
-  use_data(grid025, overwrite=T)
+  use_data(grid025, version=3, overwrite=T)
 }
 
 if(!exists("grid050")){
   gridx <-  tibble::as_tibble(data.table::fread(paste(dataFileFolder,"/grids/emptyGrids/grid_050.csv",sep="")));
   grid050<-gridx
-  use_data(grid050, overwrite=T)
+  use_data(grid050, version=3, overwrite=T)
 }
 
 
@@ -1218,7 +1219,7 @@ metis.readgcam(gcamdatabase = "C:/Z/projects/gcam-v5.2-Windows-Release-Package/o
                dataProjFile = "exampleGCAM52releaseSSP3SSP52050.proj",saveData = F,reReadData = T)
 projFile <-"C:/Z/projects/metis/dataFiles/examples/exampleGCAM52releaseSSP3SSP52050.proj"
 exampleGCAMproj <- rgcam::loadProject(projFile)
-use_data(exampleGCAMproj, overwrite=T)
+use_data(exampleGCAMproj, version=3, overwrite=T)
 
 # Examples .metisMapProcess
 dataGCAM<-metis.readgcam (dataProjFile = exampleGCAMproj,
@@ -1239,8 +1240,8 @@ exampleMapDataClass <- dataGCAM$dataAggClass1 %>%
                                        param=="watWithdrawBySec"~"pal_wet",
                                        param=="watSupRunoffBasin"~"pal_wet",
                                        TRUE~"pal_hot"))
-use_data(exampleMapDataParam, overwrite=T)
-use_data(exampleMapDataClass, overwrite=T)
+use_data(exampleMapDataParam, version=3, overwrite=T)
+use_data(exampleMapDataClass, version=3, overwrite=T)
 
 #-------------------
 # Data
@@ -1255,7 +1256,7 @@ for(i in 1:length(xmltop)){
       top <- XML::addChildren(top, xmltop[[i]])
 }
 xmlMetisQueries <- top
-use_data(xmlMetisQueries, overwrite=T)
+use_data(xmlMetisQueries, version=3, overwrite=T)
 
 
 # Capacity factors
@@ -1268,15 +1269,15 @@ data_A23.globaltech_retirement <- data.table::fread(paste(dataFileFolder,"/gcam/
 data_capac_fac <- data.table::fread(paste(dataFileFolder,"/gcam/investCalcs/L223.GlobalTechCapFac_elec.csv", sep=""), skip=1, stringsAsFactors = FALSE)
 data_capac_fac_int <- data.table::fread(paste(dataFileFolder,"/gcam/investCalcs/L223.GlobalIntTechCapFac_elec.csv", sep=""), skip=1, stringsAsFactors = FALSE)
 data_tech_mapping <- data.table::fread(paste(dataFileFolder,"/gcam/investCalcs/agg_tech_mapping.csv", sep=""), skip=1)
-use_data(data_capfactors, overwrite=T)
-use_data(data_cap_cost_tech, overwrite=T)
-use_data(data_cap_cost_cool, overwrite=T)
-use_data(data_cap_cost_int_tech, overwrite=T)
-use_data(data_cap_cost_int_cool, overwrite=T)
-use_data(data_A23.globaltech_retirement, overwrite=T)
-use_data(data_capac_fac, overwrite=T)
-use_data(data_capac_fac_int, overwrite=T)
-use_data(data_tech_mapping, overwrite=T)
+use_data(data_capfactors, version=3, overwrite=T)
+use_data(data_cap_cost_tech, version=3, overwrite=T)
+use_data(data_cap_cost_cool, version=3, overwrite=T)
+use_data(data_cap_cost_int_tech, version=3, overwrite=T)
+use_data(data_cap_cost_int_cool, version=3, overwrite=T)
+use_data(data_A23.globaltech_retirement, version=3, overwrite=T)
+use_data(data_capac_fac, version=3, overwrite=T)
+use_data(data_capac_fac_int, version=3, overwrite=T)
+use_data(data_tech_mapping, version=3, overwrite=T)
 
 
 

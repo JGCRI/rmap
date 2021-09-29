@@ -1563,9 +1563,9 @@ rmap::map(data = data,
 <!-------------------------->
 <p align="center"> <img src="vignetteFigs/divider.png"></p>
 
-In this example data was extracted from the preloaded GCAM output `rmap::exampleGCAMproj` and aggregated by paramater and class into `rmap::exampleMapDataParam` and `rmap::exampleMapDataClass`. Users can process their own GCAM data outputs into similar tables using the [gcamextractor](https://jgcri.github.io/gcamextractor/) R package available at [https://jgcri.github.io/gcamextractor/](https://jgcri.github.io/gcamextractor/). 
+In this example data was extracted from a GCAM output database and aggregated by paramater and class into `rmap::exampleMapDataParam` and `rmap::exampleMapDataClass`. Users can process their own GCAM data outputs into similar tables using the [gcamextractor](https://jgcri.github.io/gcamextractor/) R package available at [https://jgcri.github.io/gcamextractor/](https://jgcri.github.io/gcamextractor/). 
 
-**Note: The exampleGCAMproj comes with only a few parameters: "elecByTechTWh","pop","watWithdrawBySec","watSupRunoffBasin","landAlloc" and "agProdByCrop"**
+**Note: The example data comes with only a few parameters: "elecByTechTWh","pop","watWithdrawBySec","watSupRunoffBasin","landAlloc" and "agProdByCrop"**
 
 
 ```{r, results = 'hide', eval=T, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
