@@ -252,18 +252,18 @@ data = data.frame(subRegion = c("CA","FL","ID","MO","TX","WY"),
 
 rmap::map(data) # Will choose the contiguous US map and plot this data for you as the only layer
 rmap::map(data, 
-          underLayer=rmap::mapUS49) # Will add an underlayer of the US49 map zoomed in to your data set
+          underLayer=mapUS49) # Will add an underlayer of the US49 map zoomed in to your data set
 rmap::map(data, 
-          underLayer=rmap::mapUS49, 
-          overLayer=rmap::mapGCAMBasinsUS49) # will add GCAM basins ontop of the previous map
+          underLayer=mapUS49, 
+          overLayer=mapGCAMBasinsUS49) # will add GCAM basins ontop of the previous map
 
 # Modify the fill and outline of the different layers
 rmap::map(data, 
-          underLayer=rmap::mapUS49, 
+          underLayer=mapUS49, 
           underLayerFill = "black",
           underLayerColor = "green",
           underLayerLwd = 0.5,
-          overLayer=rmap::mapGCAMBasinsUS49,
+          overLayer=mapGCAMBasinsUS49,
           overLayerColor = "red",
           overLayerLwd = 2) # Will adjust the borders of the different layers to highlight them.
 ```
@@ -315,13 +315,13 @@ rmap::map(data,
 
 # UnderLayer Labels Examples
 rmap::map(data,
-          underLayer = rmap::mapUS49,
+          underLayer = mapUS49,
           underLayerLabels = T)
 
 # OverLayer Examples
 rmap::map(data,
-          underLayer = rmap::mapUS49,
-          overLayer = rmap::mapGCAMBasinsUS49,
+          underLayer = mapUS49,
+          overLayer = mapGCAMBasinsUS49,
           overLayerColor = "red",
           overLayerLabels = T,
           labelSize = 3,
@@ -333,8 +333,8 @@ rmap::map(data,
 
 # All Labels (Not recommended as too confusing)
 rmap::map(data,
-          underLayer = rmap::mapUS49,
-          overLayer = rmap::mapGCAMBasinsUS49,
+          underLayer = mapUS49,
+          overLayer = mapGCAMBasinsUS49,
           labels = T,
           underLayerLabels = T,
           overLayerLabels = T,          
@@ -365,28 +365,28 @@ data = data.frame(subRegion = c("FL","ID","MO","TX","WY"),
 
 # Setting crop to F will zoom out to the extent of the largest layer (In this case the underLayer)
 rmap::map(data,
-          underLayer = rmap::mapUS49,
+          underLayer = mapUS49,
           underLayerLabels = T,
           labels = T,
           crop = T,
           title = "crop = T")
 
 rmap::map(data,
-          underLayer = rmap::mapUS49,
+          underLayer = mapUS49,
           underLayerLabels = T,
           labels = T,
           crop = F,
           title = "crop = F")
 
 rmap::map(data,
-          underLayer = rmap::mapUS49,
-          overLayer = rmap::mapGCAMBasinsUS52,
+          underLayer = mapUS49,
+          overLayer = mapGCAMBasinsUS52,
           crop_to_underLayer = T,
           title = "crop_to_underLayer = T")
 
 rmap::map(data,
-          underLayer = rmap::mapUS49,
-          overLayer = rmap::mapGCAMBasinsUS52,
+          underLayer = mapUS49,
+          overLayer = mapGCAMBasinsUS52,
           crop_to_overLayer = T,
           title = "crop_to_overLayer = T")
 
@@ -409,11 +409,11 @@ data = data.frame(subRegion = c("FL","ID","MO","TX","WY"),
                   value = c(10,15,34,2,7))
 
 # Set different zoom levels
-m0 = rmap::map(data,underLayer = rmap::mapUS49,zoom = 0)
-m1 = rmap::map(data,underLayer = rmap::mapUS49,zoom = 7)
-m2 = rmap::map(data,underLayer = rmap::mapUS49,zoom = -10)
-m3 = rmap::map(data,underLayer = rmap::mapUS49,zoomx = 3)
-m4 = rmap::map(data,underLayer = rmap::mapUS49,zoomy = 4)
+m0 = rmap::map(data,underLayer = mapUS49,zoom = 0)
+m1 = rmap::map(data,underLayer = mapUS49,zoom = 7)
+m2 = rmap::map(data,underLayer = mapUS49,zoom = -10)
+m3 = rmap::map(data,underLayer = mapUS49,zoomx = 3)
+m4 = rmap::map(data,underLayer = mapUS49,zoomy = 4)
 
 ```
 
@@ -425,11 +425,11 @@ data = data.frame(subRegion = c("FL","ID","MO","TX","WY"),
                   value = c(10,15,34,2,7))
 
 # Setting crop to F will zoom out to the extent of the largest layer (In this case the underLayer)
-m0 = rmap::map(data,underLayer = rmap::mapUS49,zoom = 0, show=F, save = T)
-m1 = rmap::map(data,underLayer = rmap::mapUS49,zoom = 7, show=F, save = T)
-m2 = rmap::map(data,underLayer = rmap::mapUS49,zoom = -10, show=F, save = T)
-m3 = rmap::map(data,underLayer = rmap::mapUS49,zoomx = 3, show=F, save = T)
-m4 = rmap::map(data,underLayer = rmap::mapUS49,zoomy = 2, show=F, save = T)
+m0 = rmap::map(data,underLayer = mapUS49,zoom = 0, show=F, save = T)
+m1 = rmap::map(data,underLayer = mapUS49,zoom = 7, show=F, save = T)
+m2 = rmap::map(data,underLayer = mapUS49,zoom = -10, show=F, save = T)
+m3 = rmap::map(data,underLayer = mapUS49,zoomx = 3, show=F, save = T)
+m4 = rmap::map(data,underLayer = mapUS49,zoomy = 2, show=F, save = T)
 
 cowplot::plot_grid(m0[[1]],m1[[1]], m2[[1]],m3[[1]], m4[[1]],
                    labels = c('zoom = 0',
@@ -459,14 +459,14 @@ data = data.frame(subRegion = c("CA","FL","ID","MO","TX","WY"),
 # Setting background will add blue for water and a border to the map.
 rmap::map(data,
           labels = T,
-          underLayer = rmap::mapCountriesUS52,
+          underLayer = mapCountriesUS52,
           background = F,
           title = "Background = F")
   
 
 rmap::map(data,
           labels = T,
-          underLayer = rmap::mapCountriesUS52,
+          underLayer = mapCountriesUS52,
           background = T,
           title = "Background = T")
 
@@ -491,7 +491,7 @@ data = data.frame(subRegion = c("CA","FL","ID","MO","TX","WY"),
 # Setting m1 to the first element of the map outputs from rmap::map() with save = F to avoid printing
 m1 <- rmap::map(data,
           labels = T,
-          underLayer = rmap::mapCountriesUS52,
+          underLayer = mapCountriesUS52,
           background = T,
           show = F)
 
@@ -542,7 +542,7 @@ map(data)
 <!-------------------------->
 <p align="center"> <img src="vignetteFigs/divider.png"></p>
 
-Sometimes subRegions can be present on multiple maps. For example "Colombia", China" and "India" are all members of `rmap::mapGCAMReg32` as well as `rmap::mapCountries`. If a user knows which map they want to plot their data on they should specify the map in the `shape` argument.
+Sometimes subRegions can be present on multiple maps. For example "Colombia", China" and "India" are all members of `mapGCAMReg32` as well as `mapCountries`. If a user knows which map they want to plot their data on they should specify the map in the `shape` argument.
 
 
 ```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
@@ -552,12 +552,12 @@ data = data.frame(subRegion = c("China","India","Pakistan"),
                   x = c(2050,2050,2050),
                   value = c(5,12,30))
 
-# Auto selection by rmap will choose rmap::mapCountries
+# Auto selection by rmap will choose mapCountries
 rmap::map(data)
 
-# User can specify that they want to plot this data on rmap::mapGCAMReg32
+# User can specify that they want to plot this data on mapGCAMReg32
 rmap::map(data,
-          shape = rmap::mapGCAMReg32)
+          shape = mapGCAMReg32)
 
 ```
 
@@ -595,7 +595,7 @@ rmap::map(data %>% head(10000))
 
 # Add an underlayer to gridded data
 rmap::map(data,
-          overLayer = rmap::mapCountriesUS52,
+          overLayer = mapCountriesUS52,
           background=T)
 
 ```
@@ -614,7 +614,7 @@ Users can provide custom shapefiles for their own data if needed. The example be
 ```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
 library(rmap)
 
-shapeSubset <- rmap::mapStates # Read in World States shape file
+shapeSubset <- mapStates # Read in World States shape file
 shapeSubset <- shapeSubset[shapeSubset@data$region %in% c("Colombia"),] # Subset the shapefile to Colombia
 shapeSubset@data <- droplevels(shapeSubset@data)
 rmap::map(shapeSubset) # View custom shape
@@ -640,8 +640,8 @@ For example if someone wants to analyze counties in Texas.
 ```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
 library(rmap); library(raster)
 
-shapeSubRegions <- rmap::mapUS49County
-shapeCropTo <- rmap::mapUS49
+shapeSubRegions <- mapUS49County
+shapeCropTo <- mapUS49
 shapeCropTo <- shapeCropTo[shapeCropTo@data$subRegion %in% c("TX"),]
 shapeCropTo@data <- droplevels(shapeCropTo@data)
 shapeCrop<- sp::spTransform(shapeCropTo,raster::crs(shapeSubRegions))
@@ -706,7 +706,7 @@ head(data)
 # And then it can be plotted using rmap and any of the built-in maps as underLayers.
 rmap::map(data,
           shape=my_custom_map,
-          underLayer=rmap::mapStates,
+          underLayer=mapStates,
           underLayerLabels = T)
 ```
 
@@ -744,7 +744,7 @@ data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
                             12, 76, 150, 64, 90))
 
 rmap::map(data = data,
-          underLayer = rmap::mapCountries,
+          underLayer = mapCountries,
           ncol=4,
           background = T)
 
@@ -769,7 +769,7 @@ data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
                             12, 76, 150, 64, 90))
 
 mapx <- rmap::map(data = data,
-          underLayer = rmap::mapCountries,
+          underLayer = mapCountries,
           background = T,
           ncol = 4,
           show=F, save = T)
@@ -800,7 +800,7 @@ head(data)
 ```{r, results = 'hide', eval=F, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
 library(rmap);
 rmap::map(data = data,
-          overLayer = rmap::mapCountries,
+          overLayer = mapCountries,
           background = T)
 
 # NOTE: Animation files are only saved to file and not as a direct output of the rmap::map() function.
@@ -811,7 +811,7 @@ rmap::map(data = data,
 library(rmap);
 data = example_gridData_GWPv4To2015;
 mapx <- rmap::map(data = data,
-          overLayer = rmap::mapCountries,
+          overLayer = mapCountries,
           background = T,
           show=F, save = T)
 
@@ -845,7 +845,7 @@ data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
 
 mapx <- rmap::map(data = data,
           background = T, 
-          underLayer = rmap::mapCountries,
+          underLayer = mapCountries,
           xRef = 2010, 
           xDiff = c(2020,2030))
 
@@ -867,7 +867,7 @@ data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
 
 mapx <- rmap::map(data = data,
           background = T, 
-          underLayer = rmap::mapCountries,
+          underLayer = mapCountries,
           xRef = 2010, 
           xDiff = c(2020,2030),
           show = F)
@@ -886,7 +886,7 @@ library(rmap);
 data = example_gridData_GWPv4To2015
 mapx <- rmap::map(data = data,
           background = T, 
-          underLayer = rmap::mapCountries,
+          underLayer = mapCountries,
           xRef = 1990, 
           xDiff = c(2010,2015))
 
@@ -900,7 +900,7 @@ library(rmap);
 data = example_gridData_GWPv4To2015
 mapx <- rmap::map(data = data,
           background = T, 
-          underLayer = rmap::mapCountries,
+          underLayer = mapCountries,
           xRef = 1990, 
           xDiff = c(2010,2015),
           show=F, save = T)
@@ -934,7 +934,7 @@ data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
                             23, 99, 102, 85, 75,
                             12, 76, 150, 64, 90))
 rmap::map(data = data,
-          underLayer = rmap::mapCountries,
+          underLayer = mapCountries,
           background = T )
 ```
 
@@ -957,7 +957,7 @@ data = example_gridData_GWPv4To2015 %>%
   ))
   
 rmap::map(data = data,
-          overLayer = rmap::mapCountries,
+          overLayer = mapCountries,
           background = T )
 ```
 
@@ -986,7 +986,7 @@ data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
                             40, 44, 12, 30, 99))
 
 mapx <- rmap::map(data = data, 
-          underLayer = rmap::mapCountries,
+          underLayer = mapCountries,
           background = T)
 
 mapx$map_param_KMEANS
@@ -1007,7 +1007,7 @@ data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
                             37, 53, 23, 12, 45,
                             40, 44, 12, 30, 99))
 mapx <- rmap::map(data = data, 
-          underLayer = rmap::mapCountries,
+          underLayer = mapCountries,
           background = T,
           show = F)
 
@@ -1037,7 +1037,7 @@ data = data %>%
   dplyr::mutate(scenario = factor(scenario, levels = c("scen1","scen3","scen2")))
 
 mapx <- rmap::map(data = data, 
-          underLayer = rmap::mapCountries,
+          underLayer = mapCountries,
           background = T)
 
 mapx$map_param_KMEANS
@@ -1063,7 +1063,7 @@ data = data %>%
   dplyr::mutate(scenario = factor(scenario, levels = c("scen1","scen3","scen2")))
 
 mapx <- rmap::map(data = data, 
-          underLayer = rmap::mapCountries,
+          underLayer = mapCountries,
           background = T,
           show = F)
 
@@ -1088,7 +1088,7 @@ data = example_gridData_GWPv4To2015 %>%
     TRUE ~ scenario))
   
 mapx <- rmap::map(data = data, 
-          underLayer = rmap::mapCountries,
+          underLayer = mapCountries,
           background = T)
 
 mapx$map_param_KMEANS
@@ -1108,7 +1108,7 @@ data = example_gridData_GWPv4To2015 %>%
     TRUE ~ scenario))
   
 mapx <- rmap::map(data = data, 
-          underLayer = rmap::mapCountries,
+          underLayer = mapCountries,
           background = T,
           show = F)
 
@@ -1138,7 +1138,7 @@ data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
                             37, 53, 23, 12, 45,
                             40, 44, 12, 30, 99))
 mapx <- rmap::map(data = data, 
-          underLayer = rmap::mapCountries,
+          underLayer = mapCountries,
           scenRef = "scen1",
           scenDiff = c("scen2","scen3"), # Can omit this to get difference against all scenarios
           background = T)
@@ -1161,7 +1161,7 @@ data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
                             37, 53, 23, 12, 45,
                             40, 44, 12, 30, 99))
 mapx <- rmap::map(data = data, 
-          underLayer = rmap::mapCountries,
+          underLayer = mapCountries,
           scenRef = "scen1",
           scenDiff = c("scen2","scen3"),
           background = T,
@@ -1188,7 +1188,7 @@ data = example_gridData_GWPv4To2015 %>%
     TRUE ~ scenario))
   
 mapx <- rmap::map(data = data, 
-          underLayer = rmap::mapCountries,
+          underLayer = mapCountries,
           scenRef = "scenario1",
           scenDiff = c("scenario3"),
           background = T)
@@ -1211,7 +1211,7 @@ data = example_gridData_GWPv4To2015 %>%
     TRUE ~ scenario))
   
 mapx <- rmap::map(data = data, 
-          underLayer = rmap::mapCountries,
+          underLayer = mapCountries,
           scenRef = "scenario1",
           scenDiff = c("scenario3"),
           background = T,
@@ -1252,7 +1252,7 @@ data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
                             23, 99, 102, 85, 75,
                             12, 76, 150, 64, 90))
 rmap::map(data = data,
-          underLayer = rmap::mapCountries,
+          underLayer = mapCountries,
           row = "rcp",
           col = "gcm",
           background = T )
@@ -1278,7 +1278,7 @@ data = example_gridData_GWPv4To2015 %>%
                                        rcp == 2015 ~ "RCP2",
                                        TRUE ~ rcp)) 
 rmap::map(data = data,
-          overLayer = rmap::mapCountries,
+          overLayer = mapCountries,
           row= "rcp",
           col = "gcm",
           background = T )
@@ -1304,7 +1304,7 @@ data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
                             37, 53, 23, 12, 45))
 rmap::map(data = data, 
           background = T, 
-          underLayer = rmap::mapCountries,
+          underLayer = mapCountries,
           scenRef = "scen1",
           scaleRange = c(30,40), 
           scaleRangeDiffAbs = c(-100,100), 
@@ -1319,7 +1319,7 @@ data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
                             37, 53, 23, 12, 45))
 rmap::map(data = data, 
           background = T, 
-          underLayer = rmap::mapCountries,
+          underLayer = mapCountries,
           xRef = 2010,
           forceFacets = T,
           scaleRange = c(0,50), 
@@ -1357,7 +1357,7 @@ data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
                   value = c(32, 38, 54, 63, 24,
                             37, 53, 23, 12, 45))
 rmap::map(data = data,
-          underLayer = rmap::mapCountries,
+          underLayer = mapCountries,
           background = T,
           scenRef = "scen1",
           palette = "pal_wet",
@@ -1396,7 +1396,7 @@ data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece"),
 
 rmap::map(data = data, 
     background = T,
-    underLayer = rmap::mapCountries,
+    underLayer = mapCountries,
     legendFixedBreaks=c(30,32,1000))  # Will append 24 to these breaks because they are part of the data.
 ```
 
@@ -1410,7 +1410,7 @@ data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece"),
 
 rmap::map(data = data, 
     background = T,
-    underLayer = rmap::mapCountries,
+    underLayer = mapCountries,
     legendType = "kmeans")
 ```
 
@@ -1424,7 +1424,7 @@ data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece"),
 
 rmap::map(data = data, 
     background = T,
-    underLayer = rmap::mapCountries,
+    underLayer = mapCountries,
     legendType = "pretty")
 ```
 
@@ -1438,7 +1438,7 @@ data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece"),
 
 rmap::map(data = data, 
     background = T,
-    underLayer = rmap::mapCountries,
+    underLayer = mapCountries,
     legendType = "continuous")
 ```
 
@@ -1460,13 +1460,13 @@ data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece"),
 
 rmap::map(data = data, 
           background = T,
-          underLayer = rmap::mapCountries,
+          underLayer = mapCountries,
           legendType = "pretty",
           legendBreaksn=3)
 
 rmap::map(data = data, 
           background = T,
-          underLayer = rmap::mapCountries,
+          underLayer = mapCountries,
           legendType = "pretty",
           legendBreaksn=9)
 
@@ -1490,18 +1490,18 @@ data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece"),
 # Without single value turned on
 rmap::map(data = data, 
           background = T,
-          underLayer = rmap::mapCountries)
+          underLayer = mapCountries)
 
 # With legendSingelValue = T (will choose the minimum value or if 0 (if present) and set it to single)
 rmap::map(data = data, 
           background = T,
-          underLayer = rmap::mapCountries,
+          underLayer = mapCountries,
           legendSingleValue = T)
 
 # With legendSingelValue = 38 and set to "green"
 rmap::map(data = data, 
           background = T,
-          underLayer = rmap::mapCountries,
+          underLayer = mapCountries,
           legendSingleValue = 54,
           legendSingleColor = "green")
 
@@ -1549,7 +1549,7 @@ data = data.frame(subRegion = c("CA","AZ","TX","NH","ID","OH",
 
 rmap::map(data = data,
           background = T,
-          underLayer = rmap::mapCountries,
+          underLayer = mapCountries,
           numeric2Cat_list = numeric2Cat_list)
 
 ```
@@ -1581,8 +1581,8 @@ dfClass <- rmap::exampleMapDataClass %>%
 # Plot data aggregated by Class1
 rmap::map(data = dfClass, 
           background = T, 
-          underLayer = rmap::mapGCAMReg32,
-          shape = rmap::mapGCAMReg32,
+          underLayer = mapGCAMReg32,
+          shape = mapGCAMReg32,
           save=F)
 
 ```
@@ -1610,8 +1610,8 @@ dfParam <- dfParam %>% dplyr::bind_rows(
 # Plot data aggregated by param
 rmap::map(data = dfParam, 
           background = T, 
-          underLayer = rmap::mapGCAMReg32,
-          shape = rmap::mapGCAMReg32,
+          underLayer = mapGCAMReg32,
+          shape = mapGCAMReg32,
           xRef = "2010",
           scenRef = "GCAM_SSP3")
 

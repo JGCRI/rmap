@@ -865,7 +865,7 @@ if(T){
     if(labels){
       if(!is.null(shape)){
       if(!any(grepl("SpatialPolygonsDataFrame",class(shape)))){
-        print("To print labels shape must be a SpatialPolygonsDataFrame for e.g. rmap::mapCountries.")
+        print("To print labels shape must be a SpatialPolygonsDataFrame for e.g. rmapdata::mapCountries.")
         shapex <- NULL
       } else {
         shapex <- shape

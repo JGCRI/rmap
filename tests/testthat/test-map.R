@@ -3,7 +3,7 @@ library(rmap); library(testthat); library(dplyr)
 
 test_that("map plots shape correctly", {
 
-  mapx <- rmap::map(rmap::mapUS49, show = F, save=F)
+  mapx <- rmap::map(mapUS49, show = F, save=F)
   tVal1 <- length(mapx)
   testthat::expect_gt(tVal1,0)
 })

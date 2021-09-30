@@ -58,11 +58,11 @@ map_find_df <- function(data) {
 
       mapReg <- data.frame()
 
-      for (i in 1:length(rmap::mapsSubRegions)) {
+      for (i in 1:length(mapsSubRegions)) {
         subRegNum_i <-
-          length(subRegShapeTbl[subRegShapeTbl %in% rmap::mapsSubRegions[[i]]])
+          length(subRegShapeTbl[subRegShapeTbl %in% mapsSubRegions[[i]]])
         dfx <-
-          data.frame(map = names(rmap::mapsSubRegions)[i], subRegNum = subRegNum_i)
+          data.frame(map = names(mapsSubRegions)[i], subRegNum = subRegNum_i)
         mapReg <- mapReg %>% dplyr::bind_rows(dfx)
       }
 
