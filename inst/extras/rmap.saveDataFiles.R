@@ -30,13 +30,13 @@ if(redoMaps){
     dplyr::select(lon=V2,lat=V3) %>%
     dplyr::bind_cols(dfpop); dfx
   grid_pop_GPWv4To2015 <- dfx
-  use_data(grid_pop_GPWv4To2015, version=3, overwrite=T)
+  #use_data(grid_pop_GPWv4To2015, version=3, overwrite=T)
 
   # Modify to required data format
   example_gridData_GWPv4To2015 <- grid_pop_GPWv4To2015 %>%
     tidyr::gather(key="x",value="value",-lon,-lat) %>%
     tibble::as_tibble() %>%
-    dplyr::filter(x %in% c(1990,2010));
+    dplyr::filter(x %in% c(1990,2015));
   use_data(example_gridData_GWPv4To2015, version=3, overwrite=T)
 }
 
