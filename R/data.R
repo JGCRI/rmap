@@ -6,17 +6,6 @@
 # Example data files to test rmap
 #-----------------
 
-#' Example GCAM .proj file
-#'
-#' @source example GCAM output
-#' @format R table or .csv
-#' @examples
-#' \dontrun{
-#'  library(rmap);
-#'  rmap::exampleGCAMproj
-#' }
-"exampleGCAMproj"
-
 #' Example data by param to plot in Maps
 #'
 #' @source example data by Param
@@ -80,104 +69,8 @@
 "mapStates"
 
 #-----------------
-# GCAM Maps (Regions, Basins, Land)
+# US HUC levels
 #-----------------
-
-#' GCAM 32 Regions
-#'
-#' @source From JGCRI confluence page. \url{https://confluence.pnnl.gov/confluence/display/JGCRI/GCAM+Shape+Files}
-#' @format A SpatialPolygonsDataFrame
-#' @examples
-#' \dontrun{
-#'  library(sp); library(rmap)
-#'  sp::plot(mapGCAMReg32)
-#'  head(mapGCAMReg32@data)
-#' }
-"mapGCAMReg32"
-
-
-#' GCAM Basins
-#'
-#' @source From JGCRI confluence page. \url{https://confluence.pnnl.gov/confluence/display/JGCRI/GCAM+Shape+Files}
-#' @format A SpatialPolygonsDataFrame
-#' @examples
-#' \dontrun{
-#'  library(sp); library(rmap)
-#'  sp::plot(mapGCAMBasins)
-#'  head(mapGCAMBasins@data)
-#' }
-"mapGCAMBasins"
-
-#' GCAM Land
-#'
-#' @source From the moirai project.
-#' Shapefile received directly from Alan V. Di Vittorio.
-#' Component files available at:
-#' \url{https://github.com/JGCRI/moirai/blob/master/ancillary/moirai_valid_boundaries.zip}
-#' \url{https://github.com/JGCRI/moirai/blob/build-r-package/tests/testthat/test_compare_raster_w_outputs.R}
-#' @format A SpatialPolygonsDataFrame
-#' @examples
-#' \dontrun{
-#'  library(sp); library(rmap)
-#'  sp::plot(mapGCAMLand)
-#'  head(mapGCAMLand@data)
-#' }
-"mapGCAMLand"
-
-#-----------------
-# Grids (0.5 and 0.25)
-#-----------------
-
-
-#-----------------
-# Hydrology Maps (HydroShed, HUC)
-#-----------------
-
-# Hydro sheds
-# https://www.hydrosheds.org/page/hydrobasins
-# Lehner, B., Grill G. (2013): Global river hydrography and network routing:
-# baseline data and new approaches to study the world’s large river systems.
-# Hydrological Processes, 27(15): 2171–2186. Data is available at www.hydrosheds.org
-
-#' HydroSHEDS level 1
-#' @source Lehner, B., Grill G. (2013): Global river hydrography and network routing:
-#' baseline data and new approaches to study the world’s large river systems.
-#' Hydrological Processes, 27(15): 2171–2186. \url{https://www.hydrosheds.org/page/hydrobasins}
-#' @format A SpatialPolygonsDataFrame
-#' @examples
-#' \dontrun{
-#'  library(sp); library(rmap)
-#'  sp::plot(mapHydroShed1)
-#'  head(mapHydroShed1@data)
-#' }
-"mapHydroShed1"
-
-#' HydroSHEDS level 2
-#' @source Lehner, B., Grill G. (2013): Global river hydrography and network routing:
-#' baseline data and new approaches to study the world’s large river systems.
-#' Hydrological Processes, 27(15): 2171–2186. \url{https://www.hydrosheds.org/page/hydrobasins}
-#' @format A SpatialPolygonsDataFrame
-#' @examples
-#' \dontrun{
-#'  library(sp); library(rmap)
-#'  sp::plot(mapHydroShed2)
-#'  head(mapHydroShed2@data)
-#' }
-"mapHydroShed2"
-
-#' HydroSHEDS level 3
-#' @source Lehner, B., Grill G. (2013): Global river hydrography and network routing:
-#' baseline data and new approaches to study the world’s large river systems.
-#' Hydrological Processes, 27(15): 2171–2186. \url{https://www.hydrosheds.org/page/hydrobasins}
-#' @format A SpatialPolygonsDataFrame
-#' @examples
-#' \dontrun{
-#'  library(sp); library(rmap)
-#'  sp::plot(mapHydroShed3)
-#'  head(mapHydroShed3@data)
-#' }
-"mapHydroShed3"
-
 
 # USGS HUC 2 (52 States)
 # https://water.usgs.gov/GIS/huc.html
@@ -238,6 +131,155 @@
 #' }
 "mapUS49HUC4"
 
+
+
+# USGS HUC 2 (52 States)
+# https://water.usgs.gov/GIS/huc.html
+# https://datagateway.nrcs.usda.gov/Catalog/ProductDescription/WBD.html
+# https://nrcs.app.box.com/v/huc
+
+#' USGS Hydrological Unit Code (HUC)
+#' @source \url{https://water.usgs.gov/GIS/huc.html} \url{https://nrcs.app.box.com/v/huc}
+#' @format A SpatialPolygonsDataFrame
+#' @examples
+#' \dontrun{
+#'  library(sp); library(rmap); library(ggplot2)
+#'  ggplot() +
+#'  geom_polygon(data = mapUS52HUC2df, aes(x = long, y = lat, group = group),
+#'              colour = "black", fill = NA)
+#'  head(mapUS52HUC2df)
+#' }
+"mapUS52HUC2df"
+
+# USGS HUC 2 (49 States)
+# https://water.usgs.gov/GIS/huc.html
+# https://datagateway.nrcs.usda.gov/Catalog/ProductDescription/WBD.html
+# https://nrcs.app.box.com/v/huc
+
+#' USGS Hydrological Unit Code (HUC)
+#' @source \url{https://water.usgs.gov/GIS/huc.html} \url{https://nrcs.app.box.com/v/huc}
+#' @format A SpatialPolygonsDataFrame
+#' @examples
+#' \dontrun{
+#'  library(sp); library(rmap); library(ggplot2)
+#'  ggplot() +
+#'  geom_polygon(data = mapUS49HUC2df, aes(x = long, y = lat, group = group),
+#'              colour = "black", fill = NA)
+#'  head(mapUS49HUC2df)
+#' }
+"mapUS49HUC2df"
+
+#' USGS Hydrological Unit Code (HUC)
+#' @source \url{https://water.usgs.gov/GIS/huc.html} \url{https://nrcs.app.box.com/v/huc}
+#' @format A SpatialPolygonsDataFrame
+#' @examples
+#' \dontrun{
+#'  library(sp); library(rmap); library(ggplot2)
+#'  ggplot() +
+#'  geom_polygon(data = mapUS52HUC4df, aes(x = long, y = lat, group = group),
+#'              colour = "black", fill = NA)
+#'  head(mapUS52HUC4df)
+#' }
+"mapUS52HUC4df"
+
+# USGS HUC 2 (49 States)
+# https://water.usgs.gov/GIS/huc.html
+# https://datagateway.nrcs.usda.gov/Catalog/ProductDescription/WBD.html
+# https://nrcs.app.box.com/v/huc
+
+#' USGS Hydrological Unit Code (HUC)
+#' @source \url{https://water.usgs.gov/GIS/huc.html} \url{https://nrcs.app.box.com/v/huc}
+#' @format A SpatialPolygonsDataFrame
+#' @examples
+#' \dontrun{
+#'  library(sp); library(rmap); library(ggplot2)
+#'  ggplot() +
+#'  geom_polygon(data = mapUS49HUC4df, aes(x = long, y = lat, group = group),
+#'              colour = "black", fill = NA)
+#'  head(mapUS49HUC4df)
+#' }
+"mapUS49HUC4df"
+
+
+
+#-----------------
+# GCAM Maps (Regions, Basins, Land)
+#-----------------
+
+#' GCAM 32 Regions
+#'
+#' @source From JGCRI confluence page. \url{https://confluence.pnnl.gov/confluence/display/JGCRI/GCAM+Shape+Files}
+#' @format A SpatialPolygonsDataFrame
+#' @examples
+#' \dontrun{
+#'  library(sp); library(rmap)
+#'  sp::plot(mapGCAMReg32)
+#'  head(mapGCAMReg32@data)
+#' }
+"mapGCAMReg32"
+
+
+#' GCAM Basins
+#'
+#' @source From JGCRI confluence page. \url{https://confluence.pnnl.gov/confluence/display/JGCRI/GCAM+Shape+Files}
+#' @format A SpatialPolygonsDataFrame
+#' @examples
+#' \dontrun{
+#'  library(sp); library(rmap)
+#'  sp::plot(mapGCAMBasins)
+#'  head(mapGCAMBasins@data)
+#' }
+"mapGCAMBasins"
+
+
+#-----------------
+# Hydrology Maps (HydroShed)
+#-----------------
+
+# Hydro sheds
+# https://www.hydrosheds.org/page/hydrobasins
+# Lehner, B., Grill G. (2013): Global river hydrography and network routing:
+# baseline data and new approaches to study the world’s large river systems.
+# Hydrological Processes, 27(15): 2171–2186. Data is available at www.hydrosheds.org
+
+#' HydroSHEDS level 1
+#' @source Lehner, B., Grill G. (2013): Global river hydrography and network routing:
+#' baseline data and new approaches to study the world’s large river systems.
+#' Hydrological Processes, 27(15): 2171–2186. \url{https://www.hydrosheds.org/page/hydrobasins}
+#' @format A SpatialPolygonsDataFrame
+#' @examples
+#' \dontrun{
+#'  library(sp); library(rmap)
+#'  sp::plot(mapHydroShed1)
+#'  head(mapHydroShed1@data)
+#' }
+"mapHydroShed1"
+
+#' HydroSHEDS level 2
+#' @source Lehner, B., Grill G. (2013): Global river hydrography and network routing:
+#' baseline data and new approaches to study the world’s large river systems.
+#' Hydrological Processes, 27(15): 2171–2186. \url{https://www.hydrosheds.org/page/hydrobasins}
+#' @format A SpatialPolygonsDataFrame
+#' @examples
+#' \dontrun{
+#'  library(sp); library(rmap)
+#'  sp::plot(mapHydroShed2)
+#'  head(mapHydroShed2@data)
+#' }
+"mapHydroShed2"
+
+#' HydroSHEDS level 3
+#' @source Lehner, B., Grill G. (2013): Global river hydrography and network routing:
+#' baseline data and new approaches to study the world’s large river systems.
+#' Hydrological Processes, 27(15): 2171–2186. \url{https://www.hydrosheds.org/page/hydrobasins}
+#' @format A SpatialPolygonsDataFrame
+#' @examples
+#' \dontrun{
+#'  library(sp); library(rmap)
+#'  sp::plot(mapHydroShed3)
+#'  head(mapHydroShed3@data)
+#' }
+"mapHydroShed3"
 
 #-----------------
 # US Maps ( 52 State, 49 State, Counties, Regions, Grid Regions)
@@ -315,40 +357,6 @@
 #' }
 "mapUS49County"
 
-#' Empty global grid 0.25 degrees
-#' @source JGCRI
-#' @format R tibble
-#' @examples
-#' \dontrun{
-#' library(rmap)
-#' head(grid025)
-#' }
-"grid025"
-
-#' US 49 States
-#' Excludes Alaska, Hawaii and Puerto Rico. Includes DC.
-#' @source JGCRI
-#' @format R tibble
-#' @examples
-#' \dontrun{
-#' library(rmap)
-#' head(grid050)
-#' }
-"grid050"
-
-
-#' Gridded Population of the World, Version 4 (GPWv4)
-#' https://sedac.ciesin.columbia.edu/data/set/gpw-v4-population-count-rev11/data-download#
-#' @source SEDAC, https://sedac.ciesin.columbia.edu/data/set/gpw-v4-population-count-rev11/data-download#
-#' @format R tibble
-#' @examples
-#' \dontrun{
-#' library(rmap)
-#' head(data_pop_GPWv4To2015)
-#' }
-"grid_pop_GPWv4To2015"
-
-
 #--------------------
 # Cropped
 #--------------------
@@ -372,30 +380,6 @@
 #' head(mapGCAMBasinsUS49)
 #' }
 "mapGCAMBasinsUS49"
-
-#' GCAM Land cropped to US52
-#'
-#' @source Created from rmap maps
-#' @format A SpatialPolygonsDataFrame
-#' @examples
-#' \dontrun{
-#'  library(sp); library(rmap)
-#'  sp::plot(mapGCAMLandUS52)
-#'  head(mapGCAMLandUS52@data)
-#' }
-"mapGCAMLandUS52"
-
-#' GCAM Land cropped to US49
-#'
-#' @source Created from rmap maps.
-#' @format A SpatialPolygonsDataFrame
-#' @examples
-#' \dontrun{
-#'  library(sp); library(rmap)
-#'  sp::plot(mapGCAMLandUS49)
-#'  head(mapGCAMLandUS49@data)
-#' }
-"mapGCAMLandUS49"
 
 
 #--------------------
@@ -549,26 +533,8 @@
 #' }
 "mapGCAMBasinsdf"
 
-#' GCAM Land
-#'
-#' @source From the moirai project.
-#' Shapefile received directly from Alan V. Di Vittorio.
-#' Component files available at:
-#' \url{https://github.com/JGCRI/moirai/blob/master/ancillary/moirai_valid_boundaries.zip}
-#' \url{https://github.com/JGCRI/moirai/blob/build-r-package/tests/testthat/test_compare_raster_w_outputs.R}
-#' @format A SpatialPolygonsDataFrame
-#' @examples
-#' \dontrun{
-#'  library(sp); library(rmap); library(ggplot2)
-#'  ggplot() +
-#'  geom_polygon(data = mapGCAMLanddf, aes(x = long, y = lat, group = group),
-#'              colour = "black", fill = NA)
-#'  head(mapGCAMLanddf)
-#' }
-"mapGCAMLanddf"
-
 #-----------------
-# Hydrology Maps (HydroShed, HUC)
+# Hydrology Maps (HydroShed)
 #-----------------
 
 # Hydro sheds
@@ -621,74 +587,6 @@
 #'  head(mapHydroShed3df)
 #' }
 "mapHydroShed3df"
-
-
-# USGS HUC 2 (52 States)
-# https://water.usgs.gov/GIS/huc.html
-# https://datagateway.nrcs.usda.gov/Catalog/ProductDescription/WBD.html
-# https://nrcs.app.box.com/v/huc
-
-#' USGS Hydrological Unit Code (HUC)
-#' @source \url{https://water.usgs.gov/GIS/huc.html} \url{https://nrcs.app.box.com/v/huc}
-#' @format A SpatialPolygonsDataFrame
-#' @examples
-#' \dontrun{
-#'  library(sp); library(rmap); library(ggplot2)
-#'  ggplot() +
-#'  geom_polygon(data = mapUS52HUC2df, aes(x = long, y = lat, group = group),
-#'              colour = "black", fill = NA)
-#'  head(mapUS52HUC2df)
-#' }
-"mapUS52HUC2df"
-
-# USGS HUC 2 (49 States)
-# https://water.usgs.gov/GIS/huc.html
-# https://datagateway.nrcs.usda.gov/Catalog/ProductDescription/WBD.html
-# https://nrcs.app.box.com/v/huc
-
-#' USGS Hydrological Unit Code (HUC)
-#' @source \url{https://water.usgs.gov/GIS/huc.html} \url{https://nrcs.app.box.com/v/huc}
-#' @format A SpatialPolygonsDataFrame
-#' @examples
-#' \dontrun{
-#'  library(sp); library(rmap); library(ggplot2)
-#'  ggplot() +
-#'  geom_polygon(data = mapUS49HUC2df, aes(x = long, y = lat, group = group),
-#'              colour = "black", fill = NA)
-#'  head(mapUS49HUC2df)
-#' }
-"mapUS49HUC2df"
-
-#' USGS Hydrological Unit Code (HUC)
-#' @source \url{https://water.usgs.gov/GIS/huc.html} \url{https://nrcs.app.box.com/v/huc}
-#' @format A SpatialPolygonsDataFrame
-#' @examples
-#' \dontrun{
-#'  library(sp); library(rmap); library(ggplot2)
-#'  ggplot() +
-#'  geom_polygon(data = mapUS52HUC4df, aes(x = long, y = lat, group = group),
-#'              colour = "black", fill = NA)
-#'  head(mapUS52HUC4df)
-#' }
-"mapUS52HUC4df"
-
-# USGS HUC 2 (49 States)
-# https://water.usgs.gov/GIS/huc.html
-# https://datagateway.nrcs.usda.gov/Catalog/ProductDescription/WBD.html
-# https://nrcs.app.box.com/v/huc
-
-#' USGS Hydrological Unit Code (HUC)
-#' @source \url{https://water.usgs.gov/GIS/huc.html} \url{https://nrcs.app.box.com/v/huc}
-#' @format A SpatialPolygonsDataFrame
-#' @examples
-#' \dontrun{
-#'  library(sp); library(rmap); library(ggplot2)
-#'  ggplot() +
-#'  geom_polygon(data = mapUS49HUC4df, aes(x = long, y = lat, group = group),
-#'              colour = "black", fill = NA)
-#'  head(mapUS49HUC4df)
-#' }
-"mapUS49HUC4df"
 
 
 #-----------------
@@ -809,35 +707,6 @@
 #'  head(mapGCAMBasinsUS49df)
 #' }
 "mapGCAMBasinsUS49df"
-
-#' GCAM Land cropped to US52
-#'
-#' @source Created from rmap maps
-#' @format A SpatialPolygonsDataFrame
-#' @examples
-#' \dontrun{
-#'  library(sp); library(rmap); library(ggplot2)
-#'  ggplot() +
-#'  geom_polygon(data = mapGCAMLandUS52df, aes(x = long, y = lat, group = group),
-#'              colour = "black", fill = NA)
-#'  head(mapGCAMLandUS52df)
-#' }
-"mapGCAMLandUS52df"
-
-#' GCAM Land cropped to US49
-#'
-#' @source Created from rmap maps.
-#' @format A SpatialPolygonsDataFrame
-#' @examples
-#' \dontrun{
-#'  library(sp); library(rmap); library(ggplot2)
-#'  ggplot() +
-#'  geom_polygon(data = mapGCAMLandUS49df, aes(x = long, y = lat, group = group),
-#'              colour = "black", fill = NA)
-#'  head(mapGCAMLandUS49df)
-#' }
-"mapGCAMLandUS49df"
-
 
 #--------------------
 # Mergers
