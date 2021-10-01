@@ -69,6 +69,140 @@
 "mapStates"
 
 #-----------------
+# US HUC levels
+#-----------------
+
+# USGS HUC 2 (52 States)
+# https://water.usgs.gov/GIS/huc.html
+# https://datagateway.nrcs.usda.gov/Catalog/ProductDescription/WBD.html
+# https://nrcs.app.box.com/v/huc
+
+#' USGS Hydrological Unit Code (HUC)
+#' @source \url{https://water.usgs.gov/GIS/huc.html} \url{https://nrcs.app.box.com/v/huc}
+#' @format A SpatialPolygonsDataFrame
+#' @examples
+#' \dontrun{
+#'  library(sp); library(rmap)
+#'  sp::plot(mapUS52HUC2)
+#'  head(mapUS52HUC2@data)
+#' }
+"mapUS52HUC2"
+
+# USGS HUC 2 (49 States)
+# https://water.usgs.gov/GIS/huc.html
+# https://datagateway.nrcs.usda.gov/Catalog/ProductDescription/WBD.html
+# https://nrcs.app.box.com/v/huc
+
+#' USGS Hydrological Unit Code (HUC)
+#' @source \url{https://water.usgs.gov/GIS/huc.html} \url{https://nrcs.app.box.com/v/huc}
+#' @format A SpatialPolygonsDataFrame
+#' @examples
+#' \dontrun{
+#'  library(sp); library(rmap)
+#'  sp::plot(mapUS49HUC2)
+#'  head(mapUS49HUC2@data)
+#' }
+"mapUS49HUC2"
+
+#' USGS Hydrological Unit Code (HUC)
+#' @source \url{https://water.usgs.gov/GIS/huc.html} \url{https://nrcs.app.box.com/v/huc}
+#' @format A SpatialPolygonsDataFrame
+#' @examples
+#' \dontrun{
+#'  library(sp); library(rmap)
+#'  sp::plot(mapUS52HUC4)
+#'  head(mapUS52HUC4@data)
+#' }
+"mapUS52HUC4"
+
+# USGS HUC 2 (49 States)
+# https://water.usgs.gov/GIS/huc.html
+# https://datagateway.nrcs.usda.gov/Catalog/ProductDescription/WBD.html
+# https://nrcs.app.box.com/v/huc
+
+#' USGS Hydrological Unit Code (HUC)
+#' @source \url{https://water.usgs.gov/GIS/huc.html} \url{https://nrcs.app.box.com/v/huc}
+#' @format A SpatialPolygonsDataFrame
+#' @examples
+#' \dontrun{
+#'  library(sp); library(rmap)
+#'  sp::plot(mapUS49HUC4)
+#'  head(mapUS49HUC4@data)
+#' }
+"mapUS49HUC4"
+
+
+
+# USGS HUC 2 (52 States)
+# https://water.usgs.gov/GIS/huc.html
+# https://datagateway.nrcs.usda.gov/Catalog/ProductDescription/WBD.html
+# https://nrcs.app.box.com/v/huc
+
+#' USGS Hydrological Unit Code (HUC)
+#' @source \url{https://water.usgs.gov/GIS/huc.html} \url{https://nrcs.app.box.com/v/huc}
+#' @format A SpatialPolygonsDataFrame
+#' @examples
+#' \dontrun{
+#'  library(sp); library(rmap); library(ggplot2)
+#'  ggplot() +
+#'  geom_polygon(data = mapUS52HUC2df, aes(x = long, y = lat, group = group),
+#'              colour = "black", fill = NA)
+#'  head(mapUS52HUC2df)
+#' }
+"mapUS52HUC2df"
+
+# USGS HUC 2 (49 States)
+# https://water.usgs.gov/GIS/huc.html
+# https://datagateway.nrcs.usda.gov/Catalog/ProductDescription/WBD.html
+# https://nrcs.app.box.com/v/huc
+
+#' USGS Hydrological Unit Code (HUC)
+#' @source \url{https://water.usgs.gov/GIS/huc.html} \url{https://nrcs.app.box.com/v/huc}
+#' @format A SpatialPolygonsDataFrame
+#' @examples
+#' \dontrun{
+#'  library(sp); library(rmap); library(ggplot2)
+#'  ggplot() +
+#'  geom_polygon(data = mapUS49HUC2df, aes(x = long, y = lat, group = group),
+#'              colour = "black", fill = NA)
+#'  head(mapUS49HUC2df)
+#' }
+"mapUS49HUC2df"
+
+#' USGS Hydrological Unit Code (HUC)
+#' @source \url{https://water.usgs.gov/GIS/huc.html} \url{https://nrcs.app.box.com/v/huc}
+#' @format A SpatialPolygonsDataFrame
+#' @examples
+#' \dontrun{
+#'  library(sp); library(rmap); library(ggplot2)
+#'  ggplot() +
+#'  geom_polygon(data = mapUS52HUC4df, aes(x = long, y = lat, group = group),
+#'              colour = "black", fill = NA)
+#'  head(mapUS52HUC4df)
+#' }
+"mapUS52HUC4df"
+
+# USGS HUC 2 (49 States)
+# https://water.usgs.gov/GIS/huc.html
+# https://datagateway.nrcs.usda.gov/Catalog/ProductDescription/WBD.html
+# https://nrcs.app.box.com/v/huc
+
+#' USGS Hydrological Unit Code (HUC)
+#' @source \url{https://water.usgs.gov/GIS/huc.html} \url{https://nrcs.app.box.com/v/huc}
+#' @format A SpatialPolygonsDataFrame
+#' @examples
+#' \dontrun{
+#'  library(sp); library(rmap); library(ggplot2)
+#'  ggplot() +
+#'  geom_polygon(data = mapUS49HUC4df, aes(x = long, y = lat, group = group),
+#'              colour = "black", fill = NA)
+#'  head(mapUS49HUC4df)
+#' }
+"mapUS49HUC4df"
+
+
+
+#-----------------
 # GCAM Maps (Regions, Basins, Land)
 #-----------------
 

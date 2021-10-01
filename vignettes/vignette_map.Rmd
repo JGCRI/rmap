@@ -638,7 +638,7 @@ rmap::map(data,
 For example if someone wants to analyze counties in Texas.
 
 ```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
-library(rmap); library(raster)
+library(rmap); library(raster); library(sp)
 
 shapeSubRegions <- rmap::mapUS49County
 shapeCropTo <- rmap::mapUS49
