@@ -21,6 +21,7 @@
 <a href="https://jgcri.github.io/rmap/cheatsheet.pdf" target="_blank"><img src="https://dabuttonfactory.com/button.png?t=Cheatsheet&f=Open+Sans&ts=22&tc=000&hp=25&vp=16&c=11&bgt=unicolored&bgc=eee&bs=1&bc=999" alt="https://jgcri.github.io/rmap/cheatsheet.pdf" height="60"/></a>  
 </p>
 
+<a href="https://jgcri.github.io/rmap/articles/vignette_map.html" class="button big">Create Project</a>
 
 
 
