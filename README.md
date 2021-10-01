@@ -18,6 +18,8 @@
 <button onclick="window.location.href='https://jgcri.github.io/rmap/articles/vignette_map.html'" style="text-align:center;font-size: 16px;padding: 10px;margin: 15px">User Guide</button>       
 <button onclick="window.location.href='https://jgcri.github.io/rmap/cheatsheet.pdf'" style="text-align:center;font-size: 16px;padding: 10px; margin:15px">Cheatsheet</button>
 
+[User Guide](https://jgcri.github.io/rmap/articles/vignette_map.html){: .btn} [Cheatsheet](https://jgcri.github.io/rmap/cheatsheet.pdf){: .btn}
+    
 </div>
 
 <!-- ------------------------>
