@@ -13,14 +13,12 @@
 
 `rmap` is comprehensive mapping package to create easily customizable maps and compare across scenarios, years and data classes. The package allows creation of difference maps as well as customizable legends, color palettes and styles.
 
-<br>
+<div align="center">
 
-<p align="center">
-<a href="https://jgcri.github.io/rmap/articles/vignette_map.html" target="_blank"><img src="https://github.com/JGCRI/jgcricolors/blob/main/vignettes/button_user_guide.PNG?raw=true" alt="https://jgcri.github.io/rmap/articles/vignette_map.html" height="60"/></a>
-<img src="https://github.com/JGCRI/jgcricolors/blob/main/vignettes/button_divider.PNG?raw=true" height="40"/>
-<a href="https://jgcri.github.io/rmap/cheatsheet.pdf" target="_blank"><img src="https://github.com/JGCRI/jgcricolors/blob/main/vignettes/button_cheatsheet.PNG?raw=true" alt="https://jgcri.github.io/rmap/cheatsheet.pdf" height="60"/></a>
-</p>
+<button onclick="window.location.href='https://jgcri.github.io/rmap/articles/vignette_map.html'" style="text-align:center;font-size: 16px;padding: 10px;margin: 15px">User Guide</button>       
+<button onclick="window.location.href='https://jgcri.github.io/rmap/cheatsheet.pdf'" style="text-align:center;font-size: 16px;padding: 10px; margin:15px">Cheatsheet</button>
 
+</div>
 
 <!-- ------------------------>
 <!-- ------------------------>
