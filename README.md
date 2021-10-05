@@ -1,7 +1,9 @@
 <!-- badges: start -->
-[![codecov](https://codecov.io/gh/JGCRI/rmap/branch/main/graph/badge.svg?token=XQ913U4IYM)](https://codecov.io/gh/JGCRI/rmap) 
 [![build](https://github.com/JGCRI/rmap/workflows/build/badge.svg)](https://github.com/JGCRI/rmap/workflows/build/badge.svg)
+[![test_coverage](https://github.com/JGCRI/jgcricolors/actions/workflows/test_coverage.yml/badge.svg?branch=main)]
+[![codecov](https://codecov.io/gh/JGCRI/rmap/branch/main/graph/badge.svg?token=XQ913U4IYM)](https://codecov.io/gh/JGCRI/rmap) 
 [![docs](https://github.com/JGCRI/rmap/actions/workflows/docs.yaml/badge.svg?branch=main)](https://github.com/JGCRI/rmap/actions/workflows/docs.yaml)
+[![Github All Releases](https://img.shields.io/github/downloads/JGCRI/rmap/total.svg)]()
 <!-- badges: end -->
 
 
