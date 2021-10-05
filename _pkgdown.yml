@@ -15,9 +15,9 @@ navbar:
       text: "News"
       href: news/index.html
     - text: "Contribute"
-      href: contribute/index.html
+      href: CONTRIBUTE.html
     - text: cheatsheet
-      href: https://jgcri.github.io/rmap/rmapCheatsheet.pdf
+      href: https://jgcri.github.io/rmap/cheatsheet.pdf
       
 toc:
   depth: 3
