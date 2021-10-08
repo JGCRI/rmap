@@ -70,7 +70,8 @@ brew install imagemagick@6
 
 A detailed [User Guide](https://jgcri.github.io/rmap/articles/vignette_map.html) walks users step-by-step through all the available functionality of `rmap`. A simpler [Cheatsheet](https://jgcri.github.io/rmap/cheatsheet.pdf) is also provided to help users remember some of the key functionality in a single sheet. The following few simple examples demonstrate the simplicity of using `rmap`. Available maps in `rmap` can be found at: https://jgcri.github.io/rmap/articles/vignette_map.html#built-in-maps.
 
-* Plot a map on countries
+## Plot Country Data
+
 ```
 library(rmap)
 
@@ -78,9 +79,11 @@ data = data.frame(subRegion = c("Spain","Germany","Austria","Greece","Italy"),
                   value = c(5,10,15,34,2))
 map(data)
 ```
+
 ![Plot a map on Countries](mapCountries.png)
 
-* Compare scenarios
+## Compare Scenarios
+
 ```
 library(rmap)
 
@@ -95,10 +98,13 @@ data = data.frame(subRegion = c("Spain","Germany","Austria","Greece","Italy",
 							   "scen3","scen3","scen3","scen3","scen3"))
 map(data, scenRef = "scen1")
 ```
+
 ![Compare scenarios](mapScenarios.png)
+
 ![Difference Plots](mapScenariosDiff.png)
 
-* Plot a map on US States
+## Plot a map on US States
+
 ```
 library(rmap)
 
@@ -106,9 +112,11 @@ data = data.frame(subRegion = c("CA","FL","ID","MO","TX","WY"),
                   value = c(5,10,15,34,2,7))
 map(data)
 ```
+
 ![Plot a map on US States](mapUS.PNG)
 
-* Plot a map on US States with labels and an under layer
+## Plot a map on US States with labels and an under layer
+
 ```
 library(rmap)
 
@@ -116,9 +124,11 @@ data = data.frame(subRegion = c("CA","FL","ID","MO","TX","WY"),
                   value = c(5,10,15,34,2,7))
 map(data, underLayer = mapUS52Compact, crop_to_underLayer = T, labels = T)
 ```
+
 ![Plot a map on US States and add an underLayer](mapUSCompact.png)
 
-* Fully customize the output map using ggplot2 arguments
+## Fully customize the output map using ggplot2 arguments
+
 ```
 library(rmap); library(ggplot2)
 
@@ -137,6 +147,7 @@ my_map_custom <- my_map[[1]] +
 ggsave("my_map_custom.png")
 
 ```
+
 ![Fully customize the output map using ggplot2 arguments](mapUSCompactCustom.png)
 
 # Acknowledgements
