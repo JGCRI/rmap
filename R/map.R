@@ -334,10 +334,6 @@ map <- function(data = NULL,
     shapex = NULL
   }
 
-  # Make sure subRegion is character
-  data <- data %>%
-      dplyr::mutate(subRegion = as.character(subRegion))
-
   #.................-
   # Run map_plot directly if a shpefile is provided
   # .................
@@ -518,6 +514,10 @@ map <- function(data = NULL,
 
   if(is.null(data)){
     stop ("Data is NULL. Need to provide valid data.")
+  } else{
+    # Make sure subRegion is character
+    data <- data %>%
+      dplyr::mutate(subRegion = as.character(subRegion))
   }
 
 
