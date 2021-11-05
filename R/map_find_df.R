@@ -156,7 +156,13 @@ map_find_df <- function(data) {
 
 
 
-    mapFindx <- get(paste(gsub("subReg","map",subRegChosen),"df",sep=""))
+    mapFindx <- get(paste(gsub("subReg","map",gsub("Alt","",subRegChosen)),"df",sep=""))
+
+    if(grepl("Alt",subRegChosen)){
+      mapFindx <- mapFindx %>%
+        dplyr::mutate(subRegionOrig=subRegion,
+                      subRegion = subRegionAlt)
+    }
 
     print(paste("Using map: ", unique(mapFindx$subRegionType), sep = ""))
     }

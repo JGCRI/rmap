@@ -114,6 +114,20 @@ if(T){
             legendSingleValue = T,
             legendSingleColor = "green"); a
 
+  # Single
+  dataPoly_test = data.frame(subRegion = c(1:6),
+                             x = c(2050,2050,2050,2050,2050,2050),
+                             value = c(5,10,15,34,2,7))
+  a<-rmap::map(data=dataPoly_test,
+               shape = rmap::mapGCAMBasins,
+               folder = "rmapTEST_subRegionAlt",
+               labels=T); a
+
+  # data=dataPoly_test
+  # folder = "rmapTEST_subRegionAlt"
+  # labels=T
+
+
   # Single Custom Shape
   dataPoly_test = data.frame(subRegion = c("Punjab","Baluchistan","K.P.","Sind","Yazd","Tehran"),
                              x = c(2050,2050,2050,2050,2050,2050),
