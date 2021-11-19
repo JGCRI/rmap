@@ -8,8 +8,7 @@ library(rmap); library(dplyr); library(ggplot2)
 
 # Load example data set from NASA SEDAC world population and reshape
 # https://sedac.ciesin.columbia.edu/data/collection/gpw-v4
-dataGridTest = rmap::grid_pop_GPWv4To2015 %>%
-  tidyr::gather(key="x", value="value",-lat,-lon) %>%
+dataGridTest = rmap::example_gridData_GWPv4To2015 %>%
   dplyr::mutate(units="person",
                 value=value/1,
                 class="class1",
@@ -36,6 +35,12 @@ rmap::map(data=dataGridTest %>%
                    class %in% c("class1")),
     folder = "rmapTEST_grid_Single"
     )
+
+  # data=dataGridTest %>%
+  #   filter(x %in% c(2015),
+  #          scenario %in% c("scenario1"),
+  #          class %in% c("class1"))
+  # folder = "rmapTEST_grid_Single"
 
 rmap::map(data=dataGridTest %>%
             filter(x %in% c(2015),
