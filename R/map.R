@@ -515,9 +515,11 @@ map <- function(data = NULL,
   if(is.null(data)){
     stop ("Data is NULL. Need to provide valid data.")
   } else{
+    if("subRegion" %in% names(data)){
     # Make sure subRegion is character
     data <- data %>%
       dplyr::mutate(subRegion = as.character(subRegion))
+    }
   }
 
 
