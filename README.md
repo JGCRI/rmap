@@ -39,10 +39,14 @@ Khan, Z., Zhao, M., Wild, T., Vernon, C., 2021. rmap - An R package to easily pl
 
 1. Download and install:
     - R (https://www.r-project.org/)
-    - R studio (https://www.rstudio.com/)  
+    - R studio (https://www.rstudio.com/) (Optional)
     
     
-2. Open R studio:
+2. In R or R studio:
+```r
+install.packages("devtools")
+devtools::install_github("JGCRI/rmap")
+```
 
 ```r
 install.packages("devtools")
@@ -53,13 +57,14 @@ Additional steps for UBUNTU from a terminal
 ```
 sudo add-apt-repository ppa:ubuntugis/ppa
 sudo apt-get update
-sudo apt-get install libudunits2-dev libgdal-dev libgeos-dev libproj-dev libmagick++-dev
+sudo apt-get install -y libcurl4-openssl-dev libssl-dev libxml2-dev libudunits2-dev libgdal-dev libgeos-dev libproj-dev libavfilter-dev  libmagick++-dev
 ```
 
 Additional steps for MACOSX from a terminal
 ```
 brew install pkg-config
 brew install gdal
+brew install geos
 brew install imagemagick@6
 ```
 
