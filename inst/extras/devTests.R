@@ -119,6 +119,16 @@ if(T){
             legendSingleValue = T,
             legendSingleColor = "green"); a
 
+  # Test Background colors
+  a<-rmap::map(data=dataPoly_test,
+               shape = rmap::mapUS52Compact,
+               folder = "rmapTEST_poly_Single",
+               underLayer = rmap::mapUS52Compact,
+               labels=T,
+               underLayerLabels = T,
+               crop = F,
+               background = "white"); a
+
   # Single
   dataPoly_test = data.frame(subRegion = c(1:6),
                              x = c(2050,2050,2050,2050,2050,2050),

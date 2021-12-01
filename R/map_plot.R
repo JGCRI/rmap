@@ -57,7 +57,9 @@
 #' @param ncol Default = 3.  Number of columns to wrap maps
 #' @param size Default = 12. Text size of plots.
 #' @param alpha Default = 1. Transparency of fill colors.
-#' @param background Default = F. Add background water color, border and default underlayer map.
+#' @param background Default = F. T adds background water color, border and default underlayer map.
+#' If background is set to a color (e.g. background = "grey10") then map will be produced with
+#' water of that color, a border and underlayer map.
 #' @param crop Default = T. Crop to boundary data.
 #' @param crop_to_underLayer Default = F. Crop to the underLayer boundary provided.
 #' @param crop_to_overLayer Default = F. Crop to the overLayer boundary provided.
@@ -1120,13 +1122,23 @@ map <- map +
   theme
 
 
-if(background){
+if(background==T){
   map = map +
     ggplot2::theme(
     panel.border = ggplot2::element_rect(color="black",size=0.1, fill = NA),
     panel.background = ggplot2::element_rect(fill="lightcyan2"),
     strip.background = ggplot2::element_rect(color="black",size=0.1, fill="gray30"),
     strip.text = ggplot2::element_text(color = "white"))
+
+}
+
+if(is.character(background)){
+  map = map +
+    ggplot2::theme(
+      panel.border = ggplot2::element_rect(color="black",size=0.1, fill = NA),
+      panel.background = ggplot2::element_rect(fill=background),
+      strip.background = ggplot2::element_rect(color="black",size=0.1, fill="gray30"),
+      strip.text = ggplot2::element_text(color = "white"))
 
 }
 

@@ -178,7 +178,9 @@ map_plot(
 
 \item{alpha}{Default = 1. Transparency of fill colors.}
 
-\item{background}{Default = F. Add background water color, border and default underlayer map.}
+\item{background}{Default = F. T adds background water color, border and default underlayer map.
+If background is set to a color (e.g. background = "grey10") then map will be produced with
+water of that color, a border and underlayer map.}
 
 \item{crop}{Default = T. Crop to boundary data.}
 
