@@ -1,9 +1,5 @@
 title: rmap
-
-home:
-  sidebar:
-    structure: [links, license, community, authors, dev]
-    
+  
 navbar:
   type: inverse
   left:
