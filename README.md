@@ -4,6 +4,7 @@
 [![codecov](https://codecov.io/gh/JGCRI/rmap/branch/main/graph/badge.svg?token=XQ913U4IYM)](https://codecov.io/gh/JGCRI/rmap) 
 [![docs](https://github.com/JGCRI/rmap/actions/workflows/docs.yaml/badge.svg?branch=main)](https://github.com/JGCRI/rmap/actions/workflows/docs.yaml)
 [![Github All Releases](https://img.shields.io/github/downloads/JGCRI/rmap/total.svg)]()
+[![status](https://joss.theoj.org/papers/4cdf462f70681bc335ddebf5868b249c/status.svg)](https://joss.theoj.org/papers/4cdf462f70681bc335ddebf5868b249c)
 <!-- badges: end -->
 
 
@@ -29,7 +30,7 @@
 <!-- ------------------------>
 <!-- ------------------------>
 
-Khan, Z., Zhao, M., Wild, T., Vernon, C., 2021. rmap - An R package to easily plot polygon and gridded data on highly customizable built-in and user maps. (In progress) Journal of Open Source Software, DOI: XXXX
+Khan, Z., Zhao, M., Wild, T., Vernon, C., 2022. rmap - An R package to plot and compare tabular data on customizable maps across scenarios and time. (In progress) Journal of Open Source Software, DOI: XXXX
 
 <!-- ------------------------>
 <!-- ------------------------>
