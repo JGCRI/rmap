@@ -21,7 +21,7 @@ Khan, Z., Zhao, M., Wild, T., Vernon, C., 2022. rmap: An R package to plot and c
   year = {2022},
   note = {SUBMITTED},
   url = {https://github.com/JGCRI/rmap},
-  journal={Journal of Open Source Software},
-  doi = {xxx}
+  doi = {xxx},
+  journal={Journal of Open Source Software}
 }
 ```
