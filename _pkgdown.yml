@@ -20,7 +20,7 @@ navbar:
       href: https://jgcri.github.io/rmap/cheatsheet.pdf
     - icon: fas fa-quote-left
       text: Citation
-      href: citation.html
+      href: CITATION.html
       
 toc:
   depth: 3
