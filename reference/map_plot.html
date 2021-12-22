@@ -88,7 +88,8 @@ Each figure is accompanied with a csv table."><!-- mathjax --><script src="https
 Each figure is accompanied with a csv table.</p>
     </div>
 
-    <div id="ref-usage">Usage,<div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">map_plot</span><span class="op">(</span>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">map_plot</span><span class="op">(</span>
   data <span class="op">=</span> <span class="cn">NULL</span>,
   fillColumn <span class="op">=</span> <span class="cn">NULL</span>,
   shapeColumn <span class="op">=</span> <span class="cn">NULL</span>,
@@ -112,6 +113,8 @@ Each figure is accompanied with a csv table.</p>
   legendBreaks <span class="op">=</span> <span class="cn">NULL</span>,
   pdfpng <span class="op">=</span> <span class="st">"png"</span>,
   underLayer <span class="op">=</span> <span class="cn">NULL</span>,
+  color <span class="op">=</span> <span class="st">"grey40"</span>,
+  lwd <span class="op">=</span> <span class="fl">0.1</span>,
   underLayerColor <span class="op">=</span> <span class="st">"gray40"</span>,
   underLayerFill <span class="op">=</span> <span class="st">"gray90"</span>,
   underLayerLwd <span class="op">=</span> <span class="fl">0.1</span>,
@@ -149,7 +152,8 @@ Each figure is accompanied with a csv table.</p>
   crop_to_underLayer <span class="op">=</span> <span class="cn">F</span>,
   crop_to_overLayer <span class="op">=</span> <span class="cn">F</span>,
   transparent <span class="op">=</span> <span class="cn">F</span>
-<span class="op">)</span></code></pre></div></div>
+<span class="op">)</span></code></pre></div>
+    </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
@@ -199,6 +203,10 @@ Each figure is accompanied with a csv table.</p>
 <dd><p>Default = "png"</p></dd>
 <dt>underLayer</dt>
 <dd><p>Default = NULL</p></dd>
+<dt>color</dt>
+<dd><p>Default = "grey40". Color of polygon lines.</p></dd>
+<dt>lwd</dt>
+<dd><p>Default = 0.1. Line width of polygon boundaries.</p></dd>
 <dt>underLayerColor</dt>
 <dd><p>Default = "gray40"</p></dd>
 <dt>underLayerFill</dt>
@@ -293,7 +301,7 @@ water of that color, a border and underlayer map.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.0.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.1.</p>
 </div>
 
       </footer></div>
