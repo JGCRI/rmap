@@ -202,10 +202,22 @@
     <loc>/reference/map_plot.html</loc>
   </url>
   <url>
-    <loc>/reference/mapping_tethys_grid_basin_region_country.html</loc>
+    <loc>/reference/mapping_US49.html</loc>
   </url>
   <url>
-    <loc>/reference/mappings.html</loc>
+    <loc>/reference/mapping_US52.html</loc>
+  </url>
+  <url>
+    <loc>/reference/mapping_country_gcam32.html</loc>
+  </url>
+  <url>
+    <loc>/reference/mapping_gcambasins.html</loc>
+  </url>
+  <url>
+    <loc>/reference/mapping_param_query.html</loc>
+  </url>
+  <url>
+    <loc>/reference/mapping_tethys_grid_basin_region_country.html</loc>
   </url>
   <url>
     <loc>/reference/mapsSubRegions.html</loc>
