@@ -19,6 +19,20 @@ mapping_tethys_grid_basin_region_country <- readRDS("./inst/extras/rmap_tethys_g
                 lon=Longitude); mapping_tethys_grid_basin_region_country
 use_data(mapping_tethys_grid_basin_region_country, version=3, overwrite=T)
 
+mapping_param_query <- rmap::mappings()$mapParamQuery
+use_data(mapping_param_query, version=3, overwrite=T)
+
+mapping_US49 <- rmap::mappings()$US49
+use_data(mapping_US49, version=3, overwrite=T)
+
+mapping_US52 <- rmap::mappings()$US52
+use_data(mapping_US52, version=3, overwrite=T)
+
+mapping_country_gcam32 <- rmap::mappings()$countryToGCAMReg32
+use_data(mapping_country_gcam32, version=3, overwrite=T)
+
+mapping_gcambasins <- rmap::mappings()$mappingGCAMBasins
+use_data(mapping_gcambasins, version=3, overwrite=T)
 
 
 #-----------------
@@ -847,9 +861,9 @@ if(redoMaps){
                   subRegion.1=as.character(subRegion.1),
                   subRegionAlt.1=as.numeric(subRegionAlt.1),
                   subRegionAlt.2=as.numeric(subRegionAlt.2),
-                  subRegion=case_when(subRegion.2 %in% rmap::mappings()$US52~subRegion.2,
+                  subRegion=case_when(subRegion.2 %in% mapping_US52~subRegion.2,
                                       TRUE~subRegion.1),
-                  subRegionAlt=case_when(subRegion.2 %in% rmap::mappings()$US52~1,
+                  subRegionAlt=case_when(subRegion.2 %in% mapping_US52~1,
                                          TRUE~subRegionAlt.1),
                   subRegionAlt=as.integer(subRegionAlt)) %>%
     dplyr::select(region,subRegion,subRegionType, subRegionAlt)
@@ -883,9 +897,9 @@ if(redoMaps){
                   subRegion.1=as.character(subRegion.1),
                   subRegionAlt.1=as.numeric(subRegionAlt.1),
                   subRegionAlt.2=as.numeric(subRegionAlt.2),
-                  subRegion=case_when(subRegion.2 %in% rmap::mappings()$US52~subRegion.2,
+                  subRegion=case_when(subRegion.2 %in% mapping_US52~subRegion.2,
                                       TRUE~subRegion.1),
-                  subRegionAlt=case_when(subRegion.2 %in% rmap::mappings()$US52~1,
+                  subRegionAlt=case_when(subRegion.2 %in% mapping_US52~1,
                                          TRUE~subRegionAlt.1),
                   subRegionAlt=as.integer(subRegionAlt)) %>%
     dplyr::select(region,subRegion,subRegionType, subRegionAlt)

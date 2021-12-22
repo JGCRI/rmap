@@ -17,6 +17,62 @@
 #' }
 "mapping_tethys_grid_basin_region_country"
 
+#' mapping_param_query
+#'
+#' @source rmap
+#' @format R table
+#' @examples
+#' \dontrun{
+#'  library(rmap);
+#'  mapping_param_query <- rmap::mapping_param_query
+#' }
+"mapping_param_query"
+
+#' mapping_US49
+#'
+#' @source rmap
+#' @format R table
+#' @examples
+#' \dontrun{
+#'  library(rmap);
+#'  mapping_US49 <- rmap::mapping_US49
+#' }
+"mapping_US49"
+
+#' mapping_US52
+#'
+#' @source rmap
+#' @format R table
+#' @examples
+#' \dontrun{
+#'  library(rmap);
+#'  mapping_US52 <- rmap::mapping_US52
+#' }
+"mapping_US52"
+
+#' mapping_country_gcam32
+#'
+#' @source rmap
+#' @format R table
+#' @examples
+#' \dontrun{
+#'  library(rmap);
+#'  mapping_country_gcam32 <- rmap::mapping_country_gcam32
+#' }
+"mapping_country_gcam32"
+
+
+#' mapping_gcambasins
+#'
+#' @source rmap
+#' @format R table
+#' @examples
+#' \dontrun{
+#'  library(rmap);
+#'  mapping_gcambasins <- rmap::mapping_gcambasins
+#' }
+"mapping_gcambasins"
+
 #-----------------
 # Example data files to test rmap
 #-----------------

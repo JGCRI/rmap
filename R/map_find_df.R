@@ -41,7 +41,7 @@ map_find_df <- function(data) {
 
     # Map subRegions to rmap regions
     data <- data %>%
-      dplyr::left_join(rmap::mappings("mappingGCAMBasins"),by="subRegion")%>%
+      dplyr::left_join(rmap::mapping_gcambasins,by="subRegion")%>%
       dplyr::mutate(subRegion=dplyr::case_when(!is.na(subRegionMap)~subRegionMap,
                                         TRUE~subRegion))%>%
       dplyr::select(-subRegionMap)
