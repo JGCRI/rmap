@@ -6,6 +6,21 @@
 # Example data files to test rmap
 #-----------------
 
+#' mapping_tethys_grid_basin_region_country
+#'
+#' @source tethys, gcam
+#' @format R table
+#' @examples
+#' \dontrun{
+#'  library(rmap);
+#'  mapping_tethys_grid_basin_region_country <- rmap::mapping_tethys_grid_basin_region_country
+#' }
+"mapping_tethys_grid_basin_region_country"
+
+#-----------------
+# Example data files to test rmap
+#-----------------
+
 #' Example data by param to plot in Maps
 #'
 #' @source example data by Param

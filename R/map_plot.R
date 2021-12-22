@@ -27,6 +27,8 @@
 #' @param labelFill Default = NA,
 #' @param labelBorderSize Default = NA
 #' @param pdfpng Default = "png"
+#' @param color Default = "grey40". Color of polygon lines.
+#' @param lwd Default = 0.1. Line width of polygon boundaries.
 #' @param underLayer Default = NULL
 #' @param underLayerColor Default = "gray40"
 #' @param underLayerFill Default = "gray40"
@@ -94,6 +96,8 @@ map_plot<-function(data=NULL,
                   legendBreaks=NULL,
                   pdfpng="png",
                   underLayer = NULL,
+                  color = "grey40",
+                  lwd = 0.1,
                   underLayerColor = "gray40",
                   underLayerFill = "gray90",
                   underLayerLwd = 0.1,
@@ -850,7 +854,7 @@ if(T){
       map <- underLayer +
         ggplot2::geom_polygon(data = datax1,
                               ggplot2::aes_string(x="lon", y="lat", group="group",fill="value"),
-                              color = "grey40", lwd=0.1) +
+                              color = color, lwd=lwd) +
         ggplot2::coord_fixed(ratio = asp) +
         ggplot2::scale_fill_gradientn(colors=paletteX, name = legendTitle)
 
@@ -858,7 +862,7 @@ if(T){
     map <- underLayer +
       ggplot2::geom_polygon(data = datax1,
                             ggplot2::aes_string(x="lon", y="lat", group="group",fill="label"),
-                            color = "grey40", lwd=0.1) +
+                            color = color, lwd=lwd) +
       ggplot2::coord_fixed(ratio = asp) +
       ggplot2::scale_fill_manual(breaks=names(paletteX), values=paletteX, drop=F,
                                  name = legendTitle)
@@ -910,7 +914,7 @@ if(T){
     map <- underLayer +
       ggplot2::geom_polygon(data = dataShape,
                             ggplot2::aes_string(x="lon", y="lat", group="group",fill="subRegion"),
-                            color = "grey40", lwd=0.1) +
+                            color = color, lwd=lwd) +
       ggplot2::coord_fixed(ratio = asp) +
       ggplot2::scale_fill_manual(values=(rep(palette,length(unique(dataShape$subRegion))))[1:length(unique(dataShape$subRegion))],
                                  drop=F,

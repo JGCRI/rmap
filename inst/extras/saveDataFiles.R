@@ -9,6 +9,17 @@ dataFileFolder <- "C:/Z/data/mapFiles"
 # Current Data
 #data(package="rmap")
 
+#-----------------
+# mappings
+#-----------------
+
+mapping_tethys_grid_basin_region_country <- readRDS("./inst/extras/rmap_tethys_grid_basin_region_country.rds") %>%
+  tibble::as_tibble() %>%
+  dplyr::rename(lat=Latitude,
+                lon=Longitude); mapping_tethys_grid_basin_region_country
+use_data(mapping_tethys_grid_basin_region_country, version=3, overwrite=T)
+
+
 
 #-----------------
 # Gridded Population Data

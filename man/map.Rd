@@ -34,6 +34,9 @@ map(
   crop = T,
   crop_to_underLayer = F,
   crop_to_overLayer = F,
+  fill = NULL,
+  color = "grey40",
+  lwd = 0.1,
   underLayer = NULL,
   underLayerColor = "gray40",
   underLayerFill = "gray90",
@@ -142,6 +145,12 @@ map(
 \item{crop_to_underLayer}{Default = F. Crop to the underLayer boundary provided.}
 
 \item{crop_to_overLayer}{Default = F. Crop to the overLayer boundary provided.}
+
+\item{fill}{Default = NULL. Fill of polygon shapes. Same as palette.}
+
+\item{color}{Default = "grey40". Color of polygon lines.}
+
+\item{lwd}{Default = 0.1. Line width of polygon boundaries.}
 
 \item{underLayer}{Default = NULL}
 

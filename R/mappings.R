@@ -18,7 +18,13 @@
 mappings <- function(name=NULL) {
 
   #------------------------------------------------------------
-  # Metis param, query, palette, maps Mapping
+  # mapping_tethys_grid_basin_region_country
+  #-----------------------------------------------------------
+
+  mapping_tethys_grid_basin_region_country <- rmap::mapping_tethys_grid_basin_region_country
+
+  #------------------------------------------------------------
+  # Param, query, palette, maps Mapping
   #-----------------------------------------------------------
 
   mapParamQuery <- tibble::tribble(
@@ -685,7 +691,8 @@ mappings <- function(name=NULL) {
     US52=US52,
     US49=US49,
     countryToGCAMReg32=countryToGCAMReg32,
-    mappingGCAMBasins=mappingGCAMBasins)
+    mappingGCAMBasins=mappingGCAMBasins,
+    mapping_tethys_grid_basin_region_country = mapping_tethys_grid_basin_region_country)
 
   if(!is.null(name)){returnx <- listx[[name]]} else {returnx <- listx }
 

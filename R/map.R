@@ -47,6 +47,9 @@
 #' @param row Default ="multiFacetCol",
 #' @param title Default=NULL
 #' @param numeric2Cat_list Default=NULL,
+#' @param fill Default = NULL. Fill of polygon shapes. Same as palette.
+#' @param color Default = "grey40". Color of polygon lines.
+#' @param lwd Default = 0.1. Line width of polygon boundaries.
 #' @param underLayer Default = NULL
 #' @param underLayerColor Default = "gray40"
 #' @param underLayerFill Default = "gray90"
@@ -116,6 +119,9 @@ map <- function(data = NULL,
                 crop = T,
                 crop_to_underLayer = F,
                 crop_to_overLayer = F,
+                fill = NULL,
+                color = "grey40",
+                lwd = 0.1,
                 underLayer = NULL,
                 underLayerColor = "gray40",
                 underLayerFill = "gray90",
@@ -259,6 +265,8 @@ map <- function(data = NULL,
       xLabel->vintage->aggregate->query->subRegNotInShape ->dataTblOrig -> subRegionAlt -> subRegion1 ->
       paramsGrid -> paramsShape -> scaleRange_i -> boundaryRegShapeLimits -> dataTbl -> subRegType -> paramsdata
 
+    if(!is.null(fill) & is.null(palette)){ palette = fill}
+
   if(!save){animate=F}
 
   return_i = 1; # Index for return maps list
@@ -350,7 +358,7 @@ map <- function(data = NULL,
     colm=1
     rowm=1
 
-    rmap::map_plot(legendType=legendType,
+    rmap::map_plot(color=color, lwd=lwd, legendType=legendType,
       overLayer=overLayer,
       overLayerColor=overLayerColor,
       overLayerFill = overLayerFill,
@@ -1251,7 +1259,7 @@ map <- function(data = NULL,
                   }
 
 
-                    rmap::map_plot(legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
+                    rmap::map_plot(color=color, lwd=lwd, legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
                                   overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
                                   overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
                                   underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
@@ -1499,7 +1507,7 @@ map <- function(data = NULL,
                   legendBreaksx <- legendFixedBreaks
                 }
 
-                  rmap::map_plot(legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
+                  rmap::map_plot(color=color, lwd=lwd, legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
                                  overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
                                  overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
                                  underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
@@ -1695,7 +1703,7 @@ map <- function(data = NULL,
                     legendBreaksx <- legendFixedBreaks
                   }
 
-                    rmap::map_plot(legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
+                    rmap::map_plot(color=color, lwd=lwd, legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
                                    overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
                                    overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
                                    underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
@@ -1951,7 +1959,7 @@ map <- function(data = NULL,
                       legendBreaksx <- legendFixedBreaks
                     }
 
-                      rmap::map_plot(legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
+                      rmap::map_plot(color=color, lwd=lwd, legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
                                      overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
                                      overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
                                      underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
@@ -2182,7 +2190,7 @@ map <- function(data = NULL,
                   legendBreaksx <- legendFixedBreaks
                 }
 
-                  rmap::map_plot(legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
+                  rmap::map_plot(color=color, lwd=lwd, legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
                                  overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
                                  overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
                                  underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
@@ -2392,7 +2400,7 @@ map <- function(data = NULL,
                     legendBreaksx <- legendFixedBreaks
                   }
 
-                    rmap::map_plot(legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
+                    rmap::map_plot(color=color, lwd=lwd, legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
                                    overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
                                    overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
                                    underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
@@ -2643,7 +2651,7 @@ map <- function(data = NULL,
                       legendBreaksx <- legendFixedBreaks
                     }
 
-                      rmap::map_plot(legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
+                      rmap::map_plot(color=color, lwd=lwd, legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
                                      overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
                                      overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
                                      underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
@@ -2874,7 +2882,7 @@ map <- function(data = NULL,
                   legendBreaksx <- legendFixedBreaks
                 }
 
-                  rmap::map_plot(legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
+                  rmap::map_plot(color=color, lwd=lwd, legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
                                  overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
                                  overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
                                  underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
@@ -3123,7 +3131,7 @@ map <- function(data = NULL,
                     legendBreaksx <- legendFixedBreaks
                   }
 
-                    rmap::map_plot(legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
+                    rmap::map_plot(color=color, lwd=lwd, legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
                                    overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
                                    overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
                                    underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
@@ -3376,7 +3384,7 @@ map <- function(data = NULL,
                       datax <- datax %>%
                         dplyr::mutate(scenario= gsub("_xDiff.*","",scenario))
 
-                      rmap::map_plot(legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
+                      rmap::map_plot(color=color, lwd=lwd, legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
                                      overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
                                      overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
                                      underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
@@ -3610,7 +3618,7 @@ map <- function(data = NULL,
                   datax <- datax %>%
                     dplyr::mutate(scenario= gsub("_xDiff.*","",scenario))
 
-                    rmap::map_plot(legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
+                    rmap::map_plot(color=color, lwd=lwd, legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
                                    overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
                                    overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
                                    underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
@@ -3854,7 +3862,7 @@ map <- function(data = NULL,
                     datax <- datax %>%
                       dplyr::mutate(scenario= gsub("_xDiff.*","",scenario))
 
-                      rmap::map_plot(legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
+                      rmap::map_plot(color=color, lwd=lwd, legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
                                      overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
                                      overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
                                      underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
@@ -4102,7 +4110,7 @@ map <- function(data = NULL,
                       datax <- datax %>%
                         dplyr::mutate(scenario= gsub("_xDiff.*","",scenario))
 
-                        rmap::map_plot(legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
+                        rmap::map_plot(color=color, lwd=lwd, legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
                                        overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
                                        overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
                                        underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
@@ -4364,7 +4372,7 @@ map <- function(data = NULL,
                   datax <- datax %>%
                     dplyr::mutate(scenario= gsub("_xDiff.*","",scenario))
 
-                    rmap::map_plot(legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
+                    rmap::map_plot(color=color, lwd=lwd, legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
                                    overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
                                    overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
                                    underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
@@ -4612,7 +4620,7 @@ map <- function(data = NULL,
                     datax <- datax %>%
                       dplyr::mutate(scenario= gsub("_xDiff.*","",scenario))
 
-                      rmap::map_plot(legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
+                      rmap::map_plot(color=color, lwd=lwd, legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
                                      overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
                                      overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
                                      underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,

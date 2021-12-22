@@ -284,11 +284,63 @@ data = data.frame(subRegion = c("CA","FL","ID","MO","TX","WY"),
                   value = c(5,10,15,34,2,7))
 
 rmap::map(data) # Will choose the contiguous US map and plot this data for you as the only layer
+
+library(rmap);
+
+# Create data table with a few US states
+data = data.frame(subRegion = c("CA","FL","ID","MO","TX","WY"),
+                  value = c(5,10,15,34,2,7))
 rmap::map(data, 
           underLayer=rmap::mapUS49) # Will add an underlayer of the US49 map zoomed in to your data set
+
+library(rmap);
+
+# Create data table with a few US states
+data = data.frame(subRegion = c("CA","FL","ID","MO","TX","WY"),
+                  value = c(5,10,15,34,2,7))
+
 rmap::map(data, 
           underLayer=rmap::mapUS49, 
           overLayer=rmap::mapGCAMBasinsUS49) # will add GCAM basins ontop of the previous map
+
+```
+
+<!-------------------------->
+<!-------------------------->
+# Layer Colors {#layercolors}
+<!-------------------------->
+<!-------------------------->
+<p align="center"> <img src="vignetteFigs/divider.png"></p>
+
+The line width, color and fill of each layer can be individually be modified or as a global option. Examples are provided below for a basic dataset. 
+
+```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
+
+# Create a basic map with no data and modify fill as well as line color and lwd.
+library(rmap);
+# Create data table with a few US states
+mapShape = rmap::mapUS49
+# Modify the line color and lwd of the base layer
+rmap::map(mapShape, 
+          fill = "black",
+          color = "white",
+          lwd = 1.5) # Will adjust the borders of the different layers to highlight them.
+
+# Create a basic map with data and modify line colors and lwd.
+library(rmap);
+# Create data table with a few US states
+data = data.frame(subRegion = c("CA","FL","ID","MO","TX","WY"),
+                  value = c(5,10,15,34,2,7))
+# Modify the line color and lwd of the base layer
+rmap::map(data, 
+          color = "blue",
+          lwd = 1.5) # Will adjust the borders of the different layers to highlight them.
+
+# Modify under and overlayer fill, line color and lwd.
+library(rmap);
+# Create data table with a few US states
+data = data.frame(subRegion = c("CA","FL","ID","MO","TX","WY"),
+                  value = c(5,10,15,34,2,7))
 
 # Modify the fill and outline of the different layers
 rmap::map(data, 

@@ -28,6 +28,8 @@ map_plot(
   legendBreaks = NULL,
   pdfpng = "png",
   underLayer = NULL,
+  color = "grey40",
+  lwd = 0.1,
   underLayerColor = "gray40",
   underLayerFill = "gray90",
   underLayerLwd = 0.1,
@@ -113,6 +115,10 @@ map_plot(
 \item{pdfpng}{Default = "png"}
 
 \item{underLayer}{Default = NULL}
+
+\item{color}{Default = "grey40". Color of polygon lines.}
+
+\item{lwd}{Default = 0.1. Line width of polygon boundaries.}
 
 \item{underLayerColor}{Default = "gray40"}
 
