@@ -71,6 +71,7 @@
 #' @return Returns the formatted data used to produce chart
 #' @importFrom rlang :=
 #' @importFrom jgcricolors jgcricol
+#' @importFrom magrittr %>%
 #' @export
 
 map_plot<-function(data=NULL,

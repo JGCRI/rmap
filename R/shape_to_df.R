@@ -8,6 +8,7 @@
 #' @keywords map, find
 #' @return Fortified ggplot dataframe (e.g. rmap::mapCountriesdf)
 #' @export
+#' @importFrom magrittr %>%
 #' @examples
 #' library(rmap)
 #' shape = rmap::mapCountries

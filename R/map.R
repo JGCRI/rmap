@@ -87,6 +87,7 @@
 #' @param forceFacets Default = F. Used to force facet label for single scenario which is usually dropped.
 #' @return A list of maps
 #' @importFrom rlang :=
+#' @importFrom magrittr %>%
 #' @export
 
 

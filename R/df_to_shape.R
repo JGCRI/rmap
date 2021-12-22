@@ -7,6 +7,7 @@
 #' @keywords map, find
 #' @return SpatialPolygonDataFrame
 #' @export
+#' @importFrom magrittr %>%
 #' @examples
 #' library(rmap)
 #' df = rmap::mapCountriesdf
