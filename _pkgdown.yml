@@ -25,6 +25,9 @@ navbar:
     - icon: fas fa-quote-left
       text: Citation
       href: CITATION.html
+    - icon: fas fa-question
+      text: Support
+      href: SUPPORT.html
       
 toc:
   depth: 3

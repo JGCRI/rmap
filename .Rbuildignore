@@ -22,9 +22,10 @@
 ^_pkgdown\.yml$
 ^docs$
 ^pkgdown$
-rmapCheatsheet.pdf
+cheatsheet.pdf
 ^\.github$
 ^_config.yml$
 ^articles$
 ^paper$
 ^/paper$
+^SUPPORT.md$
