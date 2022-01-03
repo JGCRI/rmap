@@ -367,8 +367,17 @@ brew install imagemagick@6</code></pre>
 <!-------------------------->
 </div>
 <div class="section level1">
-<h1 id="layers">Layers<a class="anchor" aria-label="anchor" href="#layers"></a>
+<h1 id="format-themes-layers-colors-zoom">Format (Themes, layers, colors, zoom)<a class="anchor" aria-label="anchor" href="#format-themes-layers-colors-zoom"></a>
 </h1>
+<!-------------------------->
+<!-------------------------->
+<p align="center">
+<img src="vignetteFigs/divider.png"></p>
+<!-------------------------->
+<!-------------------------->
+<div class="section level2">
+<h2 id="layers">Layers<a class="anchor" aria-label="anchor" href="#layers"></a>
+</h2>
 <!-------------------------->
 <!-------------------------->
 <p align="center">
@@ -406,9 +415,9 @@ brew install imagemagick@6</code></pre>
 <!-------------------------->
 <!-------------------------->
 </div>
-<div class="section level1">
-<h1 id="layercolors">Layer Colors<a class="anchor" aria-label="anchor" href="#layercolors"></a>
-</h1>
+<div class="section level2">
+<h2 id="layercolors">Layer Colors<a class="anchor" aria-label="anchor" href="#layercolors"></a>
+</h2>
 <!-------------------------->
 <!-------------------------->
 <p align="center">
@@ -456,9 +465,9 @@ brew install imagemagick@6</code></pre>
 <!-------------------------->
 <!-------------------------->
 </div>
-<div class="section level1">
-<h1 id="labels">Labels<a class="anchor" aria-label="anchor" href="#labels"></a>
-</h1>
+<div class="section level2">
+<h2 id="labels">Labels<a class="anchor" aria-label="anchor" href="#labels"></a>
+</h2>
 <!-------------------------->
 <!-------------------------->
 <p align="center">
@@ -539,9 +548,9 @@ brew install imagemagick@6</code></pre>
 <!-------------------------->
 <!-------------------------->
 </div>
-<div class="section level1">
-<h1 id="crop">Crop<a class="anchor" aria-label="anchor" href="#crop"></a>
-</h1>
+<div class="section level2">
+<h2 id="crop">Crop<a class="anchor" aria-label="anchor" href="#crop"></a>
+</h2>
 <!-------------------------->
 <!-------------------------->
 <p align="center">
@@ -587,9 +596,9 @@ brew install imagemagick@6</code></pre>
 <!-------------------------->
 <!-------------------------->
 </div>
-<div class="section level1">
-<h1 id="zoom">Zoom<a class="anchor" aria-label="anchor" href="#zoom"></a>
-</h1>
+<div class="section level2">
+<h2 id="zoom">Zoom<a class="anchor" aria-label="anchor" href="#zoom"></a>
+</h2>
 <!-------------------------->
 <!-------------------------->
 <p align="center">
@@ -612,9 +621,9 @@ brew install imagemagick@6</code></pre>
 <!-------------------------->
 <!-------------------------->
 </div>
-<div class="section level1">
-<h1 id="background">Background<a class="anchor" aria-label="anchor" href="#background"></a>
-</h1>
+<div class="section level2">
+<h2 id="background">Background<a class="anchor" aria-label="anchor" href="#background"></a>
+</h2>
 <!-------------------------->
 <!-------------------------->
 <p align="center">
@@ -651,9 +660,9 @@ brew install imagemagick@6</code></pre>
 <!-------------------------->
 <!-------------------------->
 </div>
-<div class="section level1">
-<h1 id="themes">Themes<a class="anchor" aria-label="anchor" href="#themes"></a>
-</h1>
+<div class="section level2">
+<h2 id="themes">Themes<a class="anchor" aria-label="anchor" href="#themes"></a>
+</h2>
 <!-------------------------->
 <!-------------------------->
 <p align="center">
@@ -695,6 +704,7 @@ brew install imagemagick@6</code></pre>
 <p><img src="vignette_map_files/figure-html/unnamed-chunk-33-3.png" width="700"></p>
 <!-------------------------->
 <!-------------------------->
+</div>
 </div>
 <div class="section level1">
 <h1 id="plot-polygon-data">Plot Polygon Data<a class="anchor" aria-label="anchor" href="#plot-polygon-data"></a>
@@ -889,7 +899,6 @@ brew install imagemagick@6</code></pre>
 <span class="va">data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>subRegion<span class="op">=</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">my_custom_map</span><span class="op">@</span><span class="va">data</span><span class="op">$</span><span class="va">subRegion</span><span class="op">)</span>,
                    value <span class="op">=</span> <span class="fl">100</span><span class="op">*</span><span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html" class="external-link">runif</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">my_custom_map</span><span class="op">@</span><span class="va">data</span><span class="op">$</span><span class="va">subRegion</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>;
 <span class="fu"><a href="https://rdrr.io/pkg/raster/man/headtail.html" class="external-link">head</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span>
-
 <span class="co"># And then it can be plotted using rmap and any of the built-in maps as underLayers.</span>
 <span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span>,
           shape<span class="op">=</span><span class="va">my_custom_map</span>,
@@ -1014,6 +1023,7 @@ brew install imagemagick@6</code></pre>
 
 <span class="va">mapx</span><span class="op">$</span><span class="va">map_param_KMEANS_xDiffAbs</span>
 <span class="va">mapx</span><span class="op">$</span><span class="va">map_param_KMEANS_xDiffPrcnt</span></code></pre></div>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-51-1.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-51-2.png" width="700"></p>
 <!-------------------------->
 </div>
 </div>
@@ -1211,6 +1221,7 @@ brew install imagemagick@6</code></pre>
 
 <span class="va">mapx</span><span class="op">$</span><span class="va">map_param_KMEANS_DiffAbs</span>
 <span class="va">mapx</span><span class="op">$</span><span class="va">map_param_KMEANS_DiffPrcnt</span></code></pre></div>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-63-1.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-63-2.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-63-3.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-63-4.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-63-5.png" width="700"></p>
 <!-------------------------->
 </div>
 </div>
