@@ -279,7 +279,7 @@
 
 #' GCAM 32 Regions
 #'
-#' @source From JGCRI confluence page. \url{https://confluence.pnnl.gov/confluence/display/JGCRI/GCAM+Shape+Files}
+#' @source Modified versions of shapefiles from \url{https://zenodo.org/record/4688451#.YdMNTmjMJPY}
 #' @format A SpatialPolygonsDataFrame
 #' @examples
 #' \dontrun{
@@ -292,7 +292,7 @@
 
 #' GCAM Basins
 #'
-#' @source From JGCRI confluence page. \url{https://confluence.pnnl.gov/confluence/display/JGCRI/GCAM+Shape+Files}
+#' @source Modified versions of shapefiles from \url{https://zenodo.org/record/4688451#.YdMNTmjMJPY}
 #' @format A SpatialPolygonsDataFrame
 #' @examples
 #' \dontrun{
@@ -577,7 +577,7 @@
 
 #' GCAM 32 Regions
 #'
-#' @source From JGCRI confluence page. \url{https://confluence.pnnl.gov/confluence/display/JGCRI/GCAM+Shape+Files}
+#' @source Modified versions of shapefiles from \url{https://zenodo.org/record/4688451#.YdMNTmjMJPY}
 #' @format A SpatialPolygonsDataFrame
 #' @examples
 #' \dontrun{
@@ -592,7 +592,7 @@
 
 #' GCAM Basins
 #'
-#' @source From JGCRI confluence page. \url{https://confluence.pnnl.gov/confluence/display/JGCRI/GCAM+Shape+Files}
+#' @source Modified versions of shapefiles from \url{https://zenodo.org/record/4688451#.YdMNTmjMJPY}
 #' @format A SpatialPolygonsDataFrame
 #' @examples
 #' \dontrun{

@@ -761,7 +761,14 @@ map <- function(data = NULL,
           print(paste("None of the xDiff are in any of the available scenarios: "))
           print(paste(xRange[!xRange %in% xRef],collapse=", "))
           print(paste("Skipping x Diff.",sep=""))
+        } else {
+          if(!all(xDiff %in% xRange)){
+            print(paste0("Not all xDiff chosen: ",paste(xDiff,collapse=",")))
+            xDiff <- xDiff[xDiff %in% xRange]
+            print(paste0("Setting xDiff to available x: ",xDiff))
+          }
         }
+
       }
 
       dataTblxDiff <- tibble::tibble()
@@ -1810,7 +1817,7 @@ map <- function(data = NULL,
                 scalex <- scalex[!is.na(scalex)]
 
                 # Choose correct scaleRange
-                scaleRange_i=scaleRange
+                scaleRange_i=scaleRangeDiffAbs
 
                 if(!is.null(scaleRange_i)){
                   if(any(param_i %in% unique(scaleRange_i$param))){
@@ -2029,7 +2036,7 @@ map <- function(data = NULL,
 
                 # Choose correct scaleRange
                 if(T){
-                  scaleRange_i=scaleRange
+                  scaleRange_i=scaleRangeDiffAbs
 
                   if(!is.null(scaleRange_i)){
                     if(any(param_i %in% unique(scaleRange_i$param))){
@@ -2258,7 +2265,7 @@ map <- function(data = NULL,
 
                   # Choose correct scaleRange
                   if(T){
-                    scaleRange_i=scaleRange
+                    scaleRange_i=scaleRangeDiffAbs
 
                     if(!is.null(scaleRange_i)){
                       if(any(param_i %in% unique(scaleRange_i$param))){
@@ -2504,7 +2511,7 @@ map <- function(data = NULL,
                 scalex <- scalex[!is.na(scalex)]
 
                 # Choose correct scaleRange
-                scaleRange_i=scaleRange
+                scaleRange_i=scaleRangeDiffPrcnt
 
                 if(!is.null(scaleRange_i)){
                   if(any(param_i %in% unique(scaleRange_i$param))){
@@ -2721,7 +2728,7 @@ map <- function(data = NULL,
 
                 # Choose correct scaleRange
                 if(T){
-                  scaleRange_i=scaleRange
+                  scaleRange_i=scaleRangeDiffPrcnt
 
                   if(!is.null(scaleRange_i)){
                     if(any(param_i %in% unique(scaleRange_i$param))){
@@ -2996,7 +3003,7 @@ map <- function(data = NULL,
 
                   # Choose correct scaleRange
                   if(T){
-                    scaleRange_i=scaleRange
+                    scaleRange_i=scaleRangeDiffPrcnt
 
                     if(!is.null(scaleRange_i)){
                       if(any(param_i %in% unique(scaleRange_i$param))){
@@ -3240,7 +3247,7 @@ map <- function(data = NULL,
                   scalex <- scalex[!is.na(scalex)]
 
                   # Choose correct scaleRange
-                  scaleRange_i=scaleRange
+                  scaleRange_i=scaleRangexDiffAbs
 
                   if(!is.null(scaleRange_i)){
                     if(any(param_i %in% unique(scaleRange_i$param))){
@@ -3453,7 +3460,7 @@ map <- function(data = NULL,
 
                   # Choose correct scaleRange
                   if(T){
-                    scaleRange_i=scaleRange
+                    scaleRange_i=scaleRangexDiffAbs
 
                     if(!is.null(scaleRange_i)){
                       if(any(param_i %in% unique(scaleRange_i$param))){
@@ -3731,7 +3738,7 @@ map <- function(data = NULL,
 
                     # Choose correct scaleRange
                     if(T){
-                      scaleRange_i=scaleRange
+                      scaleRange_i=scaleRangexDiffAbs
 
                       if(!is.null(scaleRange_i)){
                         if(any(param_i %in% unique(scaleRange_i$param))){
@@ -3966,7 +3973,7 @@ map <- function(data = NULL,
                   scalex <- scalex[!is.na(scalex)]
 
                   # Choose correct scaleRange
-                  scaleRange_i=scaleRange
+                  scaleRange_i=scaleRangexDiffPrcnt
 
                   if(!is.null(scaleRange_i)){
                     if(any(param_i %in% unique(scaleRange_i$param))){
@@ -4207,7 +4214,7 @@ map <- function(data = NULL,
 
                   # Choose correct scaleRange
                   if(T){
-                    scaleRange_i=scaleRange
+                    scaleRange_i=scaleRangexDiffPrcnt
 
                     if(!is.null(scaleRange_i)){
                       if(any(param_i %in% unique(scaleRange_i$param))){
@@ -4485,7 +4492,7 @@ map <- function(data = NULL,
 
                     # Choose correct scaleRange
                     if(T){
-                      scaleRange_i=scaleRange
+                      scaleRange_i=scaleRangexDiffPrcnt
 
                       if(!is.null(scaleRange_i)){
                         if(any(param_i %in% unique(scaleRange_i$param))){

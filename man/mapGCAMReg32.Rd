@@ -8,7 +8,7 @@
 A SpatialPolygonsDataFrame
 }
 \source{
-From JGCRI confluence page. \url{https://confluence.pnnl.gov/confluence/display/JGCRI/GCAM+Shape+Files}
+Modified versions of shapefiles from \url{https://zenodo.org/record/4688451#.YdMNTmjMJPY}
 }
 \usage{
 mapGCAMReg32
