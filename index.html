@@ -168,6 +168,25 @@ brew install imagemagick@6</code></pre>
 <!-- ------------------------>
 </div>
 <div class="section level1">
+<h1 id="statement-of-need">
+<a name="Need"></a>Statement of need<a class="anchor" aria-label="anchor" href="#statement-of-need"></a>
+</h1>
+<!-- ------------------------>
+<!-- ------------------------>
+<p><code>rmap</code> is meant to help users having limited to no GIS knowledge use R for spatial visualization of tabular spatial data. <code>rmap</code> is not meant to be a replacement for spatial manipulation or cartographic software but focuses on the simple plotting of polygon and gridded data for spatio-temporal visualization of tabular data with a focus on comparing across scenarios and time periods. Several existing R packages (e.g. tmap, cartography, rworldmap, GISTools, choroplethr, sp and sf) have been developed to conduct spatial visualization and analytics in R without depending on external software. <code>rmap</code> enhances the following key capabilities which are limited in these existing packages:</p>
+<ol style="list-style-type: decimal">
+<li>
+<strong>Pre-built maps</strong>: Existing packages come with only a few examples of built-in maps as package data. <code>rmap</code> comes with a growing collection of country, state, river basin, as well as other customized maps that are added into the package data based on user needs and requests. While built-in maps increase the size of the package, having direct access to these allows for automated searching and quick deployment of relevant shapefiles without the need to download any data. A list of pre-built maps in <code>rmap</code> can be found in the <a href="https://jgcri.github.io/rmap/articles/vignette_map.html#maps" class="external-link">Built-in Maps</a> section of the user guide.</li>
+<li>
+<strong>Direct data table to map</strong>: Existing packages are not able to plot a map directly given only a simple data frame or a CSV file as an input. <code>rmap</code> has an automatic <code>map_find_df</code> function that searches for the appropriate built-in map based on the regions provided in a <code>subRegion</code> column and values in a <code>value</code> column. The sub-regions in the <code>subRegion</code> column must be one of the sub-regions in the existing set of <code>rmap</code> built-in maps. This truly frees users from the need for any other spatial data needs and they can simply <code><a href="reference/map.html">map()</a></code> their own data tables directly.</li>
+<li>
+<strong>Difference maps</strong>: Existing packages do not produce difference maps to compare across scenarios or time periods. <code>rmap</code> provides this functionality by automatically recognizing multiple scenarios and time periods to produce difference maps across these dimensions. An important aspect of spatial data is exploring the difference between two scenarios or time periods and <code>rmap</code> makes this a seamless process.</li>
+<li>
+<strong>Post-process customization</strong>: Existing packages do not produce output objects that can be saved and then customized. Customization of the maps in existing packages is limited to package specific functionality and arguments. <code>rmap</code> produces <code>ggplot</code> objects in which every element (axis, grids, titles, colors, line widths, facets) can all be customized after the map has been produced. This allows users to capitalize on existing knowledge of the widely used <code>ggplot2</code> package and its arguments.</li>
+</ol>
+<!-- ------------------------><!-- ------------------------>
+</div>
+<div class="section level1">
 <h1 id="related-publications">
 <a name="Publications"></a>Related Publications<a class="anchor" aria-label="anchor" href="#related-publications"></a>
 </h1>
