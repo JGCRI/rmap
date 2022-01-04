@@ -298,8 +298,9 @@ map <- function(data = NULL,
 
   }
 
-  # Make sure data is a dataframe
-  data <- tibble::as_tibble(data)
+  # Make sure data is a dataframe if not a spatialPolygonDataframe
+  if(!grepl("SpatialPolygonsDataFrame",class(data),ignore.case = T)){
+  data <- tibble::as_tibble(data)}
 
   # Rename SubRegCol
   if(T){
@@ -397,6 +398,8 @@ map <- function(data = NULL,
   if(any(grepl("tbl_df|tbl|data.frame",class(data))) &
      !"value" %in% names(data)){
 
+    if(!"subRegion" %in% names(data)){"Data must have 'subRegion' column or specify another column using the `subRegCol` argument instead."}
+
      if(is.null(palette)) {
       palettex = "Spectral"
     }else{
@@ -457,7 +460,7 @@ map <- function(data = NULL,
     # asp=asp
     # legendShow=legendShow
     # crop = crop, crop_to_underLayer = crop_to_underLayer, crop_to_overLayer = crop_to_overLayer
-    # transparent=transparen
+    # transparent=transparent
     # alpha = alpha
     # size=max(1,(size+(colm+rowm)*3 - 12))
     # theme = theme

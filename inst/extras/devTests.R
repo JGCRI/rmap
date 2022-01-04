@@ -327,12 +327,12 @@ rmap::map(data)
 library(dplyr)
 library(geodaData)
 library(rmap)
-# get own data to try
+
 ncovr <- geodaData::ncovr
 
 mydata <- ncovr %>%
   dplyr::select(NAME,HR60) %>%
-  head(5); mydata
+  head(10); mydata
 
 rmap::map(mydata,
           labels = T,
