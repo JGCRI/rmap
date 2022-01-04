@@ -398,7 +398,7 @@ map <- function(data = NULL,
   if(any(grepl("tbl_df|tbl|data.frame",class(data))) &
      !"value" %in% names(data)){
 
-    if(!"subRegion" %in% names(data)){"Data must have 'subRegion' column or specify another column using the `subRegCol` argument instead."}
+    if(!"subRegion" %in% names(data)){stop("Data must have 'subRegion' column or specify another column using the `subRegCol` argument instead.")}
 
      if(is.null(palette)) {
       palettex = "Spectral"

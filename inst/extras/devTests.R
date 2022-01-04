@@ -326,19 +326,26 @@ rmap::map(data)
 
 library(dplyr)
 library(geodaData)
+library(devtools)
+devtools::install_github("JGCRI/rmap") # Update rmap
 library(rmap)
 
 ncovr <- geodaData::ncovr
 
+# Subset first 10 rows to avoid repeated subRegions
 mydata <- ncovr %>%
   dplyr::select(NAME,HR60) %>%
   head(10); mydata
 
+# Will give you the relevant plot but multiple counties
+# See how you can define your own columns as arguments
+rmap::map(mydata)
+
+# Here you can see all the multiple counties. rmap appends the State for you as it recognizes this.
 rmap::map(mydata,
           labels = T,
           labelSize = 3,
           labelRepel = T,
           subRegCol="NAME",
           valueCol="HR60",
-          underLayer = rmap::mapUS49,
-          zoom = -2)
+          underLayer = rmap::mapUS49)
