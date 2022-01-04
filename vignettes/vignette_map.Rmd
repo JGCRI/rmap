@@ -83,6 +83,18 @@ The main input is the `data` argument in the `map()` function. This will be an R
 
 <p align="center"> <img src="vignetteFigs/mapsProcess_inputs.PNG"></p>
 
+Users can also assign other column names to `subRegion` and `value` if desired using the `subRegCol` and `valueCol` arguments as follows:
+
+```{r, results = "hide", eval=FALSE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap);
+data = data.frame(my_column_1 = c("CA","FL","ID","MO","TX","WY"),
+                  my_column_2 = c(5,10,15,34,2,7))
+map(data,
+    subRegCol = "my_column_1",
+    valueCol = "my_column_2")
+
+```
+
 <!-------------------------->
 <!-------------------------->
 # Output Formats {#outputs}

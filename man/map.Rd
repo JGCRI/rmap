@@ -24,6 +24,7 @@ map(
   shapeFolder = NULL,
   shapeFile = NULL,
   subRegCol = "subRegion",
+  valueCol = "value",
   nameAppend = "",
   legendTitle = NULL,
   legendType = "kmeans",
@@ -125,6 +126,8 @@ map(
 \item{shapeFile}{Default = paste("gadm36_1",sep=""),}
 
 \item{subRegCol}{Default ="subRegion",}
+
+\item{valueCol}{Default = "value",}
 
 \item{nameAppend}{Default =""}
 

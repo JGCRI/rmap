@@ -138,7 +138,7 @@ map_plot<-function(data=NULL,
                   transparent = F
                   ){
 
-  # data=NULL
+  ## data=NULL
   # fillColumn=NULL # Or give column data with
   # shapeColumn=NULL
   # crop_to_underLayer = F
@@ -883,8 +883,16 @@ if(T){
         labels_df_shape =  shapex@data %>%
           tibble::as_tibble() %>%
           dplyr::bind_cols(sp::coordinates(shapex) %>%
-                             data.frame() %>% dplyr::rename(lon=X1,lat=X2))%>%
-          dplyr::filter(subRegion %in% unique(data_shape$subRegion))
+                             data.frame() %>% dplyr::rename(lon=X1,lat=X2))
+
+        if(length(unique(data_shape$subRegion)[unique(data_shape$subRegion) %in% unique(labels_df_shape$subRegion)]) >
+           length(unique(data_shape$subRegion)[unique(data_shape$subRegion) %in% unique(levels(labels_df_shape$subRegionAlt))])){
+          labels_df_shape <- labels_df_shape%>%
+            dplyr::filter(subRegion %in% unique(data_shape$subRegion))
+        } else {
+          labels_df_shape <- labels_df_shape%>%
+            dplyr::filter(subRegionAlt %in% unique(data_shape$subRegion))
+        }
 
         if(labelRepel != 0){
           map <- map +

@@ -24,6 +24,7 @@
 #' @param shapeFolder Default = paste(getwd(),"/dataFiles/gis/admin_gadm36",sep=""),
 #' @param shapeFile Default = paste("gadm36_1",sep=""),
 #' @param subRegCol Default ="subRegion",
+#' @param valueCol Default = "value",
 #' @param nameAppend Default =""
 #' @param legendTitle Default = NULL
 #' @param legendType Default ="kmeans", Options include c("pretty","kmeans","freescale","all")
@@ -110,6 +111,7 @@ map <- function(data = NULL,
                 shapeFolder = NULL,
                 shapeFile = NULL,
                 subRegCol = "subRegion",
+                valueCol = "value",
                 nameAppend = "",
                 legendTitle = NULL,
                 legendType ="kmeans",
@@ -175,6 +177,9 @@ map <- function(data = NULL,
   # data = NULL
   # legendSingleValue =F
   # show = T
+  # fill = NULL
+  # lwd = 0.1
+  # color = "grey40"
   # fillColumn = NULL
   # shapeColumn = NULL
   # fileName = "map"
@@ -185,6 +190,7 @@ map <- function(data = NULL,
   # shapeFolder = NULL
   # shapeFile = NULL
   # subRegCol = "subRegion"
+  # valueCol = "value"
   # nameAppend = ""
   # legendType ="kmeans"
   # legendBreaksn = 5
@@ -274,7 +280,6 @@ map <- function(data = NULL,
   mapsReturn = list(); # Return maps list
 
   paletteOrig <- palette
-  subRegColOrig <- subRegCol
   shapeFileOrig <- shapeFile
   shapeFolderOrig <- shapeFolder
   animateOrig <- animate
@@ -292,6 +297,48 @@ map <- function(data = NULL,
     }
 
   }
+
+  # Make sure data is a dataframe
+  data <- tibble::as_tibble(data)
+
+  # Rename SubRegCol
+  if(T){
+    if(!is.null(data)){
+      if(nrow(data)>0){
+        if(subRegCol != "subRegion"){
+          if(any(subRegCol %in% names(data))){
+            if(any("subRegion" %in% names(data))){
+              data <- data %>%
+                dplyr::select(-subRegion)
+            }
+            data <- data %>%
+              dplyr::rename("subRegion" = subRegCol) %>%
+              dplyr::mutate(subRegion = as.character(subRegion))
+          }
+        }
+      }
+    }
+  }
+
+  # Rename valueCol
+  if(T){
+    if(!is.null(data)){
+      if(nrow(data)>0){
+        if(valueCol != "value"){
+          if(any(valueCol %in% names(data))){
+            if(any("value" %in% names(data))){
+              data <- data %>%
+                dplyr::select(-value)
+            }
+            data <- data %>%
+              dplyr::rename("value" = valueCol) %>%
+              dplyr::mutate(value = as.numeric(value))
+          }
+        }
+      }
+    }
+  }
+
 
   }
 
@@ -579,8 +626,8 @@ map <- function(data = NULL,
     if(!"value" %in% names(dataTbl)){stop("'value' column not present in data provided. Check data.")}
     if(!"lat" %in% names(dataTbl) &
        !"lon" %in% names(dataTbl) &
-       !subRegCol %in% names(dataTbl)){
-      stop(paste0("Must have atleast either 'lat' and 'lon columns or subRegion column :", subRegCol, " in data."))}
+       !"subRegion" %in% names(dataTbl)){
+      stop(paste0("Must have atleast either 'lat' and 'lon columns or subRegion column in data."))}
 
     # Set palette if given
     if(!is.null(paletteOrig) & (length(paletteOrig)==1)){
@@ -1011,23 +1058,6 @@ map <- function(data = NULL,
     }
 
     }# Close Check Scale Range
-
-
-  #.................-
-  # Rename SubRegions
-  #.................-
-
-  if(T){
-    if(!is.null(dataTbl)){
-      if(nrow(dataTbl)>0){
-        if(!is.null(subRegCol)){
-        dataTbl <- dataTbl %>% dplyr::rename("subRegion"=!!as.name(subRegCol))
-        subRegCol <- "subRegion"
-        }
-      }
-    }
-  }
-
 
   #.................-
   # Set Palettes

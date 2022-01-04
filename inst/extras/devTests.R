@@ -320,3 +320,25 @@ data <- data.frame(subRegion=c("New_England_X_Canada","New_England_X_USA"), valu
 map_find_df(data)
 rmap::map(data)
 }
+
+
+# JOSS review maczokni test
+
+library(dplyr)
+library(geodaData)
+library(rmap)
+# get own data to try
+ncovr <- geodaData::ncovr
+
+mydata <- ncovr %>%
+  dplyr::select(NAME,HR60) %>%
+  head(5); mydata
+
+rmap::map(mydata,
+          labels = T,
+          labelSize = 3,
+          labelRepel = T,
+          subRegCol="NAME",
+          valueCol="HR60",
+          underLayer = rmap::mapUS49,
+          zoom = -2)
