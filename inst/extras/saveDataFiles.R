@@ -128,6 +128,20 @@ if(redoMaps){
   mapStates@data <- mapStates@data %>%
     dplyr::mutate(name="mapStates")
   use_data(mapStates, version=3, overwrite=T)
+
+  mapx <- rmap::mapStates
+  mapx <- mapx[!is.na(mapx@data$subRegion),]
+  mapx@data <- mapx@data%>%droplevels()
+  mapx@data %>% filter(is.na(subRegion))
+  nrow(mapx)
+  mapx@data <- mapx@data %>%
+    dplyr::mutate(subRegion = if_else(is.na(subRegion),subRegionAlt,subRegion)) %>%
+    dplyr::filter(!is.na(subRegion));
+  mapx@data %>% filter(is.na(subRegion))
+  nrow(mapx)
+  mapStates <- mapx
+  use_data(mapStates, version=3, overwrite=T)
+
 }
 
 #-----------------
@@ -772,6 +786,27 @@ if(redoMaps){
   mapUS52County@data <- mapUS52County@data %>%
     dplyr::mutate(name="mapUS52County")
   use_data(mapUS52County, version=3, overwrite=T)
+
+  # Create FIPS
+  mapx <- rmap::mapUS52County
+  mapx@data <- mapx@data  %>%
+    dplyr::mutate(subRegion_cc = paste0(subRegion,COUNTYCODE))
+  subRegions_duplicated <- (mapx@data$subRegion)[(mapx@data$subRegion)%>%duplicated()]; subRegions_duplicated
+  countycodes_remove <- mapx@data %>%
+    dplyr::select(subRegion,subRegionAlt,COUNTYCODE, area_sqkm, subRegion_cc) %>%
+    dplyr::filter(subRegion %in% subRegions_duplicated)%>%
+    dplyr::group_by(subRegionAlt) %>%
+    dplyr::mutate(max_area = max(area_sqkm)) %>%
+    dplyr::filter(area_sqkm != max_area); countycodes_remove
+
+  mapx@data <- mapx@data %>%
+    dplyr::mutate(
+      subRegion = if_else(subRegion_cc %in% countycodes_remove$subRegion_cc,paste0(subRegion,"_city"),subRegion),
+      FIPS = paste0(STATEFP,COUNTYCODE))
+  mapUS52County <- mapx
+  subRegions_duplicated <- (mapx@data$subRegion)[(mapx@data$subRegion)%>%duplicated()]; subRegions_duplicated
+  use_data(mapUS52County, version=3, overwrite=T)
+
 }
 
 # US 52 Counties with Alaska (AK), Hawaii (HI) and Puerto Rico (PR) shrunken and shifted
@@ -794,19 +829,19 @@ if(redoMaps){
   alaska <- elide(alaska, scale=max(apply(bbox(alaska), 1, diff)) / 2.3)
   alaska <- elide(alaska, shift=c(-2100000, -2500000))
   proj4string(alaska) <- proj4string(us_aea)
-  rmap::rmap::map(alaska)
+  rmap::map(alaska)
   # extract, then rotate & shift hawaii
   hawaii <- us_aea[us_aea$STATENAME=="Hawaii",]
   hawaii <- elide(hawaii, rotate=-35)
   hawaii <- elide(hawaii, shift=c(5400000, -1400000))
   proj4string(hawaii) <- proj4string(us_aea)
-  rmap::rmap::map(hawaii)
+  rmap::map(hawaii)
   # extract, then rotate & shift Puerto Rico
   pr <- us_aea[us_aea$STATENAME=="Puerto Rico",]
   #pr <- elide(pr, rotate=-35)
   pr <- elide(pr, shift=c(-2500000,0))
   proj4string(pr) <- proj4string(us_aea);
-  rmap::rmap::map(pr)
+  rmap::map(pr)
   # remove old states and put new ones back in; note the different order
   # we're also removing puerto rico in this example but you can move it
   # between texas and florida via similar methods to the ones we just used
@@ -821,6 +856,27 @@ if(redoMaps){
   mapUS52CountyCompact@data <- mapUS52CountyCompact@data %>%
     dplyr::mutate(name="mapUS52CountyCompact")
   use_data(mapUS52CountyCompact, version=3, overwrite=T)
+
+  # Create FIPS
+  mapx <- rmap::mapUS52CountyCompact
+  mapx@data <- mapx@data  %>%
+    dplyr::mutate(subRegion_cc = paste0(subRegion,COUNTYCODE))
+  subRegions_duplicated <- (mapx@data$subRegion)[(mapx@data$subRegion)%>%duplicated()]; subRegions_duplicated
+  countycodes_remove <- mapx@data %>%
+    dplyr::select(subRegion,subRegionAlt,COUNTYCODE, area_sqkm, subRegion_cc) %>%
+    dplyr::filter(subRegion %in% subRegions_duplicated)%>%
+    dplyr::group_by(subRegionAlt) %>%
+    dplyr::mutate(max_area = max(area_sqkm)) %>%
+    dplyr::filter(area_sqkm != max_area); countycodes_remove
+
+  mapx@data <- mapx@data %>%
+    dplyr::mutate(
+      subRegion = if_else(subRegion_cc %in% countycodes_remove$subRegion_cc,paste0(subRegion,"_city"),subRegion),
+      FIPS = paste0(STATEFP,COUNTYCODE))
+  mapUS52CountyCompact <- mapx
+  subRegions_duplicated <- (mapx@data$subRegion)[(mapx@data$subRegion)%>%duplicated()]; subRegions_duplicated
+  use_data(mapUS52CountyCompact, version=3, overwrite=T)
+
 }
 
 # US 49 Counties
@@ -842,7 +898,28 @@ if(redoMaps){
   mapUS49County@data <- mapUS49County@data %>%
     dplyr::mutate(name="mapUS49County")
   use_data(mapUS49County, version=3, overwrite=T)
-}
+
+  # Create FIPS
+  mapx <- rmap::mapUS49County
+  mapx@data <- mapx@data  %>%
+    dplyr::mutate(subRegion_cc = paste0(subRegion,COUNTYCODE))
+  subRegions_duplicated <- (mapx@data$subRegion)[(mapx@data$subRegion)%>%duplicated()]; subRegions_duplicated
+  countycodes_remove <- mapx@data %>%
+    dplyr::select(subRegion,subRegionAlt,COUNTYCODE, area_sqkm, subRegion_cc) %>%
+    dplyr::filter(subRegion %in% subRegions_duplicated)%>%
+    dplyr::group_by(subRegionAlt) %>%
+    dplyr::mutate(max_area = max(area_sqkm)) %>%
+    dplyr::filter(area_sqkm != max_area); countycodes_remove
+
+  mapx@data <- mapx@data %>%
+    dplyr::mutate(
+      subRegion = if_else(subRegion_cc %in% countycodes_remove$subRegion_cc,paste0(subRegion,"_city"),subRegion),
+      FIPS = paste0(STATEFP,COUNTYCODE))
+  mapUS49County <- mapx
+  subRegions_duplicated <- (mapx@data$subRegion)[(mapx@data$subRegion)%>%duplicated()]; subRegions_duplicated
+  use_data(mapUS49County, version=3, overwrite=T)
+
+  }
 
 
 # Merge
@@ -1381,3 +1458,23 @@ if(F){
 
 }
 
+#-----------
+# Test for duplicate subRegions
+#----------
+
+if(F){
+  library(rmap);
+
+  # Plotting
+  #-------------
+  # World
+  for(i in c("mapCountries","mapStates","mapGCAMReg32","mapGCAMBasins","mapUS52","mapUS52County",
+             "mapUS52CountyCompact","mapUS49","mapUS49County","mapGCAMReg32US52",
+             "mapIntersectGCAMBasinCountry")){
+  mapx = get(i)
+  subRegions_duplicated <- (mapx@data$subRegion)[(mapx@data$subRegion)%>%duplicated()]; subRegions_duplicated
+  print(i)
+  print(subRegions_duplicated)
+  }
+
+}

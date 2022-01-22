@@ -339,13 +339,19 @@ mydata <- ncovr %>%
 
 # Will give you the relevant plot but multiple counties
 # See how you can define your own columns as arguments
-rmap::map(mydata)
-
-# Here you can see all the multiple counties. rmap appends the State for you as it recognizes this.
 rmap::map(mydata,
+          subRegCol = "NAME",
+          valueCol = "HR60")
+
+# Here you can see all the multiple counties labelled.
+# rmap appends the State for you as it recognizes this.
+# You can also see some of the other features of rmap here
+# such as underLayer, zoom, labels etc.
+rmap::map(mydata,
+          subRegCol="NAME",
+          valueCol="HR60",
           labels = T,
           labelSize = 3,
           labelRepel = T,
-          subRegCol="NAME",
-          valueCol="HR60",
-          underLayer = rmap::mapUS49)
+          underLayer = rmap::mapUS49,
+          zoom=-2)

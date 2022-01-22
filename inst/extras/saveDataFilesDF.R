@@ -211,6 +211,7 @@ mapUS52Countydf <- rmap::tidy_shape(shape=mapx, shapeColum="subRegion") %>%
 mapUS52Countydf %>% head()
 use_data(mapUS52Countydf, version=3,  overwrite=T)
 
+
 # US 52 Counties with Alaska (AK), Hawaii (HI) and Puerto Rico (PR) shrunken and shifted
 #-------------------
 mapx <- rmap::mapUS52CountyCompact
@@ -285,14 +286,6 @@ mapIntersectGCAMBasinUS52df <- rmap::tidy_shape(shape=mapx, shapeColum="subRegio
   dplyr::inner_join(mapx@data, by="subRegion") %>% dplyr::rename(lon=long) %>% dplyr::mutate(name = paste0(name,"df"));
 mapIntersectGCAMBasinUS52df %>% head()
 use_data(mapIntersectGCAMBasinUS52df, version=3,  overwrite=T)
-
-# Intersection of GCAM Basins and US 52 County
-mapx <- rmap::mapIntersectGCAMBasinUS52County
-mapIntersectGCAMBasinUS52Countydf <- rmap::tidy_shape(shape=mapx, shapeColum="subRegion") %>%
-  dplyr::rename(subRegion=id)%>%
-  dplyr::inner_join(mapx@data, by="subRegion") %>% dplyr::rename(lon=long) %>% dplyr::mutate(name = paste0(name,"df"));
-mapIntersectGCAMBasinUS52Countydf %>% head()
-use_data(mapIntersectGCAMBasinUS52Countydf, version=3,  overwrite=T)
 
 # Intersection of GCAM Basins and US 52 County
 mapx <- rmap::mapIntersectGCAMBasinUS52County
@@ -403,15 +396,6 @@ if(T){
   "subRegGCAMBasinsUS52" =
     tolower(rmap::mapGCAMBasinsUS52@data$subRegion %>% unique() %>% as.character %>%
               sort()),
-  "subRegGCAMLand" =
-    tolower(rmap::mapGCAMLand@data$subRegion %>% unique() %>% as.character %>%
-              sort()),
-  "subRegGCAMLandUS49" =
-    tolower(rmap::mapGCAMLandUS49@data$subRegion %>% unique() %>% as.character %>%
-              sort()),
-  "subRegGCAMLandUS52" =
-    tolower(rmap::mapGCAMLandUS52@data$subRegion %>% unique() %>% as.character %>%
-              sort()),
   "subRegUS49HUC2" =
     tolower(rmap::mapUS49HUC2@data$subRegion %>% unique() %>% as.character %>%
               sort()),
@@ -474,15 +458,6 @@ if(T){
         sort()),
   "subRegGCAMBasinsUS52Alt" =
     tolower(rmap::mapGCAMBasinsUS52@data$subRegionAlt %>% unique() %>% as.character %>%
-        sort()),
-  "subRegGCAMLandAlt" =
-    tolower(rmap::mapGCAMLand@data$subRegionAlt %>% unique() %>% as.character %>%
-              sort()),
-  "subRegGCAMLandUS49Alt" =
-    tolower(rmap::mapGCAMLandUS49@data$subRegionAlt %>% unique() %>% as.character %>%
-        sort()),
-  "subRegGCAMLandUS52Alt" =
-    tolower(rmap::mapGCAMLandUS52@data$subRegionAlt %>% unique() %>% as.character %>%
         sort()),
   "subRegUS49HUC2Alt" =
     tolower(rmap::mapUS49HUC2@data$subRegionAlt %>% unique() %>% as.character %>%
