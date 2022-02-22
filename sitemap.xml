@@ -88,6 +88,12 @@
     <loc>/reference/mapGCAMReg32US52df.html</loc>
   </url>
   <url>
+    <loc>/reference/mapGCAMReg32Uruguay.html</loc>
+  </url>
+  <url>
+    <loc>/reference/mapGCAMReg32Uruguaydf.html</loc>
+  </url>
+  <url>
     <loc>/reference/mapGCAMReg32df.html</loc>
   </url>
   <url>
@@ -110,6 +116,12 @@
   </url>
   <url>
     <loc>/reference/mapIntersectGCAMBasin32Reg.html</loc>
+  </url>
+  <url>
+    <loc>/reference/mapIntersectGCAMBasin32RegUruguay.html</loc>
+  </url>
+  <url>
+    <loc>/reference/mapIntersectGCAMBasin32RegUruguaydf.html</loc>
   </url>
   <url>
     <loc>/reference/mapIntersectGCAMBasin32Regdf.html</loc>
