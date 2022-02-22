@@ -289,6 +289,18 @@
 #' }
 "mapGCAMReg32"
 
+#' GCAM 32 Regions with Uruguay
+#'
+#' @source Modified versions of shapefiles from \url{https://zenodo.org/record/4688451#.YdMNTmjMJPY}
+#' @format A SpatialPolygonsDataFrame
+#' @examples
+#' \dontrun{
+#'  library(sp); library(rmap)
+#'  sp::plot(mapGCAMReg32Uruguay)
+#'  head(mapGCAMReg32Uruguay@data)
+#' }
+"mapGCAMReg32Uruguay"
+
 
 #' GCAM Basins
 #'
@@ -502,6 +514,16 @@
 #' }
 "mapIntersectGCAMBasin32Reg"
 
+#' Intersection of GCAM Basins and GCAM 32 Regions + Uruguay.
+#' @source JGCRI
+#' @format R tibble
+#' @examples
+#' \dontrun{
+#' library(rmap)
+#' head(mapIntersectGCAMBasin32RegUruguay)
+#' }
+"mapIntersectGCAMBasin32RegUruguay"
+
 #' Intersection of GCAM Basins and US 52 Regions.
 #' @source JGCRI
 #' @format R tibble
@@ -588,6 +610,20 @@
 #'  head(mapGCAMReg32df)
 #' }
 "mapGCAMReg32df"
+
+#' GCAM 32 Regions with Uruguay
+#'
+#' @source Modified versions of shapefiles from \url{https://zenodo.org/record/4688451#.YdMNTmjMJPY}
+#' @format A SpatialPolygonsDataFrame
+#' @examples
+#' \dontrun{
+#'  library(sp); library(rmap); library(ggplot2)
+#'  ggplot() +
+#'  geom_polygon(data = mapGCAMReg32Uruguaydf, aes(x = long, y = lat, group = group),
+#'              colour = "black", fill = NA)
+#'  head(mapGCAMReg32Uruguaydf)
+#' }
+"mapGCAMReg32Uruguaydf"
 
 
 #' GCAM Basins
@@ -839,6 +875,19 @@
 #'  head(mapIntersectGCAMBasin32Regdf)
 #' }
 "mapIntersectGCAMBasin32Regdf"
+
+#' Intersection of GCAM Basins and GCAM 32 Regions + Uruguay.
+#' @source JGCRI
+#' @format R tibble
+#' @examples
+#' \dontrun{
+#'  library(sp); library(rmap); library(ggplot2)
+#'  ggplot() +
+#'  geom_polygon(data = mapIntersectGCAMBasin32RegUruguaydf, aes(x = long, y = lat, group = group),
+#'              colour = "black", fill = NA)
+#'  head(mapIntersectGCAMBasin32RegUruguaydf)
+#' }
+"mapIntersectGCAMBasin32RegUruguaydf"
 
 #' Intersection of GCAM Basins and US 52 Regions.
 #' @source JGCRI

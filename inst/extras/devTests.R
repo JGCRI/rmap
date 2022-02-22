@@ -355,3 +355,41 @@ rmap::map(mydata,
           labelRepel = T,
           underLayer = rmap::mapUS49,
           zoom=-2)
+
+
+
+# Test for Brinda
+library(rmap); library(dplyr); library(data.table); library(tibble)
+total_basin_production_value_clean <- data.table::fread("C:/Z/models/tests/total_basin_production_value_clean.csv") %>% tibble::as_tibble()
+plot_regions = c("South America_Southern",
+                 "South America_Southern",
+                 "Argentina", "Colombia", "Brazil")
+plot_basin_production_value <- total_basin_production_value_clean %>%
+  filter(year %in% c(2015, 2050), region %in% plot_regions, scenario == "ARM_Reference") %>%
+  mutate(subRegion = gsub("Basin_", "", subRegion)) %>%
+  mutate(param = "param1") %>%
+  select(scenario, subRegion, param, value, year)
+
+plot_map <- rmap::map(data=plot_basin_production_value,
+                      #shape = rmap::mapIntersectGCAMBasin32Reg,
+                      #folder = paste(getwd(), "/", PLOT_FOLDER, "/maps", sep = ""),
+                      #nameAppend = paste("_LAC_production_v2", sep = ""),
+                      xRef = 2015,
+                      xDiff = 2050
+                      )
+
+
+plot_basin_production_value <- total_basin_production_value_clean %>%
+  filter(year %in% c(2015, 2050), region %in% plot_regions, scenario == "ARM_Reference") %>%
+  mutate(subRegion = gsub("Basin_", "", subRegion)) %>%
+  mutate(param = "param1") %>%
+  mutate(scenario = paste0(scenario,".",year)) %>%
+  select(scenario, subRegion, param, value)
+
+plot_map <- rmap::map(plot_basin_production_value,
+                      #folder = paste(getwd(), "/", PLOT_FOLDER, "/maps", sep = ""),
+                      nameAppend = "_check",
+                      scenRef = "ARM_Reference.2015",
+                      scenDiff = c("ARM_Reference.2050"))
+
+

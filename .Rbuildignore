@@ -29,3 +29,7 @@ cheatsheet.pdf
 ^paper$
 ^/paper$
 ^SUPPORT.md$
+^CITATION.md$
+^CONTRIBUTE.md$
+^cran-comments.md$
+^csheet.pdf$

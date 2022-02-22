@@ -192,7 +192,7 @@ if(T){ # Initialize
 
   NULL->raster->map->checkFacets->catBreaks->catLabels->catPalette->legendLabelsX->
     singleValLoc->label->long->lat->group->dataShape->dataPolygon->dataGrid->data_shape->
-    lon->hole->piece->subRegion->X1->X2->id->name->value->datax
+    lon->hole->piece->subRegion->X1->X2->id->name->value->datax->subRegionAlt
 
   if(!is.null(legendTitle)){
     legendTitle=gsub(" ","\n",legendTitle)
@@ -240,9 +240,9 @@ if(!is.null(data)){
     }
   } else if(!("value" %in% names(data)) & !grepl("Mean_",fillColumn)){
     dataShape <- data
-  } else if(any(grepl("lat|lon",names(data)))){
+  } else if(("lat" %in% names(data)) & ("lon" %in% names(data))){
     dataGrid <- data
-  } else if(any(grepl("subRegion",names(data))) & any(!grepl("lat|lon",names(data)))){
+  } else if(any(grepl("subRegion",names(data))) & !(("lat" %in% names(data)) & ("lon" %in% names(data)))){
 
     # If shape provided then use shape
     if(!is.null(shape)){
