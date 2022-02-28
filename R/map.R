@@ -323,15 +323,17 @@ map <- function(data = NULL,
 
   # Remove NA subRegion
   if(T){
+    if(any(grepl("tbl_df|tbl|data.frame",class(data)))){
     if(!is.null(data)){
       if(nrow(data)>0){
-        if("subRegion" %in% names(data)){
+        if(any("subRegion" %in% names(data))){
           data <- data %>%
             dplyr::filter(!is.na(subRegion))
         }
       }
       }
     }
+  }
 
   # Rename valueCol
   if(T){
