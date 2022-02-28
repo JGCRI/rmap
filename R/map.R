@@ -321,6 +321,18 @@ map <- function(data = NULL,
     }
   }
 
+  # Remove NA subRegion
+  if(T){
+    if(!is.null(data)){
+      if(nrow(data)>0){
+        if("subRegion" %in% names(data)){
+          data <- data %>%
+            dplyr::filter(!is.na(subRegion))
+        }
+      }
+      }
+    }
+
   # Rename valueCol
   if(T){
     if(!is.null(data)){
@@ -339,7 +351,6 @@ map <- function(data = NULL,
       }
     }
   }
-
 
   }
 

@@ -393,3 +393,27 @@ plot_map <- rmap::map(plot_basin_production_value,
                       scenDiff = c("ARM_Reference.2050"))
 
 
+# Reviewer Reka Comments 28 Feb 2022
+library(rmap)
+library(geodaData)
+library(dplyr)
+library(sf)
+
+# get data for testing
+data("ncovr")
+mydata <- ncovr %>% select(NAME, STATE_NAME, FIPS, HR60) %>% st_drop_geometry() %>%
+  dplyr::left_join(rmap::mapUS52County@data, by="FIPS") %>%
+  dplyr::mutate(value=HR60)
+rmap::map(data=mydata)
+
+# Counter Example
+download.file("https://www2.census.gov/geo/tiger/GENZ2018/kml/cb_2018_us_county_20m.zip","counties.zip")
+unzip("counties.zip")
+counties_geojson <- sf::st_read("cb_2018_us_county_20m.kml")
+mapthis <- dplyr::left_join(counties_geojson, mydata, by = c("GEOID" = "FIPS"))
+tmap::qtm(mapthis, fill = "HR60")
+
+# Tigris
+tg_counties <- tigris::counties()
+mapthis <- dplyr::left_join(tg_counties, mydata, by = c("GEOID" = "FIPS"))
+tmap::qtm(mapthis, fill = "HR60")
