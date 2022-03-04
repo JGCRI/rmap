@@ -208,7 +208,7 @@ if(T){ # Initialize
 
   if(!is.null(theme)){
   if(!any(grepl("theme",class(theme),ignore.case = T))){
-    print("Theme provide is not a ggplot theme. Ignoring theme.")
+    rlang::inform("Theme provide is not a ggplot theme. Ignoring theme.")
     theme = NULL
   }}
 
@@ -354,7 +354,7 @@ if(!is.null(numeric2Cat_list)){
 
        legendTextSize <- numeric2Cat_list$numeric2Cat_legendTextSize[[list_index]]
        }
-     } else {print("numerc2Cat_list does not contain the appropriate sublists: 'numeric2Cat_param','numeric2Cat_breaks','numeric2Cat_labels','numeric2Cat_catPalette'. Skipping conversion to Categorical")}
+     } else {rlang::inform("numerc2Cat_list does not contain the appropriate sublists: 'numeric2Cat_param','numeric2Cat_breaks','numeric2Cat_labels','numeric2Cat_catPalette'. Skipping conversion to Categorical")}
 }
 
 # If categorical data then set as factor for datax
@@ -370,10 +370,10 @@ if(!is.null(datax)){
           }else if(!is.na(RColorBrewer::brewer.pal.info[catPalette,]$maxcolors)){
               catPalette <- RColorBrewer::brewer.pal(RColorBrewer::brewer.pal.info[catPalette,]$maxcolors,catPalette)
           } else {
-              print(paste0("catPalette provided: ", catPalette, "for param: ", catParam, " is invalid. Using jgcricol()$pal_16."))
+              rlang::inform(paste0("catPalette provided: ", catPalette, "for param: ", catParam, " is invalid. Using jgcricol()$pal_16."))
               catPalette <- (rep(jgcricol()$pal_16,length(catLabels)))[1:length(catLabels)]
               names(catPalette) <- catLabels
-              print(paste0("New catPalette: ", paste(catPalette,collapse=", ")))
+              rlang::inform(paste0("New catPalette: ", paste(catPalette,collapse=", ")))
 
             }
       }
@@ -742,7 +742,7 @@ if(T){
       )
 
     if(any(grepl("temp", unique(datax1$label)))){
-      print(datax1 %>% as.data.frame() %>% dplyr::filter(grepl("temp",label)))
+      #print(datax1 %>% as.data.frame() %>% dplyr::filter(grepl("temp",label)))
       stop("Label data not allocated correctly.")
     }
 
@@ -872,7 +872,7 @@ if(T){
     if(labels){
       if(!is.null(shape)){
       if(!any(grepl("SpatialPolygonsDataFrame",class(shape)))){
-        print("To print labels shape must be a SpatialPolygonsDataFrame for e.g. rmap::mapCountries.")
+        rlang::inform("To print labels shape must be a SpatialPolygonsDataFrame for e.g. rmap::mapCountries.")
         shapex <- NULL
       } else {
         shapex <- shape
@@ -1227,14 +1227,14 @@ if(save){
 fname<-paste(fileName,sep="")
 
 if(nchar(paste(folder,"/",fname,sep=""))>250){
-  print("Save path for figure larger than 250 characters. Clipping name.")
-  print(paste("Orig name: ",folder,"/",fname,sep=""))
-  print(paste("New name: ", folder,"/",strtrim(fname, (250-min(249,nchar(paste(folder,"/",sep=""))))),sep=""))
+  rlang::inform("Save path for figure larger than 250 characters. Clipping name.")
+  rlang::inform(paste("Orig name: ",folder,"/",fname,sep=""))
+  rlang::inform(paste("New name: ", folder,"/",strtrim(fname, (250-min(249,nchar(paste(folder,"/",sep=""))))),sep=""))
   fname<-strtrim(fname, (250-nchar(paste(folder,"/",sep=""))))
 }
 
 if(!dir.exists(folder)){
-  print(paste("folder provided: ",folder," does not exist. Saving to: ", getwd(), "/outputsTemp",sep=""))
+  rlang::inform(paste("folder provided: ",folder," does not exist. Saving to: ", getwd(), "/outputsTemp",sep=""))
 
   if (!dir.exists(paste(getwd(), "/outputsTemp", sep = ""))){
     dir.create(paste(getwd(), "/outputstemp", sep = ""))}
@@ -1259,9 +1259,9 @@ rmap::printPdfPng(figure=map,
 
 } else {
 
-  print(paste0("None of the subRegions provided are available in any pre-loaded shapefile."))
-  print(paste("SubRegions from data: ", paste(data$subRegion%>%unique(), collapse=", "), collapse =""))
-  print(paste0("Please provide a shapefile with data attributes with a column subRegion correpsonding to each polygon in your data."))
+  rlang::inform(paste0("None of the subRegions provided are available in any pre-loaded shapefile."))
+  rlang::inform(paste("SubRegions from data: ", paste(data$subRegion%>%unique(), collapse=", "), collapse =""))
+  rlang::inform(paste0("Please provide a shapefile with data attributes with a column subRegion correpsonding to each polygon in your data."))
 }
 
 #....................

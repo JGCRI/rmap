@@ -21,8 +21,8 @@ df_to_shape <- function(df=NULL) {
       shape_df <- get(gsub("df","",unique(df$name)))
     } else{
       shape_df = NULL
-      print(paste0("Can't convert df to shape because 'name' column does not exist."))
-      print(paste0("This message produced in df_to_shape line 23."))
+      rlang::inform(paste0("Can't convert df to shape because 'name' column does not exist."))
+      rlang::inform(paste0("This message produced in df_to_shape line 23."))
     }
   } else {
     stop("No shape provided")

@@ -144,10 +144,10 @@ map_find_df <- function(data) {
       mapMax
 
       if (nrow(mapMax) > 1) {
-        print("More than one pre-loaded map contain the subRegions in the data provided.")
-        print("Choosing map based on pre-set map ranking:")
-        print(mapMax %>% dplyr::arrange(rank))
-        print("To choose a different map, please assign it in shape directly.")
+        rlang::inform("More than one pre-loaded map contain the subRegions in the data provided.")
+        rlang::inform("Choosing map based on pre-set map ranking.")
+        #print(mapMax %>% dplyr::arrange(rank))
+        rlang::inform("To choose a different map, please assign it in shape directly.")
       }
 
       subRegChosen <- (mapMax %>%
@@ -164,7 +164,7 @@ map_find_df <- function(data) {
                       subRegion = subRegionAlt)
     }
 
-    print(paste("Using map: ", unique(mapFindx$subRegionType), sep = ""))
+    rlang::inform(paste("Using map: ", unique(mapFindx$subRegionType), sep = ""))
     }
 
 
@@ -178,7 +178,7 @@ map_find_df <- function(data) {
 
       if (!is.null(subRegNotInShapeFoundx)) {
         if (length(subRegNotInShapeFoundx) > 0) {
-          print(paste(
+          rlang::inform(paste(
             "subRegions in data not present in shapefile are: ",
             paste(subRegNotInShapeFoundx, collapse = ", "),
             sep = ""

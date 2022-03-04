@@ -256,7 +256,7 @@ map <- function(data = NULL,
   # crop_to_underLayer = F
   # crop_to_overLayer = F
 
-  print("Starting map...")
+  rlang::inform("Starting map...")
 
   #.................-
   # Initialize variables
@@ -503,7 +503,7 @@ map <- function(data = NULL,
     # Return Data
     # .................
 
-    print("map run completed.")
+    rlang::inform("map run completed.")
 
     invisible(mapsReturn)
 
@@ -669,9 +669,7 @@ map <- function(data = NULL,
   # Remove NA's & Keep only Unique Values
   if(!is.null(dataTbl)){
     if(nrow(dataTbl)>0){
-    #print("Removing NA's and keeping only unique values in dataTbl...")
     dataTbl<-dataTbl%>%dplyr::filter(!is.na(value))%>%dplyr::mutate(value = signif(value,10))%>%dplyr::ungroup()%>%dplyr::distinct()
-    #print("Complete.")
     }
   }
 
@@ -706,22 +704,22 @@ map <- function(data = NULL,
     if(!is.null(scenRef)){
 
       if(!any(scenRef %in% scenarios)){
-        print(paste("scenRef chosen: ", scenRef, " is not in any of the available scenarios: ",sep=""))
-        print(paste(scenarios,collapse=", "))
-        print(paste("Setting scenRef to first scenario: ", scenarios[1],".",sep=""))
+        rlang::inform(paste0("scenRef chosen: ", scenRef, " is not in any of the available scenarios: "))
+        rlang::inform(paste(scenarios,collapse=", "))
+        rlang::inform(paste0("Setting scenRef to first scenario: ", scenarios[1],"."))
         scenRef <- scenarios[1]
       }
 
 
       if(is.null(scenDiff)){
         scenDiff <- scenarios[!scenarios %in% scenRef]
-        print(paste("Running difference against all available scenarios:",sep=""))
-        print(paste(scenDiff,collapse=", "))
+        rlang::inform(paste0("Running difference against all available scenarios:"))
+        rlang::inform(paste(scenDiff,collapse=", "))
       }else{
         if(!any(scenDiff %in% scenarios)){
-          print(paste("None of the scenDiff are in any of the available scenarios: "))
-          print(paste(scenarios[!scenarios %in% scenRef],collapse=", "))
-          print(paste("Skipping Diff.",sep=""))
+          rlang::inform(paste("None of the scenDiff are in any of the available scenarios: "))
+          rlang::inform(paste(scenarios[!scenarios %in% scenRef],collapse=", "))
+          rlang::inform(paste0("Skipping Diff."))
         }
       }
 
@@ -745,9 +743,9 @@ map <- function(data = NULL,
       if(length(unique(dataTblDiffa$scenario))>1){
 
         if(scenRef_i %in% unique(dataTblDiffa$scenario)){
-          print(paste("Ref scenario chosen for param: ", param_i, " is ", paste(scenRef_i,collapse=", "),sep=""))
+          rlang::inform(paste("Ref scenario chosen for param: ", param_i, " is ", paste(scenRef_i,collapse=", "),sep=""))
         if(any(scenDiff_i %in% unique(dataTblDiffa$scenario))){
-          print(paste("Diff scenarios chosen for param: ", param_i, " are ",
+          rlang::inform(paste("Diff scenarios chosen for param: ", param_i, " are ",
                       paste(scenDiff_i[scenDiff_i %in% unique(dataTblDiffa$scenario)],collapse=", "),sep=""))}
 
 
@@ -809,26 +807,26 @@ map <- function(data = NULL,
     if(!is.null(xRef)){
 
       if(!any(xRef %in% xRange)){
-        print(paste("xRef chosen: ", xRef, " is not in any of the available x values: ",sep=""))
-        print(paste(xRange,collapse=", "))
-        print(paste("Setting xRef to first x value: ", xRange[1],".",sep=""))
+        rlang::inform(paste("xRef chosen: ", xRef, " is not in any of the available x values: ",sep=""))
+        rlang::inform(paste(xRange,collapse=", "))
+        rlang::inform(paste("Setting xRef to first x value: ", xRange[1],".",sep=""))
         xRef <- xRange[1]
       }
 
       if(is.null(xDiff)){
         xDiff <- xRange[!xRange %in% xRef]
-        print(paste("Running difference against all available x:",sep=""))
-        print(paste(xDiff,collapse=", "))
+        rlang::inform(paste("Running difference against all available x:",sep=""))
+        rlang::inform(paste(xDiff,collapse=", "))
       }else{
         if(!any(xDiff %in% xRange)){
-          print(paste("None of the xDiff are in any of the available scenarios: "))
-          print(paste(xRange[!xRange %in% xRef],collapse=", "))
-          print(paste("Skipping x Diff.",sep=""))
+          rlang::inform(paste("None of the xDiff are in any of the available scenarios: "))
+          rlang::inform(paste(xRange[!xRange %in% xRef],collapse=", "))
+          rlang::inform(paste("Skipping x Diff.",sep=""))
         } else {
           if(!all(xDiff %in% xRange)){
-            print(paste0("Not all xDiff chosen: ",paste(xDiff,collapse=",")))
+            rlang::inform(paste0("Not all xDiff chosen: ",paste(xDiff,collapse=",")))
             xDiff <- xDiff[xDiff %in% xRange]
-            print(paste0("Setting xDiff to available x: ",xDiff))
+            rlang::inform(paste0("Setting xDiff to available x: ",xDiff))
           }
         }
 
@@ -855,9 +853,9 @@ map <- function(data = NULL,
               # Calculate Diff Values
 
               if(xRef_i %in% unique(dataTblDiffa$x)){
-                print(paste("Ref x chosen for param: ", param_i, " is ", paste(xRef_i,collapse=", "),sep=""))
+                rlang::inform(paste("Ref x chosen for param: ", param_i, " is ", paste(xRef_i,collapse=", "),sep=""))
                 if(any(xDiff_i %in% unique(dataTblDiffa$x))){
-                  print(paste("Diff x chosen for param: ", param_i, " are ",
+                  rlang::inform(paste("Diff x chosen for param: ", param_i, " are ",
                               paste(xDiff_i[xDiff_i %in% unique(dataTblDiffa$x)],collapse=", "),sep=""))
                   }
 
@@ -934,12 +932,12 @@ map <- function(data = NULL,
   if(!is.null(dataTbl)){
 
     if(!col %in% names(dataTbl)){
-      print(paste0("col chosen: ",  col ,"do not exist:"))
+      rlang::inform(paste0("col chosen: ",  col ,"do not exist:"))
       col <- NULL
     }
 
     if(!row %in% names(dataTbl)){
-      print(paste0("row chosen: ",  row ,"do not exist:"))
+      rlang::inform(paste0("row chosen: ",  row ,"do not exist:"))
       row <- NULL
     }
   }
@@ -971,11 +969,11 @@ map <- function(data = NULL,
         if(!is.null(nrow(scaleRange))){
           scaleRange = addMissingScale(scaleRange)
           if(!any(unique(scaleRange$param) %in% paramsRange)){
-            print(paste("None of the params in scaleRange: ",
+            rlang::inform(paste("None of the params in scaleRange: ",
                         paste(unique(scaleRange$param),collapse=", "),sep=""))
-            print("are present in the data params:")
-            print(paste(paramsRange,collapse=", "))
-            print("Setting scaleRange to NULL")
+            rlang::inform("are present in the data params:")
+            rlang::inform(paste(paramsRange,collapse=", "))
+            rlang::inform("Setting scaleRange to NULL")
             scaleRange=NULL
           }
         }else{scaleRange=NULL}
@@ -994,11 +992,11 @@ map <- function(data = NULL,
         if(!is.null(nrow(scaleRangeDiffAbs))){
           scaleRangeDiffAbs = addMissingScale(scaleRangeDiffAbs)
           if(!any(unique(scaleRangeDiffAbs$param) %in% paramsRange)){
-            print(paste("None of the params in scaleRangeDiffAbs: ",
+            rlang::inform(paste("None of the params in scaleRangeDiffAbs: ",
                         paste(unique(scaleRangeDiffAbs$param),collapse=", "),sep=""))
-            print("are present in the data params:")
-            print(paste(paramsRange,collapse=", "))
-            print("Setting scaleRangeDiffAbs to NULL")
+            rlang::inform("are present in the data params:")
+            rlang::inform(paste(paramsRange,collapse=", "))
+            rlang::inform("Setting scaleRangeDiffAbs to NULL")
             scaleRangeDiffAbs=NULL
           }
         }else{scaleRangeDiffAbs=NULL}
@@ -1017,11 +1015,11 @@ map <- function(data = NULL,
         if(!is.null(nrow(scaleRangeDiffPrcnt))){
           scaleRangeDiffPrcnt = addMissingScale(scaleRangeDiffPrcnt)
           if(!any(unique(scaleRangeDiffPrcnt$param) %in% paramsRange)){
-            print(paste("None of the params in scaleRangeDiffPrcnt: ",
+            rlang::inform(paste("None of the params in scaleRangeDiffPrcnt: ",
                         paste(unique(scaleRangeDiffPrcnt$param),collapse=", "),sep=""))
-            print("are present in the data params:")
-            print(paste(paramsRange,collapse=", "))
-            print("Setting scaleRangeDiffPrcnt to NULL")
+            rlang::inform("are present in the data params:")
+            rlang::inform(paste(paramsRange,collapse=", "))
+            rlang::inform("Setting scaleRangeDiffPrcnt to NULL")
             scaleRangeDiffPrcnt=NULL
             }
         }else{scaleRangeDiffPrcnt=NULL}
@@ -1039,11 +1037,11 @@ map <- function(data = NULL,
         if(!is.null(nrow(scaleRangexDiffAbs))){
           scaleRangexDiffAbs = addMissingScale(scaleRangexDiffAbs)
           if(!any(unique(scaleRangexDiffAbs$param) %in% paramsRange)){
-            print(paste("None of the params in scaleRangexDiffAbs: ",
+            rlang::inform(paste("None of the params in scaleRangexDiffAbs: ",
                         paste(unique(scaleRangexDiffAbs$param),collapse=", "),sep=""))
-            print("are present in the data params:")
-            print(paste(paramsRange,collapse=", "))
-            print("Setting scaleRangexDiffAbs to NULL")
+            rlang::inform("are present in the data params:")
+            rlang::inform(paste(paramsRange,collapse=", "))
+            rlang::inform("Setting scaleRangexDiffAbs to NULL")
             scaleRangexDiffAbs=NULL
           }
         }else{scaleRangexDiffAbs=NULL}
@@ -1062,11 +1060,11 @@ map <- function(data = NULL,
         if(!is.null(nrow(scaleRangexDiffPrcnt))){
           scaleRangexDiffPrcnt = addMissingScale(scaleRangexDiffPrcnt)
           if(!any(unique(scaleRangexDiffPrcnt$param) %in% paramsRange)){
-            print(paste("None of the params in scaleRangexDiffPrcnt: ",
+            rlang::inform(paste("None of the params in scaleRangexDiffPrcnt: ",
                         paste(unique(scaleRangexDiffPrcnt$param),collapse=", "),sep=""))
-            print("are present in the data params:")
-            print(paste(paramsRange,collapse=", "))
-            print("Setting scaleRangexDiffPrcnt to NULL")
+            rlang::inform("are present in the data params:")
+            rlang::inform(paste(paramsRange,collapse=", "))
+            rlang::inform("Setting scaleRangexDiffPrcnt to NULL")
             scaleRangexDiffPrcnt=NULL
           }
         }else{scaleRangexDiffPrcnt=NULL}
@@ -1155,7 +1153,7 @@ map <- function(data = NULL,
                   data.table::fwrite(dataTblx %>% dplyr::filter(param==param_i)%>%
                                        dplyr::select(scenario,lat,lon,subRegion,param,class,x,value,units),
                                      paste(folder,"/",param_if,"/map_",param_i,nameAppend,".csv",sep = ""))
-                  print(paste("Map data table written to ",folder,"/",param_if,"/map_",param_i,nameAppend,".csv",sep = ""))
+                  rlang::inform(paste("Map data table written to ",folder,"/",param_if,"/map_",param_i,nameAppend,".csv",sep = ""))
                 }
               }
 
@@ -1387,7 +1385,7 @@ map <- function(data = NULL,
                   animation <- magick::image_animate(magick::image_join(lapply(animFiles, magick::image_read)),fps=fps)
                   magick::image_write(animation,paste(folder,"/",param_if,"/",
                                                       animName,sep = ""))
-                  print(gsub("//","/",paste("animation saved in :",folder,"/",param_if,"/",
+                  rlang::inform(gsub("//","/",paste("animation saved in :",folder,"/",param_if,"/",
                                             animName,sep = "")))
 
               }
@@ -1881,7 +1879,7 @@ map <- function(data = NULL,
                   data.table::fwrite(dataTblx %>% dplyr::filter(param==param_i)%>%
                                        dplyr::select(scenario,lat,lon,subRegion,param,class,x,value,units),
                                      paste(folder,"/",param_if,"/map_",param_i,nameAppend,".csv",sep = ""))
-                  print(paste("Map data table written to ",folder,"/",param_if,"/map_",param_i,nameAppend,".csv",sep = ""))
+                  rlang::inform(paste("Map data table written to ",folder,"/",param_if,"/map_",param_i,nameAppend,".csv",sep = ""))
                 }
               }
 
@@ -2095,7 +2093,7 @@ map <- function(data = NULL,
                     animation <- magick::image_animate(magick::image_join(lapply(animFiles, magick::image_read)),fps=fps)
                     magick::image_write(animation,paste(folder,"/",param_if,"/",
                                                         animName,sep = ""))
-                    print(gsub("//","/",paste("animation saved in :",folder,"/",param_if,"/",
+                    rlang::inform(gsub("//","/",paste("animation saved in :",folder,"/",param_if,"/",
                                               animName,sep = "")))
 
 
@@ -2575,7 +2573,7 @@ map <- function(data = NULL,
                   data.table::fwrite(dataTblx %>% dplyr::filter(param==param_i)%>%
                                        dplyr::select(scenario,lat,lon,subRegion,param,class,x,value,units),
                                      paste(folder,"/",param_if,"/map_",param_i,nameAppend,".csv",sep = ""))
-                  print(paste("Map data table written to ",folder,"/",param_if,"/map_",param_i,nameAppend,".csv",sep = ""))
+                  rlang::inform(paste("Map data table written to ",folder,"/",param_if,"/map_",param_i,nameAppend,".csv",sep = ""))
                 }
               }
 
@@ -2787,7 +2785,7 @@ map <- function(data = NULL,
                     animation <- magick::image_animate(magick::image_join(lapply(animFiles, magick::image_read)),fps=fps)
                     magick::image_write(animation,paste(folder,"/",param_if,"/",
                                                         animName,sep = ""))
-                    print(gsub("//","/",paste("animation saved in :",folder,"/",param_if,"/",
+                    rlang::inform(gsub("//","/",paste("animation saved in :",folder,"/",param_if,"/",
                                               animName,sep = "")))
 
 
@@ -3311,7 +3309,7 @@ map <- function(data = NULL,
                     data.table::fwrite(dataTblx %>% dplyr::filter(param==param_i)%>%
                                          dplyr::select(scenario,lat,lon,subRegion,param,class,x,value,units),
                                        paste(folder,"/",param_if,"/map_",param_i,nameAppend,".csv",sep = ""))
-                    print(paste("Map data table written to ",folder,"/",param_if,"/map_",param_i,nameAppend,".csv",sep = ""))
+                    rlang::inform(paste("Map data table written to ",folder,"/",param_if,"/map_",param_i,nameAppend,".csv",sep = ""))
                   }
                 }
 
@@ -3520,7 +3518,7 @@ map <- function(data = NULL,
                       animation <- magick::image_animate(magick::image_join(lapply(animFiles, magick::image_read)),fps=fps)
                       magick::image_write(animation,paste(folder,"/",param_if,"/",
                                                           animName,sep = ""))
-                      print(gsub("//","/",paste("animation saved in :",folder,"/",param_if,"/",
+                      rlang::inform(gsub("//","/",paste("animation saved in :",folder,"/",param_if,"/",
                                                 animName,sep = "")))
 
                   }
@@ -4037,7 +4035,7 @@ map <- function(data = NULL,
                     data.table::fwrite(dataTblx %>% dplyr::filter(param==param_i)%>%
                                          dplyr::select(scenario,lat,lon,subRegion,param,class,x,value,units),
                                        paste(folder,"/",param_if,"/map_",param_i,nameAppend,".csv",sep = ""))
-                    print(paste("Map data table written to ",folder,"/",param_if,"/map_",param_i,nameAppend,".csv",sep = ""))
+                    rlang::inform(paste("Map data table written to ",folder,"/",param_if,"/map_",param_i,nameAppend,".csv",sep = ""))
                   }
                 }
 
@@ -4273,7 +4271,7 @@ map <- function(data = NULL,
                       animation <- magick::image_animate(magick::image_join(lapply(animFiles, magick::image_read)),fps=fps)
                       magick::image_write(animation,paste(folder,"/",param_if,"/",
                                                           animName,sep = ""))
-                      print(gsub("//","/",paste("animation saved in :",folder,"/",param_if,"/",
+                      rlang::inform(gsub("//","/",paste("animation saved in :",folder,"/",param_if,"/",
                                                 animName,sep = "")))
 
 
@@ -4767,7 +4765,7 @@ map <- function(data = NULL,
   # Return Data
   # .................
 
-  print("map run completed.")
+  rlang::inform("map run completed.")
 
   invisible(mapsReturn)
 

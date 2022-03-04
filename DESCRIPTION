@@ -21,8 +21,6 @@ Imports:
 	scales,
 	tidyr, 
 	grDevices,
-	rgdal, 
-	rgeos,
 	sp,
 	data.table,
 	graphics,
@@ -34,11 +32,11 @@ Imports:
 	ggplot2,
 	ggrepel,
 	maptools,
-	cowplot,
     markdown,
 	broom,
 	purrr,
-	jgcricolors
+	jgcricolors,
+	cowplot
 Suggests: 
     rmarkdown,
     testthat (>= 3.0.0),
