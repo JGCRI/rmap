@@ -1,0 +1,7 @@
+scenario,subRegion,param,class,x,value,units
+scenario,CA,param2,class,2050,0,units
+scenario,AZ,param2,class,2050,0.1,units
+scenario,TX,param2,class,2050,0.3,units
+scenario,NH,param2,class,2050,0.2,units
+scenario,ID,param2,class,2050,0.25,units
+scenario,OH,param2,class,2050,0.5,units
