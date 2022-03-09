@@ -666,10 +666,14 @@ map <- function(data = NULL,
 
   if(T){
 
-  # Remove NA's & Keep only Unique Values
+  # Keep only Unique Values
   if(!is.null(dataTbl)){
     if(nrow(dataTbl)>0){
-    dataTbl<-dataTbl%>%dplyr::filter(!is.na(value))%>%dplyr::mutate(value = signif(value,10))%>%dplyr::ungroup()%>%dplyr::distinct()
+    dataTbl<-dataTbl %>%
+      #dplyr::filter(!is.na(value)) %>%
+      dplyr::mutate(value = signif(value,10)) %>%
+      dplyr::ungroup() %>%
+      dplyr::distinct()
     }
   }
 

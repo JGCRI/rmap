@@ -138,7 +138,7 @@ map_plot<-function(data=NULL,
                   transparent = F
                   ){
 
-  ## data=NULL
+  # # data=NULL
   # fillColumn=NULL # Or give column data with
   # shapeColumn=NULL
   # crop_to_underLayer = F
@@ -178,8 +178,9 @@ map_plot<-function(data=NULL,
   # zoom = -1
   # zoomx = NULL
   # zoomy = NULL
-  # asp=1.2
+  # asp = 1.2
   # crop=F
+  # color = "grey40"
 
 # ALT + 0 here to collapse all code into manageable chunks
 # ALT + Shift + O to expand all
@@ -692,8 +693,9 @@ if(T){
       datax1 <- datax1 %>%
         dplyr::mutate(
           label := dplyr::case_when(
-          (label == "temp" & round(!!datax1[[fillColumn]],legendDigits) <= round(max(range_i),legendDigits) &
-           round(!!datax1[[fillColumn]],legendDigits) >= round(min(range_i),legendDigits)) ~ legValsRange_i,
+          (label == "temp" &
+             round(!!datax1[[fillColumn]],legendDigits) < round(max(range_i),legendDigits) &
+             round(!!datax1[[fillColumn]],legendDigits) >= round(min(range_i),legendDigits)) ~ legValsRange_i,
           TRUE ~ label))
     }
 
@@ -701,8 +703,8 @@ if(T){
     datax1 <- datax1 %>%
       dplyr::mutate(
         label := dplyr::case_when(
-          (label == "temp" & !!datax1[[fillColumn]] == max(legendBreaksX)) ~ legValsRange[length(legValsRange)],
-          (label == "temp" & !!datax1[[fillColumn]] == min(legendBreaksX)) ~ legValsRange[1],
+          (label == "temp" & round(!!datax1[[fillColumn]],legendDigits) == round(max(legendBreaksX),legendDigits)) ~ legValsRange[length(legValsRange)],
+          (label == "temp" & round(!!datax1[[fillColumn]],legendDigits) == round(min(legendBreaksX),legendDigits)) ~ legValsRange[1],
           TRUE ~ label
         )
       )
@@ -811,7 +813,9 @@ if(T){
                                         alpha=labelAlpha,
                                         fill = labelFill,
                                         label.size = labelBorderSize,
-                                        force = labelRepel)}else{
+                                        force = labelRepel)
+
+            }else{
 
                                           underLayer <- underLayer +
                                             ggplot2::geom_label(data=labels_df_under, ggplot2::aes(x = lon, y = lat, group = subRegion, label=subRegion),

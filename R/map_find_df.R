@@ -79,45 +79,45 @@ map_find_df <- function(data) {
     if (T) {
       mapRanked <- tibble::tribble(
         ~	map	, ~ rank,
-        "subRegUS49",1,
-        "subRegUS52",2,
-        "subRegCountries",11,
-        "subRegGCAMReg32",12,
-        "subRegGCAMReg32Uruguay",12.5,
-        "subRegGCAMReg32US52",15.5,
-        "subRegCountriesUS52",15,
-        "subRegStates",9,
-        "subRegUS49County",5,
-        "subRegUS52County",6,
-        "subRegGCAMBasins",19,
-        "subRegGCAMBasinsUS49",17,
-        "subRegGCAMBasinsUS52",18,
-        "subRegGCAMLand",25,
-        "subRegGCAMLandUS49",23,
-        "subRegGCAMLandUS52",24,
-        "subRegUS49HUC2",29,
-        "subRegUS52HUC2",30,
-        "subRegUS49HUC4",33,
-        "subRegUS52HUC4",34,
-        "subRegUS49Alt",3,
-        "subRegUS52Alt",4,
-        "subRegGCAMReg32Alt",14,
-        "subRegCountriesAlt",13,
-        "subRegGCAMReg32US52Alt",16.5,
-        "subRegCountriesUS52Alt",16,
-        "subRegStatesAlt",10,
-        "subRegUS49CountyAlt",7,
-        "subRegUS52CountyAlt",8,
-        "subRegGCAMBasinsAlt",22,
-        "subRegGCAMBasinsUS49Alt",20,
-        "subRegGCAMBasinsUS52Alt",21,
-        "subRegGCAMLandAlt",28,
-        "subRegGCAMLandUS49Alt",26,
-        "subRegGCAMLandUS52Alt",27,
-        "subRegUS49HUC2Alt",31,
-        "subRegUS52HUC2Alt",32,
-        "subRegUS49HUC4Alt",35,
-        "subRegUS52HUC4Alt",36,
+        "mapUS49",1,
+        "mapUS52",2,
+        "mapCountries",11,
+        "mapGCAMReg32",12,
+        "mapGCAMReg32Uruguay",12.5,
+        "mapGCAMReg32US52",15.5,
+        "mapCountriesUS52",15,
+        "mapStates",9,
+        "mapUS49County",5,
+        "mapUS52County",6,
+        "mapGCAMBasins",19,
+        "mapGCAMBasinsUS49",17,
+        "mapGCAMBasinsUS52",18,
+        "mapGCAMLand",25,
+        "mapGCAMLandUS49",23,
+        "mapGCAMLandUS52",24,
+        "mapUS49HUC2",29,
+        "mapUS52HUC2",30,
+        "mapUS49HUC4",33,
+        "mapUS52HUC4",34,
+        "mapUS49Alt",3,
+        "mapUS52Alt",4,
+        "mapGCAMReg32Alt",14,
+        "mapCountriesAlt",13,
+        "mapGCAMReg32US52Alt",16.5,
+        "mapCountriesUS52Alt",16,
+        "mapStatesAlt",10,
+        "mapUS49CountyAlt",7,
+        "mapUS52CountyAlt",8,
+        "mapGCAMBasinsAlt",22,
+        "mapGCAMBasinsUS49Alt",20,
+        "mapGCAMBasinsUS52Alt",21,
+        "mapGCAMLandAlt",28,
+        "mapGCAMLandUS49Alt",26,
+        "mapGCAMLandUS52Alt",27,
+        "mapUS49HUC2Alt",31,
+        "mapUS52HUC2Alt",32,
+        "mapUS49HUC4Alt",35,
+        "mapUS52HUC4Alt",36,
         "mapIntersectGCAMBasin32Reg",37,
         "mapIntersectGCAMBasinCountry",38,
         "mapIntersectGCAMBasinUS52", 39,
@@ -146,7 +146,7 @@ map_find_df <- function(data) {
       if (nrow(mapMax) > 1) {
         rlang::inform("More than one pre-loaded map contain the subRegions in the data provided.")
         rlang::inform("Choosing map based on pre-set map ranking.")
-        #print(mapMax %>% dplyr::arrange(rank))
+        print(mapMax %>% dplyr::arrange(rank))
         rlang::inform("To choose a different map, please assign it in shape directly.")
       }
 
@@ -156,7 +156,7 @@ map_find_df <- function(data) {
 
 
 
-    mapFindx <- get(paste(gsub("subReg","map",gsub("Alt","",subRegChosen)),"df",sep=""))
+    mapFindx <- get(paste(gsub("Alt","",subRegChosen),"df",sep=""))
 
     if(grepl("Alt",subRegChosen)){
       mapFindx <- mapFindx %>%

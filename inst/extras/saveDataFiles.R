@@ -101,13 +101,14 @@ if(redoMaps){
 # Worldmap states
 #-------------------
 if(redoMaps){
-  examplePolyFolder<-paste(dataFileFolder,"/gis/metis/naturalEarth",sep="")
-  examplePolyFile<-paste("ne_10m_admin_1_states_provinces",sep="")
-  x=rgdal::readOGR(dsn=examplePolyFolder,layer=examplePolyFile,use_iconv=T,encoding='UTF-8')
-  head(x@data); names(x@data)
+  # examplePolyFolder<-paste(dataFileFolder,"/gis/metis/naturalEarth",sep="")
+  # examplePolyFile<-paste("ne_10m_admin_1_states_provinces",sep="")
+  # x=rgdal::readOGR(dsn=examplePolyFolder,layer=examplePolyFile,use_iconv=T,encoding='UTF-8')
+  # head(x@data); names(x@data)
 
   # From rnaturalearth
-  #x <- rnaturalearth::ne_states()
+  library(rnaturalearth)
+  x <- rnaturalearth::ne_states()
   mapx <- x
   mapx@data <- mapx@data %>%
     dplyr::select(region=admin,subRegion=name,subRegionAlt=postal) %>%
@@ -118,18 +119,6 @@ if(redoMaps){
   mapx@data <- mapx@data%>%droplevels()%>%
     dplyr::mutate(area_sqkm=raster::area(mapx)/1000000)
   format(object.size(mapx), units="Mb")
-  mapx<-rmapshaper::ms_simplify(mapx)
-  format(object.size(mapx), units="Mb")
-  #sp::plot(mapx)
-  # rmap::map(data=mapx,fillColumn = "subRegion",labels=F,save=F, facetsON=F, fileName="factp1")
-  mapx<-rgeos::gBuffer(mapx, byid=TRUE, width=0)
-  format(object.size(mapx), units="Mb")
-  mapStates <- mapx
-  mapStates@data <- mapStates@data %>%
-    dplyr::mutate(name="mapStates")
-  use_data(mapStates, version=3, overwrite=T)
-
-  mapx <- rmap::mapStates
   mapx <- mapx[!is.na(mapx@data$subRegion),]
   mapx@data <- mapx@data%>%droplevels()
   mapx@data %>% filter(is.na(subRegion))
@@ -139,8 +128,44 @@ if(redoMaps){
     dplyr::filter(!is.na(subRegion));
   mapx@data %>% filter(is.na(subRegion))
   nrow(mapx)
+
+  # Renaming subregions in mapStates so that states with USPS can be plotted with states with full names in other countries
   mapStates <- mapx
+  mapStates@data <- mapStates@data %>%
+    dplyr::mutate(
+      subRegionAlt = as.character(subRegionAlt),
+      subRegion = as.character(subRegion),
+      subRegion1 = subRegionAlt,
+      subRegionAlt = subRegion,
+      subRegion = subRegion1,
+      subRegion = dplyr::case_when(region != "USA" ~ subRegionAlt,
+                                   TRUE ~ subRegion)
+    ) %>%
+    dplyr::select(-subRegion1)
+
+  mapStates@data <- mapStates@data %>%
+    dplyr::mutate(name="mapStates")
+
+
   use_data(mapStates, version=3, overwrite=T)
+
+  # Check
+  shapeSubset <- rmap::mapStates # Read in World States shape file
+  shapeSubset <- shapeSubset[shapeSubset@data$region %in% c("United Kingdom"),] # Subset the shapefile to Colombia
+  shapeSubset@data <- droplevels(shapeSubset@data)
+  rmap::map(shapeSubset) # View custom shape
+
+  # Check
+  shapeSubset <- rmap::mapStates # Read in World States shape file
+  shapeSubset <- shapeSubset[shapeSubset@data$region %in% c("Colombia"),] # Subset the shapefile to Colombia
+  shapeSubset@data <- droplevels(shapeSubset@data)
+  rmap::map(shapeSubset) # View custom shape
+
+  # Check
+  shapeSubset <- rmap::mapStates # Read in World States shape file
+  shapeSubset <- shapeSubset[shapeSubset@data$region %in% c("Pakistan"),] # Subset the shapefile to Colombia
+  shapeSubset@data <- droplevels(shapeSubset@data)
+  rmap::map(shapeSubset) # View custom shape
 
 }
 

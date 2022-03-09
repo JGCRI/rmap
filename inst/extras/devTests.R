@@ -393,6 +393,26 @@ plot_map <- rmap::map(plot_basin_production_value,
                       scenDiff = c("ARM_Reference.2050"))
 
 
+# Brinda DiffAbs
+
+library(rmap); library(dplyr); library(data.table); library(tibble)
+crop_bio_share_2050 <- data.table::fread("C:/Z/models/tests/crop_bio_share_2050.csv") %>% tibble::as_tibble()
+
+plot_map <- rmap::map(crop_bio_share_2050,
+                      folder = paste(getwd(),"/brinda", sep = ""),
+                      title = paste("Basin crop/biomass land in 2050"),
+                      scenRef = "ARM_Reference",
+                      scenDiff = c("SW_high_CL_Reference", "ARM_Policy_CO2only",
+                                   "ARM_Policy_ls_MAC_global", "SW_high_CL_Policy_ls_MAC_global"),
+                      nameAppend = paste("_crop_bio_share_", "2050", sep = ""))
+
+diff_crop_bio_share_2050 <- data.table::fread("C:/Z/models/tests/diff_crop_bio_share_2050.csv") %>% tibble::as_tibble()
+plot_map <- rmap::map(diff_crop_bio_share_2050,
+                      folder = paste(getwd(), "/brinda", sep = ""),
+                      title = paste("Basin crop/biomass land"),
+                      nameAppend = paste("_crop_bio_alloc_basin_policy_v3", sep = ""))
+
+
 # Reviewer Reka Comments 28 Feb 2022
 library(rmap)
 library(geodaData)
@@ -417,3 +437,40 @@ tmap::qtm(mapthis, fill = "HR60")
 tg_counties <- tigris::counties()
 mapthis <- dplyr::left_join(tg_counties, mydata, by = c("GEOID" = "FIPS"))
 tmap::qtm(mapthis, fill = "HR60")
+
+# Example
+library(rmap)
+library(tidyverse)
+library(readxl)
+library(janitor)
+library(sf); library(dplyr)
+
+# read in new test data
+download.file("https://data.london.gov.uk/download/gcse-results-by-borough/a8a71d73-cc48-4b30-9eb5-c5f605bc845c/gcse-results.xlsx",
+              destfile = "gcse-results.xlsx")
+gcse_results <- readxl::read_xlsx("gcse-results.xlsx", sheet = "2020-21")
+
+# clean up test data
+colnames <- paste0(gcse_results[1,], gcse_results[2,])
+colnames <- gsub("NA", "", colnames)
+names(gcse_results) <- colnames
+gcse_results <- gcse_results %>%
+  clean_names() %>%
+  slice(4:36) %>%
+  mutate(number_of_pupils_at_the_end_of_key_stage_4 = as.numeric(number_of_pupils_at_the_end_of_key_stage_4))
+
+# try to map using Local Authority name
+my_map <- rmap::map(gcse_results,
+                    subRegCol = "area",
+                    valueCol = "number_of_pupils_at_the_end_of_key_stage_4")
+
+my_map <- rmap::map(gcse_results %>%
+                      dplyr::mutate(
+                    subRegion = area,
+                    value = number_of_pupils_at_the_end_of_key_stage_4))
+
+
+# Try with others
+london_boroughs <- ne_states(country = "United Kingdom", returnclass = "sf") %>% filter(region == "Greater London")
+gcse_results_sf <- left_join(london_boroughs, gcse_results,by = c("name" = "area"))
+qtm(gcse_results_sf, fill = "number_of_pupils_at_the_end_of_key_stage_4")
