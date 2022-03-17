@@ -32,6 +32,8 @@ Imports:
     markdown,
 	jgcricolors,
 	cowplot,
+	rgeos,
+	rgdal,
 	sf,
 	methods
 Suggests: 

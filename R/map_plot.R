@@ -96,7 +96,7 @@ map_plot<-function(data=NULL,
                   labelBorderSize = NA,
                   width=9,
                   height=7,
-                  legendShow=F,
+                  legendShow=T,
                   legendTitle=NULL,
                   legendBreaksn=5,
                   legendBreaks=NULL,
@@ -156,7 +156,7 @@ map_plot<-function(data=NULL,
   # labels=F
   # width=9
   # height=7
-  # legendShow=F
+  # legendShow=T
   # legendTitle=NULL
   # legendBreaksn=5
   # legendBreaks=NULL
@@ -720,7 +720,6 @@ if(T){ # Read input data
   } else {
     data_sf_w_labels <- data_sf %>%
       dplyr::mutate(label = get(fillColumn))
-    legendShow = F
     }
 
   }

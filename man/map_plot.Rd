@@ -23,7 +23,7 @@ map_plot(
   labelBorderSize = NA,
   width = 9,
   height = 7,
-  legendShow = F,
+  legendShow = T,
   legendTitle = NULL,
   legendBreaksn = 5,
   legendBreaks = NULL,
