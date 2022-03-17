@@ -444,6 +444,8 @@ library(tidyverse)
 library(readxl)
 library(janitor)
 library(sf); library(dplyr)
+library(rnaturalearth)
+library(tmap)
 
 # read in new test data
 download.file("https://data.london.gov.uk/download/gcse-results-by-borough/a8a71d73-cc48-4b30-9eb5-c5f605bc845c/gcse-results.xlsx",
@@ -474,3 +476,27 @@ my_map <- rmap::map(gcse_results %>%
 london_boroughs <- ne_states(country = "United Kingdom", returnclass = "sf") %>% filter(region == "Greater London")
 gcse_results_sf <- left_join(london_boroughs, gcse_results,by = c("name" = "area"))
 qtm(gcse_results_sf, fill = "number_of_pupils_at_the_end_of_key_stage_4")
+
+
+
+# Test Multi-regions
+rmap::map(data.frame(subRegion=c("Toledo","Madrid","Huesca"),value=c(1,2,3)), region="Spain", labels=T)
+rmap::map(data=data.frame(subRegion=c("Punjab","Sind"),value=c(1,2)), region="Pakistan")
+rmap::map(data=data.frame(subRegion=c("CA","TX","AL","CO","ID")))
+rmap::map(data=rmap::mapUS49)
+
+# Test Data
+data = rmap::example_gridData_GWPv4To2015 %>%
+  filter(x == 2015);
+head(data)
+data <- head(data,1000)
+# convert to raster
+r1 <- raster::rasterFromXYZ(data1)
+plot(r1)
+# https://taromieno.netlify.app/post/raster_to_polygons_2018/
+rsp1 <- as(r1,'SpatialPolygonsDataFrame')
+rsf1 <- st_as_sf(rsp1)
+rsf1
+plot(rsf1)
+
+data.frame("subRegion"=c("Punjab","Sind"))->a1

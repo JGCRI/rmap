@@ -6,8 +6,8 @@
 #' @keywords charts, diffplots
 #' @return Returns the formatted data used to produce chart
 #' @param data Default = NULL,
+#' @param region Default = NULL. Set the boundary region for subRegion maps. Useful when multiple subRegions in different regions.
 #' @param fillColumn (Optional). Default = NULL. Only for direct map plotting.
-#' @param shapeColumn (Optional). Default = NULL. If different from subRegion.
 #' @param shape Default = NULL, Cusotm shape can be provided as a SpatialPolygonDataFrame with features corresponding to subRegion columns in the data provided.
 #' @param fileName (Optional). Default = "map". Only for direct map plotting.
 #' @param save (Optional). Default = T. Only for direct map plotting.
@@ -15,6 +15,7 @@
 #' @param show Default = T. Print maps in console as they are processed.
 #' @param folder Default = paste(getwd(),"/outputs",sep=""),
 #' @param labels Default = F,
+#' @param labelCol Default = NULL,
 #' @param labelRepel Default = 0,
 #' @param labelColor Default = "black",
 #' @param labelSize Default = 3
@@ -52,12 +53,14 @@
 #' @param color Default = "grey40". Color of polygon lines.
 #' @param lwd Default = 0.1. Line width of polygon boundaries.
 #' @param underLayer Default = NULL
+#' @param underLayerLabelCol Default = NULL
 #' @param underLayerColor Default = "gray40"
 #' @param underLayerFill Default = "gray90"
 #' @param underLayerLwd Default = 0.5
 #' @param underLayerAlpha Default = 1
 #' @param underLayerLabels Default = F
 #' @param overLayerLabels Default = F
+#' @param overLayerLabelCol Default = NULL
 #' @param overLayer Default = NULL
 #' @param overLayerColor Default = "gray40"
 #' @param overLayerFill Default = NA
@@ -86,15 +89,17 @@
 #' @param legendShow Default = T
 #' @param diffOnly Default = F. Only run diff plots and not individual scenarios.
 #' @param forceFacets Default = F. Used to force facet label for single scenario which is usually dropped.
+#' @param crs Default = 4326, WGS84
 #' @return A list of maps
+#' @import sf
 #' @importFrom rlang :=
 #' @importFrom magrittr %>%
 #' @export
 
 
 map <- function(data = NULL,
+                region = NULL,
                 fillColumn = NULL,
-                shapeColumn = NULL,
                 shape = NULL,
                 fileName = "map",
                 save=T,
@@ -102,6 +107,7 @@ map <- function(data = NULL,
                 show = T,
                 folder = paste(getwd(), "/outputs", sep = ""),
                 labels = F,
+                labelCol = NULL,
                 labelRepel = 0,
                 labelColor = "black",
                 labelSize = 2,
@@ -131,6 +137,8 @@ map <- function(data = NULL,
                 underLayerLwd = 0.1,
                 underLayerAlpha = 1,
                 underLayerLabels= F,
+                underLayerLabelCol = NULL,
+                overLayerLabelCol = NULL,
                 overLayerLabels = F,
                 overLayer = NULL,
                 overLayerColor = "gray40",
@@ -172,21 +180,23 @@ map <- function(data = NULL,
                 transparent = T,
                 legendShow = T,
                 diffOnly = F,
-                forceFacets = F) {
+                forceFacets = F,
+                crs = 4326) {
 
-  # data = NULL
+  # # data = NULL
+  # crs = 4326
   # legendSingleValue =F
   # show = T
   # fill = NULL
   # lwd = 0.1
   # color = "grey40"
   # fillColumn = NULL
-  # shapeColumn = NULL
   # fileName = "map"
   # save=T
   # theme = NULL
   # folder = paste(getwd(), "/outputs", sep = "")
   # labels = F
+  # labelCol = NULL,
   # shapeFolder = NULL
   # shapeFile = NULL
   # subRegCol = "subRegion"
@@ -208,6 +218,7 @@ map <- function(data = NULL,
   # overLayerFill = NA
   # overLayerLwd = 0.5
   # overLayerAlpha = 0
+  # overLayerLabels = F
   # zoom = 0
   # zoomx = NULL
   # zoomy = NULL
@@ -246,6 +257,7 @@ map <- function(data = NULL,
   # shape = NULL
   # diffOnly = F
   # forceFacets = F
+  # labelCol = NULL
   # labels = F
   # labelRepel = 0
   # labelColor = "black"
@@ -255,6 +267,9 @@ map <- function(data = NULL,
   # labelBorderSize = NA
   # crop_to_underLayer = F
   # crop_to_overLayer = F
+  # region = NULL
+  # underLayerLabelCol = NULL
+  # overLayerLabelCol = NULL
 
   rlang::inform("Starting map...")
 
@@ -264,7 +279,7 @@ map <- function(data = NULL,
 
   if(T){
 
-    NULL->lat->lon->param->region->scenario->subRegion->value ->
+    NULL->lat->lon->param->scenario->subRegion->value ->
       x->year->gridID->maxScale->minScale->
       valueDiff->rowid->catParam->include->Var1->Var2->Var3->maxX->minX->
       dataTblDiff -> dataTblxDiff -> countCheck->
@@ -297,10 +312,6 @@ map <- function(data = NULL,
     }
 
   }
-
-  # Make sure data is a dataframe if not a spatialPolygonDataframe
-  if(!any(grepl("SpatialPolygonsDataFrame",class(data),ignore.case = T))){
-  data <- tibble::as_tibble(data)}
 
   # Rename SubRegCol
   if(T){
@@ -361,44 +372,13 @@ map <- function(data = NULL,
   # .................
 
   if(any(grepl("SpatialPolygonsDataFrame",class(data)))){
-
-    data <- shape_to_df(shape=data, shapeColumn=shapeColumn)
-
+    data <- sf::st_as_sf(data)
   }
 
   # Custom Shape
   if(!is.null(shape)){
-
-    if(any(grepl("SpatialPolygonsDataFrame",class(shape)))){
-
-   # Set shapeColumn to subRegion if provided and remove existing subRegion
-   if(!is.null(shapeColumn)){
-     shape@data <- shape@data %>%
-       dplyr::select(-subRegion) %>%
-       dplyr::rename(subRegion = !!shapeColumn)
-     }
-
-    # Check that shape file has relevant columns
-    if(!any("subRegion" %in% names(shape@data))){
-      stop("shape provided must be a SpatialPolygonsDataFrame and have a column named 'subRegion' in shape@data. ")
-    }
-
-    shape <- shape[shape@data$subRegion %in% unique(data$subRegion),]
-    shape@data <- droplevels(shape@data)
-
-    shapex <- shape
-
-    } else if(any(grepl("tbl_df|tbl|data.frame",class(shape)))){
-
-      # Check that shape file has relevant columns
-      if(!any("subRegion" %in% names(shape))){
-        stop("shape provided must have a column named 'subRegion'")
-      }
-
-      shapex <- shape
-
-    } else {
-      stop("shape provided must be a SpatialPolygonsDataFrame or a fortified dataframe and have a column named 'subRegion' in its data.")
+    if(!any(grepl("sf",class(shape)))){
+      shapex <- sf::st_as_sf(shape)
     }
   }else{
     shapex = NULL
@@ -414,7 +394,7 @@ map <- function(data = NULL,
     if(!"subRegion" %in% names(data)){stop("Data must have 'subRegion' column or specify another column using the `subRegCol` argument instead.")}
 
      if(is.null(palette)) {
-      palettex = "Spectral"
+      palettex = "Set3"
     }else{
       palettex <- palette
     }
@@ -422,7 +402,7 @@ map <- function(data = NULL,
     colm=1
     rowm=1
 
-    rmap::map_plot(color=color, lwd=lwd, legendType=legendType,
+    rmap::map_plot(crs=crs, underLayerLabelCol = underLayerLabelCol, overLayerLabelCol = overLayerLabelCol, labelCol=labelCol, region=region,color=color, lwd=lwd, legendType=legendType,
       overLayer=overLayer,
       overLayerColor=overLayerColor,
       overLayerFill = overLayerFill,
@@ -448,7 +428,7 @@ map <- function(data = NULL,
       labelFill=labelFill,
       labelBorderSize=labelBorderSize,
       fileName = fileName,
-      fillColumn = fillColumn, shapeColumn = shapeColumn,
+      fillColumn = fillColumn,
       save = save,
       width = width,
       height = height,
@@ -457,6 +437,7 @@ map <- function(data = NULL,
 
     names(mapsReturn)[return_i] <- fileName; return_i = return_i + 1
 
+    # labelCol = labelCol
     # overLayer=overLayer
     # overLayerColor=overLayerColor
     # overLayerFill = overLayerFill
@@ -472,7 +453,9 @@ map <- function(data = NULL,
     # zoomy=zoomy
     # asp=asp
     # legendShow=legendShow
-    # crop = crop, crop_to_underLayer = crop_to_underLayer, crop_to_overLayer = crop_to_overLayer
+    # crop = crop
+    # crop_to_underLayer = crop_to_underLayer
+    # crop_to_overLayer = crop_to_overLayer
     # transparent=transparent
     # alpha = alpha
     # size=max(1,(size+(colm+rowm)*3 - 12))
@@ -493,7 +476,6 @@ map <- function(data = NULL,
     # labelBorderSize=labelBorderSize
     # fileName = fileName
     # fillColumn = fillColumn
-    # shapeColumn = shapeColumn
     # save = save
     # width = width
     # height = height
@@ -546,7 +528,8 @@ map <- function(data = NULL,
     if(!"x"%in%names(data)){if("year"%in%names(data)){
       data<-data%>%dplyr::mutate(x=year)}else{data<-data%>%dplyr::mutate(x="x")}}
     if(any(grepl("\\<subregion\\>",names(data),ignore.case = T))){
-      data <- data %>% dplyr::rename(!!"subRegion" := (names(data)[grepl("\\<subregion\\>",names(data),ignore.case = T)])[1])}
+      data <- data %>% dplyr::rename(!!"subRegion" := (names(data)[grepl("\\<subregion\\>",names(data),ignore.case = T)])[1])
+      data<-data%>%dplyr::mutate(subRegion=as.character(subRegion))}
     if(!any(grepl("\\<subregtype\\>",names(data),ignore.case = T))){data<-data%>%dplyr::mutate(subRegType="subRegType")}else{
       data <- data %>% dplyr::rename(!!"subRegType" := (names(data)[grepl("\\<subregtype\\>",names(data),ignore.case = T)])[1])
       data<-data%>%dplyr::mutate(subRegType=as.character(subRegType),subRegType=dplyr::case_when(is.na(subRegType)~"subRegType",TRUE~subRegType))}
@@ -613,7 +596,7 @@ map <- function(data = NULL,
 
   if(T){
 
-  dataTbl<-tibble::tibble()
+  dataTbl<-data.frame()
 
 
   if(!is.null(data)){
@@ -622,7 +605,7 @@ map <- function(data = NULL,
 
       for(data_i in data){
         if(file.exists(data_i)){
-          dataTblNew<-data.table::fread(paste(data_i),encoding="Latin-1")%>%tibble::as_tibble()
+          dataTblNew<-data.table::fread(paste(data_i),encoding="Latin-1")%>%as.data.frame()
           dataTbl<-dplyr::bind_rows(dataTbl,dataTblNew)
           rm(dataTblNew)
         } else {stop(paste(data_i," does not exist"))}
@@ -727,7 +710,7 @@ map <- function(data = NULL,
         }
       }
 
-      dataTblDiff <- tibble::tibble()
+      dataTblDiff <- data.frame()
 
       for(i in 1:length(params)){
 
@@ -758,7 +741,7 @@ map <- function(data = NULL,
        # Calculate Diff Values
 
       dataTblDiffb<-dataTblDiffa%>%dplyr::filter(param==param_i, scenario %in% dplyr::all_of(c(scenRef_i,scenDiff_i)))%>%
-        dplyr::select(lat,lon,subRegion,subRegType,param,x,xLabel,vintage,units,aggregate,palette,class,scenario,value)%>%
+        dplyr::select(lat,lon,subRegion,region,subRegType,param,x,xLabel,vintage,units,aggregate,palette,class,scenario,value)%>%
         tidyr::spread(scenario,value)
 
       # If paletteDiff is a character vector collapse it to a string.
@@ -836,7 +819,7 @@ map <- function(data = NULL,
 
       }
 
-      dataTblxDiff <- tibble::tibble()
+      dataTblxDiff <- data.frame()
 
       for(i in 1:length(params)){
 
@@ -1155,7 +1138,7 @@ map <- function(data = NULL,
               if(save){
                 if(nrow(dataTblx %>% dplyr::filter(param==param_i))>0){
                   data.table::fwrite(dataTblx %>% dplyr::filter(param==param_i)%>%
-                                       dplyr::select(scenario,lat,lon,subRegion,param,class,x,value,units),
+                                       dplyr::select(scenario,lat,lon,subRegion,region,param,class,x,value,units),
                                      paste(folder,"/",param_if,"/map_",param_i,nameAppend,".csv",sep = ""))
                   rlang::inform(paste("Map data table written to ",folder,"/",param_if,"/map_",param_i,nameAppend,".csv",sep = ""))
                 }
@@ -1283,7 +1266,7 @@ map <- function(data = NULL,
 
                   # Check for Duplicates
                   if(duplicated(datax %>%
-                                dplyr::select(lat,lon,subRegion,x,dplyr::all_of(multiFacetRowsx),dplyr::all_of(multiFacetColsx))) %>%
+                                dplyr::select(lat,lon,subRegion,region,x,dplyr::all_of(multiFacetRowsx),dplyr::all_of(multiFacetColsx))) %>%
                      any()){stop("Input data data has multiple values. Please check your data.")}
 
                   # Set title
@@ -1315,7 +1298,7 @@ map <- function(data = NULL,
                   }
 
 
-                    rmap::map_plot(color=color, lwd=lwd, legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
+                    rmap::map_plot(crs=crs, underLayerLabelCol = underLayerLabelCol, overLayerLabelCol = overLayerLabelCol, labelCol=labelCol, region=region,color=color, lwd=lwd, legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
                                   overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
                                   overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
                                   underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
@@ -1342,7 +1325,7 @@ map <- function(data = NULL,
                                   pdfpng = pdfpng, legendSingleColor = legendSingleColor, legendSingleValue =  legendSingleValue,
                                   labels=labels, labelRepel=labelRepel, underLayerLabels=underLayerLabels, overLayerLabels=overLayerLabels,
                                   legendBreaks = legendBreaksx,
-                                  fillColumn = "value", shapeColumn = shapeColumn,
+                                  fillColumn = "value",
                                   col = multiFacetColsx,
                                   row = multiFacetRowsx,
                                   title=titlex ,
@@ -1532,7 +1515,7 @@ map <- function(data = NULL,
 
                 # Check for Duplicates
                 if(duplicated(datax %>%
-                              dplyr::select(subRegion,lat,lon,x,dplyr::all_of(multiFacetRowsx),dplyr::all_of(multiFacetColsx))) %>%
+                              dplyr::select(subRegion,region,lat,lon,x,dplyr::all_of(multiFacetRowsx),dplyr::all_of(multiFacetColsx))) %>%
                    any()){stop("Input data data has multiple values. Please check your data.")}
 
                 # Set title
@@ -1563,7 +1546,7 @@ map <- function(data = NULL,
                   legendBreaksx <- legendFixedBreaks
                 }
 
-                  rmap::map_plot(color=color, lwd=lwd, legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
+                  rmap::map_plot(crs=crs, underLayerLabelCol = underLayerLabelCol, overLayerLabelCol = overLayerLabelCol, labelCol=labelCol, region=region,color=color, lwd=lwd, legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
                                  overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
                                  overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
                                  underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
@@ -1590,7 +1573,7 @@ map <- function(data = NULL,
                                 pdfpng = pdfpng, legendSingleColor = legendSingleColor, legendSingleValue =  legendSingleValue,
                                 labels=labels, labelRepel=labelRepel, underLayerLabels=underLayerLabels, overLayerLabels=overLayerLabels,
                                 legendBreaks = legendBreaksx,
-                                fillColumn = "value", shapeColumn = shapeColumn,
+                                fillColumn = "value",
                                 col = multiFacetColsx,
                                 row = multiFacetRowsx,
                                 title= titlex,
@@ -1627,7 +1610,7 @@ map <- function(data = NULL,
                   # pdfpng = pdfpng; legendSingleColor = legendSingleColor; legendSingleValue =  legendSingleValue;
                   # labels=labels; labelRepel=labelRepel; underLayerLabels=underLayerLabels; overLayerLabels=overLayerLabels;
                   # legendBreaks = legendBreaksx;
-                  # fillColumn = "value"; shapeColumn = shapeColumn;
+                  # fillColumn = "value";
                   # col = multiFacetColsx;
                   # row = multiFacetRowsx;
                   # title= titlex;
@@ -1649,11 +1632,11 @@ map <- function(data = NULL,
                   meanCol = paste("Mean_",min(datax$x),"to",max(datax$x),sep="")
 
 
-                  colsPresentGroup =  c("lat","lon","subRegion","scenario","class")
+                  colsPresentGroup =  c("lon","lat","subRegion","region","scenario","class")
                   colsPresentGroup = colsPresentGroup[colsPresentGroup %in% names(datax)]
 
                   datax<-datax%>%
-                    dplyr::select(lat,lon,subRegion,scenario,class,x,value)%>%
+                    dplyr::select(lat,lon,subRegion,region,scenario,class,x,value)%>%
                     dplyr::group_by_at(dplyr::all_of(colsPresentGroup))%>%
                     dplyr::summarize(!!meanCol:=mean(value))%>%
                     dplyr::ungroup()
@@ -1762,7 +1745,7 @@ map <- function(data = NULL,
 
                   # Check for Duplicates
                   if(duplicated(datax %>%
-                                dplyr::select(lat,lon,subRegion,x,dplyr::all_of(multiFacetRowsx),dplyr::all_of(multiFacetColsx))) %>%
+                                dplyr::select(lat,lon,subRegion,region,x,dplyr::all_of(multiFacetRowsx),dplyr::all_of(multiFacetColsx))) %>%
                      any()){stop("Input data data has multiple values. Please check your data.")}
 
                   # Set title
@@ -1793,7 +1776,7 @@ map <- function(data = NULL,
                     legendBreaksx <- legendFixedBreaks
                   }
 
-                    rmap::map_plot(color=color, lwd=lwd, legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
+                    rmap::map_plot(crs=crs, underLayerLabelCol = underLayerLabelCol, overLayerLabelCol = overLayerLabelCol, labelCol=labelCol, region=region,color=color, lwd=lwd, legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
                                    overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
                                    overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
                                    underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
@@ -1881,7 +1864,7 @@ map <- function(data = NULL,
               if(save){
                 if(nrow(dataTblx %>% dplyr::filter(param==param_i))>0){
                   data.table::fwrite(dataTblx %>% dplyr::filter(param==param_i)%>%
-                                       dplyr::select(scenario,lat,lon,subRegion,param,class,x,value,units),
+                                       dplyr::select(scenario,lat,lon,subRegion,region,param,class,x,value,units),
                                      paste(folder,"/",param_if,"/map_",param_i,nameAppend,".csv",sep = ""))
                   rlang::inform(paste("Map data table written to ",folder,"/",param_if,"/map_",param_i,nameAppend,".csv",sep = ""))
                 }
@@ -2009,7 +1992,7 @@ map <- function(data = NULL,
 
                     # Check for Duplicates
                     if(duplicated(datax %>%
-                                  dplyr::select(lat,lon,subRegion,x,dplyr::all_of(multiFacetRowsx),dplyr::all_of(multiFacetColsx))) %>%
+                                  dplyr::select(lat,lon,subRegion,region,x,dplyr::all_of(multiFacetRowsx),dplyr::all_of(multiFacetColsx))) %>%
                        any()){stop("Input data data has multiple values. Please check your data.")}
 
 
@@ -2049,7 +2032,7 @@ map <- function(data = NULL,
                       legendBreaksx <- legendFixedBreaks
                     }
 
-                      rmap::map_plot(color=color, lwd=lwd, legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
+                      rmap::map_plot(crs=crs, underLayerLabelCol = underLayerLabelCol, overLayerLabelCol = overLayerLabelCol, labelCol=labelCol, region=region,color=color, lwd=lwd, legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
                                      overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
                                      overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
                                      underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
@@ -2076,7 +2059,7 @@ map <- function(data = NULL,
                                      pdfpng = pdfpng, legendSingleColor = legendSingleColor, legendSingleValue =  legendSingleValue,
                                      labels=labels, labelRepel=labelRepel, underLayerLabels=underLayerLabels, overLayerLabels=overLayerLabels,
                                      legendBreaks = legendBreaksx,
-                                     fillColumn = "value", shapeColumn = shapeColumn,
+                                     fillColumn = "value",
                                      col = multiFacetColsx,
                                      row = multiFacetRowsx,
                                      title=titlex ,
@@ -2241,7 +2224,7 @@ map <- function(data = NULL,
 
                 # Check for Duplicates
                 if(duplicated(datax %>%
-                              dplyr::select(subRegion,lat,lon,x,dplyr::all_of(multiFacetRowsx),dplyr::all_of(multiFacetColsx))) %>%
+                              dplyr::select(subRegion,region,lat,lon,x,dplyr::all_of(multiFacetRowsx),dplyr::all_of(multiFacetColsx))) %>%
                    any()){stop("Input data data has multiple values. Please check your data.")}
 
                 # Set title
@@ -2280,7 +2263,7 @@ map <- function(data = NULL,
                   legendBreaksx <- legendFixedBreaks
                 }
 
-                  rmap::map_plot(color=color, lwd=lwd, legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
+                  rmap::map_plot(crs=crs, underLayerLabelCol = underLayerLabelCol, overLayerLabelCol = overLayerLabelCol, labelCol=labelCol, region=region,color=color, lwd=lwd, legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
                                  overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
                                  overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
                                  underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
@@ -2307,7 +2290,7 @@ map <- function(data = NULL,
                                  pdfpng = pdfpng, legendSingleColor = legendSingleColor, legendSingleValue =  legendSingleValue,
                                  labels=labels, labelRepel=labelRepel, underLayerLabels=underLayerLabels, overLayerLabels=overLayerLabels,
                                  legendBreaks = legendBreaksx,
-                                 fillColumn = "value", shapeColumn = shapeColumn,
+                                 fillColumn = "value",
                                  col = multiFacetColsx,
                                  row = multiFacetRowsx,
                                  title= titlex,
@@ -2331,11 +2314,11 @@ map <- function(data = NULL,
                   meanCol = paste("Mean_",min(datax$x),"to",max(datax$x),sep="")
 
 
-                  colsPresentGroup =  c("lat","lon","subRegion","scenario","class")
+                  colsPresentGroup =  c("lon","lat","subRegion","region","scenario","class")
                   colsPresentGroup = colsPresentGroup[colsPresentGroup %in% names(datax)]
 
                   datax<-datax%>%
-                    dplyr::select(lat,lon,subRegion,scenario,class,x,value)%>%
+                    dplyr::select(lat,lon,subRegion,region,scenario,class,x,value)%>%
                     dplyr::group_by_at(dplyr::all_of(colsPresentGroup))%>%
                     dplyr::summarize(!!meanCol:=mean(value))%>%
                     dplyr::ungroup()
@@ -2444,7 +2427,7 @@ map <- function(data = NULL,
 
                   # Check for Duplicates
                   if(duplicated(datax %>%
-                                dplyr::select(lat,lon,subRegion,x,dplyr::all_of(multiFacetRowsx),dplyr::all_of(multiFacetColsx))) %>%
+                                dplyr::select(lat,lon,subRegion,region,x,dplyr::all_of(multiFacetRowsx),dplyr::all_of(multiFacetColsx))) %>%
                      any()){stop("Input data data has multiple values. Please check your data.")}
 
 
@@ -2490,7 +2473,7 @@ map <- function(data = NULL,
                     legendBreaksx <- legendFixedBreaks
                   }
 
-                    rmap::map_plot(color=color, lwd=lwd, legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
+                    rmap::map_plot(crs=crs, underLayerLabelCol = underLayerLabelCol, overLayerLabelCol = overLayerLabelCol, labelCol=labelCol, region=region,color=color, lwd=lwd, legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
                                    overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
                                    overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
                                    underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
@@ -2575,7 +2558,7 @@ map <- function(data = NULL,
               if(save){
                 if(nrow(dataTblx %>% dplyr::filter(param==param_i))>0){
                   data.table::fwrite(dataTblx %>% dplyr::filter(param==param_i)%>%
-                                       dplyr::select(scenario,lat,lon,subRegion,param,class,x,value,units),
+                                       dplyr::select(scenario,lat,lon,subRegion,region,param,class,x,value,units),
                                      paste(folder,"/",param_if,"/map_",param_i,nameAppend,".csv",sep = ""))
                   rlang::inform(paste("Map data table written to ",folder,"/",param_if,"/map_",param_i,nameAppend,".csv",sep = ""))
                 }
@@ -2702,7 +2685,7 @@ map <- function(data = NULL,
 
                     # Check for Duplicates
                     if(duplicated(datax %>%
-                                  dplyr::select(lat,lon,subRegion,x,dplyr::all_of(multiFacetRowsx),dplyr::all_of(multiFacetColsx))) %>%
+                                  dplyr::select(lat,lon,subRegion,region,x,dplyr::all_of(multiFacetRowsx),dplyr::all_of(multiFacetColsx))) %>%
                        any()){stop("Input data data has multiple values. Please check your data.")}
 
                     # Set title
@@ -2741,7 +2724,7 @@ map <- function(data = NULL,
                       legendBreaksx <- legendFixedBreaks
                     }
 
-                      rmap::map_plot(color=color, lwd=lwd, legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
+                      rmap::map_plot(crs=crs, underLayerLabelCol = underLayerLabelCol, overLayerLabelCol = overLayerLabelCol, labelCol=labelCol, region=region,color=color, lwd=lwd, legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
                                      overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
                                      overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
                                      underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
@@ -2768,7 +2751,7 @@ map <- function(data = NULL,
                                      pdfpng = pdfpng, legendSingleColor = legendSingleColor, legendSingleValue =  legendSingleValue,
                                      labels=labels, labelRepel=labelRepel, underLayerLabels=underLayerLabels, overLayerLabels=overLayerLabels,
                                      legendBreaks = legendBreaksx,
-                                     fillColumn = "value", shapeColumn = shapeColumn,
+                                     fillColumn = "value",
                                      col = multiFacetColsx,
                                      row = multiFacetRowsx,
                                      title=titlex ,
@@ -2933,7 +2916,7 @@ map <- function(data = NULL,
 
                 # Check for Duplicates
                 if(duplicated(datax %>%
-                              dplyr::select(subRegion,lat,lon,x,dplyr::all_of(multiFacetRowsx),dplyr::all_of(multiFacetColsx))) %>%
+                              dplyr::select(subRegion,region,lat,lon,x,dplyr::all_of(multiFacetRowsx),dplyr::all_of(multiFacetColsx))) %>%
                    any()){stop("Input data data has multiple values. Please check your data.")}
 
                 # Set title
@@ -2972,7 +2955,7 @@ map <- function(data = NULL,
                   legendBreaksx <- legendFixedBreaks
                 }
 
-                  rmap::map_plot(color=color, lwd=lwd, legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
+                  rmap::map_plot(crs=crs, underLayerLabelCol = underLayerLabelCol, overLayerLabelCol = overLayerLabelCol, labelCol=labelCol, region=region,color=color, lwd=lwd, legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
                                  overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
                                  overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
                                  underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
@@ -2999,7 +2982,7 @@ map <- function(data = NULL,
                                  pdfpng = pdfpng, legendSingleColor = legendSingleColor, legendSingleValue =  legendSingleValue,
                                  labels=labels, labelRepel=labelRepel, underLayerLabels=underLayerLabels, overLayerLabels=overLayerLabels,
                                  legendBreaks = legendBreaksx,
-                                 fillColumn = "value", shapeColumn = shapeColumn,
+                                 fillColumn = "value",
                                  col = multiFacetColsx,
                                  row = multiFacetRowsx,
                                  title= titlex,
@@ -3069,11 +3052,11 @@ map <- function(data = NULL,
                   meanCol = paste("Mean_",min(datax$x),"to",max(datax$x),sep="")
 
 
-                  colsPresentGroup =  c("lat","lon","subRegion","scenario","class")
+                  colsPresentGroup =  c("lon","lat","subRegion","region","scenario","class")
                   colsPresentGroup = colsPresentGroup[colsPresentGroup %in% names(datax)]
 
                   datax<-datax%>%
-                    dplyr::select(lat,lon,subRegion,scenario,class,x,value)%>%
+                    dplyr::select(lat,lon,subRegion,region,scenario,class,x,value)%>%
                     dplyr::group_by_at(dplyr::all_of(colsPresentGroup))%>%
                     dplyr::summarize(!!meanCol:=mean(value))%>%
                     dplyr::ungroup()
@@ -3182,7 +3165,7 @@ map <- function(data = NULL,
 
                   # Check for Duplicates
                   if(duplicated(datax %>%
-                                dplyr::select(lat,lon,subRegion,x,dplyr::all_of(multiFacetRowsx),dplyr::all_of(multiFacetColsx))) %>%
+                                dplyr::select(lat,lon,subRegion,region,x,dplyr::all_of(multiFacetRowsx),dplyr::all_of(multiFacetColsx))) %>%
                      any()){stop("Input data data has multiple values. Please check your data.")}
 
                   # Set title
@@ -3221,7 +3204,7 @@ map <- function(data = NULL,
                     legendBreaksx <- legendFixedBreaks
                   }
 
-                    rmap::map_plot(color=color, lwd=lwd, legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
+                    rmap::map_plot(crs=crs, underLayerLabelCol = underLayerLabelCol, overLayerLabelCol = overLayerLabelCol, labelCol=labelCol, region=region,color=color, lwd=lwd, legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
                                    overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
                                    overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
                                    underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
@@ -3311,7 +3294,7 @@ map <- function(data = NULL,
                 if(save){
                   if(nrow(dataTblx %>% dplyr::filter(param==param_i))>0){
                     data.table::fwrite(dataTblx %>% dplyr::filter(param==param_i)%>%
-                                         dplyr::select(scenario,lat,lon,subRegion,param,class,x,value,units),
+                                         dplyr::select(scenario,region,lat,lon,subRegion,param,class,x,value,units),
                                        paste(folder,"/",param_if,"/map_",param_i,nameAppend,".csv",sep = ""))
                     rlang::inform(paste("Map data table written to ",folder,"/",param_if,"/map_",param_i,nameAppend,".csv",sep = ""))
                   }
@@ -3438,7 +3421,7 @@ map <- function(data = NULL,
 
                       # Check for Duplicates
                       if(duplicated(datax %>%
-                                    dplyr::select(lat,lon,subRegion,x,dplyr::all_of(multiFacetRowsx),dplyr::all_of(multiFacetColsx))) %>%
+                                    dplyr::select(lat,lon,subRegion,region,x,dplyr::all_of(multiFacetRowsx),dplyr::all_of(multiFacetColsx))) %>%
                          any()){stop("Input data data has multiple values. Please check your data.")}
 
                       # Set title
@@ -3474,7 +3457,7 @@ map <- function(data = NULL,
                       datax <- datax %>%
                         dplyr::mutate(scenario= gsub("_xDiff.*","",scenario))
 
-                      rmap::map_plot(color=color, lwd=lwd, legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
+                      rmap::map_plot(crs=crs, underLayerLabelCol = underLayerLabelCol, overLayerLabelCol = overLayerLabelCol, labelCol=labelCol, region=region,color=color, lwd=lwd, legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
                                      overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
                                      overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
                                      underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
@@ -3501,7 +3484,7 @@ map <- function(data = NULL,
                                      pdfpng = pdfpng, legendSingleColor = legendSingleColor, legendSingleValue =  legendSingleValue,
                                      labels=labels, labelRepel=labelRepel, underLayerLabels=underLayerLabels, overLayerLabels=overLayerLabels,
                                      legendBreaks = legendBreaksx,
-                                     fillColumn = "value", shapeColumn = shapeColumn,
+                                     fillColumn = "value",
                                      col = multiFacetColsx,
                                      row = multiFacetRowsx,
                                      title=titlex ,
@@ -3665,7 +3648,7 @@ map <- function(data = NULL,
 
                   # Check for Duplicates
                   if(duplicated(datax %>%
-                                dplyr::select(subRegion,lat,lon,x,dplyr::all_of(multiFacetRowsx),dplyr::all_of(multiFacetColsx))) %>%
+                                dplyr::select(subRegion,region,lat,lon,x,dplyr::all_of(multiFacetRowsx),dplyr::all_of(multiFacetColsx))) %>%
                      any()){stop("Input data data has multiple values. Please check your data.")}
 
                   # Set title
@@ -3708,7 +3691,7 @@ map <- function(data = NULL,
                   datax <- datax %>%
                     dplyr::mutate(scenario= gsub("_xDiff.*","",scenario))
 
-                    rmap::map_plot(color=color, lwd=lwd, legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
+                    rmap::map_plot(crs=crs, underLayerLabelCol = underLayerLabelCol, overLayerLabelCol = overLayerLabelCol, labelCol=labelCol, region=region,color=color, lwd=lwd, legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
                                    overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
                                    overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
                                    underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
@@ -3735,7 +3718,7 @@ map <- function(data = NULL,
                                    pdfpng = pdfpng, legendSingleColor = legendSingleColor, legendSingleValue =  legendSingleValue,
                                    labels=labels, labelRepel=labelRepel, underLayerLabels=underLayerLabels, overLayerLabels=overLayerLabels,
                                    legendBreaks = legendBreaksx,
-                                   fillColumn = "value", shapeColumn = shapeColumn,
+                                   fillColumn = "value",
                                    col = multiFacetColsx,
                                    row = multiFacetRowsx,
                                    title= titlex,
@@ -3804,11 +3787,11 @@ map <- function(data = NULL,
                     meanCol = paste("Mean_",min(datax$x),"to",max(datax$x),sep="")
 
 
-                    colsPresentGroup =  c("lat","lon","subRegion","scenario","class")
+                    colsPresentGroup =  c("lon","lat","subRegion","region","scenario","class")
                     colsPresentGroup = colsPresentGroup[colsPresentGroup %in% names(datax)]
 
                     datax<-datax%>%
-                      dplyr::select(lat,lon,subRegion,scenario,class,x,value)%>%
+                      dplyr::select(lat,lon,subRegion,region,scenario,class,x,value)%>%
                       dplyr::group_by_at(dplyr::all_of(colsPresentGroup))%>%
                       dplyr::summarize(!!meanCol:=mean(value))%>%
                       dplyr::ungroup()
@@ -3917,7 +3900,7 @@ map <- function(data = NULL,
 
                     # Check for Duplicates
                     if(duplicated(datax %>%
-                                  dplyr::select(lat,lon,subRegion,x,dplyr::all_of(multiFacetRowsx),dplyr::all_of(multiFacetColsx))) %>%
+                                  dplyr::select(lat,lon,subRegion,region,x,dplyr::all_of(multiFacetRowsx),dplyr::all_of(multiFacetColsx))) %>%
                        any()){stop("Input data data has multiple values. Please check your data.")}
 
                     # Set title
@@ -3952,7 +3935,7 @@ map <- function(data = NULL,
                     datax <- datax %>%
                       dplyr::mutate(scenario= gsub("_xDiff.*","",scenario))
 
-                      rmap::map_plot(color=color, lwd=lwd, legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
+                      rmap::map_plot(crs=crs, underLayerLabelCol = underLayerLabelCol, overLayerLabelCol = overLayerLabelCol, labelCol=labelCol, region=region,color=color, lwd=lwd, legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
                                      overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
                                      overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
                                      underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
@@ -4037,7 +4020,7 @@ map <- function(data = NULL,
                 if(save){
                   if(nrow(dataTblx %>% dplyr::filter(param==param_i))>0){
                     data.table::fwrite(dataTblx %>% dplyr::filter(param==param_i)%>%
-                                         dplyr::select(scenario,lat,lon,subRegion,param,class,x,value,units),
+                                         dplyr::select(scenario,lat,lon,subRegion,region,param,class,x,value,units),
                                        paste(folder,"/",param_if,"/map_",param_i,nameAppend,".csv",sep = ""))
                     rlang::inform(paste("Map data table written to ",folder,"/",param_if,"/map_",param_i,nameAppend,".csv",sep = ""))
                   }
@@ -4165,7 +4148,7 @@ map <- function(data = NULL,
 
                       # Check for Duplicates
                       if(duplicated(datax %>%
-                                    dplyr::select(lat,lon,subRegion,x,dplyr::all_of(multiFacetRowsx),dplyr::all_of(multiFacetColsx))) %>%
+                                    dplyr::select(lat,lon,subRegion,region,x,dplyr::all_of(multiFacetRowsx),dplyr::all_of(multiFacetColsx))) %>%
                          any()){stop("Input data data has multiple values. Please check your data.")}
 
                       # Set title
@@ -4200,7 +4183,7 @@ map <- function(data = NULL,
                       datax <- datax %>%
                         dplyr::mutate(scenario= gsub("_xDiff.*","",scenario))
 
-                        rmap::map_plot(color=color, lwd=lwd, legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
+                        rmap::map_plot(crs=crs, underLayerLabelCol = underLayerLabelCol, overLayerLabelCol = overLayerLabelCol, labelCol=labelCol, region=region,color=color, lwd=lwd, legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
                                        overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
                                        overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
                                        underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
@@ -4227,7 +4210,7 @@ map <- function(data = NULL,
                                        pdfpng = pdfpng, legendSingleColor = legendSingleColor, legendSingleValue =  legendSingleValue,
                                        labels=labels, labelRepel=labelRepel, underLayerLabels=underLayerLabels, overLayerLabels=overLayerLabels,
                                        legendBreaks = legendBreaksx,
-                                       fillColumn = "value", shapeColumn = shapeColumn,
+                                       fillColumn = "value",
                                        col = multiFacetColsx,
                                        row = multiFacetRowsx,
                                        title=titlex ,
@@ -4419,7 +4402,7 @@ map <- function(data = NULL,
 
                   # Check for Duplicates
                   if(duplicated(datax %>%
-                                dplyr::select(subRegion,lat,lon,x,dplyr::all_of(multiFacetRowsx),dplyr::all_of(multiFacetColsx))) %>%
+                                dplyr::select(subRegion,lat,lon,x,region,dplyr::all_of(multiFacetRowsx),dplyr::all_of(multiFacetColsx))) %>%
                      any()){stop("Input data data has multiple values. Please check your data.")}
 
                   # Set title
@@ -4462,7 +4445,7 @@ map <- function(data = NULL,
                   datax <- datax %>%
                     dplyr::mutate(scenario= gsub("_xDiff.*","",scenario))
 
-                    rmap::map_plot(color=color, lwd=lwd, legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
+                    rmap::map_plot(crs=crs, underLayerLabelCol = underLayerLabelCol, overLayerLabelCol = overLayerLabelCol, labelCol=labelCol, region=region,color=color, lwd=lwd, legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
                                    overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
                                    overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
                                    underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,
@@ -4489,7 +4472,7 @@ map <- function(data = NULL,
                                    pdfpng = pdfpng, legendSingleColor = legendSingleColor, legendSingleValue =  legendSingleValue,
                                    labels=labels, labelRepel=labelRepel, underLayerLabels=underLayerLabels, overLayerLabels=overLayerLabels,
                                    legendBreaks = legendBreaksx,
-                                   fillColumn = "value", shapeColumn = shapeColumn,
+                                   fillColumn = "value",
                                    col = multiFacetColsx,
                                    row = multiFacetRowsx,
                                    title= titlex,
@@ -4558,11 +4541,11 @@ map <- function(data = NULL,
 
                     meanCol = paste("Mean_",min(datax$x),"to",max(datax$x),sep="")
 
-                    colsPresentGroup =  c("lat","lon","subRegion","scenario","class")
+                    colsPresentGroup =  c("lon","lat","subRegion","region","scenario","class")
                     colsPresentGroup = colsPresentGroup[colsPresentGroup %in% names(datax)]
 
                     datax<-datax%>%
-                      dplyr::select(lat,lon,subRegion,scenario,class,x,value)%>%
+                      dplyr::select(lat,lon,subRegion,scenario,region,class,x,value)%>%
                       dplyr::group_by_at(dplyr::all_of(colsPresentGroup))%>%
                       dplyr::summarize(!!meanCol:=mean(value))%>%
                       dplyr::ungroup()
@@ -4675,7 +4658,7 @@ map <- function(data = NULL,
 
                     # Check for Duplicates
                     if(duplicated(datax %>%
-                                  dplyr::select(lat,lon,subRegion,x,dplyr::all_of(multiFacetRowsx),dplyr::all_of(multiFacetColsx))) %>%
+                                  dplyr::select(lat,lon,subRegion,region,x,dplyr::all_of(multiFacetRowsx),dplyr::all_of(multiFacetColsx))) %>%
                        any()){stop("Input data data has multiple values. Please check your data.")}
 
                     # Set title
@@ -4710,7 +4693,7 @@ map <- function(data = NULL,
                     datax <- datax %>%
                       dplyr::mutate(scenario= gsub("_xDiff.*","",scenario))
 
-                      rmap::map_plot(color=color, lwd=lwd, legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
+                      rmap::map_plot(crs=crs, underLayerLabelCol = underLayerLabelCol, overLayerLabelCol = overLayerLabelCol, labelCol=labelCol, region=region,color=color, lwd=lwd, legendType=legendType, save=save,  show=show, shape = shapex, overLayer=overLayer, overLayerColor=overLayerColor,
                                      overLayerFill = overLayerFill, overLayerLwd = overLayerLwd,
                                      overLayerAlpha = overLayerAlpha, underLayerColor=underLayerColor,
                                      underLayerFill = underLayerFill, underLayerLwd = underLayerLwd,

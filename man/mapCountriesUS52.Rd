@@ -5,7 +5,7 @@
 \alias{mapCountriesUS52}
 \title{Merge of Countries and US52}
 \format{
-R tibble
+sf
 }
 \source{
 JGCRI
@@ -19,6 +19,7 @@ Merge of Countries and US52
 \examples{
 \dontrun{
 library(rmap)
+plot(mapCountriesUS52[,"subRegion"])
 head(mapCountriesUS52)
 }
 }

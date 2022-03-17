@@ -5,7 +5,7 @@
 \alias{mapIntersectGCAMBasin32RegUruguay}
 \title{Intersection of GCAM Basins and GCAM 32 Regions + Uruguay.}
 \format{
-R tibble
+sf
 }
 \source{
 JGCRI
@@ -19,6 +19,7 @@ Intersection of GCAM Basins and GCAM 32 Regions + Uruguay.
 \examples{
 \dontrun{
 library(rmap)
+plot(mapIntersectGCAMBasin32RegUruguay[,"subRegion"])
 head(mapIntersectGCAMBasin32RegUruguay)
 }
 }

@@ -1,5 +1,5 @@
 context("map Tests")
-library(rmap); library(testthat); library(dplyr)
+library(rmap); library(testthat); library(dplyr); library(sf)
 
 test_that("map plots shape correctly", {
 

@@ -5,7 +5,7 @@
 \alias{mapGCAMBasins}
 \title{GCAM Basins}
 \format{
-A SpatialPolygonsDataFrame
+sf
 }
 \source{
 Modified versions of shapefiles from \url{https://zenodo.org/record/4688451#.YdMNTmjMJPY}
@@ -18,9 +18,9 @@ GCAM Basins
 }
 \examples{
 \dontrun{
- library(sp); library(rmap)
- sp::plot(mapGCAMBasins)
- head(mapGCAMBasins@data)
+ library(rmap)
+ plot(mapGCAMBasins[,"subRegion"])
+ head(mapGCAMBasins)
 }
 }
 \keyword{datasets}

@@ -5,7 +5,7 @@
 \alias{mapGCAMReg32Uruguay}
 \title{GCAM 32 Regions with Uruguay}
 \format{
-A SpatialPolygonsDataFrame
+sf
 }
 \source{
 Modified versions of shapefiles from \url{https://zenodo.org/record/4688451#.YdMNTmjMJPY}
@@ -18,9 +18,9 @@ GCAM 32 Regions with Uruguay
 }
 \examples{
 \dontrun{
- library(sp); library(rmap)
- sp::plot(mapGCAMReg32Uruguay)
- head(mapGCAMReg32Uruguay@data)
+ library(rmap)
+ plot(mapGCAMReg32Uruguay[,"subRegion"])
+ head(mapGCAMReg32Uruguay)
 }
 }
 \keyword{datasets}

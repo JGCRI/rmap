@@ -5,7 +5,7 @@
 \alias{mapGCAMReg32US52}
 \title{Merge of GCAM 32 and US52}
 \format{
-R tibble
+sf
 }
 \source{
 JGCRI
@@ -19,6 +19,7 @@ Merge of GCAM 32 and US52
 \examples{
 \dontrun{
 library(rmap)
+plot(mapGCAMRef32US52[,"subRegion"])
 head(mapGCAMReg32US52)
 }
 }

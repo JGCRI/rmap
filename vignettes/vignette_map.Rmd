@@ -110,7 +110,7 @@ my_map_list <- rmap::map(mapUS49) # my_map_list will contain a list of the maps 
 my_map <- my_map_list[[1]] # my_map will be the first map in the list of maps produced
 my_map_names <- names(my_map_list) # Will give you a list of the maps produced.
 rmap::map(mapUS49) # Will print out the maps to the console as well save the maps as well as the related data tables to a default directory.
-rmap:map(mapUS49, show = F) # will return a map and save to disk without printing to console.
+rmap::map(mapUS49, show = F) # will return a map and save to disk without printing to console.
 rmap::map(mapUS49, folder = "myOutputs") # Will save outputs to a directory called myOutputs
 rmap::map(mapUS49, save = F) # Will simply print the maps to the console and not save the maps to file.
 ```
@@ -127,12 +127,14 @@ rmap::map(mapUS49, save = F)
 <!-------------------------->
 <p align="center"> <img src="vignetteFigs/divider.png"></p>
 
-rmap comes with a set of preloaded maps. A full list of maps is available in the reference list of [maps](https://jgcri.github.io/rmap/reference/index.html). The pre-loaded maps come in pairs as both 'Spatial Polygon Data Frames" (e.g. mapCountries) as well as the fortified counterparts to each shape as 'tbls' and appended with a 'df' e.g. (mapCountriesdf). Each map comes with a data column named **subRegion**. For each map the data contained in the shape and the map itself can be viewed as follows:
+rmap comes with a set of preloaded maps. A full list of maps is available in the reference list of [maps](https://jgcri.github.io/rmap/reference/index.html). The pre-loaded maps are all `sf` objects. Each map comes with a data column named **subRegion**. For each map the data contained in the shape and the map itself can be viewed as follows:
 
 ```{r, results = 'hide', eval=FALSE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
 library(rmap);
 
-head(mapUS49@data) # To view data for chosen map
+head(mapUS49) # To view data for chosen map
+plot(mapUS49[,"subRegion"]) # plot regular sf object
+# Plot Using rmap
 rmap::map(mapUS49)
 rmap::map(mapUS52)
 rmap::map(mapUS52Compact)
@@ -146,10 +148,14 @@ rmap::map(mapGCAMReg32US52)
 rmap::map(mapGCAMBasins)
 rmap::map(mapGCAMBasinsUS49)
 rmap::map(mapGCAMBasinsUS52)
+rmap::map(mapGCAMLand) # Intersection of GCAM 32 regions and GCAM Basins
 rmap::map(mapStates)
 rmap::map(mapHydroShed1)
 rmap::map(mapHydroShed2)
 rmap::map(mapHydroShed3)
+rmap::map(mapIntersectGCAMBasinCountry)
+rmap::map(mapIntersectGCAMBasinUS52)
+rmap::map(mapIntersectGCAMBasinUS52County)
 ```
 
 
@@ -231,6 +237,13 @@ library(rmap);
 rmap::map(mapGCAMBasinsUS52)
 ```
 
+## mapGCAMLand
+```{r, results = 'hide', eval=TRUE, echo=FALSE, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap);
+rmap::map(mapGCAMLand)
+```
+
+
 ## mapStates
 ```{r, results = 'hide', eval=TRUE, echo=FALSE, warning=FALSE, error = FALSE, message = FALSE}
 library(rmap);
@@ -261,12 +274,6 @@ library(rmap);
 rmap::map(mapIntersectGCAMBasinCountry)
 ```
 
-## mapIntersectGCAMBasin32Reg
-```{r, results = 'hide', eval=TRUE, echo=FALSE, warning=FALSE, error = FALSE, message = FALSE}
-library(rmap);
-rmap::map(mapIntersectGCAMBasin32Reg)
-```
-
 ## mapIntersectGCAMBasinUS52
 ```{r, results = 'hide', eval=TRUE, echo=FALSE, warning=FALSE, error = FALSE, message = FALSE}
 library(rmap);
@@ -286,21 +293,21 @@ rmap::map(mapIntersectGCAMBasinUS52County)
 <!-------------------------->
 <p align="center"> <img src="vignetteFigs/divider.png"></p>
 
-Users can have rmap automatically search for an appropriate map using the `map_find_df` function as follows:
+Users can have rmap automatically search for an appropriate map using the `map_find` function as follows:
 
 ```{r, results = 'hide', eval=TRUE, echo=T, warning=FALSE, error = FALSE, message = FALSE}
 library(rmap);
 data = data.frame(subRegion = c("CA","FL","ID","MO","TX","WY"),
                   value = c(5,10,15,34,2,7))
 
-map_chosen <- rmap::map_find_df(data)
+map_chosen <- rmap::map_find(data)
 map_chosen # Will give a dataframe for the chosen map
-rmap::map(map_chosen) # This can be plotted using rmap if desired
+rmap::map(map_chosen)
 ```
 
 <!-------------------------->
 <!-------------------------->
-# Format (Themes, layers, colors, zoom)
+# Format & Themes
 <!-------------------------->
 <!-------------------------->
 <p align="center"> <img src="vignetteFigs/divider.png"></p>
@@ -549,18 +556,22 @@ data = data.frame(subRegion = c("FL","ID","MO","TX","WY"),
                   value = c(10,15,34,2,7))
 
 # Setting crop to F will zoom out to the extent of the largest layer (In this case the underLayer)
-m0 = rmap::map(data,underLayer = rmap::mapUS49,zoom = 0, show=F, save = T)
-m1 = rmap::map(data,underLayer = rmap::mapUS49,zoom = 7, show=F, save = T)
-m2 = rmap::map(data,underLayer = rmap::mapUS49,zoom = -10, show=F, save = T)
-m3 = rmap::map(data,underLayer = rmap::mapUS49,zoomx = 3, show=F, save = T)
-m4 = rmap::map(data,underLayer = rmap::mapUS49,zoomy = 2, show=F, save = T)
+m0 = rmap::map(data,underLayer = rmap::mapUS49,zoom = 0, show=F, save = F)
+m1 = rmap::map(data,underLayer = rmap::mapUS49,zoom = 1, show=F, save = F)
+m2 = rmap::map(data,underLayer = rmap::mapUS49,zoom = 3, show=F, save = F)
+m3 = rmap::map(data,underLayer = rmap::mapUS49,zoom = -1, show=F, save = F)
+m4 = rmap::map(data,underLayer = rmap::mapUS49,zoom = -3, show=F, save = F)
+m5 = rmap::map(data,underLayer = rmap::mapUS49,zoomx = 3, show=F, save = F)
+m6 = rmap::map(data,underLayer = rmap::mapUS49,zoomy = 3, show=F, save = F)
 
-cowplot::plot_grid(m0[[1]],m1[[1]], m2[[1]],m3[[1]], m4[[1]],
+cowplot::plot_grid(m0[[1]],m1[[1]], m2[[1]],m3[[1]], m4[[1]], m5[[1]], m6[[1]],
                    labels = c('zoom = 0',
-                              'zoom = 7', 
-                              'zoom = -10',
-                              'zoomx = 3',
-                              'zoomy = 2'), label_size = 14)
+                              'zoom = 1', 
+                              'zoom = 3',
+                              'zoom = -1', 
+                              'zoom = -3',
+                              'zoomx = 3', 
+                              'zoomy = 3'), label_size = 14)
 
 ```
 
@@ -746,11 +757,10 @@ Users can provide custom shapefiles for their own data if needed. The example be
 library(rmap)
 
 shapeSubset <- rmap::mapStates # Read in World States shape file
-shapeSubset <- shapeSubset[shapeSubset@data$region %in% c("Colombia"),] # Subset the shapefile to Colombia
-shapeSubset@data <- droplevels(shapeSubset@data)
+shapeSubset <- shapeSubset[shapeSubset$region %in% c("Colombia"),] # Subset the shapefile to Colombia
 rmap::map(shapeSubset) # View custom shape
-head(shapeSubset@data) # review data
-unique(shapeSubset@data$subRegion) # Get a list of the unique subRegions
+head(shapeSubset) # review data
+unique(shapeSubset$subRegion) # Get a list of the unique subRegions
 
 # Plot data on subset
 data = data.frame(subRegion = c("Cauca","Valle del Cauca","Antioquia","Córdoba","Bolívar","Atlántico"),
@@ -769,16 +779,13 @@ rmap::map(data,
 For example if someone wants to analyze counties in Texas.
 
 ```{r, results = 'hide', eval=TRUE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
-library(rmap); library(raster); library(sp)
+library(rmap); library(raster); library(sf)
 
 shapeSubRegions <- rmap::mapUS49County
 shapeCropTo <- rmap::mapUS49
-shapeCropTo <- shapeCropTo[shapeCropTo@data$subRegion %in% c("TX"),]
-shapeCropTo@data <- droplevels(shapeCropTo@data)
-shapeCrop<- sp::spTransform(shapeCropTo,raster::crs(shapeSubRegions))
-shapeCrop <-raster::crop(shapeSubRegions,shapeCropTo)
-shapeCrop@data <- shapeCrop@data%>%dplyr::select(subRegion)
-shapeCrop$subRegion%>%unique() # Check subRegion names
+shapeCropTo <- shapeCropTo[shapeCropTo$subRegion %in% c("TX"),]
+shapeCrop<- sf::st_transform(shapeCropTo,sf::st_crs(shapeSubRegions))
+shapeCrop <-sf::st_as_sf(raster::crop(as(shapeSubRegions,"Spatial"),as(shapeCropTo,"Spatial")))
 rmap::map(shapeCrop)
 
 # Plot data on subset
@@ -814,29 +821,27 @@ User can read data from their own offline `ESRI Shapefile`. Usually the shapefil
 - custom_shape.shp
 - custom_shape.shx
  
-After reading in the shapefile (e.g. as `my_custom_map`), users will need to insure that the data argument (`my_custom_map@data`) contains a `subRegion` column corresponding to the features in the shape. 
+After reading in the shapefile (e.g. as `my_custom_map`), users will need to insure that it contains a `subRegion` column corresponding to the features in the shape.
  
 ```{r, results = 'hide', eval=F, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
 library(rmap); library(rgdal); library(sp)
 
 # Assuming custom_shape files are in folder custom_shape_folder
-exampleFolder<-paste("path/to/custom_shape_folder",sep="") # Should contain the .dbf, .prj, .shp, .shx files
-exampleFile<-paste("custom_shape",sep="") # The shape file name without the extension.
-my_custom_map = rgdal::readOGR(dsn=exampleFolder,layer=exampleFile,use_iconv=T,encoding='UTF-8')
-names(my_custom_map@data); head(my_custom_map@data);
-sp::plot(my_custom_map) # Quick view of shape
+my_custom_map = sf::st_read("path/to/custom_shape_file.shp")
+head(my_custom_map)
+plot(my_custom_map) # Quick view of shape
 # Rename subRegion column
-my_custom_map@data <- my_custom_map@data %>% dplyr::mutate(subRegion="CHOOSE_APPROPRIATE _COLUMN");
+my_custom_map <- my_custom_map %>% dplyr::mutate(subRegion="CHOOSE_APPROPRIATE _COLUMN");
 
 # Now a data frame with data corresponding to the custom shape regions can be created and plotted
 # Generate some random data for each subRegion
-data <- data.frame(subRegion=unique(my_custom_map@data$subRegion),
-                   value = 100*runif(length(unique(my_custom_map@data$subRegion))));
+data <- data.frame(subRegion=unique(my_custom_map$subRegion),
+                   value = 100*runif(length(unique(my_custom_map$subRegion))));
 head(data)
 # And then it can be plotted using rmap and any of the built-in maps as underLayers.
 rmap::map(data,
           shape=my_custom_map,
-          underLayer=rmap::mapStates,
+          underLayer=rmap::mapCountries,
           underLayerLabels = T)
 ```
 
@@ -1734,10 +1739,27 @@ rmap::map(data = data,
 
 <!-------------------------->
 <!-------------------------->
-# GCAM Results Examples
+# GCAM Results & Examples
 <!-------------------------->
 <!-------------------------->
 <p align="center"> <img src="vignetteFigs/divider.png"></p>
+
+## GCAM Basins
+
+GCAM Basins can come sometimes come abbreviated. To covnert these into the names associated with the `rmap::mapGCAMBasin` basin names the following mapping is provided:
+
+```{r, results = 'hide', eval=F, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
+rmap::mapping_gcambasins # View the mapping
+
+# Convert
+data <- data %>%
+  dplyr::left_join(rmap::mapping_gcambasins,by="subRegion")%>%
+  dplyr::mutate(subRegion=dplyr::case_when(!is.na(subRegionMap)~subRegionMap,
+                                    TRUE~subRegion))%>%
+  dplyr::select(-subRegionMap)
+```
+
+## GCAM Param Example
 
 In this example data was extracted from a GCAM output database and aggregated by paramater and class into `rmap::exampleMapDataParam` and `rmap::exampleMapDataClass`. Users can process their own GCAM data outputs into similar tables using the [gcamextractor](https://jgcri.github.io/gcamextractor/) R package available at [https://jgcri.github.io/gcamextractor/](https://jgcri.github.io/gcamextractor/). 
 

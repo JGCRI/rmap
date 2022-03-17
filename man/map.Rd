@@ -6,8 +6,8 @@
 \usage{
 map(
   data = NULL,
+  region = NULL,
   fillColumn = NULL,
-  shapeColumn = NULL,
   shape = NULL,
   fileName = "map",
   save = T,
@@ -15,6 +15,7 @@ map(
   show = T,
   folder = paste(getwd(), "/outputs", sep = ""),
   labels = F,
+  labelCol = NULL,
   labelRepel = 0,
   labelColor = "black",
   labelSize = 2,
@@ -44,6 +45,8 @@ map(
   underLayerLwd = 0.1,
   underLayerAlpha = 1,
   underLayerLabels = F,
+  underLayerLabelCol = NULL,
+  overLayerLabelCol = NULL,
   overLayerLabels = F,
   overLayer = NULL,
   overLayerColor = "gray40",
@@ -85,15 +88,16 @@ map(
   transparent = T,
   legendShow = T,
   diffOnly = F,
-  forceFacets = F
+  forceFacets = F,
+  crs = 4326
 )
 }
 \arguments{
 \item{data}{Default = NULL,}
 
-\item{fillColumn}{(Optional). Default = NULL. Only for direct map plotting.}
+\item{region}{Default = NULL. Set the boundary region for subRegion maps. Useful when multiple subRegions in different regions.}
 
-\item{shapeColumn}{(Optional). Default = NULL. If different from subRegion.}
+\item{fillColumn}{(Optional). Default = NULL. Only for direct map plotting.}
 
 \item{shape}{Default = NULL, Cusotm shape can be provided as a SpatialPolygonDataFrame with features corresponding to subRegion columns in the data provided.}
 
@@ -108,6 +112,8 @@ map(
 \item{folder}{Default = paste(getwd(),"/outputs",sep=""),}
 
 \item{labels}{Default = F,}
+
+\item{labelCol}{Default = NULL,}
 
 \item{labelRepel}{Default = 0,}
 
@@ -166,6 +172,10 @@ map(
 \item{underLayerAlpha}{Default = 1}
 
 \item{underLayerLabels}{Default = F}
+
+\item{underLayerLabelCol}{Default = NULL}
+
+\item{overLayerLabelCol}{Default = NULL}
 
 \item{overLayerLabels}{Default = F}
 
@@ -250,6 +260,8 @@ map(
 \item{diffOnly}{Default = F. Only run diff plots and not individual scenarios.}
 
 \item{forceFacets}{Default = F. Used to force facet label for single scenario which is usually dropped.}
+
+\item{crs}{Default = 4326, WGS84}
 }
 \value{
 Returns the formatted data used to produce chart

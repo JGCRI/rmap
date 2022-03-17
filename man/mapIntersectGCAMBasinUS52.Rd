@@ -5,7 +5,7 @@
 \alias{mapIntersectGCAMBasinUS52}
 \title{Intersection of GCAM Basins and US 52 Regions.}
 \format{
-R tibble
+sf
 }
 \source{
 JGCRI
@@ -19,6 +19,7 @@ Intersection of GCAM Basins and US 52 Regions.
 \examples{
 \dontrun{
 library(rmap)
+plot(mapIntersectGCAMBasinUS52[,"subRegion"])
 head(mapIntersectGCAMBasinUS52)
 }
 }

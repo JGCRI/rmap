@@ -6,7 +6,7 @@
 \title{US 52 States
 Includes Alaska, Hawaii and Puerto Rico as well as DC.}
 \format{
-A SpatialPolygonsDataFrame
+sf
 }
 \source{
 US Census bureau. \url{https://www.census.gov/geographies/mapping-files/time-series/geo/carto-boundary-file.html}
@@ -20,9 +20,9 @@ Includes Alaska, Hawaii and Puerto Rico as well as DC.
 }
 \examples{
 \dontrun{
- library(sp); library(rmap)
- sp::plot(mapUS52)
- head(mapUS52@data)
+ library(rmap)
+ plot(mapUS52[,"subRegion"])
+ head(mapUS52)
 }
 }
 \keyword{datasets}

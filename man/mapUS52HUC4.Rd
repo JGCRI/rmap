@@ -5,7 +5,7 @@
 \alias{mapUS52HUC4}
 \title{USGS Hydrological Unit Code (HUC)}
 \format{
-A SpatialPolygonsDataFrame
+sf
 }
 \source{
 \url{https://water.usgs.gov/GIS/huc.html} \url{https://nrcs.app.box.com/v/huc}
@@ -18,9 +18,9 @@ USGS Hydrological Unit Code (HUC)
 }
 \examples{
 \dontrun{
- library(sp); library(rmap)
- sp::plot(mapUS52HUC4)
- head(mapUS52HUC4@data)
+ library(rmap)
+ plot(mapUS52HUC4[,"subRegion"])
+ head(mapUS52HUC4)
 }
 }
 \keyword{datasets}

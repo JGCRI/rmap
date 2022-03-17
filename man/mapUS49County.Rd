@@ -6,7 +6,7 @@
 \title{US 49 States
 Excludes Alaska, Hawaii and Puerto Rico. Includes DC.}
 \format{
-A SpatialPolygonsDataFrame
+sf
 }
 \source{
 Made with Natural Earth. \url{http://www5.statcan.gc.ca/cansim/}
@@ -20,9 +20,9 @@ Excludes Alaska, Hawaii and Puerto Rico. Includes DC.
 }
 \examples{
 \dontrun{
- library(sp); library(rmap)
- sp::plot(mapUS49County)
- head(mapUS49County@data)
+ library(rmap)
+ plot(mapUS49County[,"subRegion"])
+ head(mapUS49County)
 }
 }
 \keyword{datasets}
