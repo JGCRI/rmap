@@ -73,7 +73,6 @@
 #' @param crs Default = 4326, WGS84
 #' @keywords charts, diffplots
 #' @return Returns the formatted data used to produce chart
-#' @import sf
 #' @importFrom rlang :=
 #' @importFrom jgcricolors jgcricol
 #' @importFrom magrittr %>%

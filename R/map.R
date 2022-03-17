@@ -91,7 +91,6 @@
 #' @param forceFacets Default = F. Used to force facet label for single scenario which is usually dropped.
 #' @param crs Default = 4326, WGS84
 #' @return A list of maps
-#' @import sf
 #' @importFrom rlang :=
 #' @importFrom magrittr %>%
 #' @export

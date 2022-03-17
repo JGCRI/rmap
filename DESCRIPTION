@@ -33,7 +33,7 @@ Imports:
 	jgcricolors,
 	cowplot,
 	sf,
-	methods,
+	methods
 Suggests: 
     rmarkdown,
     testthat (>= 3.0.0),
