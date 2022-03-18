@@ -280,11 +280,16 @@ if(!is.null(shape)){
           dplyr::select(-geometry),
         by="subRegion")
     } else if(any(grepl("data.frame",class(data)))){
+      if("geometry" %in% names(data)){
         data <- shape %>%
           dplyr::left_join(
             data %>%
               dplyr::select(-geometry),
-            by="subRegion")
+            by="subRegion")} else {
+              data <- shape %>%
+                dplyr::left_join(
+                  data,by="subRegion")
+            }
       }
     }
   }

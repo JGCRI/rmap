@@ -67,6 +67,12 @@ test_that("map plots multi-class, multi-x, multi-scen data correctly", {
   testthat::expect_gt(tVal1,0)
 })
 
+test_that("map saves png", {
+  mapx <- rmap::map(rmap::mapUS49, show = F, pdfpng="png")
+  tVal1 <- length(mapx)
+  testthat::expect_gt(tVal1,0)
+})
+
 test_that("map saves pdf", {
   mapx <- rmap::map(rmap::mapUS49, show = F, pdfpng="pdf")
   tVal1 <- length(mapx)

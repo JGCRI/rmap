@@ -1797,7 +1797,6 @@ dfClass <- rmap::exampleMapDataClass %>%
 rmap::map(data = dfClass, 
           background = T, 
           underLayer = rmap::mapGCAMReg32,
-          shape = rmap::mapGCAMReg32,
           save=F)
 
 ```
