@@ -447,9 +447,7 @@ library(sf); library(dplyr)
 library(rnaturalearth)
 library(tmap)
 
-# read in new test data
-download.file("https://data.london.gov.uk/download/gcse-results-by-borough/a8a71d73-cc48-4b30-9eb5-c5f605bc845c/gcse-results.xlsx",
-              destfile = "gcse-results.xlsx")
+# Download file: https://data.london.gov.uk/download/gcse-results-by-borough/a8a71d73-cc48-4b30-9eb5-c5f605bc845c/gcse-results.xlsx
 gcse_results <- readxl::read_xlsx("gcse-results.xlsx", sheet = "2020-21")
 
 # clean up test data

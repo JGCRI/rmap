@@ -16,6 +16,9 @@ authors:
   - name: Thomas Wild
     orcid: 0000-0002-6045-7729
     affiliation: "1, 2"
+  - name: Brinda Yarlagadda 
+    orcid: 0000-0003-2944-3449
+    affiliation: 1  
 affiliations:
  - name: Joint Global Change Research Institute, Pacific Northwest National Laboratory, College Park, MD, USA
    index: 1
