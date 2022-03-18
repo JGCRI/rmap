@@ -235,7 +235,60 @@ if(T){ # Initialize
     theme = NULL
   }}
 
+  # Rename certain countries to rmap names
+  if("subRegion" %in% names(data)){
+  if(any(grepl("United States of America|United States",unique(data$subRegion),ignore.case = T))){
+    data <- data %>%
+      dplyr::mutate(subRegion = dplyr::if_else(grepl("^United States of America$|^United States$",subRegion,ignore.case = T),
+                                               "USA", subRegion)) %>%
+     dplyr::mutate(subRegion = dplyr::if_else(grepl("^Tanzania$",subRegion,ignore.case = T),
+                                               "United Republic of Tanzania", subRegion)) %>%
+      dplyr::mutate(subRegion = dplyr::if_else(grepl("^Democratic Republic of Congo$",subRegion,ignore.case = T),
+                                               "Democratic Republic of the Congo", subRegion))
+  }
+  }
+
 } # initialize
+
+
+#.........................
+# Set fillColumn, labelColumn and shape
+#.........................
+
+if(is.null(fillColumn)){
+  if("value" %in% names(data)){
+    fillColumn = "value"
+  } else if("subRegion" %in% names(data)){
+    fillColumn = "subRegion"
+  }
+}
+
+if(is.null(labelCol)){
+  if("subRegion" %in% names(data)){
+    labelCol = "subRegion"
+  } else {
+    labelCol = names(data)[1]
+  }
+}
+
+if(!is.null(shape)){
+  if(any(grepl("sf",class(shape)))){
+    if(any(grepl("sf",class(data)))){
+    data <- shape %>%
+      dplyr::left_join(
+        data %>% sf::st_drop_geometry() %>%
+          dplyr::select(-geometry),
+        by="subRegion")
+    } else if(any(grepl("data.frame",class(data)))){
+        data <- shape %>%
+          dplyr::left_join(
+            data %>%
+              dplyr::select(-geometry),
+            by="subRegion")
+      }
+    }
+  }
+
 
 #......................................................................
 # Read data and check inputs
@@ -260,6 +313,10 @@ if(T){ # Read input data
 
         data_sf <-  map_find(data) %>%
           dplyr::left_join(data, by=c("subRegion")) %>%
+          dplyr::filter(subRegion %in% (data$subRegion %>% unique()))
+      } else {
+        data_sf <-  map_find(data) %>%
+          dplyr::left_join(data, by=c("subRegion","region")) %>%
           dplyr::filter(subRegion %in% (data$subRegion %>% unique()))
       }
     } else {
@@ -286,6 +343,9 @@ if(T){ # Read input data
   }
 
   # Set palette
+  if(("value" %in% names(data_sf)) & (palette == "Set3")){
+    palette = "pal_hot"
+  }
   if (length(palette) == 1) {
     if (palette %in% names(jgcricolors::jgcricol())) {
       palette <- jgcricolors::jgcricol()[[palette]]
@@ -300,27 +360,9 @@ if(T){ # Read input data
   # Set rows and cols if missing
   if(is.null(row)){data_sf <- data_sf %>% dplyr::mutate(row="row")}
   if(is.null(col)){data_sf <- data_sf %>% dplyr::mutate(col="col")}
+
 }
 
-#.........................
-# Set fillColumn
-#.........................
-
-  if(is.null(fillColumn)){
-    if("value" %in% names(data_sf)){
-      fillColumn = "value"
-      } else if("subRegion" %in% names(data_sf)){
-        fillColumn = "subRegion"
-      }
-  }
-
-  if(is.null(labelCol)){
-    if("subRegion" %in% names(data_sf)){
-      labelCol = "subRegion"
-    } else {
-      labelCol = names(data_sf)[1]
-    }
-  }
 
 #....................
 # Set Legend Breaks and Labels

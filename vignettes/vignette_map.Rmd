@@ -1801,35 +1801,3 @@ rmap::map(data = dfClass,
           save=F)
 
 ```
-
-
-<details>
-  <summary>
-  <p class="button">Expand to see more extensive results for rmap::exampleMapDataParam...</p>
-  </summary>
-
-```{r, results = 'hide', eval=T, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
-library(rmap)
-
-dfParam <- rmap::exampleMapDataParam %>%
-  dplyr::filter(region %in% c("India","China","Pakistan"),
-                param %in% c("elecByTechTWh"),
-                x %in% c(2010,2025,2050),
-                scenario %in% c("GCAM_SSP3","GCAM_SSP5")); dfParam
-
-# Add another scenario (Optional test)
-dfParam <- dfParam %>% dplyr::bind_rows(
-  dfParam %>% filter(scenario=="GCAM_SSP5") %>% mutate(value=value*1.5, scenario ="GCAM_X")
-)
-
-# Plot data aggregated by param
-rmap::map(data = dfParam, 
-          background = T, 
-          underLayer = rmap::mapGCAMReg32,
-          shape = rmap::mapGCAMReg32,
-          xRef = "2010",
-          scenRef = "GCAM_SSP3")
-
-```
-
-</details>

@@ -379,6 +379,8 @@ map <- function(data = NULL,
   if(!is.null(shape)){
     if(!any(grepl("sf",class(shape)))){
       shapex <- sf::st_as_sf(shape)
+    } else {
+      shapex = shape
     }
   }else{
     shapex = NULL

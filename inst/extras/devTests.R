@@ -422,9 +422,9 @@ library(sf)
 # get data for testing
 data("ncovr")
 mydata <- ncovr %>% select(NAME, STATE_NAME, FIPS, HR60) %>% st_drop_geometry() %>%
-  dplyr::left_join(rmap::mapUS52County@data, by="FIPS") %>%
-  dplyr::mutate(value=HR60)
-rmap::map(data=mydata)
+  dplyr::left_join(rmap::mapUS52County, by="FIPS")
+rmap::map(data=mydata, valueCol = "HR60")
+
 
 # Counter Example
 download.file("https://www2.census.gov/geo/tiger/GENZ2018/kml/cb_2018_us_county_20m.zip","counties.zip")
@@ -466,12 +466,6 @@ my_map <- rmap::map(gcse_results,
                     subRegCol = "area",
                     valueCol = "number_of_pupils_at_the_end_of_key_stage_4")
 
-my_map <- rmap::map(gcse_results %>%
-                      dplyr::mutate(
-                    subRegion = area,
-                    value = number_of_pupils_at_the_end_of_key_stage_4))
-
-
 # Try with others
 london_boroughs <- ne_states(country = "United Kingdom", returnclass = "sf") %>% filter(region == "Greater London")
 gcse_results_sf <- left_join(london_boroughs, gcse_results,by = c("name" = "area"))
@@ -485,27 +479,16 @@ rmap::map(data=data.frame(subRegion=c("Punjab","Sind"),value=c(1,2)), region="Pa
 rmap::map(data=data.frame(subRegion=c("CA","TX","AL","CO","ID")))
 rmap::map(data=rmap::mapUS49)
 
-# Test Data
-data = rmap::example_gridData_GWPv4To2015 %>%
-  filter(x == 2015);
-head(data)
-data <- head(data,1000)
-# convert to raster
-r1 <- raster::rasterFromXYZ(data1)
-plot(r1)
-# https://taromieno.netlify.app/post/raster_to_polygons_2018/
-rsp1 <- as(r1,'SpatialPolygonsDataFrame')
-rsf1 <- st_as_sf(rsp1)
-rsf1
-plot(rsf1)
-
-data.frame("subRegion"=c("Punjab","Sind"))->a1
-
-
 # Test Covid data
+# Our World in Data JHU
+# https://github.com/owid/covid-19-data/tree/master/public/data
 covid_data <- read.csv(url("https://covid.ourworldindata.org/data/owid-covid-data.csv"))%>%
   tibble::as_tibble() %>%
   dplyr::select(subRegion=location,date,value=total_cases) %>%
-  dplyr::filter(date == max(date)); covid_data
+  dplyr::filter(date == max(date)) %>%
+  dplyr::mutate(value=value/1000000); covid_data
 
-rmap::map(covid_data)
+rmap::map(covid_data,
+          legendBreaks=8,
+          legendTitle = "millions",
+          title=paste0("Total Covid Cases ",max(covid_data$date)))
