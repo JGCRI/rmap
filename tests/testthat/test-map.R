@@ -166,7 +166,7 @@ test_that("test multi-row multi-col", {
                               37, 53, 23, 12, 45,
                               23, 99, 102, 85, 75,
                               12, 76, 150, 64, 90))
-  mapx <- rmap::map(data = data, show=T, save=F,
+  mapx <- rmap::map(data = data, show=F, save=F,
             underLayer = rmap::mapCountries,
             row = "rcp",
             col = "gcm",
