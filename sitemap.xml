@@ -31,7 +31,7 @@
     <loc>/news/index.html</loc>
   </url>
   <url>
-    <loc>/reference/df_to_shape.html</loc>
+    <loc>/reference/allSubRegions.html</loc>
   </url>
   <url>
     <loc>/reference/exampleMapDataClass.html</loc>
@@ -55,28 +55,16 @@
     <loc>/reference/mapCountriesUS52.html</loc>
   </url>
   <url>
-    <loc>/reference/mapCountriesUS52df.html</loc>
-  </url>
-  <url>
-    <loc>/reference/mapCountriesdf.html</loc>
-  </url>
-  <url>
     <loc>/reference/mapGCAMBasins.html</loc>
   </url>
   <url>
     <loc>/reference/mapGCAMBasinsUS49.html</loc>
   </url>
   <url>
-    <loc>/reference/mapGCAMBasinsUS49df.html</loc>
-  </url>
-  <url>
     <loc>/reference/mapGCAMBasinsUS52.html</loc>
   </url>
   <url>
-    <loc>/reference/mapGCAMBasinsUS52df.html</loc>
-  </url>
-  <url>
-    <loc>/reference/mapGCAMBasinsdf.html</loc>
+    <loc>/reference/mapGCAMLand.html</loc>
   </url>
   <url>
     <loc>/reference/mapGCAMReg32.html</loc>
@@ -85,52 +73,22 @@
     <loc>/reference/mapGCAMReg32US52.html</loc>
   </url>
   <url>
-    <loc>/reference/mapGCAMReg32US52df.html</loc>
-  </url>
-  <url>
     <loc>/reference/mapGCAMReg32Uruguay.html</loc>
-  </url>
-  <url>
-    <loc>/reference/mapGCAMReg32Uruguaydf.html</loc>
-  </url>
-  <url>
-    <loc>/reference/mapGCAMReg32df.html</loc>
   </url>
   <url>
     <loc>/reference/mapHydroShed1.html</loc>
   </url>
   <url>
-    <loc>/reference/mapHydroShed1df.html</loc>
-  </url>
-  <url>
     <loc>/reference/mapHydroShed2.html</loc>
-  </url>
-  <url>
-    <loc>/reference/mapHydroShed2df.html</loc>
   </url>
   <url>
     <loc>/reference/mapHydroShed3.html</loc>
   </url>
   <url>
-    <loc>/reference/mapHydroShed3df.html</loc>
-  </url>
-  <url>
-    <loc>/reference/mapIntersectGCAMBasin32Reg.html</loc>
-  </url>
-  <url>
     <loc>/reference/mapIntersectGCAMBasin32RegUruguay.html</loc>
   </url>
   <url>
-    <loc>/reference/mapIntersectGCAMBasin32RegUruguaydf.html</loc>
-  </url>
-  <url>
-    <loc>/reference/mapIntersectGCAMBasin32Regdf.html</loc>
-  </url>
-  <url>
     <loc>/reference/mapIntersectGCAMBasinCountry.html</loc>
-  </url>
-  <url>
-    <loc>/reference/mapIntersectGCAMBasinCountrydf.html</loc>
   </url>
   <url>
     <loc>/reference/mapIntersectGCAMBasinUS52.html</loc>
@@ -139,16 +97,7 @@
     <loc>/reference/mapIntersectGCAMBasinUS52County.html</loc>
   </url>
   <url>
-    <loc>/reference/mapIntersectGCAMBasinUS52Countydf.html</loc>
-  </url>
-  <url>
-    <loc>/reference/mapIntersectGCAMBasinUS52df.html</loc>
-  </url>
-  <url>
     <loc>/reference/mapStates.html</loc>
-  </url>
-  <url>
-    <loc>/reference/mapStatesdf.html</loc>
   </url>
   <url>
     <loc>/reference/mapUS49.html</loc>
@@ -157,22 +106,10 @@
     <loc>/reference/mapUS49County.html</loc>
   </url>
   <url>
-    <loc>/reference/mapUS49Countydf.html</loc>
-  </url>
-  <url>
     <loc>/reference/mapUS49HUC2.html</loc>
   </url>
   <url>
-    <loc>/reference/mapUS49HUC2df.html</loc>
-  </url>
-  <url>
     <loc>/reference/mapUS49HUC4.html</loc>
-  </url>
-  <url>
-    <loc>/reference/mapUS49HUC4df.html</loc>
-  </url>
-  <url>
-    <loc>/reference/mapUS49df.html</loc>
   </url>
   <url>
     <loc>/reference/mapUS52.html</loc>
@@ -181,37 +118,19 @@
     <loc>/reference/mapUS52Compact.html</loc>
   </url>
   <url>
-    <loc>/reference/mapUS52Compactdf.html</loc>
-  </url>
-  <url>
     <loc>/reference/mapUS52County.html</loc>
   </url>
   <url>
     <loc>/reference/mapUS52CountyCompact.html</loc>
   </url>
   <url>
-    <loc>/reference/mapUS52CountyCompactdf.html</loc>
-  </url>
-  <url>
-    <loc>/reference/mapUS52Countydf.html</loc>
-  </url>
-  <url>
     <loc>/reference/mapUS52HUC2.html</loc>
-  </url>
-  <url>
-    <loc>/reference/mapUS52HUC2df.html</loc>
   </url>
   <url>
     <loc>/reference/mapUS52HUC4.html</loc>
   </url>
   <url>
-    <loc>/reference/mapUS52HUC4df.html</loc>
-  </url>
-  <url>
-    <loc>/reference/mapUS52df.html</loc>
-  </url>
-  <url>
-    <loc>/reference/map_find_df.html</loc>
+    <loc>/reference/map_find.html</loc>
   </url>
   <url>
     <loc>/reference/map_plot.html</loc>
@@ -229,24 +148,12 @@
     <loc>/reference/mapping_gcambasins.html</loc>
   </url>
   <url>
-    <loc>/reference/mapping_param_query.html</loc>
-  </url>
-  <url>
     <loc>/reference/mapping_tethys_grid_basin_region_country.html</loc>
-  </url>
-  <url>
-    <loc>/reference/mapsSubRegions.html</loc>
   </url>
   <url>
     <loc>/reference/printPdfPng.html</loc>
   </url>
   <url>
     <loc>/reference/rmap.html</loc>
-  </url>
-  <url>
-    <loc>/reference/shape_to_df.html</loc>
-  </url>
-  <url>
-    <loc>/reference/tidy_shape.html</loc>
   </url>
 </urlset>

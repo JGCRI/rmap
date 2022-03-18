@@ -98,8 +98,8 @@ Each figure is accompanied with a csv table.</p>
     <div id="ref-usage">
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">map</span><span class="op">(</span>
   data <span class="op">=</span> <span class="cn">NULL</span>,
+  region <span class="op">=</span> <span class="cn">NULL</span>,
   fillColumn <span class="op">=</span> <span class="cn">NULL</span>,
-  shapeColumn <span class="op">=</span> <span class="cn">NULL</span>,
   shape <span class="op">=</span> <span class="cn">NULL</span>,
   fileName <span class="op">=</span> <span class="st">"map"</span>,
   save <span class="op">=</span> <span class="cn">T</span>,
@@ -107,6 +107,7 @@ Each figure is accompanied with a csv table.</p>
   show <span class="op">=</span> <span class="cn">T</span>,
   folder <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"/outputs"</span>, sep <span class="op">=</span> <span class="st">""</span><span class="op">)</span>,
   labels <span class="op">=</span> <span class="cn">F</span>,
+  labelCol <span class="op">=</span> <span class="cn">NULL</span>,
   labelRepel <span class="op">=</span> <span class="fl">0</span>,
   labelColor <span class="op">=</span> <span class="st">"black"</span>,
   labelSize <span class="op">=</span> <span class="fl">2</span>,
@@ -136,6 +137,8 @@ Each figure is accompanied with a csv table.</p>
   underLayerLwd <span class="op">=</span> <span class="fl">0.1</span>,
   underLayerAlpha <span class="op">=</span> <span class="fl">1</span>,
   underLayerLabels <span class="op">=</span> <span class="cn">F</span>,
+  underLayerLabelCol <span class="op">=</span> <span class="cn">NULL</span>,
+  overLayerLabelCol <span class="op">=</span> <span class="cn">NULL</span>,
   overLayerLabels <span class="op">=</span> <span class="cn">F</span>,
   overLayer <span class="op">=</span> <span class="cn">NULL</span>,
   overLayerColor <span class="op">=</span> <span class="st">"gray40"</span>,
@@ -177,7 +180,8 @@ Each figure is accompanied with a csv table.</p>
   transparent <span class="op">=</span> <span class="cn">T</span>,
   legendShow <span class="op">=</span> <span class="cn">T</span>,
   diffOnly <span class="op">=</span> <span class="cn">F</span>,
-  forceFacets <span class="op">=</span> <span class="cn">F</span>
+  forceFacets <span class="op">=</span> <span class="cn">F</span>,
+  crs <span class="op">=</span> <span class="fl">4326</span>
 <span class="op">)</span></code></pre></div>
     </div>
 
@@ -185,10 +189,10 @@ Each figure is accompanied with a csv table.</p>
     <h2>Arguments</h2>
     <dl><dt>data</dt>
 <dd><p>Default = NULL,</p></dd>
+<dt>region</dt>
+<dd><p>Default = NULL. Set the boundary region for subRegion maps. Useful when multiple subRegions in different regions.</p></dd>
 <dt>fillColumn</dt>
 <dd><p>(Optional). Default = NULL. Only for direct map plotting.</p></dd>
-<dt>shapeColumn</dt>
-<dd><p>(Optional). Default = NULL. If different from subRegion.</p></dd>
 <dt>shape</dt>
 <dd><p>Default = NULL, Cusotm shape can be provided as a SpatialPolygonDataFrame with features corresponding to subRegion columns in the data provided.</p></dd>
 <dt>fileName</dt>
@@ -203,6 +207,8 @@ Each figure is accompanied with a csv table.</p>
 <dd><p>Default = paste(getwd(),"/outputs",sep=""),</p></dd>
 <dt>labels</dt>
 <dd><p>Default = F,</p></dd>
+<dt>labelCol</dt>
+<dd><p>Default = NULL,</p></dd>
 <dt>labelRepel</dt>
 <dd><p>Default = 0,</p></dd>
 <dt>labelColor</dt>
@@ -261,6 +267,10 @@ Each figure is accompanied with a csv table.</p>
 <dd><p>Default = 1</p></dd>
 <dt>underLayerLabels</dt>
 <dd><p>Default = F</p></dd>
+<dt>underLayerLabelCol</dt>
+<dd><p>Default = NULL</p></dd>
+<dt>overLayerLabelCol</dt>
+<dd><p>Default = NULL</p></dd>
 <dt>overLayerLabels</dt>
 <dd><p>Default = F</p></dd>
 <dt>overLayer</dt>
@@ -345,6 +355,8 @@ Each figure is accompanied with a csv table.</p>
 <dd><p>Default = F. Only run diff plots and not individual scenarios.</p></dd>
 <dt>forceFacets</dt>
 <dd><p>Default = F. Used to force facet label for single scenario which is usually dropped.</p></dd>
+<dt>crs</dt>
+<dd><p>Default = 4326, WGS84</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>

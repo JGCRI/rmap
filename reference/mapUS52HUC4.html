@@ -99,7 +99,7 @@
 
     <div id="format">
     <h2>Format</h2>
-    <p>A SpatialPolygonsDataFrame</p>
+    <p>sf</p>
     </div>
     <div id="source">
     <h2>Source</h2>
@@ -109,9 +109,9 @@
     <div id="ref-examples">
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"> <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/edzer/sp/" class="external-link">sp</a></span><span class="op">)</span>; <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap" class="external-link">rmap</a></span><span class="op">)</span></span>
-<span class="r-in"> <span class="fu">sp</span><span class="fu">::</span><span class="fu">plot</span><span class="op">(</span><span class="va">mapUS52HUC4</span><span class="op">)</span></span>
-<span class="r-in"> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">mapUS52HUC4</span><span class="op">@</span><span class="va">data</span><span class="op">)</span></span>
+<span class="r-in"> <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap" class="external-link">rmap</a></span><span class="op">)</span></span>
+<span class="r-in"> <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">mapUS52HUC4</span><span class="op">[</span>,<span class="st">"subRegion"</span><span class="op">]</span><span class="op">)</span></span>
+<span class="r-in"> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">mapUS52HUC4</span><span class="op">)</span></span>
 <span class="r-in"><span class="op">}</span></span>
 </code></pre></div>
     </div>

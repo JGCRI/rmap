@@ -1,6 +1,0 @@
-scenario,subRegion,param,class,x,value,units
-scenario,Austria,param,class,x,-5,units
-scenario,Spain,param,class,x,0,units
-scenario,Italy,param,class,x,54,units
-scenario,Germany,param,class,x,63,units
-scenario,Greece,param,class,x,24,units
