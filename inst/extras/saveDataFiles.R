@@ -664,24 +664,13 @@ if(redoMaps){
 
 # Merge US52 with Countries file
 if(redoMaps){
-  examplePolyFolder<-paste(dataFileFolder,"/gis/gcam",sep="")
-  examplePolyFile<-paste("mapCountriesUS52",sep="")
-  x=rgdal::readOGR(dsn=examplePolyFolder,layer=examplePolyFile,use_iconv=T,encoding='UTF-8')
-  mapx <- x
-  # convert to sf
-  mapx <- sf::st_as_sf(mapx); mapx
-  area_thresh <- units::set_units(50, km^2)
-  sf::sf_use_s2(FALSE)
-  mapx_area<-sf::st_area(mapx)
-  mapx <- mapx%>%
-    dplyr::mutate(area=mapx_area)
-  #mapx <- mapx[!is.na(mapx$subRegion),]
-  #---------------------
+  m1 <- rmap::mapUS52
+  m2 <- rmap::mapCountries %>% filter(region != "USA")
+  mapx<-m1 %>% dplyr::bind_rows(m2)
+
   mapCountriesUS52 <- mapx
   mapCountriesUS52 <- mapCountriesUS52 %>%
-    dplyr::mutate(name="mapCountriesUS52",
-                  source = "https://doi.org/10.5281/zenodo.4688451")%>%
-    dplyr::select(subRegion = subRegn,region,subRegionAlt=sbRgnAl,source, area, name, geometry)%>%
+    dplyr::mutate(name="mapCountriesUS52")%>%
     st_set_crs(st_crs(4326))
   mapCountriesUS52 <- mapCountriesUS52 %>%
     dplyr::mutate(region=subRegion)

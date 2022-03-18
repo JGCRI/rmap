@@ -1166,15 +1166,6 @@ if(crop|crop_to_underLayer|crop_to_overLayer){
   map <- map +
     ggplot2::coord_sf(ylim=c(yMin,yMax),
                       xlim=c(xMin,xMax),expand=F)
-} else {
-  # Crop to datalayer
-  xMin <- sf::st_bbox(data_sf_w_labels)[["xmin"]]; xMin
-  xMax <- sf::st_bbox(data_sf_w_labels)[["xmax"]]; xMax
-  yMin <- sf::st_bbox(data_sf_w_labels)[["ymin"]]; yMin
-  yMax <- sf::st_bbox(data_sf_w_labels)[["ymax"]]; yMax
-  map <- map +
-    ggplot2::coord_sf(ylim=c(max(yMin,-90),min(yMax,90)),
-                      xlim=c(max(-180,xMin),min(xMax,180)),expand=F)
 }
 }
 
