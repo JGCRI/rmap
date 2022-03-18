@@ -125,3 +125,56 @@ test_that("test projections", {
 })
 
 
+test_that("test layers and labels", {
+  mapx <- rmap::map(data = rmap::mapUS49, show =F, save = F,
+                    underLayer = rmap::mapCountries,
+                    labels = T,
+                    underLayerLabels = T,
+                    underLayerColor = "red",
+                    underLayerLwd = 0.5,
+                    underLayerFill = "blue",
+                    overLayer = rmap::mapGCAMBasins,
+                    overLayerLabels = T,
+                    overLayerColor = "green",
+                    overLayerLwd = 2,
+                    overLayerFill = "yellow",
+                    crop = T,
+                    labelSize = 3,
+                    labelColor = "red",
+                    labelFill = "white",
+                    labelAlpha = 0.8,
+                    labelBorderSize = 0.1,
+                    bckground="black")
+  tVal1 <- length(mapx)
+  testthat::expect_gt(tVal1,0)
+})
+
+test_that("test multi-row multi-col", {
+  data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
+                                  "Austria","Spain", "Italy", "Germany","Greece",
+                                  "Austria","Spain", "Italy", "Germany","Greece",
+                                  "Austria","Spain", "Italy", "Germany","Greece"),
+                    rcp = c(rep("RCP1",5),
+                            rep("RCP2",5),
+                            rep("RCP1",5),
+                            rep("RCP2",5)),
+                    gcm = c(rep("GCM1",5),
+                            rep("GCM1",5),
+                            rep("GCM2",5),
+                            rep("GCM2",5)),
+                    value = c(32, 38, 54, 63, 24,
+                              37, 53, 23, 12, 45,
+                              23, 99, 102, 85, 75,
+                              12, 76, 150, 64, 90))
+  mapx <- rmap::map(data = data, show=T, save=F,
+            underLayer = rmap::mapCountries,
+            row = "rcp",
+            col = "gcm",
+            background = T )
+  tVal1 <- length(mapx)
+  testthat::expect_gt(tVal1,0)
+})
+
+
+
+

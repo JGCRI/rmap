@@ -91,6 +91,7 @@
 #' @param forceFacets Default = F. Used to force facet label for single scenario which is usually dropped.
 #' @param crs Default = 4326, WGS84
 #' @return A list of maps
+#' @import sf
 #' @importFrom rlang :=
 #' @importFrom magrittr %>%
 #' @export
@@ -402,6 +403,7 @@ map <- function(data = NULL,
     rowm=1
 
     rmap::map_plot(crs=crs, underLayerLabelCol = underLayerLabelCol, overLayerLabelCol = overLayerLabelCol, labelCol=labelCol, region=region,color=color, lwd=lwd, legendType=legendType,
+      pdfpng=pdfpng,
       overLayer=overLayer,
       overLayerColor=overLayerColor,
       overLayerFill = overLayerFill,
@@ -428,6 +430,7 @@ map <- function(data = NULL,
       labelBorderSize=labelBorderSize,
       fileName = fileName,
       fillColumn = fillColumn,
+      show=show,
       save = save,
       width = width,
       height = height,
@@ -910,21 +913,24 @@ map <- function(data = NULL,
   # Check MultiFacet Columns
   #.................-
 
-  if(F){ # Check facet column/Rows selected exist
+  if(T){ # Check facet column/Rows selected exist
 
   # Shape Table
 
   # data table
   if(!is.null(dataTbl)){
 
+    if(!is.null(col)){
     if(!col %in% names(dataTbl)){
       rlang::inform(paste0("col chosen: ",  col ,"do not exist:"))
       col <- NULL
-    }
+    }}
 
+    if(!is.null(row)){
     if(!row %in% names(dataTbl)){
       rlang::inform(paste0("row chosen: ",  row ,"do not exist:"))
       row <- NULL
+    }
     }
   }
 

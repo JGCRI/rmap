@@ -73,6 +73,7 @@
 #' @param crs Default = 4326, WGS84
 #' @keywords charts, diffplots
 #' @return Returns the formatted data used to produce chart
+#' @import sf
 #' @importFrom rlang :=
 #' @importFrom jgcricolors jgcricol
 #' @importFrom magrittr %>%
@@ -295,6 +296,10 @@ if(T){ # Read input data
       }
     }
   }
+
+  # Set rows and cols if missing
+  if(is.null(row)){data_sf <- data_sf %>% mutate(row="row")}
+  if(is.null(col)){data_sf <- data_sf %>% mutate(col="col")}
 }
 
 #.........................
@@ -820,7 +825,7 @@ if(T){
     if (any(grepl("continuous", legendType, ignore.case = T)) & is.numeric(data_sf[[fillColumn]])) {
       map <- underLayer +
         ggplot2::geom_sf(
-          data = data_sf_w_labels[, fillColumn],
+          data = data_sf_w_labels[, c(fillColumn,row,col)],
           ggplot2::aes_string(fill = fillColumn),
           color = colorx,
           lwd = lwd
@@ -829,7 +834,7 @@ if(T){
     } else {
       map <- underLayer +
         ggplot2::geom_sf(
-          data = data_sf_w_labels[, "label"],
+          data = data_sf_w_labels[, c("label",row,col)],
           ggplot2::aes_string(fill = "label"),
           color = colorx,
           lwd = lwd
@@ -876,7 +881,7 @@ if(T){
   # Multi Facet
   if(T){ # Multi Facet
 
-  if(is.null(data_sf_w_labels)){
+  if(!is.null(data_sf_w_labels)){
 
   if((!is.null(row) & !is.null(col))){
     if((all(row %in% names(data_sf_w_labels)) & all(col %in% names(data_sf_w_labels)))){

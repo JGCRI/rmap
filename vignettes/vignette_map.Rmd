@@ -288,6 +288,23 @@ rmap::map(mapIntersectGCAMBasinUS52County)
 
 <!-------------------------->
 <!-------------------------->
+# Projections
+<!-------------------------->
+<!-------------------------->
+<p align="center"> <img src="vignetteFigs/divider.png"></p>
+
+Users can change the projection of maps using the `crs` argumet as follows:
+
+```{r, results = 'hide', eval=TRUE, echo=T, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap);
+# ESRI:54032  World Azimuthal Equidistant, https://epsg.io/54032
+rmap::map(mapUS49, 
+          crs="+proj=aeqd +lat_0=0 +lon_0=0 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m no_defs")
+ 
+```
+
+<!-------------------------->
+<!-------------------------->
 # Map Find
 <!-------------------------->
 <!-------------------------->
