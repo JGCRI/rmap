@@ -500,3 +500,12 @@ rsf1
 plot(rsf1)
 
 data.frame("subRegion"=c("Punjab","Sind"))->a1
+
+
+# Test Covid data
+covid_data <- read.csv(url("https://covid.ourworldindata.org/data/owid-covid-data.csv"))%>%
+  tibble::as_tibble() %>%
+  dplyr::select(subRegion=location,date,value=total_cases) %>%
+  dplyr::filter(date == max(date)); covid_data
+
+rmap::map(covid_data)

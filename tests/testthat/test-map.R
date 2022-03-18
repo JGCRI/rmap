@@ -144,7 +144,7 @@ test_that("test layers and labels", {
                     labelFill = "white",
                     labelAlpha = 0.8,
                     labelBorderSize = 0.1,
-                    bckground="black")
+                    background="black")
   tVal1 <- length(mapx)
   testthat::expect_gt(tVal1,0)
 })

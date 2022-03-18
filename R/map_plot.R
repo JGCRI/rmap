@@ -298,8 +298,8 @@ if(T){ # Read input data
   }
 
   # Set rows and cols if missing
-  if(is.null(row)){data_sf <- data_sf %>% mutate(row="row")}
-  if(is.null(col)){data_sf <- data_sf %>% mutate(col="col")}
+  if(is.null(row)){data_sf <- data_sf %>% dplyr::mutate(row="row")}
+  if(is.null(col)){data_sf <- data_sf %>% dplyr::mutate(col="col")}
 }
 
 #.........................
