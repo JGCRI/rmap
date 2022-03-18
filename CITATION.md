@@ -5,7 +5,7 @@
 <!-------------------------->
 <!-------------------------->
 
-Khan, Z., Zhao, M., Wild, T., Vernon, C., 2022. rmap: An R package to plot and compare tabular data on customizable maps across scenarios and time. (In progress) Journal of Open Source Software, DOI: XXXX
+Khan, Z., Zhao, M., Wild, T., Vernon, C., Yarlagadda, B., 2022. rmap: An R package to plot and compare tabular data on customizable maps across scenarios and time. (In progress) Journal of Open Source Software, DOI: XXXX
 
 
 <!-------------------------->
