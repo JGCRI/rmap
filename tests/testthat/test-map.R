@@ -301,7 +301,7 @@ test_that("facets 3 row 3 col", {
   mapx <- rmap::map(data = data, show=F, save=F,
                     row = c("rcp","gcm","gcm"),
                     col = c("gcm","rcp","rcp"))
-  tVal1 <- length(mapx1)
+  tVal1 <- length(mapx)
   testthat::expect_gt(tVal1,0)
 })
 
@@ -326,7 +326,7 @@ test_that("facets 2 row 2 col", {
   mapx <- rmap::map(data = data, show=F, save=F,
                     row = c("rcp","gcm"),
                     col = c("gcm","rcp"))
-  tVal1 <- length(mapx1)
+  tVal1 <- length(mapx)
   testthat::expect_gt(tVal1,0)
 })
 
@@ -351,7 +351,7 @@ test_that("facets 1 row 1 col", {
   mapx <- rmap::map(data = data, show=F, save=F,
                     row = c("rcp"),
                     col = c("gcm"))
-  tVal1 <- length(mapx1)
+  tVal1 <- length(mapx)
   testthat::expect_gt(tVal1,0)
 })
 
@@ -364,7 +364,7 @@ test_that("crop to underLayer", {
                     underLayer = rmap::mapUS49,
                     overLayer = rmap::mapGCAMBasinsUS52,
                     crop_to_underLayer = T)
-  tVal1 <- length(mapx1)
+  tVal1 <- length(mapx)
   testthat::expect_gt(tVal1,0)
 })
 
@@ -377,6 +377,6 @@ test_that("crop to overLayer", {
                     underLayer = rmap::mapUS49,
                     overLayer = rmap::mapGCAMBasinsUS52,
                     crop_to_overLayer = T)
-  tVal1 <- length(mapx1)
+  tVal1 <- length(mapx)
   testthat::expect_gt(tVal1,0)
 })
