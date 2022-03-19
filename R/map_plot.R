@@ -212,7 +212,7 @@ if(T){ # Initialize
   NULL->raster->map->checkFacets->catBreaks->catLabels->catPalette->legendLabelsX->
     singleValLoc->label->long->lat->group->dataShape->dataPolygon->dataGrid->data_shape->
     lon->hole->piece->subRegion->X1->X2->id->name->value->datax->subRegionAlt->datax1->
-    data_w_labels
+    data_sf_w_labels
 
 
   if(is.null(data)){stop("data cannot be null.")}
@@ -276,8 +276,7 @@ if(!is.null(shape)){
     if(any(grepl("sf",class(data)))){
     data <- shape %>%
       dplyr::left_join(
-        data %>% sf::st_drop_geometry() %>%
-          dplyr::select(-geometry),
+        data %>% sf::st_drop_geometry(),
         by="subRegion")
     } else if(any(grepl("data.frame",class(data)))){
       if("geometry" %in% names(data)){
@@ -339,7 +338,7 @@ if(T){ # Read input data
     data_sf <- sf::st_as_sf(data_sf_spdf) %>%
       sf::st_set_crs(sf::st_crs(crs))
     gridded_data=T
-  } else if(any(grepl("raster", class(data)))){
+  } else if(any(grepl("raster", class(data),ignore.case = T))){
     # If raster
     data_sf_spdf <- methods::as(data,'SpatialPolygonsDataFrame')
     data_sf <- sf::st_as_sf(data_sf_spdf) %>%
@@ -711,8 +710,8 @@ if(T){ # Read input data
         dplyr::mutate(
           label := dplyr::case_when(
           (label == "temp" &
-             round(!!data_sf_w_labels[[fillColumn]],legendDigits) < round(max(range_i),legendDigits) &
-             round(!!data_sf_w_labels[[fillColumn]],legendDigits) >= round(min(range_i),legendDigits)) ~ legValsRange_i,
+             !!data_sf_w_labels[[fillColumn]] < round(max(range_i),legendDigits) &
+             !!data_sf_w_labels[[fillColumn]] >= round(min(range_i),legendDigits)) ~ legValsRange_i,
           TRUE ~ label))
     }
 
@@ -982,7 +981,7 @@ if(T){
     }}
 
     if((!is.null(row) & is.null(col))){
-    if((row %in% names(data_w_labels))){
+    if((row %in% names(data_sf_w_labels))){
 
       # Upto three multifacet rows
       if(length(row)==1){
@@ -1001,7 +1000,7 @@ if(T){
     }
 
     if((is.null(row) & !is.null(col))){
-    if((col %in% names(data_w_labels))){
+    if((col %in% names(data_sf_w_labels))){
 
      # Upto three multifacet columns
      if(length(col)==1){

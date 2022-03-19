@@ -423,7 +423,7 @@ library(sf)
 data("ncovr")
 mydata <- ncovr %>% select(NAME, STATE_NAME, FIPS, HR60) %>% st_drop_geometry() %>%
   dplyr::left_join(rmap::mapUS52County, by="FIPS")
-rmap::map(data=mydata, valueCol = "HR60")
+rmap::map(data=mydata, valueCol = "HR60", shape=rmap::mapUS52CountyCompact)
 
 
 # Counter Example
@@ -490,3 +490,20 @@ rmap::map(covid_data,
           legendBreaks=8,
           legendTitle = "millions",
           title=paste0("Total Covid Cases ",max(covid_data$date)))
+
+
+# Brinda Diff test
+library(rmap)
+plot_map <- rmap::map(data="ls_irr_water_wd_basin_2050.csv",
+                      title = paste("Basin livestock + irrigation water withdrawal in 2050"),
+                      scenRef = "ARM_Reference",
+                      scenDiff = c( "SW_high_CL_Reference","ARM_Policy_ls_MAC_global"),
+                      nameAppend = paste("_water_wd_basin_", "2050", sep = ""),
+                      pdfpng = 'pdf')
+
+data="ls_irr_water_wd_basin_2050.csv"
+title = paste("Basin livestock + irrigation water withdrawal in 2050")
+scenRef = "ARM_Reference"
+scenDiff = c( "ARM_Policy_ls_MAC_global")
+nameAppend = paste("_water_wd_basin_", "2050", sep = "")
+pdfpng = 'pdf'

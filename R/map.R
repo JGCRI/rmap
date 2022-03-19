@@ -301,6 +301,17 @@ map <- function(data = NULL,
   legendTitleOrig <- legendTitle
   forceFacetsOrig = forceFacets
 
+  # Read in csv as tibble
+  if (!is.null(data)) {
+    if ((length(data) == 1) & (any(grepl("character",class(data))))) {
+      if (grepl(".csv",data)) {
+        if (file.exists(data)) {
+          data <- data.table::fread(data) %>% tibble::as_tibble()
+        }
+      }
+    }
+  }
+
   if(!is.null(legendFixedBreaks)){
     # Must be a vector of more than one number
     if(length(legendFixedBreaks)<2){
@@ -733,7 +744,7 @@ map <- function(data = NULL,
 
       if(length(unique(dataTblDiffa$scenario))>1){
 
-        if(scenRef_i %in% unique(dataTblDiffa$scenario)){
+        if(any(scenRef_i %in% unique(dataTblDiffa$scenario))){
           rlang::inform(paste("Ref scenario chosen for param: ", param_i, " is ", paste(scenRef_i,collapse=", "),sep=""))
         if(any(scenDiff_i %in% unique(dataTblDiffa$scenario))){
           rlang::inform(paste("Diff scenarios chosen for param: ", param_i, " are ",
@@ -923,13 +934,13 @@ map <- function(data = NULL,
   if(!is.null(dataTbl)){
 
     if(!is.null(col)){
-    if(!col %in% names(dataTbl)){
+    if(!any(col %in% names(dataTbl))){
       rlang::inform(paste0("col chosen: ",  col ,"do not exist:"))
       col <- NULL
     }}
 
     if(!is.null(row)){
-    if(!row %in% names(dataTbl)){
+    if(!any(row %in% names(dataTbl))){
       rlang::inform(paste0("row chosen: ",  row ,"do not exist:"))
       row <- NULL
     }

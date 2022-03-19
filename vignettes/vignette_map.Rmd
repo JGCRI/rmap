@@ -1598,7 +1598,7 @@ rmap::map(data = data,
     legendFixedBreaks=c(30,32,1000))  # Will append 24 to these breaks because they are part of the data.
 ```
 
-### Legend Fixed Breaks
+### Legend Type Kmeans
 
 ```{r, results = 'hide', eval=T, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
 library(rmap)
