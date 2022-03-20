@@ -512,12 +512,13 @@ pdfpng = 'pdf'
 library(rmap)
 shapeSubset <- rmap::mapStates # Read in World States shape file
 shapeSubset <- shapeSubset[shapeSubset$region %in% c("Canada"),] # Subset the shapefile to Canada
-rmap::map(data=shapeSubset,
+m1<-rmap::map(data=shapeSubset,
           labels=T,
           labelSize = 3,
           labelFill = "white",
           labelAlpha = 0.6,
           labelRepel = 2,
-          underLayer=rmap::mapCountries,
+          underLayer=rmap::mapUS49,
           background=T,
-          zoom =-3) # View custom shape
+          crop=T,
+          crs="+proj=lcc +lat_1=49 +lat_2=77 +lat_0=63.390675 +lon_0=-91.86666666666666 +x_0=6200000 +y_0=3000000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs") # View custom shape

@@ -89,7 +89,7 @@
 #' @param legendShow Default = T
 #' @param diffOnly Default = F. Only run diff plots and not individual scenarios.
 #' @param forceFacets Default = F. Used to force facet label for single scenario which is usually dropped.
-#' @param crs Default = 4326, WGS84
+#' @param crs Default = "+proj=longlat +datum=WGS84 +no_defs". A proj4 string from EPSG https://epsg.io/
 #' @return A list of maps
 #' @import sf
 #' @importFrom rlang :=
@@ -181,7 +181,7 @@ map <- function(data = NULL,
                 legendShow = T,
                 diffOnly = F,
                 forceFacets = F,
-                crs = 4326) {
+                crs = "+proj=longlat +datum=WGS84 +no_defs") {
 
   # # data = NULL
   # crs = 4326
