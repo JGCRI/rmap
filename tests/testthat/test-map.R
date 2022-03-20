@@ -304,9 +304,11 @@ test_that("crop to overLayer", {
 })
 
 # test_that("alternate country names", {
-#   data = data.frame(subRegion = c("United States of America","Tanzania","Democratic Republic of Congo","Congo",
+#   data = data.frame(subRegion = c("United States of America","Tanzania",
+#                                   "Democratic Republic of Congo",
+#                                   "Congo",
 #                                   "Cote d'Ivoire","Serbia"))
-#   mapx <- rmap::map(data, show=F,save=F)
+#   mapx <- rmap::map(data, show=T,save=F)
 #   tVal1 <- length(mapx)
 #   testthat::expect_gt(tVal1,0)
 # })
