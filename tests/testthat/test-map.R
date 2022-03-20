@@ -289,35 +289,35 @@ test_that("crop to underLayer", {
   tVal1 <- length(mapx)
   testthat::expect_gt(tVal1,0)
 })
-#
-#
-# test_that("crop to overLayer", {
-#   data = data.frame(subRegion = c("FL","ID","MO","TX","WY"),
-#                     value = c(10,15,34,2,7))
-#
-#   mapx <- rmap::map(data, show=F,save=F,
-#                     underLayer = rmap::mapUS49,
-#                     overLayer = rmap::mapGCAMBasinsUS52,
-#                     crop_to_overLayer = T)
-#   tVal1 <- length(mapx)
-#   testthat::expect_gt(tVal1,0)
-# })
-#
-# test_that("alternate country names", {
-#   data = data.frame(subRegion = c("United States of America","Tanzania","Democratic Republic of Congo","Congo",
-#                                   "Cote d'Ivoire","Serbia"))
-#   mapx <- rmap::map(data, show=F,save=F)
-#   tVal1 <- length(mapx)
-#   testthat::expect_gt(tVal1,0)
-# })
-#
-# test_that("shape and dataframe with geomtry column", {
-#   data = rmap::mapUS49 %>%as.data.frame() %>% dplyr::mutate(value=1:n()); data
-#   mapx <- rmap::map(data, shape=rmap::mapUS52Compact, show=F,save=F)
-#   tVal1 <- length(mapx)
-#   testthat::expect_gt(tVal1,0)
-# })
-#
+
+
+test_that("crop to overLayer", {
+  data = data.frame(subRegion = c("FL","ID","MO","TX","WY"),
+                    value = c(10,15,34,2,7))
+
+  mapx <- rmap::map(data, show=F,save=F,
+                    underLayer = rmap::mapUS49,
+                    overLayer = rmap::mapGCAMBasinsUS52,
+                    crop_to_overLayer = T)
+  tVal1 <- length(mapx)
+  testthat::expect_gt(tVal1,0)
+})
+
+test_that("alternate country names", {
+  data = data.frame(subRegion = c("United States of America","Tanzania","Democratic Republic of Congo","Congo",
+                                  "Cote d'Ivoire","Serbia"))
+  mapx <- rmap::map(data, show=F,save=F)
+  tVal1 <- length(mapx)
+  testthat::expect_gt(tVal1,0)
+})
+
+test_that("shape and dataframe with geomtry column", {
+  data = rmap::mapUS49 %>%as.data.frame() %>% dplyr::mutate(value=1:n()); data
+  mapx <- rmap::map(data, shape=rmap::mapUS52Compact, show=F,save=F)
+  tVal1 <- length(mapx)
+  testthat::expect_gt(tVal1,0)
+})
+
 # test_that("dataframe without region", {
 #   data = rmap::mapUS49 %>%as.data.frame() %>% dplyr::mutate(value=1:n()) %>% dplyr::select(-region); data
 #   mapx <- rmap::map_plot(data,show=F,save=F)
