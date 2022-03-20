@@ -311,23 +311,23 @@ test_that("crop to overLayer", {
 #   testthat::expect_gt(tVal1,0)
 # })
 
-# test_that("shape and dataframe with geomtry column", {
-#   data = rmap::mapUS49 %>%as.data.frame() %>% dplyr::mutate(value=1:n()); data
-#   mapx <- rmap::map(data, shape=rmap::mapUS52Compact, show=F,save=F)
-#   tVal1 <- length(mapx)
-#   testthat::expect_gt(tVal1,0)
-# })
-#
-# test_that("dataframe without region", {
-#   data = rmap::mapUS49 %>%as.data.frame() %>% dplyr::mutate(value=1:n()) %>% dplyr::select(-region); data
-#   mapx <- rmap::map_plot(data,show=F,save=F)
-#   tVal1 <- length(mapx)
-#   testthat::expect_gt(tVal1,0)
-# })
-#
-# test_that("dataframe with region specified", {
-#   data = rmap::mapStates %>%as.data.frame() %>% dplyr::mutate(value=1:n()) %>% dplyr::filter(region =="Pakistan"); data
-#   mapx <- rmap::map_plot(data,show=F,save=F)
-#   tVal1 <- length(mapx)
-#   testthat::expect_gt(tVal1,0)
-# })
+test_that("shape and dataframe with geomtry column", {
+  data = rmap::mapUS49 %>%as.data.frame() %>% dplyr::mutate(value=1:n()); data
+  mapx <- rmap::map(data, shape=rmap::mapUS52Compact, show=F,save=F)
+  tVal1 <- length(mapx)
+  testthat::expect_gt(tVal1,0)
+})
+
+test_that("dataframe without region", {
+  data = rmap::mapUS49 %>%as.data.frame() %>% dplyr::mutate(value=1:n()) %>% dplyr::select(-region); data
+  mapx <- rmap::map_plot(data,show=F,save=F)
+  tVal1 <- length(mapx)
+  testthat::expect_gt(tVal1,0)
+})
+
+test_that("dataframe with region specified", {
+  data = rmap::mapStates %>%as.data.frame() %>% dplyr::mutate(value=1:n()) %>% dplyr::filter(region =="Pakistan"); data
+  mapx <- rmap::map_plot(data,show=F,save=F)
+  tVal1 <- length(mapx)
+  testthat::expect_gt(tVal1,0)
+})
