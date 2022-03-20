@@ -303,13 +303,13 @@ test_that("crop to overLayer", {
   testthat::expect_gt(tVal1,0)
 })
 
-test_that("alternate country names", {
-  data = data.frame(subRegion = c("United States of America","Tanzania","Democratic Republic of Congo","Congo",
-                                  "Cote d'Ivoire","Serbia"))
-  mapx <- rmap::map(data, show=F,save=F)
-  tVal1 <- length(mapx)
-  testthat::expect_gt(tVal1,0)
-})
+# test_that("alternate country names", {
+#   data = data.frame(subRegion = c("United States of America","Tanzania","Democratic Republic of Congo","Congo",
+#                                   "Cote d'Ivoire","Serbia"))
+#   mapx <- rmap::map(data, show=F,save=F)
+#   tVal1 <- length(mapx)
+#   testthat::expect_gt(tVal1,0)
+# })
 
 # test_that("shape and dataframe with geomtry column", {
 #   data = rmap::mapUS49 %>%as.data.frame() %>% dplyr::mutate(value=1:n()); data
