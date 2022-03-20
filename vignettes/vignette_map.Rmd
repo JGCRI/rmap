@@ -447,15 +447,15 @@ rmap::map(data,
           labelAlpha = 0.8,
           labelBorderSize = 1)
 
-# Repel the labels out with a leader line for crowded labels (labelRepel from 0 to 1)
-rmap::map(data,
+# Repel the labels out with a leader line for crowded labels
+rmap::map(data=rmap::mapUS49,
           labels = T,
-          labelSize = 10,
+          labelSize = 6,
           labelColor = "black",
           labelFill = "white",
           labelAlpha = 0.8,
           labelBorderSize = 1,
-          labelRepel = 0.5)
+          labelRepel = 1)
 
 
 # Choose which layers to apply these label options to.

@@ -839,17 +839,17 @@ if(T){
             }
           }
 
-        underLayer <- underLayer +
-          ggplot2::geom_sf_label(
+          underLayer <- underLayer +
+            ggrepel::geom_label_repel(
             data = underLayer_sf,
-            ggplot2::aes_string(label =
-                                  underLayerLabelCol),
+            ggplot2::aes_string(label = underLayerLabelCol, geometry = "geometry"),
+            stat = "sf_coordinates",
             colour = labelColor,
             size = labelSize,
             alpha = labelAlpha,
             fill = labelFill,
-            label.size = labelBorderSize
-          )
+            label.size = labelBorderSize,
+            force = labelRepel)
       }
 
     } else if (any(grepl("gg", class(underLayer)))) {
@@ -911,17 +911,17 @@ if(T){
 
   # Add Labels
   if (labels) {
-    map <- map +
-      ggplot2::geom_sf_label(
-        data = data_sf_w_labels,
-        ggplot2::aes_string(label =
-                              labelCol),
-        colour = labelColor,
-        size = labelSize,
-        alpha = labelAlpha,
-        fill = labelFill,
-        label.size = labelBorderSize
-      )
+      map <- map +
+        ggrepel::geom_label_repel(
+          data = data_sf_w_labels,
+          ggplot2::aes_string(label = labelCol, geometry = "geometry"),
+          stat = "sf_coordinates",
+          colour = labelColor,
+          size = labelSize,
+          alpha = labelAlpha,
+          fill = labelFill,
+          label.size = labelBorderSize,
+          force = labelRepel)
   }
 
   # Multi Facet
@@ -1043,23 +1043,22 @@ if(T){
           }
         }
 
-        map <- map +
-          ggplot2::geom_sf_label(
-            data = overLayer,
-            ggplot2::aes_string(label =
-                                  overLayerLabelCol),
-            colour = labelColor,
-            size = labelSize,
-            alpha = labelAlpha,
-            fill = labelFill,
-            label.size = labelBorderSize
-          )
-
+          map <- map +
+            ggrepel::geom_label_repel(
+              data = overLayer,
+              ggplot2::aes_string(label = overLayerLabelCol, geometry = "geometry"),
+              stat = "sf_coordinates",
+              colour = labelColor,
+              size = labelSize,
+              alpha = labelAlpha,
+              fill = labelFill,
+              label.size = labelBorderSize,
+              force = labelRepel)
+          }
       }
+
     }
   }
-
-}
 
 #....................
 # Add Titles

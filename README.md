@@ -1,8 +1,8 @@
 <!-- badges: start -->
-[![build](https://github.com/JGCRI/rmap/workflows/build/badge.svg)](https://github.com/JGCRI/rmap/workflows/build/badge.svg)
+[![build](https://github.com/JGCRI/rmap/actions/workflows/build.yml/badge.svg)](https://github.com/JGCRI/rmap/actions/workflows/build.yml)
 [![test_coverage](https://github.com/JGCRI/rmap/actions/workflows/test_coverage.yml/badge.svg?branch=main)](https://github.com/JGCRI/rmap/actions/workflows/test_coverage.yml)
 [![codecov](https://codecov.io/gh/JGCRI/rmap/branch/main/graph/badge.svg?token=XQ913U4IYM)](https://codecov.io/gh/JGCRI/rmap) 
-[![docs](https://github.com/JGCRI/rmap/actions/workflows/docs.yaml/badge.svg?branch=main)](https://github.com/JGCRI/rmap/actions/workflows/docs.yaml)
+[![docs](https://github.com/JGCRI/rmap/actions/workflows/docs.yaml/badge.svg)](https://github.com/JGCRI/rmap/actions/workflows/docs.yaml)
 [![Github All Releases](https://img.shields.io/github/downloads/JGCRI/rmap/total.svg)]()
 [![status](https://joss.theoj.org/papers/4cdf462f70681bc335ddebf5868b249c/status.svg)](https://joss.theoj.org/papers/4cdf462f70681bc335ddebf5868b249c)
 <!-- badges: end -->

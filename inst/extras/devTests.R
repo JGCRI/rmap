@@ -507,3 +507,17 @@ scenRef = "ARM_Reference"
 scenDiff = c( "ARM_Policy_ls_MAC_global")
 nameAppend = paste("_water_wd_basin_", "2050", sep = "")
 pdfpng = 'pdf'
+
+
+library(rmap)
+shapeSubset <- rmap::mapStates # Read in World States shape file
+shapeSubset <- shapeSubset[shapeSubset$region %in% c("Canada"),] # Subset the shapefile to Canada
+rmap::map(data=shapeSubset,
+          labels=T,
+          labelSize = 3,
+          labelFill = "white",
+          labelAlpha = 0.6,
+          labelRepel = 2,
+          underLayer=rmap::mapCountries,
+          background=T,
+          zoom =-3) # View custom shape
