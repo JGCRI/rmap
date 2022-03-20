@@ -196,7 +196,7 @@ map_plot<-function(data=NULL,
   # lwd =0.1
   # background=F
   # size =12
-  # underLayerLabels=NULL
+  # underLayerLabels=F
   # region=NULL
   # showNA = F
 
@@ -256,7 +256,7 @@ if(T){ # Initialize
 #.........................
 
 if(is.null(fillColumn)){
-  if("value" %in% names(data)){
+  if(any("value" %in% names(data))){
     fillColumn = "value"
   } else if("subRegion" %in% names(data)){
     fillColumn = "subRegion"
@@ -347,7 +347,7 @@ if(T){ # Read input data
   }
 
   # Set palette
-  if(("value" %in% names(data_sf)) & (palette == "Set3")){
+  if(any("value" %in% names(data_sf)) & (palette == "Set3")){
     palette = "pal_hot"
   }
   if (length(palette) == 1) {
@@ -1169,8 +1169,52 @@ if(crop|crop_to_underLayer|crop_to_overLayer){
 
 # Transform
  if(crs != "+proj=longlat +datum=WGS84 +no_defs "){
+   sf::sf_use_s2(FALSE)
    map = map +
      ggplot2::coord_sf(crs = sf::st_crs(crs),expand=F)
+
+   # Crop on transformed layer
+   # Set lat lon limits
+   if(crop){
+     bbox_shape <- sf::st_bbox(sf::st_transform(data_sf_w_labels,sf::st_crs(crs))); bbox_shape
+     xMin <- bbox_shape[["xmin"]];xMin
+     xMax <- bbox_shape[["xmax"]];xMax
+     yMin <- bbox_shape[["ymin"]];yMin
+     yMax <- bbox_shape[["ymax"]];yMax
+     map <- map +
+       ggplot2::coord_sf(crs = sf::st_crs(crs),
+                         ylim=c(yMin,yMax),
+                         xlim=c(xMin,xMax),expand=F)
+   }
+
+   if(crop_to_underLayer){
+     if(!is.null(underLayer)){
+       bbox_shape <- sf::st_bbox(sf::st_transform(underLayer_sf,sf::st_crs(crs))); bbox_shape
+       xMin <- bbox_shape[["xmin"]];xMin
+       xMax <- bbox_shape[["xmax"]];xMax
+       yMin <- bbox_shape[["ymin"]];yMin
+       yMax <- bbox_shape[["ymax"]];yMax
+       map <- map +
+         ggplot2::coord_sf(crs = sf::st_crs(crs),
+                           ylim=c(yMin,yMax),
+                           xlim=c(xMin,xMax),expand=F)
+     }
+   }
+
+   if(crop_to_overLayer){
+     if(!is.null(overLayer)){
+       bbox_shape <- sf::st_bbox(sf::st_transform(overLayer,sf::st_crs(crs))); bbox_shape
+       xMin <- bbox_shape[["xmin"]];xMin
+       xMax <- bbox_shape[["xmax"]];xMax
+       yMin <- bbox_shape[["ymin"]];yMin
+       yMax <- bbox_shape[["ymax"]];yMax
+       map <- map +
+         ggplot2::coord_sf(crs = sf::st_crs(crs),
+                           ylim=c(yMin,yMax),
+                           xlim=c(xMin,xMax),expand=F)
+       }
+   }
+
  }
 
 #....................
