@@ -244,7 +244,13 @@ if(T){ # Initialize
      dplyr::mutate(subRegion = dplyr::if_else(grepl("^Tanzania$",subRegion,ignore.case = T),
                                                "United Republic of Tanzania", subRegion)) %>%
       dplyr::mutate(subRegion = dplyr::if_else(grepl("^Democratic Republic of Congo$",subRegion,ignore.case = T),
-                                               "Democratic Republic of the Congo", subRegion))
+                                               "Democratic Republic of the Congo", subRegion)) %>%
+      dplyr::mutate(subRegion = dplyr::if_else(grepl("^Congo$",subRegion,ignore.case = T),
+                                               "Republic of the Congo", subRegion)) %>%
+      dplyr::mutate(subRegion = dplyr::if_else(grepl("^Cote d'Ivoire$",subRegion,ignore.case = T),
+                                               "Ivory Coast", subRegion)) %>%
+      dplyr::mutate(subRegion = dplyr::if_else(grepl("^Serbia$",subRegion,ignore.case = T),
+                                               "Republic of Serbia", subRegion))
   }
   }
 
@@ -375,6 +381,7 @@ if(T){ # Read input data
   if(T){
   # Set num2cat
   if (!is.null(numeric2Cat_list)) {
+
     if (all(
       c(
         "numeric2Cat_param",
@@ -409,7 +416,7 @@ if(T){ # Read input data
     }
   }
 
-  # If categorical data_sf then set as factor for data_sfx
+  # If categorical data then set as factor for data_sf
   if(!is.null(catBreaks) & !is.null(catLabels)){
 
     if(!is.null(catPalette)){
@@ -417,6 +424,8 @@ if(T){ # Read input data
       if(length(catPalette)==1){
         if(catPalette %in% names(jgcricolors::jgcricol())){
           catPalette<-jgcricolors::jgcricol()[[catPalette]]
+          catPalette <- (rep(catPalette,length(catLabels)))[1:length(catLabels)]
+          names(catPalette) <- catLabels
         }else if(!is.na(RColorBrewer::brewer.pal.info[catPalette,]$maxcolors)){
           catPalette <- RColorBrewer::brewer.pal(RColorBrewer::brewer.pal.info[catPalette,]$maxcolors,catPalette)
         } else {
@@ -428,31 +437,36 @@ if(T){ # Read input data
         }
       }
 
+      if(all(catLabels %in% names(catPalette))){
+        rlang::inform(paste0("catPalette does not contain names for all labels. Assigning automatically."))
+        catPalette <- (rep(catPalette,length(catLabels)))[1:length(catLabels)]
+        catPalette <- catPalette[catLabels]
+        catPalette <- catPalette[!is.na(catPalette)]
+        names(catPalette) <- catLabels
+      }
+
       palette = catPalette
+
     }
 
-    for(i in 1:length(fillColumn)){
 
-      fillColumn_i <- fillColumn[i]
-
-      if(is.numeric(data_sf[[fillColumn_i]])){
+      if(is.numeric(data_sf[[fillColumn]])){
 
         legendBreaks <- NULL
 
-        data_sf[[fillColumn_i]] <- cut( data_sf[[fillColumn_i]],
+        data_sf[[fillColumn]] <- cut( data_sf[[fillColumn]],
                                      breaks=catBreaks,
                                      labels=catLabels)
       }
 
 
-      if(!any(unique(data_sf[[fillColumn_i]]) %in% names(palette))){
+      if(!any(unique(data_sf[[fillColumn]]) %in% names(palette))){
         data_sf %>%
-          dplyr::mutate(!!fillColumn_i := as.factor(data_sf[[fillColumn_i]])) -> data_sf
+          dplyr::mutate(!!fillColumn := as.factor(data_sf[[fillColumn]])) -> data_sf
       }
 
       paletteX <- palette;
       data_sf_w_labels <- data_sf %>% dplyr::mutate(label=value)
-    }
 
   }
 
@@ -646,7 +660,6 @@ if(T){ # Read input data
                       }}}};legendBreaksX
               }
 
-              legendBreaksnX = length(legendBreaksX)
               length(legendBreaksX);length(legendLabelsX);legendBreaksX;legendLabelsX
 
               # Assign new Labels to Palette
@@ -661,14 +674,12 @@ if(T){ # Read input data
             } # Test Palette
 
           }else{
-            legendBreaksnX=1
             legendBreaksX=legendBreaks
             legendLabelsX=NULL
             paletteX=palette[1]
             names(paletteX) = as.character(legendBreaks); paletteX
           }
     }else{
-      legendBreaksnX=legendBreaksn
       legendBreaksX=legendBreaks
       legendLabelsX=NULL
       paletteX=palette
@@ -896,6 +907,11 @@ if(T){
               drop = F,
               name = legendTitle
             )
+        } else if (!is.null(catPalette)) {
+          map <- map +
+            ggplot2::scale_fill_manual(values = palette, breaks=names(palette),
+            drop = F,
+            name = legendTitle)
         } else {
           map <- map +
             ggplot2::scale_fill_manual(values = (rep(palette, length(
@@ -981,12 +997,12 @@ if(T){
     }}
 
     if((!is.null(row) & is.null(col))){
-    if((row %in% names(data_sf_w_labels))){
+    if(any(row %in% names(data_sf_w_labels))){
 
       # Upto three multifacet rows
       if(length(row)==1){
         map <- map +
-          ggplot2::facet_grid(get(row[1]) ~ ., ncol = ncol, switch ="y")}
+          ggplot2::facet_wrap(get(row[1]) ~ ., ncol = ncol, switch ="y")}
 
       if(length(row)==2){
         map <- map +
@@ -1000,7 +1016,7 @@ if(T){
     }
 
     if((is.null(row) & !is.null(col))){
-    if((col %in% names(data_sf_w_labels))){
+    if(any(col %in% names(data_sf_w_labels))){
 
      # Upto three multifacet columns
      if(length(col)==1){

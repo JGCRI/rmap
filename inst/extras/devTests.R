@@ -518,8 +518,6 @@ m1<-rmap::map(data=shapeSubset,
           labelFill = "white",
           labelAlpha = 0.6,
           labelRepel = 2,
-          underLayer=rmap::mapUS52,
-          overLayer=rmap::mapGCAMBasinsUS49,
+          underLayer=rmap::mapCountriesUS52,
           background=T,
-          crop_to_overLayer = T,
-          crs="+proj=aeqd +lat_0=0 +lon_0=0 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m no_defs") # View custom shape
+          crs="+proj=lcc +lat_1=49 +lat_2=77 +lat_0=0 +lon_0=-95 +x_0=0 +y_0=0 +datum=NAD83 +units=m +no_defs") # View custom shape

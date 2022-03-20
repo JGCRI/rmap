@@ -184,7 +184,7 @@ map <- function(data = NULL,
                 crs = "+proj=longlat +datum=WGS84 +no_defs") {
 
   # # data = NULL
-  # crs = 4326
+  # crs = "+proj=longlat +datum=WGS84 +no_defs"
   # legendSingleValue =F
   # show = T
   # fill = NULL
@@ -416,7 +416,7 @@ map <- function(data = NULL,
     rowm=1
 
     rmap::map_plot(crs=crs, underLayerLabelCol = underLayerLabelCol, overLayerLabelCol = overLayerLabelCol, labelCol=labelCol, region=region,color=color, lwd=lwd, legendType=legendType,
-      pdfpng=pdfpng,
+      pdfpng=pdfpng, shape=shape,
       overLayer=overLayer,
       overLayerColor=overLayerColor,
       overLayerFill = overLayerFill,

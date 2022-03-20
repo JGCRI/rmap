@@ -89,16 +89,21 @@ test_that("map saves both pdf and png", {
 test_that("numeric2cat works", {
   # Create a list of ranges and categorical color scales for each parameter
   numeric2Cat_param <- list("param1",
-                            "param2")
+                            "param2",
+                            "param3")
   numeric2Cat_breaks <- list(c(-Inf, 0.1,1.1,2.1,3.1,4.1,5.1,10.1,Inf),
-                             c(-Inf, 0.1, 0.2, 0.4,Inf))
+                             c(-Inf, 0.1, 0.2, 0.4,Inf),
+                             c(-Inf, 0.1,1.1,2.1,3.1,4.1,5.1,10.1,Inf))
   numeric2Cat_labels <- list(c("0","1","2","3","4","5","10",">10"),
-                             c(names(jgcricolors::jgcricol()$pal_scarcityCat)))
+                             c(names(jgcricolors::jgcricol()$pal_scarcityCat)),
+                             c("0","1","2","3","4","5","10",">10"))
   numeric2Cat_palette <- list(c("0"="green","1"="#fee5d9","2"="#fcbba1",
                                 "3"="#fc9272","4"="#fb6a4a","5"="#de2d26",
                                 "10"="#a50f15",">10"="black"),
-                              c("pal_scarcityCat")) # Can be a custom scale or an R brewer palette or an rmap palette
+                              c("pal_scarcityCat"),
+                              c("0"="green")) # Can be a custom scale or an R brewer palette or an rmap palette
   numeric2Cat_legendTextSize <- list(c(0.7),
+                                     c(0.7),
                                      c(0.7))
   numeric2Cat_list <-list(numeric2Cat_param = numeric2Cat_param,
                           numeric2Cat_breaks = numeric2Cat_breaks,
@@ -107,18 +112,21 @@ test_that("numeric2cat works", {
                           numeric2Cat_legendTextSize = numeric2Cat_legendTextSize); numeric2Cat_list
 
   data = data.frame(subRegion = c("CA","AZ","TX","NH","ID","OH",
+                                  "CA","AZ","TX","NH","ID","OH",
                                   "CA","AZ","TX","NH","ID","OH"),
                     x = c(2050,2050,2050,2050,2050,2050,
+                          2050,2050,2050,2050,2050,2050,
                           2050,2050,2050,2050,2050,2050),
                     value = c(0,1,3,20,2,1,
-                              0,0.1,0.3,0.2,0.25,0.5),
-                    param = c(rep("param1",6),rep("param2",6)))
+                              0,0.1,0.3,0.2,0.25,0.5,
+                              0,1,3,20,2,1),
+                    param = c(rep("param1",6),rep("param2",6),rep("param3",6)))
 
   mapx <- rmap::map(data = data,
             background = T,
             underLayer = rmap::mapCountries,
             numeric2Cat_list = numeric2Cat_list,
-            show=F, save=F)
+            show=T, save=T)
   tVal1 <- length(mapx)
   testthat::expect_gt(tVal1,0)
 })
@@ -172,13 +180,18 @@ test_that("test multi-row multi-col", {
                               37, 53, 23, 12, 45,
                               23, 99, 102, 85, 75,
                               12, 76, 150, 64, 90))
-  mapx <- rmap::map(data = data, show=F, save=F,
-            underLayer = rmap::mapCountries,
-            row = "rcp",
-            col = "gcm",
-            background = T )
-  tVal1 <- length(mapx)
-  testthat::expect_gt(tVal1,0)
+  mapx1 <- rmap::map(data = data, show=F, save=F,row = "rcp",col = "gcm")
+  mapx2 <- rmap::map(data = data, show=F, save=F,row = c("rcp","gcm"),col = c("rcp","gcm"))
+  mapx3 <- rmap::map(data = data, show=F, save=F,row = c("rcp","rcp","gcm"),col = c("rcp","rcp","gcm"))
+  mapx4 <- rmap::map(data = data%>%dplyr::filter(rcp=="RCP1"), show=F, save=F,row = "gcm")
+  mapx5 <- rmap::map(data = data, show=F, save=F,row = c("rcp","gcm"))
+  mapx6 <- rmap::map(data = data, show=F, save=F,row = c("rcp","rcp","gcm"))
+  mapx7 <- rmap::map(data = data%>%dplyr::filter(rcp=="RCP1"), show=F, save=F,col = "gcm")
+  mapx8 <- rmap::map(data = data, show=F, save=F,col = c("rcp","gcm"))
+  mapx9 <- rmap::map(data = data, show=F, save=F,col = c("rcp","rcp","gcm"))
+  testthat::expect_equal(sum(length(mapx1),length(mapx2),length(mapx3),
+                          length(mapx4),length(mapx5),length(mapx6),
+                          length(mapx7),length(mapx8),length(mapx9)),9)
 })
 
 
@@ -228,7 +241,7 @@ test_that("legend breaks number", {
   testthat::expect_gt(tVal1,0)
 })
 
-test_that("legend breaks number", {
+test_that("legend single", {
   data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece"),
                     value = c(32, 38, 54, 63, 24))
 
@@ -265,97 +278,6 @@ test_that("region and underLayer gg", {
   testthat::expect_gt(tVal1,0)
 })
 
-test_that("region and underLayer gg", {
-  data = data.frame(subRegion = c("Punjab","Punjab"),
-                    region = c("India","Pakistan"),
-                    value = c(32, 38))
-
-  mapx <- rmap::map(data = data, show=F,save=F,
-                    underLayer=rmap::mapCountries%>%dplyr::filter(subRegion %in% c("India","China","Pakistan")))
-
-  mapx1 <- rmap::map(data = data, show=F,save=F,
-                     region="Pakistan",
-                     underLayer = mapx[[1]])
-  tVal1 <- length(mapx1)
-  testthat::expect_gt(tVal1,0)
-})
-
-test_that("facets 3 row 3 col", {
-  data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
-                                  "Austria","Spain", "Italy", "Germany","Greece",
-                                  "Austria","Spain", "Italy", "Germany","Greece",
-                                  "Austria","Spain", "Italy", "Germany","Greece"),
-                    rcp = c(rep("RCP1",5),
-                            rep("RCP2",5),
-                            rep("RCP1",5),
-                            rep("RCP2",5)),
-                    gcm = c(rep("GCM1",5),
-                            rep("GCM1",5),
-                            rep("GCM2",5),
-                            rep("GCM2",5)),
-                    value = c(32, 38, 54, 63, 24,
-                              37, 53, 23, 12, 45,
-                              23, 99, 102, 85, 75,
-                              12, 76, 150, 64, 90))
-
-  mapx <- rmap::map(data = data, show=F, save=F,
-                    row = c("rcp","gcm","gcm"),
-                    col = c("gcm","rcp","rcp"))
-  tVal1 <- length(mapx)
-  testthat::expect_gt(tVal1,0)
-})
-
-test_that("facets 2 row 2 col", {
-  data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
-                                  "Austria","Spain", "Italy", "Germany","Greece",
-                                  "Austria","Spain", "Italy", "Germany","Greece",
-                                  "Austria","Spain", "Italy", "Germany","Greece"),
-                    rcp = c(rep("RCP1",5),
-                            rep("RCP2",5),
-                            rep("RCP1",5),
-                            rep("RCP2",5)),
-                    gcm = c(rep("GCM1",5),
-                            rep("GCM1",5),
-                            rep("GCM2",5),
-                            rep("GCM2",5)),
-                    value = c(32, 38, 54, 63, 24,
-                              37, 53, 23, 12, 45,
-                              23, 99, 102, 85, 75,
-                              12, 76, 150, 64, 90))
-
-  mapx <- rmap::map(data = data, show=F, save=F,
-                    row = c("rcp","gcm"),
-                    col = c("gcm","rcp"))
-  tVal1 <- length(mapx)
-  testthat::expect_gt(tVal1,0)
-})
-
-test_that("facets 1 row 1 col", {
-  data = data.frame(subRegion = c("Austria","Spain", "Italy", "Germany","Greece",
-                                  "Austria","Spain", "Italy", "Germany","Greece",
-                                  "Austria","Spain", "Italy", "Germany","Greece",
-                                  "Austria","Spain", "Italy", "Germany","Greece"),
-                    rcp = c(rep("RCP1",5),
-                            rep("RCP2",5),
-                            rep("RCP1",5),
-                            rep("RCP2",5)),
-                    gcm = c(rep("GCM1",5),
-                            rep("GCM1",5),
-                            rep("GCM2",5),
-                            rep("GCM2",5)),
-                    value = c(32, 38, 54, 63, 24,
-                              37, 53, 23, 12, 45,
-                              23, 99, 102, 85, 75,
-                              12, 76, 150, 64, 90))
-
-  mapx <- rmap::map(data = data, show=F, save=F,
-                    row = c("rcp"),
-                    col = c("gcm"))
-  tVal1 <- length(mapx)
-  testthat::expect_gt(tVal1,0)
-})
-
-
 test_that("crop to underLayer", {
   data = data.frame(subRegion = c("FL","ID","MO","TX","WY"),
                     value = c(10,15,34,2,7))
@@ -377,6 +299,35 @@ test_that("crop to overLayer", {
                     underLayer = rmap::mapUS49,
                     overLayer = rmap::mapGCAMBasinsUS52,
                     crop_to_overLayer = T)
+  tVal1 <- length(mapx)
+  testthat::expect_gt(tVal1,0)
+})
+
+test_that("alternate country names", {
+  data = data.frame(subRegion = c("United States of America","Tanzania","Democratic Republic of Congo","Congo",
+                                  "Cote d'Ivoire","Serbia"))
+  mapx <- rmap::map(data, show=F,save=F)
+  tVal1 <- length(mapx)
+  testthat::expect_gt(tVal1,0)
+})
+
+test_that("shape and dataframe with geomtry column", {
+  data = rmap::mapUS49 %>%as.data.frame() %>% dplyr::mutate(value=1:n()); data
+  mapx <- rmap::map(data, shape=rmap::mapUS52Compact, show=F,save=F)
+  tVal1 <- length(mapx)
+  testthat::expect_gt(tVal1,0)
+})
+
+test_that("dataframe without region", {
+  data = rmap::mapUS49 %>%as.data.frame() %>% dplyr::mutate(value=1:n()) %>% dplyr::select(-region); data
+  mapx <- rmap::map_plot(data,show=F,save=F)
+  tVal1 <- length(mapx)
+  testthat::expect_gt(tVal1,0)
+})
+
+test_that("dataframe with region specified", {
+  data = rmap::mapStates %>%as.data.frame() %>% dplyr::mutate(value=1:n()) %>% dplyr::filter(region =="Pakistan"); data
+  mapx <- rmap::map_plot(data,show=T,save=F)
   tVal1 <- length(mapx)
   testthat::expect_gt(tVal1,0)
 })
