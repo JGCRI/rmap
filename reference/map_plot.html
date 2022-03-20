@@ -162,7 +162,7 @@ Each figure is accompanied with a csv table.</p>
   crop_to_underLayer <span class="op">=</span> <span class="cn">F</span>,
   crop_to_overLayer <span class="op">=</span> <span class="cn">F</span>,
   transparent <span class="op">=</span> <span class="cn">F</span>,
-  crs <span class="op">=</span> <span class="fl">4326</span>
+  crs <span class="op">=</span> <span class="st">"+proj=longlat +datum=WGS84 +no_defs"</span>
 <span class="op">)</span></code></pre></div>
     </div>
 
@@ -301,7 +301,7 @@ water of that color, a border and underlayer map.</p></dd>
 <dt>transparent</dt>
 <dd><p>Default = F. To make map background transparent for maps without backgrounds.</p></dd>
 <dt>crs</dt>
-<dd><p>Default = 4326, WGS84</p></dd>
+<dd><p>Default = "+proj=longlat +datum=WGS84 +no_defs". A proj4 string from EPSG https://epsg.io/</p></dd>
 </dl></div>
     <div id="value">
     <h2>Value</h2>
