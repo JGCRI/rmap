@@ -327,7 +327,7 @@ test_that("dataframe without region", {
 
 test_that("dataframe with region specified", {
   data = rmap::mapStates %>%as.data.frame() %>% dplyr::mutate(value=1:n()) %>% dplyr::filter(region =="Pakistan"); data
-  mapx <- rmap::map_plot(data,show=T,save=F)
+  mapx <- rmap::map_plot(data,show=F,save=F)
   tVal1 <- length(mapx)
   testthat::expect_gt(tVal1,0)
 })

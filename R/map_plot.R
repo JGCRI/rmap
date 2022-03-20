@@ -212,7 +212,7 @@ if(T){ # Initialize
   NULL->raster->map->checkFacets->catBreaks->catLabels->catPalette->legendLabelsX->
     singleValLoc->label->long->lat->group->dataShape->dataPolygon->dataGrid->data_shape->
     lon->hole->piece->subRegion->X1->X2->id->name->value->datax->subRegionAlt->datax1->
-    data_sf_w_labels
+    data_sf_w_labels->geometry
 
 
   if(is.null(data)){stop("data cannot be null.")}
