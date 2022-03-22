@@ -25,14 +25,14 @@ printPdfPng <- function(figure = NULL,
                               pdfpng="png",
                               transparent=F){
 
-    if(is.null(figure)){print("No figure provided.")}else{
+    if(is.null(figure)){rlang::inform("No figure provided.")}else{
 
 
     if(pdfpng=='pdf'){
       grDevices::pdf(paste(dir,"/",filename,".pdf",sep=""),width=width,height=height)
       print(figure)
       grDevices::dev.off()
-      print(gsub("//","/",paste("Figure saved as: ",dir,"/",filename,".pdf", sep="")))
+      rlang::inform(gsub("//","/",paste("Figure saved as: ",dir,"/",filename,".pdf", sep="")))
     }
     if(pdfpng=='png'){
       if(transparent){
@@ -46,7 +46,7 @@ printPdfPng <- function(figure = NULL,
       tempImage<-magick::image_read(fnameTempImage)
       croppedImage<-magick::image_trim(tempImage,fuzz=0)
       magick::image_write(croppedImage,fnameTempImage)
-      print(gsub("//","/",paste("Figure saved as: ",dir,"/",filename,".png", sep="")))
+      rlang::inform(gsub("//","/",paste("Figure saved as: ",dir,"/",filename,".png", sep="")))
       }
     if(pdfpng=='both'){
       grDevices::pdf(paste(dir,"/",filename,".pdf",sep=""),width=width,height=height)
@@ -63,8 +63,8 @@ printPdfPng <- function(figure = NULL,
       tempImage<-magick::image_read(fnameTempImage)
       croppedImage<-magick::image_trim(tempImage,fuzz=0)
       magick::image_write(croppedImage,fnameTempImage)
-      print(gsub("//","/",paste("Figure saved as: ",dir,"/",filename,".png", sep="")))
-      print(gsub("//","/",paste("Figure saved as: ",dir,"/",filename,".pdf", sep="")))
+      rlang::inform(gsub("//","/",paste("Figure saved as: ",dir,"/",filename,".png", sep="")))
+      rlang::inform(gsub("//","/",paste("Figure saved as: ",dir,"/",filename,".pdf", sep="")))
     }
     }
 }

@@ -5,10 +5,10 @@
 \alias{mapGCAMReg32}
 \title{GCAM 32 Regions}
 \format{
-A SpatialPolygonsDataFrame
+sf
 }
 \source{
-From JGCRI confluence page. \url{https://confluence.pnnl.gov/confluence/display/JGCRI/GCAM+Shape+Files}
+Modified versions of shapefiles from \url{https://zenodo.org/record/4688451#.YdMNTmjMJPY}
 }
 \usage{
 mapGCAMReg32
@@ -18,9 +18,9 @@ GCAM 32 Regions
 }
 \examples{
 \dontrun{
- library(sp); library(rmap)
- sp::plot(mapGCAMReg32)
- head(mapGCAMReg32@data)
+ library(rmap)
+ plot(mapGCAMReg32[,"subRegion"])
+ head(mapGCAMReg32)
 }
 }
 \keyword{datasets}

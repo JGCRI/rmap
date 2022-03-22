@@ -119,6 +119,16 @@ if(T){
             legendSingleValue = T,
             legendSingleColor = "green"); a
 
+  # Test Background colors
+  a<-rmap::map(data=dataPoly_test,
+               shape = rmap::mapUS52Compact,
+               folder = "rmapTEST_poly_Single",
+               underLayer = rmap::mapUS52Compact,
+               labels=T,
+               underLayerLabels = T,
+               crop = F,
+               background = "white"); a
+
   # Single
   dataPoly_test = data.frame(subRegion = c(1:6),
                              x = c(2050,2050,2050,2050,2050,2050),
@@ -310,3 +320,195 @@ data <- data.frame(subRegion=c("New_England_X_Canada","New_England_X_USA"), valu
 map_find_df(data)
 rmap::map(data)
 }
+
+
+# JOSS review maczokni test
+
+library(dplyr)
+library(geodaData)
+library(devtools)
+devtools::install_github("JGCRI/rmap") # Update rmap
+library(rmap)
+
+ncovr <- geodaData::ncovr
+
+# Subset first 10 rows to avoid repeated subRegions
+mydata <- ncovr %>%
+  dplyr::select(NAME,HR60) %>%
+  head(10); mydata
+
+# Will give you the relevant plot but multiple counties
+# See how you can define your own columns as arguments
+rmap::map(mydata,
+          subRegCol = "NAME",
+          valueCol = "HR60")
+
+# Here you can see all the multiple counties labelled.
+# rmap appends the State for you as it recognizes this.
+# You can also see some of the other features of rmap here
+# such as underLayer, zoom, labels etc.
+rmap::map(mydata,
+          subRegCol="NAME",
+          valueCol="HR60",
+          labels = T,
+          labelSize = 3,
+          labelRepel = T,
+          underLayer = rmap::mapUS49,
+          zoom=-2)
+
+
+
+# Test for Brinda
+library(rmap); library(dplyr); library(data.table); library(tibble)
+total_basin_production_value_clean <- data.table::fread("C:/Z/models/tests/total_basin_production_value_clean.csv") %>% tibble::as_tibble()
+plot_regions = c("South America_Southern",
+                 "South America_Southern",
+                 "Argentina", "Colombia", "Brazil")
+plot_basin_production_value <- total_basin_production_value_clean %>%
+  filter(year %in% c(2015, 2050), region %in% plot_regions, scenario == "ARM_Reference") %>%
+  mutate(subRegion = gsub("Basin_", "", subRegion)) %>%
+  mutate(param = "param1") %>%
+  select(scenario, subRegion, param, value, year)
+
+plot_map <- rmap::map(data=plot_basin_production_value,
+                      #shape = rmap::mapIntersectGCAMBasin32Reg,
+                      #folder = paste(getwd(), "/", PLOT_FOLDER, "/maps", sep = ""),
+                      #nameAppend = paste("_LAC_production_v2", sep = ""),
+                      xRef = 2015,
+                      xDiff = 2050
+                      )
+
+
+plot_basin_production_value <- total_basin_production_value_clean %>%
+  filter(year %in% c(2015, 2050), region %in% plot_regions, scenario == "ARM_Reference") %>%
+  mutate(subRegion = gsub("Basin_", "", subRegion)) %>%
+  mutate(param = "param1") %>%
+  mutate(scenario = paste0(scenario,".",year)) %>%
+  select(scenario, subRegion, param, value)
+
+plot_map <- rmap::map(plot_basin_production_value,
+                      #folder = paste(getwd(), "/", PLOT_FOLDER, "/maps", sep = ""),
+                      nameAppend = "_check",
+                      scenRef = "ARM_Reference.2015",
+                      scenDiff = c("ARM_Reference.2050"))
+
+
+# Brinda DiffAbs
+
+library(rmap); library(dplyr); library(data.table); library(tibble)
+crop_bio_share_2050 <- data.table::fread("C:/Z/models/tests/crop_bio_share_2050.csv") %>% tibble::as_tibble()
+
+plot_map <- rmap::map(crop_bio_share_2050,
+                      folder = paste(getwd(),"/brinda", sep = ""),
+                      title = paste("Basin crop/biomass land in 2050"),
+                      scenRef = "ARM_Reference",
+                      scenDiff = c("SW_high_CL_Reference", "ARM_Policy_CO2only",
+                                   "ARM_Policy_ls_MAC_global", "SW_high_CL_Policy_ls_MAC_global"),
+                      nameAppend = paste("_crop_bio_share_", "2050", sep = ""))
+
+diff_crop_bio_share_2050 <- data.table::fread("C:/Z/models/tests/diff_crop_bio_share_2050.csv") %>% tibble::as_tibble()
+plot_map <- rmap::map(diff_crop_bio_share_2050,
+                      folder = paste(getwd(), "/brinda", sep = ""),
+                      title = paste("Basin crop/biomass land"),
+                      nameAppend = paste("_crop_bio_alloc_basin_policy_v3", sep = ""))
+
+
+# Reviewer Reka Comments 28 Feb 2022
+library(rmap); library(geodaData); library(dplyr); library(sf); library(tidyverse)
+library(readxl); library(janitor)
+
+# Example 1
+data("ncovr")
+mydata <- ncovr %>%
+  dplyr::select(NAME, STATE_NAME, FIPS, HR60) %>%
+  sf::st_drop_geometry() %>%
+  dplyr::left_join(rmap::mapUS52County, by="FIPS")
+rmap::map(data=mydata, valueCol = "HR60", legendTitle = "HR60")
+
+
+# Download file: https://data.london.gov.uk/download/gcse-results-by-borough/a8a71d73-cc48-4b30-9eb5-c5f605bc845c/gcse-results.xlsx
+# read in new test data
+#download.file("https://data.london.gov.uk/download/gcse-results-by-borough/a8a71d73-cc48-4b30-9eb5-c5f605bc845c/gcse-results.xlsx",
+#              destfile = "gcse-results.xlsx")
+gcse_results <- readxl::read_xlsx("gcse-results.xlsx", sheet = "2020-21")
+
+# clean up test data
+colnames <- paste0(gcse_results[1,], gcse_results[2,])
+colnames <- gsub("NA", "", colnames)
+names(gcse_results) <- colnames
+gcse_results <- gcse_results %>%
+  clean_names() %>%
+  slice(4:36) %>%
+  mutate(number_of_pupils_at_the_end_of_key_stage_4 = as.numeric(number_of_pupils_at_the_end_of_key_stage_4))
+
+# try to map using Local Authority name
+my_map <- rmap::map(gcse_results,
+                    subRegCol = "area",
+                    valueCol = "number_of_pupils_at_the_end_of_key_stage_4",
+                    legendTitle = "Pupils at KS4")
+
+
+# Test Multi-regions
+rmap::map(data.frame(subRegion=c("Toledo","Madrid","Huesca"),value=c(1,2,3)), region="Spain", labels=T)
+rmap::map(data=data.frame(subRegion=c("Punjab","Sind"),value=c(1,2)), region="Pakistan")
+rmap::map(data=data.frame(subRegion=c("CA","TX","AL","CO","ID")))
+rmap::map(data=rmap::mapUS49)
+
+# Test Covid data
+# Our World in Data JHU https://github.com/owid/covid-19-data/tree/master/public/data
+# State vaccination data: https://github.com/owid/covid-19-data/raw/master/public/data/vaccinations/us_state_vaccinations.csv
+# Prep Data and keep only country names
+covid_data <- read.csv(url("https://github.com/owid/covid-19-data/raw/master/public/data/vaccinations/us_state_vaccinations.csv"))%>%
+  tibble::as_tibble() %>%
+  dplyr::select(subRegion=location,date,value=people_vaccinated_per_hundred) %>%
+  dplyr::mutate(subRegion = dplyr::if_else(subRegion=="New York State","New York",subRegion)) %>%
+  dplyr::filter(date == max(date),
+                subRegion %in% rmap::mapUS49$subRegionAlt); covid_data
+
+rmap::map(covid_data,
+          title=paste0("People Vaccinated per hundered ",max(covid_data$date)),
+          legendTitle = "People per 100")
+
+
+# Brinda Diff test
+library(rmap)
+plot_map <- rmap::map(data="ls_irr_water_wd_basin_2050.csv",
+                      title = paste("Basin livestock + irrigation water withdrawal in 2050"),
+                      scenRef = "ARM_Reference",
+                      scenDiff = c( "SW_high_CL_Reference","ARM_Policy_ls_MAC_global"),
+                      nameAppend = paste("_water_wd_basin_", "2050", sep = ""),
+                      pdfpng = 'pdf')
+
+data="ls_irr_water_wd_basin_2050.csv"
+title = paste("Basin livestock + irrigation water withdrawal in 2050")
+scenRef = "ARM_Reference"
+scenDiff = c( "ARM_Policy_ls_MAC_global")
+nameAppend = paste("_water_wd_basin_", "2050", sep = "")
+pdfpng = 'pdf'
+
+
+library(rmap); library(dplyr)
+shapeSubset <- rmap::mapStates # Read in World States shape file
+shapeSubset <- shapeSubset %>% dplyr::filter(region == "Canada")
+m1<-rmap::map(data=shapeSubset,
+          labels=T,
+          labelSize = 3,
+          labelFill = "white",
+          labelAlpha = 0.6,
+          labelRepel = 2,
+          underLayer=rmap::mapCountriesUS52,
+          background=T,
+          zoomx = -1)
+
+library(rmap); library(dplyr)
+shapeSubset <- rmap::mapStates # Read in World States shape file
+shapeSubset <- shapeSubset %>% dplyr::filter(region == "Canada")
+m1<-rmap::map(data=shapeSubset,
+              labels=T,
+              labelSize = 3,
+              labelFill = "white",
+              labelAlpha = 0.6,
+              labelRepel = 2,
+              underLayer=rmap::mapCountriesUS52,
+              background=T,
+              crs="+proj=lcc +lat_1=49 +lat_2=77 +lat_0=0 +lon_0=-95 +x_0=0 +y_0=0 +datum=NAD83 +units=m +no_defs")

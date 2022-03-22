@@ -3,9 +3,9 @@
 \docType{data}
 \name{mapGCAMBasinsUS52}
 \alias{mapGCAMBasinsUS52}
-\title{Cropped of GCAM Basins and US52}
+\title{Cropped map of GCAM Basins and US52}
 \format{
-R tibble
+sf
 }
 \source{
 JGCRI
@@ -14,11 +14,12 @@ JGCRI
 mapGCAMBasinsUS52
 }
 \description{
-Cropped of GCAM Basins and US52
+Cropped map of GCAM Basins and US52
 }
 \examples{
 \dontrun{
 library(rmap)
+plot(mapGCAMBasinsUS52[,"subRegion"])
 head(mapGCAMBasinsUS52)
 }
 }

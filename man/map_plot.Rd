@@ -6,14 +6,15 @@
 \usage{
 map_plot(
   data = NULL,
+  region = NULL,
   fillColumn = NULL,
-  shapeColumn = NULL,
   shape = NULL,
   theme = NULL,
   show = T,
-  palette = "Spectral",
+  palette = "Set3",
   legendType = "kmeans",
   labels = F,
+  labelCol = NULL,
   labelRepel = 0,
   labelColor = "black",
   labelSize = 2,
@@ -22,24 +23,28 @@ map_plot(
   labelBorderSize = NA,
   width = 9,
   height = 7,
-  legendShow = F,
+  legendShow = T,
   legendTitle = NULL,
   legendBreaksn = 5,
   legendBreaks = NULL,
   pdfpng = "png",
   underLayer = NULL,
+  color = "grey40",
+  lwd = 0.1,
+  underLayerLabelCol = NULL,
   underLayerColor = "gray40",
   underLayerFill = "gray90",
   underLayerLwd = 0.1,
   underLayerAlpha = 1,
   underLayerLabels = F,
+  overLayerLabelCol = NULL,
   overLayerLabels = F,
   overLayer = NULL,
   overLayerColor = "gray40",
   overLayerFill = NA,
   overLayerLwd = 0.2,
   overLayerAlpha = 0,
-  zoom = -1,
+  zoom = 0,
   zoomx = NULL,
   zoomy = NULL,
   asp = 1.2,
@@ -64,15 +69,16 @@ map_plot(
   crop = T,
   crop_to_underLayer = F,
   crop_to_overLayer = F,
-  transparent = F
+  transparent = F,
+  crs = "+proj=longlat +datum=WGS84 +no_defs"
 )
 }
 \arguments{
 \item{data}{Default = NULL}
 
-\item{fillColumn}{Default = NULL # Or give column with data}
+\item{region}{Default = NULL. Set the boundary region for subRegion maps. Useful when multiple subRegions in different regions.}
 
-\item{shapeColumn}{(Optional). Default = NULL. If different from subRegion.}
+\item{fillColumn}{Default = NULL # Or give column with data}
 
 \item{shape}{Default = NULL, Cusotm shape can be provided as a SpatialPolygonDataFrame with features corresponding to subRegion columns in the data provided.}
 
@@ -80,11 +86,13 @@ map_plot(
 
 \item{show}{Default = T. Print maps in console as they are processed.}
 
-\item{palette}{Default = "Spectral"}
+\item{palette}{Default = "Set3"}
 
 \item{legendType}{Default = "continuous".}
 
 \item{labels}{Default = FALSE}
+
+\item{labelCol}{Default = NULL,}
 
 \item{labelRepel}{Default = 0,}
 
@@ -114,6 +122,12 @@ map_plot(
 
 \item{underLayer}{Default = NULL}
 
+\item{color}{Default = "grey40". Color of polygon lines.}
+
+\item{lwd}{Default = 0.1. Line width of polygon boundaries.}
+
+\item{underLayerLabelCol}{Default = NULL}
+
 \item{underLayerColor}{Default = "gray40"}
 
 \item{underLayerFill}{Default = "gray40"}
@@ -123,6 +137,8 @@ map_plot(
 \item{underLayerAlpha}{Default = 1}
 
 \item{underLayerLabels}{Default = F}
+
+\item{overLayerLabelCol}{Default = NULL}
 
 \item{overLayerLabels}{Default = F}
 
@@ -178,7 +194,9 @@ map_plot(
 
 \item{alpha}{Default = 1. Transparency of fill colors.}
 
-\item{background}{Default = F. Add background water color, border and default underlayer map.}
+\item{background}{Default = F. T adds background water color, border and default underlayer map.
+If background is set to a color (e.g. background = "grey10") then map will be produced with
+water of that color, a border and underlayer map.}
 
 \item{crop}{Default = T. Crop to boundary data.}
 
@@ -187,6 +205,8 @@ map_plot(
 \item{crop_to_overLayer}{Default = F. Crop to the overLayer boundary provided.}
 
 \item{transparent}{Default = F. To make map background transparent for maps without backgrounds.}
+
+\item{crs}{Default = "+proj=longlat +datum=WGS84 +no_defs". A proj4 string from EPSG https://epsg.io/}
 }
 \value{
 Returns the formatted data used to produce chart

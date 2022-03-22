@@ -6,8 +6,8 @@
 \usage{
 map(
   data = NULL,
+  region = NULL,
   fillColumn = NULL,
-  shapeColumn = NULL,
   shape = NULL,
   fileName = "map",
   save = T,
@@ -15,6 +15,7 @@ map(
   show = T,
   folder = paste(getwd(), "/outputs", sep = ""),
   labels = F,
+  labelCol = NULL,
   labelRepel = 0,
   labelColor = "black",
   labelSize = 2,
@@ -24,6 +25,7 @@ map(
   shapeFolder = NULL,
   shapeFile = NULL,
   subRegCol = "subRegion",
+  valueCol = "value",
   nameAppend = "",
   legendTitle = NULL,
   legendType = "kmeans",
@@ -34,12 +36,17 @@ map(
   crop = T,
   crop_to_underLayer = F,
   crop_to_overLayer = F,
+  fill = NULL,
+  color = "grey40",
+  lwd = 0.1,
   underLayer = NULL,
   underLayerColor = "gray40",
   underLayerFill = "gray90",
   underLayerLwd = 0.1,
   underLayerAlpha = 1,
   underLayerLabels = F,
+  underLayerLabelCol = NULL,
+  overLayerLabelCol = NULL,
   overLayerLabels = F,
   overLayer = NULL,
   overLayerColor = "gray40",
@@ -81,15 +88,16 @@ map(
   transparent = T,
   legendShow = T,
   diffOnly = F,
-  forceFacets = F
+  forceFacets = F,
+  crs = "+proj=longlat +datum=WGS84 +no_defs"
 )
 }
 \arguments{
 \item{data}{Default = NULL,}
 
-\item{fillColumn}{(Optional). Default = NULL. Only for direct map plotting.}
+\item{region}{Default = NULL. Set the boundary region for subRegion maps. Useful when multiple subRegions in different regions.}
 
-\item{shapeColumn}{(Optional). Default = NULL. If different from subRegion.}
+\item{fillColumn}{(Optional). Default = NULL. Only for direct map plotting.}
 
 \item{shape}{Default = NULL, Cusotm shape can be provided as a SpatialPolygonDataFrame with features corresponding to subRegion columns in the data provided.}
 
@@ -104,6 +112,8 @@ map(
 \item{folder}{Default = paste(getwd(),"/outputs",sep=""),}
 
 \item{labels}{Default = F,}
+
+\item{labelCol}{Default = NULL,}
 
 \item{labelRepel}{Default = 0,}
 
@@ -122,6 +132,8 @@ map(
 \item{shapeFile}{Default = paste("gadm36_1",sep=""),}
 
 \item{subRegCol}{Default ="subRegion",}
+
+\item{valueCol}{Default = "value",}
 
 \item{nameAppend}{Default =""}
 
@@ -143,6 +155,12 @@ map(
 
 \item{crop_to_overLayer}{Default = F. Crop to the overLayer boundary provided.}
 
+\item{fill}{Default = NULL. Fill of polygon shapes. Same as palette.}
+
+\item{color}{Default = "grey40". Color of polygon lines.}
+
+\item{lwd}{Default = 0.1. Line width of polygon boundaries.}
+
 \item{underLayer}{Default = NULL}
 
 \item{underLayerColor}{Default = "gray40"}
@@ -154,6 +172,10 @@ map(
 \item{underLayerAlpha}{Default = 1}
 
 \item{underLayerLabels}{Default = F}
+
+\item{underLayerLabelCol}{Default = NULL}
+
+\item{overLayerLabelCol}{Default = NULL}
 
 \item{overLayerLabels}{Default = F}
 
@@ -238,6 +260,8 @@ map(
 \item{diffOnly}{Default = F. Only run diff plots and not individual scenarios.}
 
 \item{forceFacets}{Default = F. Used to force facet label for single scenario which is usually dropped.}
+
+\item{crs}{Default = "+proj=longlat +datum=WGS84 +no_defs". A proj4 string from EPSG https://epsg.io/}
 }
 \value{
 Returns the formatted data used to produce chart

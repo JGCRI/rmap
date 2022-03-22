@@ -5,10 +5,10 @@
 \alias{mapGCAMBasins}
 \title{GCAM Basins}
 \format{
-A SpatialPolygonsDataFrame
+sf
 }
 \source{
-From JGCRI confluence page. \url{https://confluence.pnnl.gov/confluence/display/JGCRI/GCAM+Shape+Files}
+Modified versions of shapefiles from \url{https://zenodo.org/record/4688451#.YdMNTmjMJPY}
 }
 \usage{
 mapGCAMBasins
@@ -18,9 +18,9 @@ GCAM Basins
 }
 \examples{
 \dontrun{
- library(sp); library(rmap)
- sp::plot(mapGCAMBasins)
- head(mapGCAMBasins@data)
+ library(rmap)
+ plot(mapGCAMBasins[,"subRegion"])
+ head(mapGCAMBasins)
 }
 }
 \keyword{datasets}

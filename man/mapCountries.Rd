@@ -5,7 +5,7 @@
 \alias{mapCountries}
 \title{World Map of Countries}
 \format{
-A SpatialPolygonsDataFrame
+sf
 }
 \source{
 Made with Natural Earth. \url{http://www5.statcan.gc.ca/cansim/}
@@ -18,9 +18,9 @@ World Map of Countries
 }
 \examples{
 \dontrun{
- library(sp); library(rmap)
- sp::plot(mapCountries)
- head(mapCountries@data)
+ library(rmap)
+ plot(mapCountries[,"subRegion"])
+ head(mapCountries)
 }
 }
 \keyword{datasets}

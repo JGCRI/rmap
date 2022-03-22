@@ -1,5 +1,9 @@
 title: rmap
 
+home:
+  sidebar:
+    structure: [links, license, community, authors, dev]
+
 navbar:
   type: inverse
   left:
@@ -16,8 +20,14 @@ navbar:
       href: news/index.html
     - text: "Contribute"
       href: CONTRIBUTE.html
-    - text: cheatsheet
+    - text: Cheatsheet
       href: https://jgcri.github.io/rmap/cheatsheet.pdf
+    - icon: fas fa-quote-left
+      text: Citation
+      href: CITATION.html
+    - icon: fas fa-question
+      text: Support
+      href: SUPPORT.html
       
 toc:
   depth: 3

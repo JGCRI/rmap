@@ -1,9 +1,10 @@
 <!-- badges: start -->
-[![build](https://github.com/JGCRI/rmap/workflows/build/badge.svg)](https://github.com/JGCRI/rmap/workflows/build/badge.svg)
+[![build](https://github.com/JGCRI/rmap/actions/workflows/build.yml/badge.svg)](https://github.com/JGCRI/rmap/actions/workflows/build.yml)
 [![test_coverage](https://github.com/JGCRI/rmap/actions/workflows/test_coverage.yml/badge.svg?branch=main)](https://github.com/JGCRI/rmap/actions/workflows/test_coverage.yml)
 [![codecov](https://codecov.io/gh/JGCRI/rmap/branch/main/graph/badge.svg?token=XQ913U4IYM)](https://codecov.io/gh/JGCRI/rmap) 
-[![docs](https://github.com/JGCRI/rmap/actions/workflows/docs.yaml/badge.svg?branch=main)](https://github.com/JGCRI/rmap/actions/workflows/docs.yaml)
+[![docs](https://github.com/JGCRI/rmap/actions/workflows/docs.yaml/badge.svg)](https://github.com/JGCRI/rmap/actions/workflows/docs.yaml)
 [![Github All Releases](https://img.shields.io/github/downloads/JGCRI/rmap/total.svg)]()
+[![status](https://joss.theoj.org/papers/4cdf462f70681bc335ddebf5868b249c/status.svg)](https://joss.theoj.org/papers/4cdf462f70681bc335ddebf5868b249c)
 <!-- badges: end -->
 
 
@@ -29,7 +30,7 @@
 <!-- ------------------------>
 <!-- ------------------------>
 
-Khan, Z., Zhao, M., Wild, T., Vernon, C., 2021. rmap - An R package to easily plot polygon and gridded data on highly customizable built-in and user maps. (In progress) Journal of Open Source Software, DOI: XXXX
+Khan, Z., Zhao, M., Wild, T., Vernon, C., Yarlagadda, B., 2022. rmap: An R package to plot and compare tabular data on customizable maps across scenarios and time. (In progress) Journal of Open Source Software, DOI: XXXX
 
 <!-- ------------------------>
 <!-- ------------------------>
@@ -67,6 +68,19 @@ brew install gdal
 brew install geos
 brew install imagemagick@6
 ```
+
+<!-- ------------------------>
+<!-- ------------------------>
+# <a name="Need"></a>Statement of need
+<!-- ------------------------>
+<!-- ------------------------>
+
+`rmap` is meant to help users having limited to no GIS knowledge use R for spatial visualization of tabular spatial data. `rmap` is not meant to be a replacement for spatial manipulation or cartographic software but focuses on the simple plotting of polygon and gridded data for spatio-temporal visualization of tabular data with a focus on comparing across scenarios and time periods. Several existing R packages (e.g. tmap, cartography, rworldmap, GISTools, choroplethr, sp and sf) have been developed to conduct spatial visualization and analytics in R without depending on external software. `rmap` enhances the following key capabilities which are limited in these existing packages:
+
+1. **Pre-built maps**: Existing packages come with only a few examples of built-in maps as package data. `rmap` comes with a growing collection of  country, state, river basin, as well as other customized maps that are added into the package data based on user needs and requests. While built-in maps increase the size of the package, having direct access to these allows for automated searching and quick deployment of relevant shapefiles without the need to download any data. A list of pre-built maps in `rmap` can be found in the [Built-in Maps](https://jgcri.github.io/rmap/articles/vignette_map.html#maps) section of the user guide.
+2. **Direct data table to map**: Existing packages are not able to plot a map directly given only a simple data frame or a CSV file as an input. `rmap` has an automatic `map_find_df` function that searches for the appropriate built-in map based on the regions provided in a `subRegion` column and values in a `value` column. The sub-regions in the `subRegion` column must be one of the sub-regions in the existing set of `rmap` built-in maps. This truly frees users from the need for any other spatial data needs and they can simply `map()` their own data tables directly. 
+3. **Difference maps**: Existing packages do not produce difference maps to compare across scenarios or time periods. `rmap` provides this functionality by automatically recognizing multiple scenarios and time periods to produce difference maps across these dimensions. An important aspect of spatial data is exploring the difference between two scenarios or time periods and `rmap` makes this a seamless process.
+4. **Post-process customization**: Existing packages do not produce output objects that can be saved and then customized. Customization of the maps in existing packages is limited to package specific functionality and arguments. `rmap` produces `ggplot` objects in which every element (axis, grids, titles, colors, line widths, facets) can all be customized after the map has been produced. This allows users to capitalize on existing knowledge of the widely used `ggplot2` package and its arguments.
 
 <!-- ------------------------>
 <!-- ------------------------>

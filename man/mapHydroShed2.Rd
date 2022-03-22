@@ -5,7 +5,7 @@
 \alias{mapHydroShed2}
 \title{HydroSHEDS level 2}
 \format{
-A SpatialPolygonsDataFrame
+sf
 }
 \source{
 Lehner, B., Grill G. (2013): Global river hydrography and network routing:
@@ -20,9 +20,9 @@ HydroSHEDS level 2
 }
 \examples{
 \dontrun{
- library(sp); library(rmap)
- sp::plot(mapHydroShed2)
- head(mapHydroShed2@data)
+ library(rmap)
+ plot(mapHydroShed2[,"subRegion"])
+ head(mapHydroShed2)
 }
 }
 \keyword{datasets}

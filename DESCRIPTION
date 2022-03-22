@@ -5,7 +5,8 @@ Authors@R: c(person("Zarrar", "Khan", email = "zarrar.khan@pnnl.gov", role = c("
 		   comment = c(ORCID ="0000-0002-8147-8553")),
 		   person("Mengqi", "Zhao", role = c("aut"), comment = c(ORCID="0000-0001-5385-2758")),
 		   person("Chris", "Vernon", role = c("aut"), comment = c(ORCID="0000-0002-3406-6214")),
-		   person("Thomas", "Wild", role = c("aut"), comment = c(ORCID="0000-0002-6045-7729")))
+		   person("Thomas", "Wild", role = c("aut"), comment = c(ORCID="0000-0002-6045-7729")),
+		   person("Brinda", "Yarlagadda", role = c("aut"), comment = c(ORCID="0000-0003-2944-3449")))
 Description: Plot customizable maps from simple dataframes using pre-loaded maps.
 URL: https://github.com/JGCRI/rmap
 BugReports: https://github.com/JGCRI/rmap/issues
@@ -17,13 +18,10 @@ RoxygenNote: 7.1.1
 Imports: 
 	raster,
 	tibble,
+	tidyr,
 	dplyr, 
 	scales,
-	tidyr, 
 	grDevices,
-	rgdal, 
-	rgeos,
-	sp,
 	data.table,
 	graphics,
 	rlang, 
@@ -32,14 +30,14 @@ Imports:
 	magick,
 	stringr,
 	ggplot2,
-	ggrepel,
-	maptools,
+    markdown,
 	jgcricolors,
 	cowplot,
-    markdown,
-	broom,
-	purrr,
-	jgcricolors
+	rgeos,
+	rgdal,
+	sf,
+	methods,
+	ggrepel
 Suggests: 
     rmarkdown,
     testthat (>= 3.0.0),

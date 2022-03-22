@@ -6,7 +6,7 @@
 \title{US 52 States Compact
 Includes Alaska, Hawaii and Puerto Rico as well as DC (Re-positioned)}
 \format{
-A SpatialPolygonsDataFrame
+sf
 }
 \source{
 US Census bureau. \url{https://www.census.gov/geographies/mapping-files/time-series/geo/carto-boundary-file.html}
@@ -20,9 +20,9 @@ Includes Alaska, Hawaii and Puerto Rico as well as DC (Re-positioned)
 }
 \examples{
 \dontrun{
- library(sp); library(rmap)
- sp::plot(mapUS52Compact)
- head(mapUS52Compact@data)
+ library(rmap)
+ plot(mapUS52Compact[,"subRegion"])
+ head(mapUS52Compact)
 }
 }
 \keyword{datasets}
