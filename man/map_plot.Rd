@@ -70,7 +70,7 @@ map_plot(
   crop_to_underLayer = F,
   crop_to_overLayer = F,
   transparent = F,
-  crs = "+proj=longlat +datum=WGS84 +no_defs"
+  crs = NULL
 )
 }
 \arguments{
@@ -206,7 +206,7 @@ water of that color, a border and underlayer map.}
 
 \item{transparent}{Default = F. To make map background transparent for maps without backgrounds.}
 
-\item{crs}{Default = "+proj=longlat +datum=WGS84 +no_defs". A proj4 string from EPSG https://epsg.io/}
+\item{crs}{Default = NULL. A proj4 string from EPSG https://epsg.io/ e.g. "+proj=longlat +datum=WGS84 +no_defs".}
 }
 \value{
 Returns the formatted data used to produce chart

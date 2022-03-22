@@ -414,40 +414,22 @@ plot_map <- rmap::map(diff_crop_bio_share_2050,
 
 
 # Reviewer Reka Comments 28 Feb 2022
-library(rmap)
-library(geodaData)
-library(dplyr)
-library(sf)
+library(rmap); library(geodaData); library(dplyr); library(sf); library(tidyverse)
+library(readxl); library(janitor)
 
-# get data for testing
+# Example 1
 data("ncovr")
-mydata <- ncovr %>% select(NAME, STATE_NAME, FIPS, HR60) %>% st_drop_geometry() %>%
+mydata <- ncovr %>%
+  dplyr::select(NAME, STATE_NAME, FIPS, HR60) %>%
+  sf::st_drop_geometry() %>%
   dplyr::left_join(rmap::mapUS52County, by="FIPS")
-rmap::map(data=mydata, valueCol = "HR60", shape=rmap::mapUS52CountyCompact)
+rmap::map(data=mydata, valueCol = "HR60", legendTitle = "HR60")
 
-
-# Counter Example
-download.file("https://www2.census.gov/geo/tiger/GENZ2018/kml/cb_2018_us_county_20m.zip","counties.zip")
-unzip("counties.zip")
-counties_geojson <- sf::st_read("cb_2018_us_county_20m.kml")
-mapthis <- dplyr::left_join(counties_geojson, mydata, by = c("GEOID" = "FIPS"))
-tmap::qtm(mapthis, fill = "HR60")
-
-# Tigris
-tg_counties <- tigris::counties()
-mapthis <- dplyr::left_join(tg_counties, mydata, by = c("GEOID" = "FIPS"))
-tmap::qtm(mapthis, fill = "HR60")
-
-# Example
-library(rmap)
-library(tidyverse)
-library(readxl)
-library(janitor)
-library(sf); library(dplyr)
-library(rnaturalearth)
-library(tmap)
 
 # Download file: https://data.london.gov.uk/download/gcse-results-by-borough/a8a71d73-cc48-4b30-9eb5-c5f605bc845c/gcse-results.xlsx
+# read in new test data
+#download.file("https://data.london.gov.uk/download/gcse-results-by-borough/a8a71d73-cc48-4b30-9eb5-c5f605bc845c/gcse-results.xlsx",
+#              destfile = "gcse-results.xlsx")
 gcse_results <- readxl::read_xlsx("gcse-results.xlsx", sheet = "2020-21")
 
 # clean up test data
@@ -462,13 +444,8 @@ gcse_results <- gcse_results %>%
 # try to map using Local Authority name
 my_map <- rmap::map(gcse_results,
                     subRegCol = "area",
-                    valueCol = "number_of_pupils_at_the_end_of_key_stage_4")
-
-# Try with others
-london_boroughs <- ne_states(country = "United Kingdom", returnclass = "sf") %>% filter(region == "Greater London")
-gcse_results_sf <- left_join(london_boroughs, gcse_results,by = c("name" = "area"))
-qtm(gcse_results_sf, fill = "number_of_pupils_at_the_end_of_key_stage_4")
-
+                    valueCol = "number_of_pupils_at_the_end_of_key_stage_4",
+                    legendTitle = "Pupils at KS4")
 
 
 # Test Multi-regions
@@ -478,18 +455,19 @@ rmap::map(data=data.frame(subRegion=c("CA","TX","AL","CO","ID")))
 rmap::map(data=rmap::mapUS49)
 
 # Test Covid data
-# Our World in Data JHU
-# https://github.com/owid/covid-19-data/tree/master/public/data
-covid_data <- read.csv(url("https://covid.ourworldindata.org/data/owid-covid-data.csv"))%>%
+# Our World in Data JHU https://github.com/owid/covid-19-data/tree/master/public/data
+# State vaccination data: https://github.com/owid/covid-19-data/raw/master/public/data/vaccinations/us_state_vaccinations.csv
+# Prep Data and keep only country names
+covid_data <- read.csv(url("https://github.com/owid/covid-19-data/raw/master/public/data/vaccinations/us_state_vaccinations.csv"))%>%
   tibble::as_tibble() %>%
-  dplyr::select(subRegion=location,date,value=total_cases) %>%
-  dplyr::filter(date == max(date)) %>%
-  dplyr::mutate(value=value/1000000); covid_data
+  dplyr::select(subRegion=location,date,value=people_vaccinated_per_hundred) %>%
+  dplyr::mutate(subRegion = dplyr::if_else(subRegion=="New York State","New York",subRegion)) %>%
+  dplyr::filter(date == max(date),
+                subRegion %in% rmap::mapUS49$subRegionAlt); covid_data
 
 rmap::map(covid_data,
-          legendBreaks=8,
-          legendTitle = "millions",
-          title=paste0("Total Covid Cases ",max(covid_data$date)))
+          title=paste0("People Vaccinated per hundered ",max(covid_data$date)),
+          legendTitle = "People per 100")
 
 
 # Brinda Diff test
@@ -509,9 +487,9 @@ nameAppend = paste("_water_wd_basin_", "2050", sep = "")
 pdfpng = 'pdf'
 
 
-library(rmap)
+library(rmap); library(dplyr)
 shapeSubset <- rmap::mapStates # Read in World States shape file
-shapeSubset <- shapeSubset[shapeSubset$region %in% c("Canada"),] # Subset the shapefile to Canada
+shapeSubset <- shapeSubset %>% dplyr::filter(region == "Canada")
 m1<-rmap::map(data=shapeSubset,
           labels=T,
           labelSize = 3,
@@ -520,4 +498,17 @@ m1<-rmap::map(data=shapeSubset,
           labelRepel = 2,
           underLayer=rmap::mapCountriesUS52,
           background=T,
-          crs="+proj=lcc +lat_1=49 +lat_2=77 +lat_0=0 +lon_0=-95 +x_0=0 +y_0=0 +datum=NAD83 +units=m +no_defs") # View custom shape
+          zoomx = -1)
+
+library(rmap); library(dplyr)
+shapeSubset <- rmap::mapStates # Read in World States shape file
+shapeSubset <- shapeSubset %>% dplyr::filter(region == "Canada")
+m1<-rmap::map(data=shapeSubset,
+              labels=T,
+              labelSize = 3,
+              labelFill = "white",
+              labelAlpha = 0.6,
+              labelRepel = 2,
+              underLayer=rmap::mapCountriesUS52,
+              background=T,
+              crs="+proj=lcc +lat_1=49 +lat_2=77 +lat_0=0 +lon_0=-95 +x_0=0 +y_0=0 +datum=NAD83 +units=m +no_defs")

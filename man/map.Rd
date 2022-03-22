@@ -89,7 +89,7 @@ map(
   legendShow = T,
   diffOnly = F,
   forceFacets = F,
-  crs = "+proj=longlat +datum=WGS84 +no_defs"
+  crs = NULL
 )
 }
 \arguments{
@@ -261,7 +261,7 @@ map(
 
 \item{forceFacets}{Default = F. Used to force facet label for single scenario which is usually dropped.}
 
-\item{crs}{Default = "+proj=longlat +datum=WGS84 +no_defs". A proj4 string from EPSG https://epsg.io/}
+\item{crs}{Default = NULL. A proj4 string from EPSG https://epsg.io/ e.g. "+proj=longlat +datum=WGS84 +no_defs".}
 }
 \value{
 Returns the formatted data used to produce chart
