@@ -70,7 +70,7 @@
 #' @param crop_to_overLayer Default = F. Crop to the overLayer boundary provided.
 #' @param transparent Default = F. To make map background transparent for maps without backgrounds.
 #' @param legendType Default = "continuous".
-#' @param crs Default = NULL. A proj4 string from EPSG https://epsg.io/ e.g. "+proj=longlat +datum=WGS84 +no_defs".
+#' @param crs Default = "+proj=longlat +datum=WGS84 +no_defs". A proj4 string from EPSG https://epsg.io/
 #' @keywords charts, diffplots
 #' @return Returns the formatted data used to produce chart
 #' @import sf
@@ -144,7 +144,7 @@ map_plot<-function(data=NULL,
                   crop_to_underLayer = F,
                   crop_to_overLayer = F,
                   transparent = F,
-                  crs = NULL
+                  crs = "+proj=longlat +datum=WGS84 +no_defs"
                   ){
 
   # # data=NULL
@@ -1184,7 +1184,7 @@ if(crop|crop_to_underLayer|crop_to_overLayer){
 }
 
 # Transform
- if(!is.null(crs)){
+ if(crs != "+proj=longlat +datum=WGS84 +no_defs"){
    sf::sf_use_s2(FALSE)
    map = map +
      ggplot2::coord_sf(crs = sf::st_crs(crs),expand=F)
