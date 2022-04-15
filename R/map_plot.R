@@ -148,13 +148,21 @@ map_plot<-function(data=NULL,
                   ){
 
   # # data=NULL
-  # crs = "+proj=longlat +datum=WGS84 +no_defs"
+  # region=NULL
   # fillColumn=NULL # Or give column data with
-  # crop_to_underLayer = F
-  # crop_to_overLayer = F
-  # theme = ggplot2::theme_bw()
+  # shape = NULL
+  # theme = NULL
+  # show = T
   # palette="Set3"
+  # legendType="kmeans"
   # labels=F
+  # labelCol = NULL
+  # labelRepel = 0
+  # labelColor = "black"
+  # labelSize = 2
+  # labelAlpha = 1
+  # labelFill = NA
+  # labelBorderSize = NA
   # width=9
   # height=7
   # legendShow=T
@@ -162,7 +170,26 @@ map_plot<-function(data=NULL,
   # legendBreaksn=5
   # legendBreaks=NULL
   # pdfpng="png"
-  # underLayer=NULL
+  # underLayer = NULL
+  # color = "grey40"
+  # lwd = 0.1
+  # underLayerLabelCol = NULL
+  # underLayerColor = "gray40"
+  # underLayerFill = "gray90"
+  # underLayerLwd = 0.1
+  # underLayerAlpha = 1
+  # underLayerLabels = F
+  # overLayerLabelCol = NULL
+  # overLayerLabels = F
+  # overLayer = NULL
+  # overLayerColor = "gray40"
+  # overLayerFill = NA
+  # overLayerLwd = 0.2
+  # overLayerAlpha = 0
+  # zoom = 0
+  # zoomx = NULL
+  # zoomy = NULL
+  # asp = 1.2
   # save=T
   # fileName="map"
   # folder=paste(getwd(),"/outputs",sep="")
@@ -170,35 +197,22 @@ map_plot<-function(data=NULL,
   # col=NULL
   # title=NULL
   # numeric2Cat_list=NULL
+  # catParam =NULL
   # legendDigits = NULL
   # legendDigitsOverride=NULL
   # legendSingleColor ="white"
   # legendSingleValue =F
-  # underLayer = NULL
-  # underLayerColor = "gray30"
-  # underLayerFill = "gray90"
-  # underLayerLwd = 0.5
-  # underLayerAlpha = 1
-  # overLayer = NULL
-  # overLayerColor = "gray40"
-  # overLayerFill = NA
-  # overLayerLwd = 0.5
-  # overLayerAlpha = 0
-  # zoom = 0
-  # zoomx = NULL
-  # zoomy = NULL
-  # asp = 1.2
-  # crop=F
-  # color = "grey40"
-  # transparent = T
-  # show = T
-  # legendType="kmeans"
-  # lwd =0.1
-  # background=F
-  # size =12
-  # underLayerLabels=F
-  # region=NULL
+  # colorNA = "gray50"
   # showNA = F
+  # ncol = 3
+  # size = 16
+  # alpha = 1
+  # background = F
+  # crop = T
+  # crop_to_underLayer = F
+  # crop_to_overLayer = F
+  # transparent = F
+  # crs = "+proj=longlat +datum=WGS84 +no_defs"
 
 # ALT + 0 here to collapse all code into manageable chunks
 # ALT + Shift + O to expand all
@@ -237,22 +251,20 @@ if(T){ # Initialize
 
   # Rename certain countries to rmap names
   if("subRegion" %in% names(data)){
-  if(any(grepl("United States of America|United States",unique(data$subRegion),ignore.case = T))){
     data <- data %>%
-      dplyr::mutate(subRegion = dplyr::if_else(grepl("^United States of America$|^United States$",subRegion,ignore.case = T),
-                                               "USA", subRegion)) %>%
-     dplyr::mutate(subRegion = dplyr::if_else(grepl("^Tanzania$",subRegion,ignore.case = T),
-                                               "United Republic of Tanzania", subRegion)) %>%
-      dplyr::mutate(subRegion = dplyr::if_else(grepl("^Democratic Republic of Congo$",subRegion,ignore.case = T),
-                                               "Democratic Republic of the Congo", subRegion)) %>%
-      dplyr::mutate(subRegion = dplyr::if_else(grepl("^Congo$",subRegion,ignore.case = T),
-                                               "Republic of the Congo", subRegion)) %>%
-      dplyr::mutate(subRegion = dplyr::if_else(grepl("^Cote d'Ivoire$",subRegion,ignore.case = T),
-                                               "Ivory Coast", subRegion)) %>%
-      dplyr::mutate(subRegion = dplyr::if_else(grepl("^Serbia$",subRegion,ignore.case = T),
-                                               "Republic of Serbia", subRegion))
+      dplyr::mutate(subRegion = dplyr::case_when(grepl("^United States of America$|^United States$",subRegion,ignore.case = T)~"USA",
+                                                 grepl("^Tanzania$",subRegion,ignore.case = T)~"United Republic of Tanzania",
+                                                 grepl("^Democratic Republic of Congo$",subRegion,ignore.case = T)~"Democratic Republic of the Congo",
+                                                 grepl("^Congo$",subRegion,ignore.case = T)~"Republic of the Congo",
+                                                 grepl("^Cote d'Ivoire$",subRegion,ignore.case = T)~"Ivory Coast",
+                                                 grepl("^Serbia$",subRegion,ignore.case = T)~"Republic of Serbia",
+                                                 grepl("^EU-12$",subRegion,ignore.case = T)~"EU_12",
+                                                 grepl("^EU-15$",subRegion,ignore.case = T)~"EU_15",
+                                                 TRUE ~ subRegion))
   }
-  }
+
+  # Disable s2 for sf plots
+  sf::sf_use_s2(FALSE)
 
 } # initialize
 
@@ -353,7 +365,7 @@ if(T){ # Read input data
   }
 
   # Set palette
-  if(any("value" %in% names(data_sf)) & (palette == "Set3")){
+  if(any("value" %in% names(data_sf)) & any((palette == "Set3"))){
     palette = "pal_hot"
   }
   if (length(palette) == 1) {

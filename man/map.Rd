@@ -87,6 +87,7 @@ map(
   background = F,
   transparent = T,
   legendShow = T,
+  legendShowForce = F,
   diffOnly = F,
   forceFacets = F,
   crs = "+proj=longlat +datum=WGS84 +no_defs"
@@ -256,6 +257,8 @@ map(
 \item{transparent}{Default = T. To make map background transparent for maps without backgrounds.}
 
 \item{legendShow}{Default = T}
+
+\item{legendShowForce}{Default = F. Force legend to show for maps without values.}
 
 \item{diffOnly}{Default = F. Only run diff plots and not individual scenarios.}
 

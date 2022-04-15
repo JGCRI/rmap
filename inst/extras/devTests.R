@@ -512,3 +512,16 @@ m1<-rmap::map(data=shapeSubset,
               underLayer=rmap::mapCountriesUS52,
               background=T,
               crs="+proj=lcc +lat_1=49 +lat_2=77 +lat_0=0 +lon_0=-95 +x_0=0 +y_0=0 +datum=NAD83 +units=m +no_defs")
+
+
+
+# Issue #90
+# https://github.com/JGCRI/rmap/issues/90
+library(rmap)
+data = data.frame("subRegion"=c("EU-12","EU-15"));
+data1 = data.frame("subRegion"=c("EU-12","EU-15"), "value"=c(1,2));
+rmap::map_plot(data)
+rmap::map(data, legendShowForce=T)
+rmap::map_plot(data1)
+rmap::map(data1, legendType = "pretty")
+

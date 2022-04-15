@@ -87,6 +87,7 @@
 #' @param background Default = F. Add background water color, border and default underlayer map.
 #' @param transparent Default = T. To make map background transparent for maps without backgrounds.
 #' @param legendShow Default = T
+#' @param legendShowForce Default = F. Force legend to show for maps without values.
 #' @param diffOnly Default = F. Only run diff plots and not individual scenarios.
 #' @param forceFacets Default = F. Used to force facet label for single scenario which is usually dropped.
 #' @param crs Default = "+proj=longlat +datum=WGS84 +no_defs". A proj4 string from EPSG https://epsg.io/
@@ -179,6 +180,7 @@ map <- function(data = NULL,
                 background = F,
                 transparent = T,
                 legendShow = T,
+                legendShowForce = F,
                 diffOnly = F,
                 forceFacets = F,
                 crs = "+proj=longlat +datum=WGS84 +no_defs") {
@@ -253,6 +255,7 @@ map <- function(data = NULL,
   # legendTitle = NULL
   # transparent = F
   # legendShow = T
+  # legendShowForce = F
   # underLayerLabels=F
   # shape = NULL
   # diffOnly = F
@@ -427,7 +430,7 @@ map <- function(data = NULL,
       underLayerLwd = underLayerLwd,
       underLayerAlpha = underLayerAlpha,
       background=background,
-      zoom=zoom, zoomx = zoomx, zoomy=zoomy, asp=asp, legendShow=F,  crop = crop, crop_to_underLayer = crop_to_underLayer, crop_to_overLayer = crop_to_overLayer, transparent=transparent,
+      zoom=zoom, zoomx = zoomx, zoomy=zoomy, asp=asp, legendShow=legendShowForce,  crop = crop, crop_to_underLayer = crop_to_underLayer, crop_to_overLayer = crop_to_overLayer, transparent=transparent,
       alpha = alpha, size=max(1,(size+(colm+rowm)*3 - 12)),
       theme = theme,
       legendTitle=NULL,
