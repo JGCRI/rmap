@@ -519,9 +519,11 @@ m1<-rmap::map(data=shapeSubset,
 # https://github.com/JGCRI/rmap/issues/90
 library(rmap)
 data = data.frame("subRegion"=c("EU-12","EU-15"));
-data1 = data.frame("subRegion"=c("EU-12","EU-15"), "value"=c(1,2));
-rmap::map_plot(data)
 rmap::map(data, legendShowForce=T)
-rmap::map_plot(data1)
-rmap::map(data1, legendType = "pretty")
+rmap::mapGCAMReg32$subRegion%>%unique()
 
+# Issue #89
+# https://github.com/JGCRI/rmap/issues/89
+library(rmap)
+rmap::map(mapGCAMReg32, nameAppend="_reg32")
+rmap::map(mapGCAMReg32Uruguay, nameAppend="_reg32Uruguay")

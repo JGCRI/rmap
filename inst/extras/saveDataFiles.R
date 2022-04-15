@@ -146,7 +146,9 @@ if(redoMaps){
     dplyr::select(subRegion,region,subRegionAlt,source, area, name, geometry)%>%
     st_transform(st_crs(4326))
   use_data(mapGCAMReg32, version=3, overwrite=T)
+
 }
+
 
 # GCAM Basins
 #------------------
@@ -629,34 +631,17 @@ if(redoMaps){
 # Merge
 #-------------------
 
-rgdal::writeOGR(obj=rmap::mapGCAMReg32US52,dsn=paste0("C:/Z/data/mapFiles/gis/gcam"),
-                layer="mapGCAMReg32US52", driver="ESRI Shapefile", overwrite_layer=TRUE)
-rgdal::writeOGR(obj=rmap::mapCountriesUS52,dsn=paste0("C:/Z/data/mapFiles/gis/gcam"),
-                layer="mapCountriesUS52", driver="ESRI Shapefile", overwrite_layer=TRUE)
-rgdal::writeOGR(obj=rmap::mapGCAMReg32Uruguay,dsn=paste0("C:/Z/data/mapFiles/gis/gcam"),
-                layer="mapGCAMReg32Uruguay", driver="ESRI Shapefile", overwrite_layer=TRUE)
-
 # Merge US52 with GCAM Regs
 if(redoMaps){
-  examplePolyFolder<-paste(dataFileFolder,"/gis/gcam",sep="")
-  examplePolyFile<-paste("mapGCAMReg32US52",sep="")
-  x=rgdal::readOGR(dsn=examplePolyFolder,layer=examplePolyFile,use_iconv=T,encoding='UTF-8')
-  mapx <- x
-  # convert to sf
-  mapx <- sf::st_as_sf(mapx); mapx
-  area_thresh <- units::set_units(50, km^2)
-  sf::sf_use_s2(FALSE)
-  mapx_area<-sf::st_area(mapx)
-  mapx <- mapx%>%
-    dplyr::mutate(area=mapx_area)
-  #mapx <- mapx[!is.na(mapx$subRegion),]
-  #---------------------
+  m1 <- rmap::mapUS52
+  m2 <- rmap::mapGCAMReg32 %>% filter(region != "USA")
+  mapx<-m1 %>% dplyr::bind_rows(m2)
+
   mapGCAMReg32US52 <- mapx
   mapGCAMReg32US52 <- mapGCAMReg32US52 %>%
-    dplyr::mutate(name="mapGCAMReg32US52",
-                  source = "https://doi.org/10.5281/zenodo.4688451")%>%
-    dplyr::select(subRegion = subRegn,region,subRegionAlt=sbRgnAl,source, area, name, geometry)%>%
+    dplyr::mutate(name="mapGCAMReg32US52")%>%
     st_set_crs(st_crs(4326))
+
   mapGCAMReg32US52 <- mapGCAMReg32US52 %>%
     dplyr::mutate(region=subRegion)
   use_data(mapGCAMReg32US52, version=3, overwrite=T)
@@ -679,7 +664,14 @@ if(redoMaps){
 
 # Merge Uruguay with GCAM 32
 if(redoMaps){
-  examplePolyFolder<-paste(dataFileFolder,"/gis/gcam",sep="")
+
+  # Break out Uruguay in QGIS
+  # First save as shapefile
+  # library(sf); library(rmap)
+  # sf::st_write(rmap::mapGCAMReg32, "mapGCAMReg32.shp")
+  # Modify in QGIS and save as  "C:/Z/data/mapFiles/gcam_modified/mapGCAMReg32Uruguay.shp"
+
+  examplePolyFolder<-paste(dataFileFolder,"/gcam_modified",sep="")
   examplePolyFile<-paste("mapGCAMReg32Uruguay",sep="")
   x=rgdal::readOGR(dsn=examplePolyFolder,layer=examplePolyFile,use_iconv=T,encoding='UTF-8')
   mapx <- x

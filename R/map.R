@@ -444,7 +444,7 @@ map <- function(data = NULL,
       labelAlpha=labelAlpha,
       labelFill=labelFill,
       labelBorderSize=labelBorderSize,
-      fileName = fileName,
+      fileName = paste0(fileName,nameAppend),
       fillColumn = fillColumn,
       show=show,
       save = save,
@@ -453,7 +453,7 @@ map <- function(data = NULL,
       title=title) ->
       mapsReturn[[return_i]];
 
-    names(mapsReturn)[return_i] <- fileName; return_i = return_i + 1
+    names(mapsReturn)[return_i] <- paste0(fileName,nameAppend); return_i = return_i + 1
 
     # labelCol = labelCol
     # overLayer=overLayer
