@@ -527,3 +527,33 @@ rmap::mapGCAMReg32$subRegion%>%unique()
 library(rmap)
 rmap::map(mapGCAMReg32, nameAppend="_reg32")
 rmap::map(mapGCAMReg32Uruguay, nameAppend="_reg32Uruguay")
+
+
+# Paper Maps
+library(rmap)
+data = data.frame(subRegion = c("China","India","Pakistan","Iran","Afghanistan"),
+                  value = c(5,10,15,34,2))
+map(data)
+
+library(rmap)
+data = data.frame(subRegion = c("CA","FL","ID","MO","TX","WY"),
+                  value = c(5,10,15,34,2,7))
+map(data,
+    underLayer = mapUS52Compact,
+    crop_to_underLayer = T,
+    labels = T)
+
+library(rmap)
+data = data.frame(subRegion = c("Spain","Germany","Austria","Greece","Italy",
+                                "Spain","Germany","Austria","Greece","Italy",
+                                "Spain","Germany","Austria","Greece","Italy"),
+                  value = c(5,10,15,34,2,
+                            15,50,34,50,20,
+                            1,2,7,13,5),
+                  scenario = c("scen1","scen1","scen1","scen1","scen1",
+                               "scen2","scen2","scen2","scen2","scen2",
+                               "scen3","scen3","scen3","scen3","scen3"))
+map(data,
+    underLayer = mapCountries,
+    scenRef = "scen1",
+    background = T)
