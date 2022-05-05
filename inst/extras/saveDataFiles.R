@@ -39,6 +39,7 @@ if(redoMaps){
     dplyr::mutate(name="mapCountries") %>%
     dplyr::select(subRegion,region,subRegionAlt,source, geometry, area, name,
                   pop_est, gdp_md_est, pop_year, lastcensus, gdp_year)
+  sf::st_crs(mapCountries) <- 4326
   use_data(mapCountries, version=3, overwrite=T)
 }
 
@@ -82,7 +83,7 @@ if(redoMaps){
   mapStates <- mapStates %>%
     dplyr::mutate(name="mapStates") %>%
     dplyr::select(subRegion,region,subRegionAlt,source, area, name, geometry)
-
+  sf::st_crs(mapStates) <- 4326
   use_data(mapStates, version=3, overwrite=T)
 
   # Check
@@ -145,6 +146,7 @@ if(redoMaps){
     dplyr::mutate(name="mapGCAMReg32")%>%
     dplyr::select(subRegion,region,subRegionAlt,source, area, name, geometry)%>%
     st_transform(st_crs(4326))
+  sf::st_crs(mapGCAMReg32) <- 4326
   use_data(mapGCAMReg32, version=3, overwrite=T)
 
 }
@@ -192,6 +194,7 @@ if(redoMaps){
     dplyr::mutate(name="mapGCAMBasins")%>%
     dplyr::select(subRegion,region,subRegionAlt,source, area, name, geometry)%>%
     sf::st_transform(st_crs(4326))
+  sf::st_crs(mapGCAMBasins) <- 4326
   use_data(mapGCAMBasins, version=3, overwrite=T)
 }
 
@@ -249,6 +252,7 @@ if(redoMaps){
                   subRegion_GCAMBasin, subRegionAlt_GCAMBasin,
                   subRegion_GCAMReg32, subRegionAlt_GCAMReg32)%>%
     st_transform(st_crs(4326))
+  sf::st_crs(mapGCAMLand) <- 4326
   use_data(mapGCAMLand, version=3, overwrite=T)
 }
 
@@ -288,6 +292,7 @@ if(redoMaps){
   mapHydroShed1 <- mapHydroShed1 %>%
     dplyr::mutate(name="mapHydroShed1")%>%
     dplyr::select(subRegion,region,subRegionAlt,source, area, name, geometry)
+  sf::st_crs(mapHydroShed1) <- 4326
   use_data(mapHydroShed1, version=3, overwrite=T)
 }
 
@@ -314,6 +319,7 @@ if(redoMaps){
   mapHydroShed2 <- mapHydroShed2 %>%
     dplyr::mutate(name="mapHydroShed2")%>%
     dplyr::select(subRegion,region,subRegionAlt,source, area, name, geometry)
+  sf::st_crs(mapHydroShed2) <- 4326
   use_data(mapHydroShed2, version=3, overwrite=T)
 }
 
@@ -341,6 +347,7 @@ if(redoMaps){
   mapHydroShed3 <- mapHydroShed3 %>%
     dplyr::mutate(name="mapHydroShed3")%>%
     dplyr::select(subRegion,region,subRegionAlt,source, area, name, geometry)
+  sf::st_crs(mapHydroShed3) <- 4326
   use_data(mapHydroShed3, version=3, overwrite=T)
 }
 
@@ -382,6 +389,7 @@ if(redoMaps){
     dplyr::mutate(name="mapUS52HUC2")%>%
     dplyr::select(subRegion,region,subRegionAlt,source, area, name, geometry) %>%
     st_set_crs(st_crs(4326))
+  sf::st_crs(mapUS52HUC2) <- 4326
   use_data(mapUS52HUC2, version=3, overwrite=T)
 }
 
@@ -408,6 +416,7 @@ if(redoMaps){
     dplyr::mutate(name="mapUS49HUC2")%>%
     dplyr::select(subRegion,region,subRegionAlt,source, area, name, geometry)%>%
     st_set_crs(st_crs(4326))
+  sf::st_crs(mapUS49HUC2) <- 4326
   use_data(mapUS49HUC2, version=3, overwrite=T)
 }
 
@@ -434,6 +443,7 @@ if(redoMaps){
     dplyr::mutate(name="mapUS52HUC4")%>%
     dplyr::select(subRegion,region,subRegionAlt,source, area, name, geometry)%>%
     st_set_crs(st_crs(4326))
+  sf::st_crs(mapUS52HUC4) <- 4326
   use_data(mapUS52HUC4, version=3, overwrite=T)
 }
 
@@ -460,6 +470,7 @@ if(redoMaps){
     dplyr::mutate(name="mapUS49HUC4")%>%
     dplyr::select(subRegion,region,subRegionAlt,source, area, name, geometry)%>%
     st_set_crs(st_crs(4326))
+  sf::st_crs(mapUS49HUC4) <- 4326
   use_data(mapUS49HUC4, version=3, overwrite=T)
 }
 
@@ -509,6 +520,7 @@ if(redoMaps){
     dplyr::mutate(name="mapUS52")%>%
     dplyr::select(subRegion = subRegn,region,subRegionAlt=sbRgnAl,source, area, name, geometry)%>%
     st_set_crs(st_crs(4326))
+  sf::st_crs(mapUS52) <- 4326
   use_data(mapUS52, version=3, overwrite=T)
 }
 
@@ -533,6 +545,7 @@ if(redoMaps){
       dplyr::mutate(name="mapUS52Compact")%>%
       dplyr::select(subRegion = subRegn,region,subRegionAlt=sbRgnAl,source, area, name, geometry)%>%
       st_set_crs(st_crs(4326))
+    sf::st_crs(mapUS52Compact) <- 4326
     use_data(mapUS52Compact, version=3, overwrite=T)
   }
 
@@ -556,6 +569,7 @@ if(redoMaps){
     dplyr::mutate(name="mapUS49")%>%
     dplyr::select(subRegion = subRegn,region,subRegionAlt=sbRgnAl,source, area, name, geometry)%>%
     st_set_crs(st_crs(4326))
+  sf::st_crs(mapUS49) <- 4326
   use_data(mapUS49, version=3, overwrite=T)
 }
 
@@ -579,6 +593,9 @@ if(redoMaps){
     dplyr::mutate(name="mapUS52County")%>%
     dplyr::select(subRegion = subRegn,region,subRegionAlt=sbRgnAl,source, area, name, geometry, STATEFP, FIPS)%>%
     st_set_crs(st_crs("+proj=longlat +datum=NAD83 +no_defs +ellps=GRS80 +towgs84=0,0,0"))
+  sf::st_crs(mapUS52County) <- 4269
+  sf::st_transform(mapUS52County, 4326)
+  sf::st_crs(mapUS52County) <- 4326
   use_data(mapUS52County, version=3, overwrite=T)
 }
 
@@ -602,6 +619,9 @@ if(redoMaps){
     dplyr::mutate(name="mapUS52CountyCompact")%>%
     dplyr::select(subRegion = subRegn,region,subRegionAlt=sbRgnAl,source, area, name, geometry, STATEFP, FIPS)%>%
     st_set_crs(st_crs("+proj=longlat +datum=NAD83 +no_defs +ellps=GRS80 +towgs84=0,0,0"))
+  sf::st_crs(mapUS52CountyCompact) <- 4269
+  sf::st_transform(mapUS52CountyCompact, 4326)
+  sf::st_crs(mapUS52CountyCompact) <- 4326
   use_data(mapUS52CountyCompact, version=3, overwrite=T)
 }
 
@@ -625,6 +645,9 @@ if(redoMaps){
     dplyr::mutate(name="mapUS49County")%>%
     dplyr::select(subRegion = subRegn,region,subRegionAlt=sbRgnAl,source, area, name, geometry, STATEFP, FIPS)%>%
     st_set_crs(st_crs("+proj=longlat +datum=NAD83 +no_defs +ellps=GRS80 +towgs84=0,0,0"))
+  sf::st_crs(mapUS49County) <- 4269
+  sf::st_transform(mapUS49County, 4326)
+  sf::st_crs(mapUS49County) <- 4326
   use_data(mapUS49County, version=3, overwrite=T)
 }
 
@@ -644,6 +667,7 @@ if(redoMaps){
 
   mapGCAMReg32US52 <- mapGCAMReg32US52 %>%
     dplyr::mutate(region=subRegion)
+  sf::st_crs(mapGCAMReg32US52) <- 4326
   use_data(mapGCAMReg32US52, version=3, overwrite=T)
 }
 
@@ -659,6 +683,7 @@ if(redoMaps){
     st_set_crs(st_crs(4326))
   mapCountriesUS52 <- mapCountriesUS52 %>%
     dplyr::mutate(region=subRegion)
+  sf::st_crs(mapCountriesUS52) <- 4326
   use_data(mapCountriesUS52, version=3, overwrite=T)
 }
 
@@ -692,6 +717,7 @@ if(redoMaps){
     st_set_crs(st_crs(4326))
   mapGCAMReg32Uruguay <- mapGCAMReg32Uruguay %>%
     dplyr::mutate(region=subRegion)
+  sf::st_crs(mapGCAMReg32Uruguay) <- 4326
   use_data(mapGCAMReg32Uruguay, version=3, overwrite=T)
 }
 
@@ -733,6 +759,7 @@ if(redoMaps){
     st_set_crs(st_crs(4326))
   mapIntersectGCAMBasinCountry <- mapIntersectGCAMBasinCountry %>%
     dplyr::mutate(region=subRegion)
+  sf::st_crs(mapIntersectGCAMBasinCountry) <- 4326
   use_data(mapIntersectGCAMBasinCountry, version=3, overwrite=T)
 }
 
@@ -770,6 +797,7 @@ if(redoMaps){
     st_set_crs(st_crs(4326))
   mapIntersectGCAMBasinUS52 <- mapIntersectGCAMBasinUS52 %>%
     dplyr::mutate(region=subRegion)
+  sf::st_crs(mapIntersectGCAMBasinUS52) <- 4326
   use_data(mapIntersectGCAMBasinUS52, version=3, overwrite=T)
 }
 
@@ -808,6 +836,7 @@ if(redoMaps){
     st_set_crs(st_crs(4326))
   mapIntersectGCAMBasinUS52County <- mapIntersectGCAMBasinUS52County %>%
     dplyr::mutate(region=subRegion)
+  sf::st_crs(mapIntersectGCAMBasinUS52County) <- 4326
   use_data(mapIntersectGCAMBasinUS52County, version=3, overwrite=T)
 }
 
@@ -845,6 +874,7 @@ if(redoMaps){
     st_set_crs(st_crs(4326))
   mapIntersectGCAMBasin32RegUruguay <- mapIntersectGCAMBasin32RegUruguay %>%
     dplyr::mutate(region=subRegion)
+  sf::st_crs(mapIntersectGCAMBasin32RegUruguay) <- 4326
   use_data(mapIntersectGCAMBasin32RegUruguay, version=3, overwrite=T)
 }
 
@@ -880,6 +910,7 @@ if(redoMaps){
     st_set_crs(st_crs(4326))
   mapGCAMBasinsUS52 <- mapGCAMBasinsUS52 %>%
     dplyr::mutate(region=subRegion)
+  sf::st_crs(mapGCAMBasinsUS52) <- 4326
   use_data(mapGCAMBasinsUS52, version=3, overwrite=T)
 }
 
@@ -906,6 +937,7 @@ if(redoMaps){
     st_set_crs(st_crs(4326))
   mapGCAMBasinsUS49 <- mapGCAMBasinsUS49 %>%
     dplyr::mutate(region=subRegion)
+  sf::st_crs(mapGCAMBasinsUS49) <- 4326
   use_data(mapGCAMBasinsUS49, version=3, overwrite=T)
 }
 
