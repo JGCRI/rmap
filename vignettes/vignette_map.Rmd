@@ -1327,7 +1327,7 @@ mapx$map_param_KMEANS_DiffPrcnt
 ### Gridded Data Multi-Scenario Diff
 
 ```{r, results = 'hide', eval=F, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
-library(rmap);
+library(rmap); library(dplyr)
 
 # Change the years in the example gridded data to scenarios
 data = example_gridData_GWPv4To2015 %>%
