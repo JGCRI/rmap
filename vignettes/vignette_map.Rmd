@@ -982,7 +982,7 @@ mapx$map_param_MEAN_KMEANS
 
 When multiple years are present in the data, assigning an `xRef` and `xDiff` will result in `rmap::map()` to calculate the absolute and percentage difference between the chosen `xref` year and `xDiff` years and store them in corresponding folders.
 
-## Polygon Data Multi-Year Diff
+### Polygon Data Multi-Year Diff
 
 ```{r, results = 'hide', eval=F, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
 library(rmap);
@@ -1108,7 +1108,8 @@ data = example_gridData_GWPv4To2015 %>%
   
 rmap::map(data = data,
           overLayer = rmap::mapCountries,
-          background = T )
+          background = T,
+          ncol = 2, width = 10, height = 10)
 ```
 
 
@@ -1239,7 +1240,8 @@ data = example_gridData_GWPv4To2015 %>%
   
 mapx <- rmap::map(data = data, 
           underLayer = rmap::mapCountries,
-          background = T)
+          background = T,
+          ncol = 1, width = 6, height =10)
 
 mapx$map_param_KMEANS
 
@@ -1315,7 +1317,7 @@ mapx <- rmap::map(data = data,
           scenRef = "scen1",
           scenDiff = c("scen2","scen3"),
           background = T,
-          show = F)
+          show = F, save=F)
 
 mapx$map_param_KMEANS_DiffAbs
 mapx$map_param_KMEANS_DiffPrcnt
@@ -1340,8 +1342,9 @@ data = example_gridData_GWPv4To2015 %>%
 mapx <- rmap::map(data = data, 
           underLayer = rmap::mapCountries,
           scenRef = "scenario1",
-          scenDiff = c("scenario3"),
-          background = T)
+          scenDiff = c("scenario2","scenario3"),
+          background = T,
+          ncol=1)
 
 mapx$map_param_KMEANS_DiffAbs
 mapx$map_param_KMEANS_DiffPrcnt
@@ -1364,9 +1367,10 @@ data = example_gridData_GWPv4To2015 %>%
 mapx <- rmap::map(data = data, 
           underLayer = rmap::mapCountries,
           scenRef = "scenario1",
-          scenDiff = c("scenario3"),
+          scenDiff = c("scenario2","scenario3"),
           background = T,
-          save=F)
+          save=F, show=F,
+          ncol=1)
 
 mapx$map_param_KMEANS_DiffAbs
 mapx$map_param_KMEANS_DiffPrcnt
@@ -1432,7 +1436,8 @@ rmap::map(data = data,
           overLayer = rmap::mapCountries,
           row= "rcp",
           col = "gcm",
-          background = T )
+          background = T,
+          width=10, height =10)
 ```
 
 

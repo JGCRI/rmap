@@ -351,13 +351,34 @@ if(T){ # Read input data
 
   } else if(any(grepl("data.frame", class(data))) & any(grepl("^lat$",names(data))) & any(grepl("^lon$",names(data)))){
     # If simple dataframe with lat lon
-    if(!is.null(col)){
+    if(!is.null(row) & !is.null(col)){
+      data_comb <- data %>%
+        dplyr::mutate(key := paste0(!!as.name(row),"xxspreadxx",!!as.name(col))) %>%
+        dplyr::select(-row,-col); data_comb
+      data_sf_raster <- raster::rasterFromXYZ(data_comb %>%
+                                                tidyr::spread(key=key,value="value"))
+      data_sf_spdf <- methods::as(data_sf_raster,'SpatialPolygonsDataFrame')
+      data_sf <- sf::st_as_sf(data_sf_spdf) %>%
+        sf::st_set_crs(sf::st_crs(crs)) %>%
+        tidyr::gather(key=key,value="value",-names(data_comb)[!names(data_comb) %in% c("lon","lat","key","value")], -geometry) %>%
+        dplyr::mutate(!!row := gsub("xxspreadxx.*","",key),
+                      !!col := gsub(".*xxspreadxx","",key)) %>%
+        dplyr::select(-key)
+    } else if(!is.null(col)){
     data_sf_raster <- raster::rasterFromXYZ(data %>%
                                               tidyr::spread(key=col,value="value"))
     data_sf_spdf <- methods::as(data_sf_raster,'SpatialPolygonsDataFrame')
     data_sf <- sf::st_as_sf(data_sf_spdf) %>%
       sf::st_set_crs(sf::st_crs(crs)) %>%
-      tidyr::gather(key=!!col,value="value",-names(data)[!names(data) %in% c("lon","lat",col,"value")], -geometry)} else {
+      tidyr::gather(key=!!col,value="value",-names(data)[!names(data) %in% c("lon","lat",col,"value")], -geometry)
+    } else if(!is.null(row)){
+      data_sf_raster <- raster::rasterFromXYZ(data %>%
+                                                tidyr::spread(key=row,value="value"))
+      data_sf_spdf <- methods::as(data_sf_raster,'SpatialPolygonsDataFrame')
+      data_sf <- sf::st_as_sf(data_sf_spdf) %>%
+        sf::st_set_crs(sf::st_crs(crs)) %>%
+        tidyr::gather(key=!!row,value="value",-names(data)[!names(data) %in% c("lon","lat",row,"value")], -geometry)
+    } else {
         data_sf_raster <- raster::rasterFromXYZ(data)
         data_sf_spdf <- methods::as(data_sf_raster,'SpatialPolygonsDataFrame')
         data_sf <- sf::st_as_sf(data_sf_spdf) %>%
