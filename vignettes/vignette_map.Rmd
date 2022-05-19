@@ -1093,23 +1093,23 @@ rmap::map(data = data,
 ### Gridded Data Multi-Class
 
 ```{r, results = 'hide', eval=T, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
-library(rmap);library(dplyr)
-
-# Change the years in the gridded data to classes
-data = example_gridData_GWPv4To2015 %>%
-  dplyr::rename(class=x) %>%
-  dplyr::mutate(class = dplyr::case_when(
-    class == "2000" ~ "municipal",
-    class == "2005" ~ "agriculture",
-    class == "2010" ~ "water",
-    class == "2015" ~ "other",
-    TRUE ~ class
-  ))
-  
-rmap::map(data = data,
-          overLayer = rmap::mapCountries,
-          background = T,
-          ncol = 2, width = 10, height = 10)
+# library(rmap);library(dplyr)
+# 
+# # Change the years in the gridded data to classes
+# data = example_gridData_GWPv4To2015 %>%
+#   dplyr::rename(class=x) %>%
+#   dplyr::mutate(class = dplyr::case_when(
+#     class == "2000" ~ "municipal",
+#     class == "2005" ~ "agriculture",
+#     class == "2010" ~ "water",
+#     class == "2015" ~ "other",
+#     TRUE ~ class
+#   ))
+#   
+# rmap::map(data = data,
+#           overLayer = rmap::mapCountries,
+#           background = T,
+#           ncol = 2, width = 10, height = 10)
 ```
 
 
