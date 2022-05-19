@@ -1351,7 +1351,7 @@ mapx$map_param_KMEANS_DiffPrcnt
 
 ```
 
-```{r, results = 'hide', eval=T, echo=F, warning=FALSE, error = FALSE, message = FALSE}
+```{r, results = 'hide', eval=F, echo=F, warning=FALSE, error = FALSE, message = FALSE}
 library(rmap);
 
 # Change the years in the example gridded data to scenarios
