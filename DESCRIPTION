@@ -10,7 +10,7 @@ Authors@R: c(person("Zarrar", "Khan", email = "zarrar.khan@pnnl.gov", role = c("
 Description: Plot customizable maps from simple dataframes using pre-loaded maps.
 URL: https://github.com/JGCRI/rmap
 BugReports: https://github.com/JGCRI/rmap/issues
-Depends: R (>= 4.1.0)
+Depends: R (>= 3.0)
 License: BSD_2_clause + file LICENSE
 Encoding: UTF-8
 LazyData: true
