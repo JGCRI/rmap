@@ -8,7 +8,7 @@ on:
 
 jobs:
   pkgdown:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
@@ -23,6 +23,13 @@ jobs:
       - uses: r-lib/actions/setup-r@v1
         with:
           use-public-rspm: true
+          
+      - name: Ubuntu config
+        if: startsWith(matrix.config.os, 'ubuntu')
+        run: |
+          sudo add-apt-repository ppa:ubuntugis/ppa
+          sudo apt-get update
+          sudo apt-get install -y libcurl4-openssl-dev libssl-dev libxml2-dev libudunits2-dev libgdal-dev libgeos-dev libproj-dev libmagick++-dev libavfilter-dev
       
       - name: Install dependencies
         run: |

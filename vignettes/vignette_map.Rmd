@@ -1354,26 +1354,26 @@ mapx$map_param_KMEANS_DiffPrcnt
 ```{r, results = 'hide', eval=F, echo=F, warning=FALSE, error = FALSE, message = FALSE}
 library(rmap);
 
-# Change the years in the example gridded data to scenarios
-data = example_gridData_GWPv4To2015 %>%
-  dplyr::filter(x %in% c("2000","2005","2010")) %>%
-  dplyr::rename(scenario=x) %>%
-  dplyr::mutate(scenario = dplyr::case_when(
-    scenario == "2000" ~ "scenario1",
-    scenario == "2005" ~ "scenario2",
-    scenario == "2010" ~ "scenario3",
-    TRUE ~ scenario))
-  
-mapx <- rmap::map(data = data, 
-          underLayer = rmap::mapCountries,
-          scenRef = "scenario1",
-          scenDiff = c("scenario2","scenario3"),
-          background = T,
-          save=F, show=F,
-          ncol=1)
-
-mapx$map_param_KMEANS_DiffAbs
-mapx$map_param_KMEANS_DiffPrcnt
+# # Change the years in the example gridded data to scenarios
+# data = example_gridData_GWPv4To2015 %>%
+#   dplyr::filter(x %in% c("2000","2005","2010")) %>%
+#   dplyr::rename(scenario=x) %>%
+#   dplyr::mutate(scenario = dplyr::case_when(
+#     scenario == "2000" ~ "scenario1",
+#     scenario == "2005" ~ "scenario2",
+#     scenario == "2010" ~ "scenario3",
+#     TRUE ~ scenario))
+#   
+# mapx <- rmap::map(data = data, 
+#           underLayer = rmap::mapCountries,
+#           scenRef = "scenario1",
+#           scenDiff = c("scenario2","scenario3"),
+#           background = T,
+#           save=F, show=F,
+#           ncol=1)
+# 
+# mapx$map_param_KMEANS_DiffAbs
+# mapx$map_param_KMEANS_DiffPrcnt
 
 ```
 
