@@ -204,7 +204,7 @@ test_that("test input sf data with shape specified", {
 })
 
 test_that("test raster data", {
-  datax <- raster::rasterFromXYZ(rmap::example_gridData_GWPv4To2015%>%head(50)%>%dplyr::filter(x==1990)%>%dplyr::select(-x))
+  datax <- raster::rasterFromXYZ(rmap::example_gridData_GWPv4To2015%>%head(50)%>%dplyr::filter(x==2000)%>%dplyr::select(-x))
   mapx <- rmap::map_plot(data=datax,
                     show =F, save = F)
   tVal1 <- length(mapx)
