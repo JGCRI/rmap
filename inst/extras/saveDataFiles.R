@@ -86,6 +86,29 @@ if(redoMaps){
   sf::st_crs(mapStates) <- 4326
   use_data(mapStates, version=3, overwrite=T)
 
+  library(rmapshaper); library(tmap)
+  format(object.size(mapUS49), units="Mb")
+  format(object.size(mapStates), units="Mb")
+  mapStates1 <- sf::st_simplify(mapStates, preserveTopology = TRUE, dTolerance = 10)
+  mapStates1 <- rmapshaper::ms_simplify(as(mapStates,"Spatial"), keep = 0.1, keep_shapes = T) %>%
+    sf::st_as_sf()
+  mapStates1 <- tmaptools::simplify_shape(shp = mapStates, fact = 0.1, keep.units = FALSE, keep.subunits = FALSE)
+  format(object.size(mapStates1), units="Mb")
+  plot(mapStates1[1])
+  rmap::map(mapGCAMReg32)
+  rmap::map(mapStates1 %>% dplyr::filter(region=="United Kingdom"))
+  rmap::map(mapStates1 %>% dplyr::filter(region=="Pakistan"))
+  rmap::map(mapStates %>% dplyr::filter(region=="United Kingdom"))
+  plot(mapStates[1])
+  format(object.size(mapStates1), units="Mb")
+  mapStates2<-rgeos::gSimplify(as(mapStates,"Spatial"), byid=TRUE, width=1) %>%
+    sf::st_as_sf()
+  format(object.size(mapStates2), units="Mb")
+  rmap::map(mapStates2 %>% dplyr::filter(region=="United Kingdom"))
+  rmap::map(mapStates %>% dplyr::filter(region=="United Kingdom"))
+  plot(mapStates1[1])
+  plot(mapStates[1])
+
   # Check
   shapeSubset <- mapStates # Read in World States shape file
   shapeSubset <- shapeSubset %>% dplyr::filter(region=="United Kingdom") # Subset the shapefile to Colombia
@@ -1751,7 +1774,7 @@ if(T){
     example_gridData_GWPv4To2015 <- grid_pop_GPWv4To2015 %>%
       tidyr::gather(key="x",value="value",-lon,-lat) %>%
       tibble::as_tibble() %>%
-      dplyr::filter(x %in% c(1990,2015));
+      dplyr::filter(x %in% c(2000, 2005, 2010, 2015));
     use_data(example_gridData_GWPv4To2015, version=3, overwrite=T)
   }
 

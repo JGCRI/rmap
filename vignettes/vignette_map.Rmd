@@ -1039,7 +1039,7 @@ data = example_gridData_GWPv4To2015
 mapx <- rmap::map(data = data,
           background = T, 
           underLayer = rmap::mapCountries,
-          xRef = 1990, 
+          xRef = 2000, 
           xDiff = c(2010,2015))
 
 mapx$map_param_KMEANS_xDiffAbs
@@ -1053,7 +1053,7 @@ data = example_gridData_GWPv4To2015
 mapx <- rmap::map(data = data,
           background = T, 
           underLayer = rmap::mapCountries,
-          xRef = 1990, 
+          xRef = 2000, 
           xDiff = c(2010,2015),
           show=F, save = T)
 
@@ -1099,10 +1099,8 @@ library(rmap);library(dplyr)
 data = example_gridData_GWPv4To2015 %>%
   dplyr::rename(class=x) %>%
   dplyr::mutate(class = dplyr::case_when(
-    class == "1990" ~ "municipal",
-    class == "1995" ~ "industry",
-    class == "2000" ~ "agriculture",
-    class == "2005" ~ "energy",
+    class == "2000" ~ "municipal",
+    class == "2005" ~ "agriculture",
     class == "2010" ~ "water",
     class == "2015" ~ "other",
     TRUE ~ class
@@ -1231,12 +1229,12 @@ library(rmap);
 
 # Change the years in the example gridded data to scenarios
 data = example_gridData_GWPv4To2015 %>%
-  dplyr::filter(x %in% c("1990","2000","2015")) %>%
+  dplyr::filter(x %in% c("2000","2005","2010")) %>%
   dplyr::rename(scenario=x) %>%
   dplyr::mutate(scenario = dplyr::case_when(
-    scenario == "1990" ~ "scenario1",
-    scenario == "2000" ~ "scenario2",
-    scenario == "2015" ~ "scenario3",
+    scenario == "2000" ~ "scenario1",
+    scenario == "2005" ~ "scenario2",
+    scenario == "2010" ~ "scenario3",
     TRUE ~ scenario))
   
 mapx <- rmap::map(data = data, 
@@ -1251,12 +1249,12 @@ mapx$map_param_KMEANS
 library(rmap);
 
 data = example_gridData_GWPv4To2015 %>%
-  dplyr::filter(x %in% c("1990","2000","2015")) %>%
+  dplyr::filter(x %in% c("2000","2005","2010")) %>%
   dplyr::rename(scenario=x) %>%
   dplyr::mutate(scenario = dplyr::case_when(
-    scenario == "1990" ~ "scenario1",
-    scenario == "2000" ~ "scenario2",
-    scenario == "2015" ~ "scenario3",
+    scenario == "2000" ~ "scenario1",
+    scenario == "2005" ~ "scenario2",
+    scenario == "2010" ~ "scenario3",
     TRUE ~ scenario))
   
 mapx <- rmap::map(data = data, 
@@ -1331,11 +1329,12 @@ library(rmap);
 
 # Change the years in the example gridded data to scenarios
 data = example_gridData_GWPv4To2015 %>%
-  dplyr::filter(x %in% c("1990","2015")) %>%
+  dplyr::filter(x %in% c("2000","2005","2010")) %>%
   dplyr::rename(scenario=x) %>%
   dplyr::mutate(scenario = dplyr::case_when(
-    scenario == "1990" ~ "scenario1",
-    scenario == "2015" ~ "scenario3",
+    scenario == "2000" ~ "scenario1",
+    scenario == "2005" ~ "scenario2",
+    scenario == "2010" ~ "scenario3",
     TRUE ~ scenario))
   
 mapx <- rmap::map(data = data, 
@@ -1354,11 +1353,12 @@ library(rmap);
 
 # Change the years in the example gridded data to scenarios
 data = example_gridData_GWPv4To2015 %>%
-  dplyr::filter(x %in% c("1990","2015")) %>%
+  dplyr::filter(x %in% c("2000","2005","2010")) %>%
   dplyr::rename(scenario=x) %>%
   dplyr::mutate(scenario = dplyr::case_when(
-    scenario == "1990" ~ "scenario1",
-    scenario == "2015" ~ "scenario3",
+    scenario == "2000" ~ "scenario1",
+    scenario == "2005" ~ "scenario2",
+    scenario == "2010" ~ "scenario3",
     TRUE ~ scenario))
   
 mapx <- rmap::map(data = data, 
@@ -1416,15 +1416,15 @@ library(rmap);library(dplyr)
 
 # Create data with new columns RCPs and GCMs
 data = example_gridData_GWPv4To2015 %>%
-  dplyr::filter(x %in% c(1990,2000,2010,2015)) %>%
+  dplyr::filter(x %in% c(2000,2005,2010,2015)) %>%
   dplyr::rename(rcp = x) %>%
-  dplyr::mutate(gcm = dplyr::case_when(rcp == 1990 ~ "GCM1",
-                                       rcp == 2000 ~ "GCM1",
+  dplyr::mutate(gcm = dplyr::case_when(rcp == 2000 ~ "GCM1",
+                                       rcp == 2005 ~ "GCM1",
                                        rcp == 2010 ~ "GCM2",
                                        rcp == 2015 ~ "GCM2",
                                        TRUE ~ "GCM"),
-                rcp = dplyr::case_when(rcp == 1990 ~ "RCP1",
-                                       rcp == 2000 ~ "RCP2",
+                rcp = dplyr::case_when(rcp == 2000 ~ "RCP1",
+                                       rcp == 2005 ~ "RCP2",
                                        rcp == 2010 ~ "RCP1",
                                        rcp == 2015 ~ "RCP2",
                                        TRUE ~ rcp)) 

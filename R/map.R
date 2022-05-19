@@ -186,7 +186,7 @@ map <- function(data = NULL,
                 crs = "+proj=longlat +datum=WGS84 +no_defs") {
 
   # # data = NULL
-  # crs = NULL
+  # crs = "+proj=longlat +datum=WGS84 +no_defs"
   # legendSingleValue =F
   # show = T
   # fill = NULL
