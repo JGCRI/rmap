@@ -351,12 +351,18 @@ if(T){ # Read input data
 
   } else if(any(grepl("data.frame", class(data))) & any(grepl("^lat$",names(data))) & any(grepl("^lon$",names(data)))){
     # If simple dataframe with lat lon
+    if(!is.null(col)){
     data_sf_raster <- raster::rasterFromXYZ(data %>%
                                               tidyr::spread(key=col,value="value"))
     data_sf_spdf <- methods::as(data_sf_raster,'SpatialPolygonsDataFrame')
     data_sf <- sf::st_as_sf(data_sf_spdf) %>%
       sf::st_set_crs(sf::st_crs(crs)) %>%
-      tidyr::gather(key=!!col,value="value",-names(data)[!names(data) %in% c("lon","lat",col,"value")], -geometry)
+      tidyr::gather(key=!!col,value="value",-names(data)[!names(data) %in% c("lon","lat",col,"value")], -geometry)} else {
+        data_sf_raster <- raster::rasterFromXYZ(data)
+        data_sf_spdf <- methods::as(data_sf_raster,'SpatialPolygonsDataFrame')
+        data_sf <- sf::st_as_sf(data_sf_spdf) %>%
+          sf::st_set_crs(sf::st_crs(crs))
+      }
     gridded_data=T
   } else if(any(grepl("raster", class(data),ignore.case = T))){
     # If raster
