@@ -357,7 +357,7 @@ if(T){ # Read input data
         dplyr::select(-row,-col); data_comb
       data_sf_raster <- raster::rasterFromXYZ(data_comb %>%
                                                 tidyr::spread(key=key,value="value"))
-      names(data_sf_raster) <- data_comb[[key]]%>%unique()%>%sort()
+      names(data_sf_raster) <- c(names(data_comb)[!names(data_comb) %in% c("lat","lon",key,"value")],data_comb[[key]]%>%unique()%>%sort())
       data_sf_spdf <- data_sf_raster %>%
         methods::as('SpatialPixelsDataFrame') %>%
         methods::as('SpatialPolygonsDataFrame')
@@ -370,7 +370,7 @@ if(T){ # Read input data
     } else if(!is.null(col)){
     data_sf_raster <- raster::rasterFromXYZ(data %>%
                                               tidyr::spread(key=col,value="value"))
-    names(data_sf_raster) <- data[[col]]%>%unique()%>%sort()
+    names(data_sf_raster) <- c(names(data)[!names(data) %in% c("lat","lon",col,"value")],data[[col]]%>%unique()%>%sort())
     data_sf_spdf <- data_sf_raster %>%
       methods::as('SpatialPixelsDataFrame') %>%
       methods::as('SpatialPolygonsDataFrame')
@@ -380,7 +380,8 @@ if(T){ # Read input data
     } else if(!is.null(row)){
       data_sf_raster <- raster::rasterFromXYZ(data %>%
                                                 tidyr::spread(key=row,value="value"))
-      names(data_sf_raster) <- data[[row]]%>%unique()%>%sort()
+
+      names(data_sf_raster) <- c(names(data)[!names(data) %in% c("lat","lon",row,"value")],data[[row]]%>%unique()%>%sort())
       data_sf_spdf <- data_sf_raster %>%
         methods::as('SpatialPixelsDataFrame') %>%
         methods::as('SpatialPolygonsDataFrame')
@@ -399,6 +400,7 @@ if(T){ # Read input data
     gridded_data=T
   } else if(any(grepl("raster", class(data),ignore.case = T))){
     # If raster
+    data_sf_raster <- data
     data_sf_spdf <- data_sf_raster %>%
       methods::as('SpatialPixelsDataFrame') %>%
       methods::as('SpatialPolygonsDataFrame')
