@@ -8,28 +8,46 @@ on:
 
 jobs:
   pkgdown:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.config.os }}
+    name: ${{ matrix.config.os }} (${{ matrix.config.r }})
+    
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+        - { os: ubuntu-latest, r: 'devel'}
     
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
       GITHUB_PAT: ${{ secrets.GH_PAT_RMAP}}
           
     steps:
-    
-      - uses: actions/checkout@v2
-
-      - uses: r-lib/actions/setup-pandoc@v1
-
-      - uses: r-lib/actions/setup-r@v1
-        with:
-          use-public-rspm: true
+      - uses: actions/checkout@v1
+      - uses: r-lib/actions/setup-r@master
+      - uses: r-lib/actions/setup-pandoc@master
+      - uses: r-lib/actions/setup-tinytex@master
+      
+      - name: Cache R packages 
+        uses: actions/cache@v1 
+        with: 
+          path: ${{ env.R_LIBS_USER }} 
+          key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }} 
+          restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1- 
           
       - name: Ubuntu config
         if: startsWith(matrix.config.os, 'ubuntu')
         run: |
           sudo add-apt-repository ppa:ubuntugis/ppa
           sudo apt-get update
-          sudo apt-get install -y libcurl4-openssl-dev libssl-dev libxml2-dev libudunits2-dev libgdal-dev libgeos-dev libproj-dev libmagick++-dev libavfilter-dev
+          sudo apt-get install -y libcurl4-openssl-dev libssl-dev libxml2-dev libudunits2-dev libgdal-dev libgeos-dev libproj-dev libavfilter-dev  libmagick++-dev
+      
+      - name: MacOS Config
+        if: startsWith(matrix.config.os, 'macOS')
+        run: |
+            brew install pkg-config
+            brew install gdal
+            brew install geos
+            brew install imagemagick@6
       
       - name: Install dependencies
         run: |

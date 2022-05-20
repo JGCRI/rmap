@@ -356,58 +356,62 @@ if(T){ # Read input data
         dplyr::mutate(key := paste0(!!as.name(row),"xxspreadxx",!!as.name(col))) %>%
         dplyr::select(-row,-col); data_comb
       data_sf_raster <- raster::rasterFromXYZ(data_comb %>%
-                                                tidyr::spread(key=key,value="value"))
-      names(data_sf_raster) <- c(names(data_comb)[!names(data_comb) %in% c("lat","lon",key,"value")],data_comb[[key]]%>%unique()%>%sort())
+                                                tidyr::spread(key="key",value="value")%>%
+                                                dplyr::select("lat","lon",data[["key"]]%>%unique()%>%sort()))
+      names(data_sf_raster) <- c(data_comb[["key"]]%>%unique()%>%sort())
       data_sf_spdf <- data_sf_raster %>%
         methods::as('SpatialPixelsDataFrame') %>%
         methods::as('SpatialPolygonsDataFrame')
       data_sf <- sf::st_as_sf(data_sf_spdf) %>%
         sf::st_set_crs(sf::st_crs(crs)) %>%
-        tidyr::gather(key=key,value="value",-names(data_comb)[!names(data_comb) %in% c("lon","lat","key","value")], -geometry) %>%
+        tidyr::gather(key=key,value="value", -geometry) %>%
         dplyr::mutate(!!row := gsub("xxspreadxx.*","",key),
                       !!col := gsub(".*xxspreadxx","",key)) %>%
         dplyr::select(-key)
     } else if(!is.null(col)){
     data_sf_raster <- raster::rasterFromXYZ(data %>%
-                                              tidyr::spread(key=col,value="value"))
-    names(data_sf_raster) <- c(names(data)[!names(data) %in% c("lat","lon",col,"value")],data[[col]]%>%unique()%>%sort())
+                                              tidyr::spread(key=col,value="value") %>%
+                                              dplyr::select("lat","lon",data[[col]]%>%unique()%>%sort()))
+    names(data_sf_raster) <- c(data[[col]]%>%unique()%>%sort())
     data_sf_spdf <- data_sf_raster %>%
       methods::as('SpatialPixelsDataFrame') %>%
       methods::as('SpatialPolygonsDataFrame')
     data_sf <- sf::st_as_sf(data_sf_spdf) %>%
       sf::st_set_crs(sf::st_crs(crs)) %>%
-      tidyr::gather(key=!!col,value="value",-names(data)[!names(data) %in% c("lon","lat",col,"value")], -geometry)
+      tidyr::gather(key=!!col,value="value",-geometry)
     } else if(!is.null(row)){
       data_sf_raster <- raster::rasterFromXYZ(data %>%
-                                                tidyr::spread(key=row,value="value"))
+                                                tidyr::spread(key=row,value="value")%>%
+                                                dplyr::select("lat","lon",data[[row]]%>%unique()%>%sort()))
 
-      names(data_sf_raster) <- c(names(data)[!names(data) %in% c("lat","lon",row,"value")],data[[row]]%>%unique()%>%sort())
+      names(data_sf_raster) <- c(data[[row]]%>%unique()%>%sort())
       data_sf_spdf <- data_sf_raster %>%
         methods::as('SpatialPixelsDataFrame') %>%
         methods::as('SpatialPolygonsDataFrame')
       data_sf <- sf::st_as_sf(data_sf_spdf) %>%
         sf::st_set_crs(sf::st_crs(crs)) %>%
-        tidyr::gather(key=!!row,value="value",-names(data)[!names(data) %in% c("lon","lat",row,"value")], -geometry)
+        tidyr::gather(key=!!row,value="value", -geometry)
     } else {
         # Changing format to avoid errors on Linux
         data_comb <- data
-        if(any(!grepl("class",names(data_comb)))){data_comb<-data_comb%>%dplyr::mutate(class="class")}
-        if(any(!grepl("^value$",names(data_comb))) & any(grepl("mean_",names(data_comb),ignore.case=T))){
+        if(all(!grepl("class",names(data_comb)))){data_comb<-data_comb%>%dplyr::mutate(class="class")}
+        if(all(!grepl("^value$",names(data_comb))) & any(grepl("mean_",names(data_comb),ignore.case=T))){
           col_value <- names(data_comb)[grepl("mean_",names(data_comb),ignore.case=T)]
           data_comb<-data_comb%>%dplyr::rename(value=dplyr::all_of(col_value))} else {
             col_value = "value"
           }
         col_x = "class"
         data_sf_raster <- raster::rasterFromXYZ(data_comb %>%
-                                                  tidyr::spread(key=col_x,value="value"))
-        names(data_sf_raster) <- c(names(data_comb)[!names(data_comb) %in% c("lat","lon",col_x,"value")],data_comb[[col_x]]%>%unique()%>%sort())
+                                                  tidyr::spread(key=col_x,value="value")%>%
+                                                  dplyr::select("lat","lon",data[[col_x]]%>%unique()%>%sort()))
+        names(data_sf_raster) <- c(data_comb[[col_x]]%>%unique()%>%sort())
 
         data_sf_spdf <- data_sf_raster %>%
           methods::as('SpatialPixelsDataFrame') %>%
           methods::as('SpatialPolygonsDataFrame')
         data_sf <- sf::st_as_sf(data_sf_spdf) %>%
           sf::st_set_crs(sf::st_crs(crs))%>%
-          tidyr::gather(key=!!col_x,value="value",-names(data_comb)[!names(data_comb) %in% c("lon","lat",col_x,"value")], -geometry)
+          tidyr::gather(key=!!col_x,value="value",-geometry)
 
         if(col_value != "value"){
           data_sf <- data_sf %>% dplyr::rename(!!col_value := "value")
