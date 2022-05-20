@@ -1834,6 +1834,40 @@ map <- function(data = NULL,
                     names(mapsReturn)[return_i] <- paste("map_",param_i,"_MEAN_",fileNameTag,nameAppend,sep="");
                     return_i = return_i + 1
 
+                    # dataxtest <- datax
+                    # crs=crs; underLayerLabelCol = underLayerLabelCol; overLayerLabelCol = overLayerLabelCol; labelCol=labelCol; region=region;color=color; lwd=lwd; legendType=legendType; save=save;  show=show; shape = shapex; overLayer=overLayer; overLayerColor=overLayerColor;
+                    # overLayerFill = overLayerFill; overLayerLwd = overLayerLwd;
+                    # overLayerAlpha = overLayerAlpha; underLayerColor=underLayerColor;
+                    # underLayerFill = underLayerFill; underLayerLwd = underLayerLwd;
+                    # underLayerAlpha = underLayerAlpha; background=background;
+                    # zoom=zoom; zoomx = zoomx; zoomy=zoomy; asp=asp; legendShow=legendShow;
+                    # crop = crop; crop_to_underLayer = crop_to_underLayer; crop_to_overLayer = crop_to_overLayer; transparent=transparent;
+                    # alpha = alpha; size=max(1,(size+(colm+rowm)*3 - 12));
+                    # ncol=ncol; showNA=showNA; colorNA=colorNA;
+                    # labelColor=labelColor;
+                    # labelSize=labelSize;
+                    # labelAlpha=labelAlpha;
+                    # labelFill=labelFill;
+                    # labelBorderSize=labelBorderSize;
+                    # theme = theme; legendTitle=legendTitle;
+                    # legendDigitsOverride=legendDigitsOverride;
+                    # numeric2Cat_list=numeric2Cat_list; catParam = param_i;
+                    # underLayer=underLayer;
+                    # data=datax;
+                    # legendBreaksn=legendBreaksn;
+                    # legendDigits = legendDigits;
+                    # palette = palette;
+                    # width=width*max(1,colm/1);
+                    # height=height*max(1,rowm/1);
+                    # pdfpng = pdfpng; legendSingleColor = legendSingleColor; legendSingleValue =  legendSingleValue;
+                    # labels=labels; labelRepel=labelRepel; underLayerLabels=underLayerLabels; overLayerLabels=overLayerLabels;
+                    # legendBreaks = legendBreaksx
+                    # fillColumn = meanCol
+                    # col = multiFacetColsx
+                    # row = multiFacetRowsx
+                    # title = titlex
+                    # fileName = paste("map_",param_i,"_MEAN_",fileNameTag,nameAppend,sep="")
+                    # folder = sub("/$","",paste(folder,"/",param_if,sep = ""))
 
                 } # if(nrow(datax)>0){
               }# If multiple years
