@@ -14,15 +14,17 @@ jobs:
       fail-fast: false
       matrix:
         config:
-        - { os: ubuntu-latest, r: 'devel'}
+        - { os: ubuntu-latest, r: 'devel', cran: "https://demo.rstudiopm.com/all/__linux__/xenial/latest"}
     
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true      
-      GITHUB_PAT: ${{ secrets.GH_PAT_RMAP}}
+      GITHUB_PAT: ${{ secrets.GH_PAT}}
 
     steps:
       - uses: actions/checkout@v1
       - uses: r-lib/actions/setup-r@master
+        with:
+          r-version: '3.6'
       - uses: r-lib/actions/setup-pandoc@master
       - uses: r-lib/actions/setup-tinytex@master
       
