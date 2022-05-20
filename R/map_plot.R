@@ -1025,7 +1025,7 @@ if(T){
     if (any(grepl("continuous", legendType, ignore.case = T)) & is.numeric(data_sf[[fillColumn]])) {
       map <- underLayer +
         ggplot2::geom_sf(
-          data = data_sf_w_labels[, c(fillColumn,row,col)]%>%dplyr::filter(!is.na(label),label!="NA"),
+          data = data_sf_w_labels[, c(fillColumn,row,col)],
           ggplot2::aes_string(fill = fillColumn),
           color = colorx,
           lwd = lwd
