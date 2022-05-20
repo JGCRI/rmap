@@ -357,7 +357,10 @@ if(T){ # Read input data
         dplyr::select(-row,-col); data_comb
       data_sf_raster <- raster::rasterFromXYZ(data_comb %>%
                                                 tidyr::spread(key=key,value="value"))
-      data_sf_spdf <- methods::as(data_sf_raster,'SpatialPolygonsDataFrame')
+      names(data_sf_raster) <- data_comb[[key]]%>%unique()%>%sort()
+      data_sf_spdf <- data_sf_raster %>%
+        methods::as('SpatialPixelsDataFrame') %>%
+        methods::as('SpatialPolygonsDataFrame')
       data_sf <- sf::st_as_sf(data_sf_spdf) %>%
         sf::st_set_crs(sf::st_crs(crs)) %>%
         tidyr::gather(key=key,value="value",-names(data_comb)[!names(data_comb) %in% c("lon","lat","key","value")], -geometry) %>%
@@ -367,27 +370,38 @@ if(T){ # Read input data
     } else if(!is.null(col)){
     data_sf_raster <- raster::rasterFromXYZ(data %>%
                                               tidyr::spread(key=col,value="value"))
-    data_sf_spdf <- methods::as(data_sf_raster,'SpatialPolygonsDataFrame')
+    names(data_sf_raster) <- data[[col]]%>%unique()%>%sort()
+    data_sf_spdf <- data_sf_raster %>%
+      methods::as('SpatialPixelsDataFrame') %>%
+      methods::as('SpatialPolygonsDataFrame')
     data_sf <- sf::st_as_sf(data_sf_spdf) %>%
       sf::st_set_crs(sf::st_crs(crs)) %>%
       tidyr::gather(key=!!col,value="value",-names(data)[!names(data) %in% c("lon","lat",col,"value")], -geometry)
     } else if(!is.null(row)){
       data_sf_raster <- raster::rasterFromXYZ(data %>%
                                                 tidyr::spread(key=row,value="value"))
-      data_sf_spdf <- methods::as(data_sf_raster,'SpatialPolygonsDataFrame')
+      names(data_sf_raster) <- data[[row]]%>%unique()%>%sort()
+      data_sf_spdf <- data_sf_raster %>%
+        methods::as('SpatialPixelsDataFrame') %>%
+        methods::as('SpatialPolygonsDataFrame')
       data_sf <- sf::st_as_sf(data_sf_spdf) %>%
         sf::st_set_crs(sf::st_crs(crs)) %>%
         tidyr::gather(key=!!row,value="value",-names(data)[!names(data) %in% c("lon","lat",row,"value")], -geometry)
     } else {
         data_sf_raster <- raster::rasterFromXYZ(data)
-        data_sf_spdf <- methods::as(data_sf_raster,'SpatialPolygonsDataFrame')
+        names(data_sf_raster) <- names(data)[!names(data) %in% c("lat","lon")]
+        data_sf_spdf <- data_sf_raster %>%
+          methods::as('SpatialPixelsDataFrame') %>%
+          methods::as('SpatialPolygonsDataFrame')
         data_sf <- sf::st_as_sf(data_sf_spdf) %>%
           sf::st_set_crs(sf::st_crs(crs))
       }
     gridded_data=T
   } else if(any(grepl("raster", class(data),ignore.case = T))){
     # If raster
-    data_sf_spdf <- methods::as(data,'SpatialPolygonsDataFrame')
+    data_sf_spdf <- data_sf_raster %>%
+      methods::as('SpatialPixelsDataFrame') %>%
+      methods::as('SpatialPolygonsDataFrame')
     data_sf <- sf::st_as_sf(data_sf_spdf) %>%
       sf::st_set_crs(sf::st_crs(crs))
     gridded_data=T
