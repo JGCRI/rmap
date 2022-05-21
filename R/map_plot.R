@@ -357,7 +357,7 @@ if(T){ # Read input data
         dplyr::select(-row,-col); data_comb
       data_sf_raster <- raster::rasterFromXYZ(data_comb %>%
                                                 tidyr::spread(key="key",value="value")%>%
-                                                dplyr::select("lat","lon",data[["key"]]%>%unique()%>%sort()))
+                                                dplyr::select("lat","lon",data_comb[["key"]]%>%unique()%>%sort()))
       names(data_sf_raster) <- c(data_comb[["key"]]%>%unique()%>%sort())
       data_sf_spdf <- data_sf_raster %>%
         methods::as('SpatialPixelsDataFrame') %>%
@@ -892,12 +892,17 @@ if(T){ # Read input data
     #Setting labels for values that hit max and min values
     data_sf_w_labels <- data_sf_w_labels %>%
       dplyr::mutate(
+        v1 = round(!!data_sf_w_labels[[fillColumn]],legendDigits),
+        v2 = round(max(legendBreaksX),legendDigits),
+        v1_v2 = as.numeric(v1-v2),
+        vbool = v1==v2,
         label := dplyr::case_when(
           (label == "temp" & round(!!data_sf_w_labels[[fillColumn]],legendDigits) == round(max(legendBreaksX),legendDigits)) ~ legValsRange[length(legValsRange)],
           (label == "temp" & round(!!data_sf_w_labels[[fillColumn]],legendDigits) == round(min(legendBreaksX),legendDigits)) ~ legValsRange[1],
           TRUE ~ label
         )
-      )
+      ); data_sf_w_labels%>%dplyr::filter(label=="temp")
+
 
     }
 
@@ -905,10 +910,10 @@ if(T){ # Read input data
     data_sf_w_labels <- data_sf_w_labels %>%
       dplyr::mutate(
         label := dplyr::case_when(
-          (label == "temp" & !!data_sf_w_labels[[fillColumn]] < min(legendBreaksX))~paste0("< ", min(legendBreaksX)),
-          (label == "temp" & !!data_sf_w_labels[[fillColumn]] > max(legendBreaksX))~paste0("> ", max(legendBreaksX)),
+          (label == "temp" & round(!!data_sf_w_labels[[fillColumn]],legendDigits) < round(max(legendBreaksX),legendDigits))~paste0("< ", min(legendBreaksX)),
+          (label == "temp" & round(!!data_sf_w_labels[[fillColumn]],legendDigits) > round(min(legendBreaksX),legendDigits))~paste0("> ", max(legendBreaksX)),
           TRUE ~ label)
-      )
+      ); data_sf_w_labels%>%dplyr::filter(label=="temp")
 
     # Add in any bounds if needed to palette
     labelBounds <- unique(data_sf_w_labels$label); labelBounds

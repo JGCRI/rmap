@@ -1055,7 +1055,7 @@ mapx <- rmap::map(data = data,
           underLayer = rmap::mapCountries,
           xRef = 2000, 
           xDiff = c(2010,2015),
-          show=F, save = T)
+          show=F, save = F)
 
 mapx$map_param_KMEANS_xDiffAbs
 mapx$map_param_KMEANS_xDiffPrcnt
