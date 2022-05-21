@@ -357,7 +357,7 @@ if(T){ # Read input data
         dplyr::select(-row,-col); data_comb
       data_sf_raster <- raster::rasterFromXYZ(data_comb %>%
                                                 tidyr::spread(key="key",value="value")%>%
-                                                dplyr::select("lat","lon",data_comb[["key"]]%>%unique()%>%sort()))
+                                                dplyr::select("lon","lat",data_comb[["key"]]%>%unique()%>%sort()))
       names(data_sf_raster) <- c(data_comb[["key"]]%>%unique()%>%sort())
       data_sf_spdf <- data_sf_raster %>%
         methods::as('SpatialPixelsDataFrame') %>%
@@ -371,7 +371,7 @@ if(T){ # Read input data
     } else if(!is.null(col)){
     data_sf_raster <- raster::rasterFromXYZ(data %>%
                                               tidyr::spread(key=col,value="value") %>%
-                                              dplyr::select("lat","lon",data[[col]]%>%unique()%>%sort()))
+                                              dplyr::select("lon","lat",data[[col]]%>%unique()%>%sort()))
     names(data_sf_raster) <- c(data[[col]]%>%unique()%>%sort())
     data_sf_spdf <- data_sf_raster %>%
       methods::as('SpatialPixelsDataFrame') %>%
@@ -382,7 +382,7 @@ if(T){ # Read input data
     } else if(!is.null(row)){
       data_sf_raster <- raster::rasterFromXYZ(data %>%
                                                 tidyr::spread(key=row,value="value")%>%
-                                                dplyr::select("lat","lon",data[[row]]%>%unique()%>%sort()))
+                                                dplyr::select("lon","lat",data[[row]]%>%unique()%>%sort()))
 
       names(data_sf_raster) <- c(data[[row]]%>%unique()%>%sort())
       data_sf_spdf <- data_sf_raster %>%
@@ -403,7 +403,7 @@ if(T){ # Read input data
         col_x = "class"
         data_sf_raster <- raster::rasterFromXYZ(data_comb %>%
                                                   tidyr::spread(key=col_x,value="value")%>%
-                                                  dplyr::select("lat","lon",data[[col_x]]%>%unique()%>%sort()))
+                                                  dplyr::select("lon","lat",data[[col_x]]%>%unique()%>%sort()))
         names(data_sf_raster) <- c(data_comb[[col_x]]%>%unique()%>%sort())
 
         data_sf_spdf <- data_sf_raster %>%
