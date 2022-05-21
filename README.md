@@ -49,11 +49,6 @@ install.packages("devtools")
 devtools::install_github("JGCRI/rmap")
 ```
 
-```r
-install.packages("devtools")
-devtools::install_github("JGCRI/rmap")
-```
-
 Additional steps for UBUNTU from a terminal
 ```
 sudo add-apt-repository ppa:ubuntugis/ppa
