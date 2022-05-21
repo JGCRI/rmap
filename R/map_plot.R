@@ -406,7 +406,7 @@ if(T){ # Read input data
         col_x = "class"
         data_sf_raster <- raster::rasterFromXYZ(data_comb %>%
                                                   tidyr::spread(key=col_x,value="value")%>%
-                                                  dplyr::select("lon","lat",data[[col_x]]%>%unique()%>%sort()))
+                                                  dplyr::select("lon","lat",data_comb[[col_x]]%>%unique()%>%sort()))
         names(data_sf_raster) <- c(data_comb[[col_x]]%>%unique()%>%sort())
 
         data_sf_spdf <- data_sf_raster %>%
@@ -415,7 +415,7 @@ if(T){ # Read input data
         data_sf <- sf::st_as_sf(data_sf_spdf) %>%
           sf::st_set_crs(sf::st_crs(crs))%>%
           tidyr::gather(key=!!col_x,value="value",-geometry) %>%
-          dplyr::mutate(!!col := sub("^X","",!!as.name(col)))
+          dplyr::mutate(!!col_x := sub("^X","",!!as.name(col_x)))
 
         if(col_value != "value"){
           data_sf <- data_sf %>% dplyr::rename(!!col_value := "value")
