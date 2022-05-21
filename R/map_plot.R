@@ -365,6 +365,7 @@ if(T){ # Read input data
       data_sf <- sf::st_as_sf(data_sf_spdf) %>%
         sf::st_set_crs(sf::st_crs(crs)) %>%
         tidyr::gather(key=key,value="value", -geometry) %>%
+        dplyr::mutate(key = sub("^X","",key)) %>%
         dplyr::mutate(!!row := gsub("xxspreadxx.*","",key),
                       !!col := gsub(".*xxspreadxx","",key)) %>%
         dplyr::select(-key)
@@ -378,7 +379,8 @@ if(T){ # Read input data
       methods::as('SpatialPolygonsDataFrame')
     data_sf <- sf::st_as_sf(data_sf_spdf) %>%
       sf::st_set_crs(sf::st_crs(crs)) %>%
-      tidyr::gather(key=!!col,value="value",-geometry)
+      tidyr::gather(key=!!col,value="value",-geometry) %>%
+      dplyr::mutate(!!col := sub("^X","",!!as.name(col)))
     } else if(!is.null(row)){
       data_sf_raster <- raster::rasterFromXYZ(data %>%
                                                 tidyr::spread(key=row,value="value")%>%
@@ -390,7 +392,8 @@ if(T){ # Read input data
         methods::as('SpatialPolygonsDataFrame')
       data_sf <- sf::st_as_sf(data_sf_spdf) %>%
         sf::st_set_crs(sf::st_crs(crs)) %>%
-        tidyr::gather(key=!!row,value="value", -geometry)
+        tidyr::gather(key=!!row,value="value", -geometry) %>%
+      dplyr::mutate(!!row := sub("^X","",!!as.name(row)))
     } else {
         # Changing format to avoid errors on Linux
         data_comb <- data
@@ -411,7 +414,8 @@ if(T){ # Read input data
           methods::as('SpatialPolygonsDataFrame')
         data_sf <- sf::st_as_sf(data_sf_spdf) %>%
           sf::st_set_crs(sf::st_crs(crs))%>%
-          tidyr::gather(key=!!col_x,value="value",-geometry)
+          tidyr::gather(key=!!col_x,value="value",-geometry) %>%
+          dplyr::mutate(!!col := sub("^X","",!!as.name(col)))
 
         if(col_value != "value"){
           data_sf <- data_sf %>% dplyr::rename(!!col_value := "value")

@@ -953,7 +953,7 @@ head(data)
 library(rmap);
 rmap::map(data = data,
           overLayer = rmap::mapCountries,
-          background = T)
+          background = T, width = 15, height =15)
 
 # NOTE: Animation files are only saved to file and not as a direct output of the rmap::map() function.
 
@@ -965,7 +965,7 @@ data = example_gridData_GWPv4To2015;
 mapx <- rmap::map(data = data,
           overLayer = rmap::mapCountries,
           background = T,
-          show=F, save = T)
+          show=F, save = T, width = 15, height =15)
 
 mapx$map_param_KMEANS
 mapx$map_param_MEAN_KMEANS
@@ -1040,7 +1040,7 @@ mapx <- rmap::map(data = data,
           background = T, 
           underLayer = rmap::mapCountries,
           xRef = 2000, 
-          xDiff = c(2010,2015), diffOnly = T)
+          xDiff = c(2010,2015), diffOnly = T, width = 15, height =15)
 
 mapx$map_param_KMEANS_xDiffAbs
 mapx$map_param_KMEANS_xDiffPrcnt
@@ -1055,7 +1055,7 @@ mapx <- rmap::map(data = data,
           underLayer = rmap::mapCountries,
           xRef = 2000, 
           xDiff = c(2010,2015),
-          show=F, save = F)
+          show=F, save = F, width = 15, height =15)
 
 mapx$map_param_KMEANS_xDiffAbs
 mapx$map_param_KMEANS_xDiffPrcnt
@@ -1109,7 +1109,7 @@ data = example_gridData_GWPv4To2015 %>%
 rmap::map(data = data,
           overLayer = rmap::mapCountries,
           background = T,
-          ncol = 2, width = 10, height = 10)
+          ncol = 2, width = 15, height =15)
 ```
 
 
@@ -1241,7 +1241,7 @@ data = example_gridData_GWPv4To2015 %>%
 mapx <- rmap::map(data = data, 
           underLayer = rmap::mapCountries,
           background = T,
-          ncol = 1, width = 6, height =10)
+          ncol = 1, width = 15, height =15)
 
 mapx$map_param_KMEANS
 
@@ -1262,7 +1262,7 @@ data = example_gridData_GWPv4To2015 %>%
 mapx <- rmap::map(data = data, 
           underLayer = rmap::mapCountries,
           background = T,
-          show = F)
+          show = F, width = 15, height =15)
 
 mapx$map_param_KMEANS
 
@@ -1344,7 +1344,7 @@ mapx <- rmap::map(data = data,
           scenRef = "scenario1",
           scenDiff = c("scenario2","scenario3"),
           background = T,
-          ncol=1)
+          ncol=1, width = 15, height =15)
 
 mapx$map_param_KMEANS_DiffAbs
 mapx$map_param_KMEANS_DiffPrcnt
@@ -1370,7 +1370,7 @@ mapx <- rmap::map(data = data,
           scenDiff = c("scenario2","scenario3"),
           background = T,
           save=F, show=F,
-          ncol=1)
+          ncol=1, width = 15, height =15)
 
 mapx$map_param_KMEANS_DiffAbs
 mapx$map_param_KMEANS_DiffPrcnt
@@ -1437,7 +1437,7 @@ rmap::map(data = data,
           row= "rcp",
           col = "gcm",
           background = T,
-          width=10, height =10)
+          width=15, height =15)
 ```
 
 
