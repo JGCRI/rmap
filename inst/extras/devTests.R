@@ -557,3 +557,8 @@ map(data,
     underLayer = mapCountries,
     scenRef = "scen1",
     background = T)
+
+
+library(rmap); library(dplyr);
+a1<-readRDS("a1.RDS")
+rmap::map(a1)
