@@ -260,16 +260,20 @@ if(T){ # Initialize
                                                  grepl("^Serbia$",subRegion,ignore.case = T)~"Republic of Serbia",
                                                  grepl("^EU-12$",subRegion,ignore.case = T)~"EU_12",
                                                  grepl("^EU-15$",subRegion,ignore.case = T)~"EU_15",
-                                                 TRUE ~ subRegion),
-                    region = dplyr::case_when(grepl("^United States of America$|^United States$",region,ignore.case = T)~"USA",
-                                                 grepl("^Tanzania$",region,ignore.case = T)~"United Republic of Tanzania",
-                                                 grepl("^Democratic Republic of Congo$",region,ignore.case = T)~"Democratic Republic of the Congo",
-                                                 grepl("^Congo$",region,ignore.case = T)~"Republic of the Congo",
-                                                 grepl("^Cote d'Ivoire$",region,ignore.case = T)~"Ivory Coast",
-                                                 grepl("^Serbia$",region,ignore.case = T)~"Republic of Serbia",
-                                                 grepl("^EU-12$",region,ignore.case = T)~"EU_12",
-                                                 grepl("^EU-15$",region,ignore.case = T)~"EU_15",
-                                                 TRUE ~ region))
+                                                 TRUE ~ subRegion))
+  }
+
+  if("region" %in% names(data)){
+    data <- data %>%
+      dplyr::mutate(region = dplyr::case_when(grepl("^United States of America$|^United States$",region,ignore.case = T)~"USA",
+                                              grepl("^Tanzania$",region,ignore.case = T)~"United Republic of Tanzania",
+                                              grepl("^Democratic Republic of Congo$",region,ignore.case = T)~"Democratic Republic of the Congo",
+                                              grepl("^Congo$",region,ignore.case = T)~"Republic of the Congo",
+                                              grepl("^Cote d'Ivoire$",region,ignore.case = T)~"Ivory Coast",
+                                              grepl("^Serbia$",region,ignore.case = T)~"Republic of Serbia",
+                                              grepl("^EU-12$",region,ignore.case = T)~"EU_12",
+                                              grepl("^EU-15$",region,ignore.case = T)~"EU_15",
+                                              TRUE ~ region))
   }
 
   # Disable s2 for sf plots
