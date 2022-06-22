@@ -24,8 +24,11 @@
 #' @param labelBorderSize Default = NA
 #' @param shapeFolder Default = paste(getwd(),"/dataFiles/gis/admin_gadm36",sep=""),
 #' @param shapeFile Default = paste("gadm36_1",sep=""),
-#' @param subRegCol Default ="subRegion",
-#' @param valueCol Default = "value",
+#' @param subRegion Default ="subRegion",
+#' @param value Default = "value",
+#' @param x Default = NULL
+#' @param class Default = "class"
+#' @param scenario Default = "scenario"
 #' @param nameAppend Default =""
 #' @param legendTitle Default = NULL
 #' @param legendType Default ="kmeans", Options include c("pretty","kmeans","freescale","all")
@@ -117,8 +120,11 @@ map <- function(data = NULL,
                 labelBorderSize = NA,
                 shapeFolder = NULL,
                 shapeFile = NULL,
-                subRegCol = "subRegion",
-                valueCol = "value",
+                subRegion = "subRegion",
+                value = "value",
+                x = NULL,
+                class = "class",
+                scenario = "scenario",
                 nameAppend = "",
                 legendTitle = NULL,
                 legendType ="kmeans",
@@ -282,8 +288,8 @@ map <- function(data = NULL,
 
   if(T){
 
-    NULL->lat->lon->param->scenario->subRegion->value ->
-      x->year->gridID->maxScale->minScale->
+    NULL->lat->lon->param->
+      year->gridID->maxScale->minScale->
       valueDiff->rowid->catParam->include->Var1->Var2->Var3->maxX->minX->
       dataTblDiff -> dataTblxDiff -> countCheck->
       multiFacetCol -> multiFacetRow->paletteOrig->
@@ -303,6 +309,11 @@ map <- function(data = NULL,
   animateOrig <- animate
   legendTitleOrig <- legendTitle
   forceFacetsOrig = forceFacets
+  valueCol = value; value = NULL;
+  subRegCol = subRegion; subRegion = NULL;
+  xCol = x; x=NULL
+  classCol = class; class = NULL
+  scenarioCol = scenario; scenario = NULL;
 
   # Read in csv as tibble
   if (!is.null(data)) {
@@ -333,13 +344,15 @@ map <- function(data = NULL,
       if(nrow(data)>0){
         if(subRegCol != "subRegion"){
           if(any(subRegCol %in% names(data))){
-            if(any("subRegion" %in% names(data))){
-              data <- data %>%
-                dplyr::select(-subRegion)
-            }
+            if(!grepl("subRegion",subRegCol)){
+              if(any("subRegion" %in% names(data))){
+                data <- data %>%
+                  dplyr::select(-subRegion)
+              }
             data <- data %>%
-              dplyr::rename("subRegion" = subRegCol) %>%
+              dplyr::mutate(subRegion := !!rlang::sym(subRegCol)) %>%
               dplyr::mutate(subRegion = as.character(subRegion))
+            }
           }
         }
       }
@@ -366,13 +379,79 @@ map <- function(data = NULL,
       if(nrow(data)>0){
         if(valueCol != "value"){
           if(any(valueCol %in% names(data))){
-            if(any("value" %in% names(data))){
-              data <- data %>%
-                dplyr::select(-value)
-            }
+            if(!grepl("value",valueCol)){
+              if(any("value" %in% names(data))){
+                data <- data %>%
+                  dplyr::select(-value)
+              }
             data <- data %>%
-              dplyr::rename("value" = valueCol) %>%
+              dplyr::mutate(value := !!rlang::sym(valueCol)) %>%
               dplyr::mutate(value = as.numeric(value))
+            }
+          }
+        }
+      }
+    }
+  }
+
+  # Rename Class
+  if(T){
+    if(!is.null(data)){
+      if(nrow(data)>0){
+        if(classCol != "class"){
+          if(any(classCol %in% names(data))){
+            if(!grepl("class",classCol)){
+              if(any("class" %in% names(data))){
+                data <- data %>%
+                  dplyr::select(-class)
+              }
+              data <- data %>%
+                dplyr::mutate(class := !!rlang::sym(classCol)) %>%
+                dplyr::mutate(class = as.character(class))
+            }
+          }
+        }
+      }
+    }
+  }
+
+  # Rename scenario
+  if(T){
+    if(!is.null(data)){
+      if(nrow(data)>0){
+        if(scenarioCol != "scenario"){
+          if(any(scenarioCol %in% names(data))){
+            if(!grepl("scenario",scenarioCol)){
+              if(any("scenario" %in% names(data))){
+                data <- data %>%
+                  dplyr::select(-scenario)
+              }
+              data <- data %>%
+                dplyr::mutate(scenario := !!rlang::sym(scenarioCol)) %>%
+                dplyr::mutate(scenario = as.character(scenario))
+            }
+          }
+        }
+      }
+    }
+  }
+
+  # Rename xCol
+  if(T){
+    if(!is.null(data)){
+      if(nrow(data)>0){
+        if(!is.null(xCol)){
+          if(any(xCol %in% names(data))){
+            if(!grepl("x",xCol)){
+              if(any("x" %in% names(data))){
+                data <- data %>%
+                  dplyr::select(-x)
+              }
+            data <- data %>%
+              dplyr::mutate(x := !!rlang::sym(xCol))
+            }
+          } else {
+            rlang::inform("xCol selected does not exist in data.")
           }
         }
       }
@@ -535,7 +614,7 @@ map <- function(data = NULL,
        return(data)
     }
 
-  addMissing<-function(data){
+  addMissing<-function(data, xCol){
     if(!any(grepl("\\<scenario\\>",names(data),ignore.case = T))){data<-data%>%dplyr::mutate(scenario="scenario")}else{
       data <- data %>% dplyr::rename(!!"scenario" := (names(data)[grepl("\\<scenario\\>",names(data),ignore.case = T)])[1])
       if(!class(data$scenario)=="factor"){
@@ -543,8 +622,24 @@ map <- function(data = NULL,
     if(!any(grepl("\\<scenarios\\>",names(data),ignore.case = T))){}else{
       data <- data %>% dplyr::rename(!!"scenario" := (names(data)[grepl("\\<scenarios\\>",names(data),ignore.case = T)])[1])
       data<-data%>%dplyr::mutate(scenario=as.character(scenario),scenario=dplyr::case_when(is.na(scenario)~"scenario",TRUE~scenario))}
-    if(!"x"%in%names(data)){if("year"%in%names(data)){
-      data<-data%>%dplyr::mutate(x=year)}else{data<-data%>%dplyr::mutate(x="x")}}
+    if(any(grepl("^x$",names(data),ignore.case = T)) & any(grepl("^year$",names(data),ignore.case = T)) & is.null(xCol)){
+      if(any(is.na(data$x)) & !any(is.na(data$year))){
+        data <- data %>% dplyr::rename(!!"year" := (names(data)[grepl("\\<year\\>",names(data),ignore.case = T)])[1])
+        data<-data%>%dplyr::mutate(x=year)
+        rlang::inform("Both 'x' and 'year' columns present. Since 'x' column has NAs using year.")
+        rlang::inform("Users can specify the column to use for the time dimension by setting the 'xCol' argument.")
+      } else {
+        data <- data %>% dplyr::rename(!!"x" := (names(data)[grepl("\\<x\\>",names(data),ignore.case = T)])[1])
+        rlang::inform("Both 'x' and 'year' columns present. Using 'x' column for the time dimension.")
+        rlang::inform("Users can specify the column to use for the time dimension by setting the 'xCol' argument.")
+      }
+      }
+    if(!any(grepl("^x$",names(data),ignore.case = T)) & is.null(xCol)){if(any(grepl("^year$",names(data),ignore.case = T))){
+      data <- data %>% dplyr::rename(!!"year" := (names(data)[grepl("\\<year\\>",names(data),ignore.case = T)])[1])
+      data<-data%>%dplyr::mutate(x=year)
+    }else{
+      data<-data%>%dplyr::mutate(x="x")}
+      }
     if(any(grepl("\\<subregion\\>",names(data),ignore.case = T))){
       data <- data %>% dplyr::rename(!!"subRegion" := (names(data)[grepl("\\<subregion\\>",names(data),ignore.case = T)])[1])
       data<-data%>%dplyr::mutate(subRegion=as.character(subRegion))}
@@ -638,7 +733,7 @@ map <- function(data = NULL,
   if(nrow(dataTbl)>0){
 
     # Add missing columns
-    dataTbl<-addMissing(dataTbl)
+    dataTbl<-addMissing(data=dataTbl, x=xCol)
 
     if(!"value" %in% names(dataTbl)){stop("'value' column not present in data provided. Check data.")}
     if(!"lat" %in% names(dataTbl) &
@@ -1288,7 +1383,7 @@ map <- function(data = NULL,
                   # Check for Duplicates
                   if(duplicated(datax %>%
                                 dplyr::select(lat,lon,subRegion,region,x,dplyr::all_of(multiFacetRowsx),dplyr::all_of(multiFacetColsx))) %>%
-                     any()){stop("Input data data has multiple values. Please check your data.")}
+                     any()){stop("input data has multiple values. Please check your data.")}
 
                   # Set title
                   if(is.null(title)){
@@ -1537,7 +1632,7 @@ map <- function(data = NULL,
                 # Check for Duplicates
                 if(duplicated(datax %>%
                               dplyr::select(subRegion,region,lat,lon,x,dplyr::all_of(multiFacetRowsx),dplyr::all_of(multiFacetColsx))) %>%
-                   any()){stop("Input data data has multiple values. Please check your data.")}
+                   any()){stop("input data has multiple values. Please check your data.")}
 
                 # Set title
                 if(is.null(title)){
@@ -1650,7 +1745,7 @@ map <- function(data = NULL,
                   if(is.null(legendTitleOrig)){legendTitle<-unique(datax$units)}
                   palette<-as.character(unique(datax$palette)); if(grepl(",",palette)){palette = unlist(stringr::str_split(palette,","))}
 
-                  meanCol = paste("Mean_",min(datax$x),"to",max(datax$x),sep="")
+                  meanCol = paste("Mean_",min(datax$x),"_to_",max(datax$x),sep="")
 
 
                   colsPresentGroup =  c("lon","lat","subRegion","region","scenario","class")
@@ -1767,7 +1862,7 @@ map <- function(data = NULL,
                   # Check for Duplicates
                   if(duplicated(datax %>%
                                 dplyr::select(lat,lon,subRegion,region,x,dplyr::all_of(multiFacetRowsx),dplyr::all_of(multiFacetColsx))) %>%
-                     any()){stop("Input data data has multiple values. Please check your data.")}
+                     any()){stop("input data has multiple values. Please check your data.")}
 
                   # Set title
                   if(is.null(title)){
@@ -2048,7 +2143,7 @@ map <- function(data = NULL,
                     # Check for Duplicates
                     if(duplicated(datax %>%
                                   dplyr::select(lat,lon,subRegion,region,x,dplyr::all_of(multiFacetRowsx),dplyr::all_of(multiFacetColsx))) %>%
-                       any()){stop("Input data data has multiple values. Please check your data.")}
+                       any()){stop("input data has multiple values. Please check your data.")}
 
 
                     # Set title
@@ -2280,7 +2375,7 @@ map <- function(data = NULL,
                 # Check for Duplicates
                 if(duplicated(datax %>%
                               dplyr::select(subRegion,region,lat,lon,x,dplyr::all_of(multiFacetRowsx),dplyr::all_of(multiFacetColsx))) %>%
-                   any()){stop("Input data data has multiple values. Please check your data.")}
+                   any()){stop("input data has multiple values. Please check your data.")}
 
                 # Set title
                 if(is.null(title)){
@@ -2366,7 +2461,7 @@ map <- function(data = NULL,
                   if(is.null(legendTitleOrig)){legendTitle<-unique(datax$units)}
                   palette<-as.character(unique(datax$palette)); if(grepl(",",palette)){palette = unlist(stringr::str_split(palette,","))}
 
-                  meanCol = paste("Mean_",min(datax$x),"to",max(datax$x),sep="")
+                  meanCol = paste("Mean_",min(datax$x),"_to_",max(datax$x),sep="")
 
 
                   colsPresentGroup =  c("lon","lat","subRegion","region","scenario","class")
@@ -2483,7 +2578,7 @@ map <- function(data = NULL,
                   # Check for Duplicates
                   if(duplicated(datax %>%
                                 dplyr::select(lat,lon,subRegion,region,x,dplyr::all_of(multiFacetRowsx),dplyr::all_of(multiFacetColsx))) %>%
-                     any()){stop("Input data data has multiple values. Please check your data.")}
+                     any()){stop("input data has multiple values. Please check your data.")}
 
 
                   if(length(scenDiff)==1){
@@ -2741,7 +2836,7 @@ map <- function(data = NULL,
                     # Check for Duplicates
                     if(duplicated(datax %>%
                                   dplyr::select(lat,lon,subRegion,region,x,dplyr::all_of(multiFacetRowsx),dplyr::all_of(multiFacetColsx))) %>%
-                       any()){stop("Input data data has multiple values. Please check your data.")}
+                       any()){stop("input data has multiple values. Please check your data.")}
 
                     # Set title
                     if(is.null(title)){
@@ -2972,7 +3067,7 @@ map <- function(data = NULL,
                 # Check for Duplicates
                 if(duplicated(datax %>%
                               dplyr::select(subRegion,region,lat,lon,x,dplyr::all_of(multiFacetRowsx),dplyr::all_of(multiFacetColsx))) %>%
-                   any()){stop("Input data data has multiple values. Please check your data.")}
+                   any()){stop("input data has multiple values. Please check your data.")}
 
                 # Set title
                 if(is.null(title)){
@@ -3104,7 +3199,7 @@ map <- function(data = NULL,
                   if(is.null(legendTitleOrig)){legendTitle<-unique(datax$units)}
                   palette<-as.character(unique(datax$palette)); if(grepl(",",palette)){palette = unlist(stringr::str_split(palette,","))}
 
-                  meanCol = paste("Mean_",min(datax$x),"to",max(datax$x),sep="")
+                  meanCol = paste("Mean_",min(datax$x),"_to_",max(datax$x),sep="")
 
 
                   colsPresentGroup =  c("lon","lat","subRegion","region","scenario","class")
@@ -3221,7 +3316,7 @@ map <- function(data = NULL,
                   # Check for Duplicates
                   if(duplicated(datax %>%
                                 dplyr::select(lat,lon,subRegion,region,x,dplyr::all_of(multiFacetRowsx),dplyr::all_of(multiFacetColsx))) %>%
-                     any()){stop("Input data data has multiple values. Please check your data.")}
+                     any()){stop("input data has multiple values. Please check your data.")}
 
                   # Set title
                   if(is.null(title)){
@@ -3477,7 +3572,7 @@ map <- function(data = NULL,
                       # Check for Duplicates
                       if(duplicated(datax %>%
                                     dplyr::select(lat,lon,subRegion,region,x,dplyr::all_of(multiFacetRowsx),dplyr::all_of(multiFacetColsx))) %>%
-                         any()){stop("Input data data has multiple values. Please check your data.")}
+                         any()){stop("input data has multiple values. Please check your data.")}
 
                       # Set title
                       if(is.null(title)){
@@ -3704,7 +3799,7 @@ map <- function(data = NULL,
                   # Check for Duplicates
                   if(duplicated(datax %>%
                                 dplyr::select(subRegion,region,lat,lon,x,dplyr::all_of(multiFacetRowsx),dplyr::all_of(multiFacetColsx))) %>%
-                     any()){stop("Input data data has multiple values. Please check your data.")}
+                     any()){stop("input data has multiple values. Please check your data.")}
 
                   # Set title
                   if(is.null(title)){
@@ -3839,7 +3934,7 @@ map <- function(data = NULL,
                     if(is.null(legendTitleOrig)){legendTitle<-unique(datax$units)}
                     palette<-as.character(unique(datax$palette)); if(grepl(",",palette)){palette = unlist(stringr::str_split(palette,","))}
 
-                    meanCol = paste("Mean_",min(datax$x),"to",max(datax$x),sep="")
+                    meanCol = paste("Mean_",min(datax$x),"_to_",max(datax$x),sep="")
 
 
                     colsPresentGroup =  c("lon","lat","subRegion","region","scenario","class")
@@ -3956,7 +4051,7 @@ map <- function(data = NULL,
                     # Check for Duplicates
                     if(duplicated(datax %>%
                                   dplyr::select(lat,lon,subRegion,region,x,dplyr::all_of(multiFacetRowsx),dplyr::all_of(multiFacetColsx))) %>%
-                       any()){stop("Input data data has multiple values. Please check your data.")}
+                       any()){stop("input data has multiple values. Please check your data.")}
 
                     # Set title
                     if(is.null(title)){
@@ -4204,7 +4299,7 @@ map <- function(data = NULL,
                       # Check for Duplicates
                       if(duplicated(datax %>%
                                     dplyr::select(lat,lon,subRegion,region,x,dplyr::all_of(multiFacetRowsx),dplyr::all_of(multiFacetColsx))) %>%
-                         any()){stop("Input data data has multiple values. Please check your data.")}
+                         any()){stop("input data has multiple values. Please check your data.")}
 
                       # Set title
                       if(is.null(title)){
@@ -4458,7 +4553,7 @@ map <- function(data = NULL,
                   # Check for Duplicates
                   if(duplicated(datax %>%
                                 dplyr::select(subRegion,lat,lon,x,region,dplyr::all_of(multiFacetRowsx),dplyr::all_of(multiFacetColsx))) %>%
-                     any()){stop("Input data data has multiple values. Please check your data.")}
+                     any()){stop("input data has multiple values. Please check your data.")}
 
                   # Set title
                   if(is.null(title)){
@@ -4594,7 +4689,7 @@ map <- function(data = NULL,
                     if(is.null(legendTitleOrig)){legendTitle<-unique(datax$units)}
                     palette<-as.character(unique(datax$palette)); if(grepl(",",palette)){palette = unlist(stringr::str_split(palette,","))}
 
-                    meanCol = paste("Mean_",min(datax$x),"to",max(datax$x),sep="")
+                    meanCol = paste("Mean_",min(datax$x),"_to_",max(datax$x),sep="")
 
                     colsPresentGroup =  c("lon","lat","subRegion","region","scenario","class")
                     colsPresentGroup = colsPresentGroup[colsPresentGroup %in% names(datax)]
@@ -4714,7 +4809,7 @@ map <- function(data = NULL,
                     # Check for Duplicates
                     if(duplicated(datax %>%
                                   dplyr::select(lat,lon,subRegion,region,x,dplyr::all_of(multiFacetRowsx),dplyr::all_of(multiFacetColsx))) %>%
-                       any()){stop("Input data data has multiple values. Please check your data.")}
+                       any()){stop("input data has multiple values. Please check your data.")}
 
                     # Set title
                     if(is.null(title)){

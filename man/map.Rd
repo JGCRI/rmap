@@ -24,8 +24,11 @@ map(
   labelBorderSize = NA,
   shapeFolder = NULL,
   shapeFile = NULL,
-  subRegCol = "subRegion",
-  valueCol = "value",
+  subRegion = "subRegion",
+  value = "value",
+  x = NULL,
+  class = "class",
+  scenario = "scenario",
   nameAppend = "",
   legendTitle = NULL,
   legendType = "kmeans",
@@ -132,9 +135,15 @@ map(
 
 \item{shapeFile}{Default = paste("gadm36_1",sep=""),}
 
-\item{subRegCol}{Default ="subRegion",}
+\item{subRegion}{Default ="subRegion",}
 
-\item{valueCol}{Default = "value",}
+\item{value}{Default = "value",}
+
+\item{x}{Default = NULL}
+
+\item{class}{Default = "class"}
+
+\item{scenario}{Default = "scenario"}
 
 \item{nameAppend}{Default =""}
 

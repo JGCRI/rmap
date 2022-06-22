@@ -10,6 +10,11 @@
 #' @param folder Default = paste(getwd(),"/outputs",sep Default = "")
 #' @param palette Default = "Set3"
 #' @param show Default = T. Print maps in console as they are processed.
+#' @param subRegion Default ="subRegion",
+#' @param value Default = "value",
+#' @param x Default = NULL
+#' @param class Default = "class"
+#' @param scenario Default = "scenario"
 #' @param theme Default = NULL
 #' @param fillColumn Default = NULL # Or give column with data
 #' @param width Default = 9
@@ -85,6 +90,11 @@ map_plot<-function(data=NULL,
                   shape = NULL,
                   theme = NULL,
                   show = T,
+                  subRegion = "subRegion",
+                  value = "value",
+                  x = NULL,
+                  class = "class",
+                  scenario = "scenario",
                   palette="Set3",
                   legendType="kmeans",
                   labels=F,
@@ -225,8 +235,135 @@ if(T){ # Initialize
 
   NULL->raster->map->checkFacets->catBreaks->catLabels->catPalette->legendLabelsX->
     singleValLoc->label->long->lat->group->dataShape->dataPolygon->dataGrid->data_shape->
-    lon->hole->piece->subRegion->X1->X2->id->name->value->datax->subRegionAlt->datax1->
+    lon->hole->piece->X1->X2->id->name->datax->subRegionAlt->datax1->
     data_sf_w_labels->geometry
+
+  # Set originals
+  valueCol = value; value = NULL;
+  subRegCol = subRegion; subRegion = NULL;
+  xCol = x; x=NULL
+  classCol = class; class = NULL
+  scenarioCol = scenario; scenario = NULL;
+
+  # Rename SubRegCol
+  if(T){
+    if(!is.null(data)){
+      if(nrow(data)>0){
+        if(subRegCol != "subRegion"){
+          if(any(subRegCol %in% names(data))){
+            if(!grepl("subRegion",subRegCol)){
+              if(any("subRegion" %in% names(data))){
+                data <- data %>%
+                  dplyr::select(-subRegion)
+              }
+              data <- data %>%
+                dplyr::mutate(subRegion := !!rlang::sym(subRegCol)) %>%
+                dplyr::mutate(subRegion = as.character(subRegion))
+            }
+          }
+        }
+      }
+    }
+  }
+
+  # Remove NA subRegion
+  if(T){
+    if(any(grepl("tbl_df|tbl|data.frame",class(data)))){
+      if(!is.null(data)){
+        if(nrow(data)>0){
+          if(any("subRegion" %in% names(data))){
+            data <- data %>%
+              dplyr::filter(!is.na(subRegion))
+          }
+        }
+      }
+    }
+  }
+
+  # Rename valueCol
+  if(T){
+    if(!is.null(data)){
+      if(nrow(data)>0){
+        if(valueCol != "value"){
+          if(any(valueCol %in% names(data))){
+            if(!grepl("value",valueCol)){
+              if(any("value" %in% names(data))){
+                data <- data %>%
+                  dplyr::select(-value)
+              }
+              data <- data %>%
+                dplyr::mutate(value := !!rlang::sym(valueCol)) %>%
+                dplyr::mutate(value = as.numeric(value))
+            }
+          }
+        }
+      }
+    }
+  }
+
+  # Rename Class
+  if(T){
+    if(!is.null(data)){
+      if(nrow(data)>0){
+        if(classCol != "class"){
+          if(any(classCol %in% names(data))){
+            if(!grepl("class",classCol)){
+              if(any("class" %in% names(data))){
+                data <- data %>%
+                  dplyr::select(-class)
+              }
+              data <- data %>%
+                dplyr::mutate(class := !!rlang::sym(classCol)) %>%
+                dplyr::mutate(class = as.character(class))
+            }
+          }
+        }
+      }
+    }
+  }
+
+  # Rename scenario
+  if(T){
+    if(!is.null(data)){
+      if(nrow(data)>0){
+        if(scenarioCol != "scenario"){
+          if(any(scenarioCol %in% names(data))){
+            if(!grepl("scenario",scenarioCol)){
+              if(any("scenario" %in% names(data))){
+                data <- data %>%
+                  dplyr::select(-scenario)
+              }
+              data <- data %>%
+                dplyr::mutate(scenario := !!rlang::sym(scenarioCol)) %>%
+                dplyr::mutate(scenario = as.character(scenario))
+            }
+          }
+        }
+      }
+    }
+  }
+
+  # Rename xCol
+  if(T){
+    if(!is.null(data)){
+      if(nrow(data)>0){
+        if(!is.null(xCol)){
+          if(any(xCol %in% names(data))){
+            if(!grepl("x",xCol)){
+              if(any("x" %in% names(data))){
+                data <- data %>%
+                  dplyr::select(-x)
+              }
+              data <- data %>%
+                dplyr::mutate(x := !!rlang::sym(xCol))
+            }
+          } else {
+            rlang::inform("xCol selected does not exist in data.")
+          }
+        }
+      }
+    }
+  }
 
 
   if(is.null(data)){stop("data cannot be null.")}
@@ -338,7 +475,7 @@ if(T){ # Read input data
   } else if(any(grepl("data.frame", class(data))) & !any(grepl("^lat$",names(data))) & !any(grepl("^lon$",names(data)))){
     # If simple dataframe find map
     if(!any(grepl("^region$",names(data),ignore.case = T))){
-      data_sf <-  map_find(data) %>%
+      data_sf <-  map_find(data=data,subRegion=subRegCol, x=xCol, value=valueCol, class=classCol) %>%
         dplyr::left_join(data, by=c("subRegion")) %>%
         dplyr::filter(subRegion %in% (data$subRegion %>% unique()))
 
@@ -346,16 +483,16 @@ if(T){ # Read input data
       if(all("region" %in% (unique(data$region)))){
         data <- data %>% dplyr::select(-region)
 
-        data_sf <-  map_find(data) %>%
+        data_sf <-  map_find(data=data, subRegion=subRegCol, x=xCol, value=valueCol, class=classCol) %>%
           dplyr::left_join(data, by=c("subRegion")) %>%
           dplyr::filter(subRegion %in% (data$subRegion %>% unique()))
       } else {
-        data_sf <-  map_find(data) %>%
+        data_sf <-  map_find(data=data, subRegion=subRegCol, x=xCol, value=valueCol, class=classCol) %>%
           dplyr::left_join(data, by=c("subRegion","region")) %>%
           dplyr::filter(subRegion %in% (data$subRegion %>% unique()))
       }
     } else {
-    data_sf <-  map_find(data) %>%
+    data_sf <-  map_find(data=data, subRegion=subRegCol, x=xCol, value=valueCol, class=classCol) %>%
       dplyr::left_join(data, by=c("subRegion","region")) %>%
       dplyr::filter(subRegion %in% (data$subRegion %>% unique()))
     }

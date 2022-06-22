@@ -83,15 +83,30 @@ The main input is the `data` argument in the `map()` function. This will be an R
 
 <p align="center"> <img src="vignetteFigs/mapsProcess_inputs.PNG"></p>
 
-Users can also assign other column names to `subRegion` and `value` if desired using the `subRegCol` and `valueCol` arguments as follows:
+<!-------------------------->
+<!-------------------------->
+# Custom Columns {#customcolumns}
+<!-------------------------->
+<!-------------------------->
+<p align="center"> <img src="vignetteFigs/divider.png"></p>
+
+Users can also assign other column names to `x` (the time dimension), `class`, `subRegion`, `scenario` and `value` if desired using the `x`, `class`, `subRegion`, `scenario` and `value` arguments as follows:
 
 ```{r, results = "hide", eval=FALSE, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
 library(rmap);
-data = data.frame(my_column_1 = c("CA","FL","ID","MO","TX","WY"),
-                  my_column_2 = c(5,10,15,34,2,7))
+data = data.frame(my_column_1 = c("CA","FL","ID","CA","FL","ID","CA","FL","ID","CA","FL","ID"),
+                  my_column_2 = c(5,10,15,34,22,77,15,110,115,134,122,177),
+                  my_column_3 = c(2010,2010,2010,2020,2020,2020,2010,2010,2010,2020,2020,2020),
+                  my_column_4 = c("class1","class1","class1","class1","class1","class1",
+                                  "class2","class2","class2","class2","class2","class2"),
+                  my_column_5 = c("my_scenario","my_scenario","my_scenario","my_scenario","my_scenario","my_scenario",
+                                  "my_scenario","my_scenario","my_scenario","my_scenario","my_scenario","my_scenario"))
 rmap::map(data,
-          subRegCol = "my_column_1",
-          valueCol = "my_column_2")
+          subRegion = "my_column_1",
+          value = "my_column_2",
+          x = "my_column_3",
+          class = "my_column_4",
+          scenario = "my_column_5")
 
 ```
 

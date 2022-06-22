@@ -3,12 +3,22 @@
 #' Given a data.frame with a subRegion column, this function searches for an appropriate map from the pre-loaded rmap maps.
 #'
 #' @param data data table to be processed
+#' @param subRegion Default ="subRegion",
+#' @param value Default = "value",
+#' @param x Default = NULL
+#' @param class Default = "class"
+#' @param scenario Default = "scenario"
 #' @keywords map, find
 #' @return dataframe with modified subRegions, subRegion shapefile and subRegion type
 #' @export
 
 
-map_find <- function(data) {
+map_find <- function(data,
+                     subRegion = "subRegion",
+                     value = "value",
+                     x = NULL,
+                     class = "class",
+                     scenario = "scenario") {
 
   #......................................................
   # Initialize
@@ -16,8 +26,137 @@ map_find <- function(data) {
 
     if(T){
     NULL -> subRegShapeFoundx -> subRegShapeTypeFoundx -> subRegNotInShapeFoundx ->
-      dataFound -> subRegionShapex -> mapStatesx -> subRegionAlt -> subRegion -> mapFindx -> subRegion1 ->
-        subRegNum-> subRegionMap}
+      dataFound -> subRegionShapex -> mapStatesx -> subRegionAlt -> mapFindx -> subRegion1 ->
+        subRegNum-> subRegionMap
+
+      # Set originals
+      valueCol = value; value = NULL;
+      subRegCol = subRegion; subRegion = NULL;
+      xCol = x; x=NULL
+      classCol = class; class = NULL;
+      scenarioCol = scenario; scenario = NULL;
+
+      # Rename SubRegCol
+      if(T){
+        if(!is.null(data)){
+          if(nrow(data)>0){
+            if(subRegCol != "subRegion"){
+              if(any(subRegCol %in% names(data))){
+                if(!grepl("subRegion",subRegCol)){
+                  if(any("subRegion" %in% names(data))){
+                    data <- data %>%
+                      dplyr::select(-subRegion)
+                  }
+                  data <- data %>%
+                    dplyr::mutate(subRegion := !!rlang::sym(subRegCol)) %>%
+                    dplyr::mutate(subRegion = as.character(subRegion))
+                }
+              }
+            }
+          }
+        }
+      }
+
+      # Remove NA subRegion
+      if(T){
+        if(any(grepl("tbl_df|tbl|data.frame",class(data)))){
+          if(!is.null(data)){
+            if(nrow(data)>0){
+              if(any("subRegion" %in% names(data))){
+                data <- data %>%
+                  dplyr::filter(!is.na(subRegion))
+              }
+            }
+          }
+        }
+      }
+
+      # Rename valueCol
+      if(T){
+        if(!is.null(data)){
+          if(nrow(data)>0){
+            if(valueCol != "value"){
+              if(any(valueCol %in% names(data))){
+                if(!grepl("value",valueCol)){
+                  if(any("value" %in% names(data))){
+                    data <- data %>%
+                      dplyr::select(-value)
+                  }
+                  data <- data %>%
+                    dplyr::mutate(value := !!rlang::sym(valueCol)) %>%
+                    dplyr::mutate(value = as.numeric(value))
+                }
+              }
+            }
+          }
+        }
+      }
+
+      # Rename Class
+      if(T){
+        if(!is.null(data)){
+          if(nrow(data)>0){
+            if(classCol != "class"){
+              if(any(classCol %in% names(data))){
+                if(!grepl("class",classCol)){
+                  if(any("class" %in% names(data))){
+                    data <- data %>%
+                      dplyr::select(-class)
+                  }
+                  data <- data %>%
+                    dplyr::mutate(class := !!rlang::sym(classCol)) %>%
+                    dplyr::mutate(class = as.character(class))
+                }
+              }
+            }
+          }
+        }
+      }
+
+      # Rename scenario
+      if(T){
+        if(!is.null(data)){
+          if(nrow(data)>0){
+            if(scenarioCol != "scenario"){
+              if(any(scenarioCol %in% names(data))){
+                if(!grepl("scenario",scenarioCol)){
+                  if(any("scenario" %in% names(data))){
+                    data <- data %>%
+                      dplyr::select(-scenario)
+                  }
+                  data <- data %>%
+                    dplyr::mutate(scenario := !!rlang::sym(scenarioCol)) %>%
+                    dplyr::mutate(scenario = as.character(scenario))
+                }
+              }
+            }
+          }
+        }
+      }
+
+      # Rename xCol
+      if(T){
+        if(!is.null(data)){
+          if(nrow(data)>0){
+            if(!is.null(xCol)){
+              if(any(xCol %in% names(data))){
+                if(!grepl("x",xCol)){
+                  if(any("x" %in% names(data))){
+                    data <- data %>%
+                      dplyr::select(-x)
+                  }
+                  data <- data %>%
+                    dplyr::mutate(x := !!rlang::sym(xCol))
+                }
+              } else {
+                rlang::inform("xCol selected does not exist in data.")
+              }
+            }
+          }
+        }
+      }
+
+      }
 
   #......................................................
   # Check columns and map subRegions to rmap shape regions

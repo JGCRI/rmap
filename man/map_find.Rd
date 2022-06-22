@@ -4,10 +4,27 @@
 \alias{map_find}
 \title{map_find}
 \usage{
-map_find(data)
+map_find(
+  data,
+  subRegion = "subRegion",
+  value = "value",
+  x = NULL,
+  class = "class",
+  scenario = "scenario"
+)
 }
 \arguments{
 \item{data}{data table to be processed}
+
+\item{subRegion}{Default ="subRegion",}
+
+\item{value}{Default = "value",}
+
+\item{x}{Default = NULL}
+
+\item{class}{Default = "class"}
+
+\item{scenario}{Default = "scenario"}
 }
 \value{
 dataframe with modified subRegions, subRegion shapefile and subRegion type

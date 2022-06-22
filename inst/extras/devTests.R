@@ -340,16 +340,16 @@ mydata <- ncovr %>%
 # Will give you the relevant plot but multiple counties
 # See how you can define your own columns as arguments
 rmap::map(mydata,
-          subRegCol = "NAME",
-          valueCol = "HR60")
+          subRegion = "NAME",
+          value = "HR60")
 
 # Here you can see all the multiple counties labelled.
 # rmap appends the State for you as it recognizes this.
 # You can also see some of the other features of rmap here
 # such as underLayer, zoom, labels etc.
 rmap::map(mydata,
-          subRegCol="NAME",
-          valueCol="HR60",
+          subRegion="NAME",
+          value="HR60",
           labels = T,
           labelSize = 3,
           labelRepel = T,
@@ -423,14 +423,37 @@ mydata <- ncovr %>%
   dplyr::select(NAME, STATE_NAME, FIPS, HR60) %>%
   sf::st_drop_geometry() %>%
   dplyr::left_join(rmap::mapUS52County, by="FIPS")
-rmap::map(data=mydata, valueCol = "HR60", legendTitle = "HR60")
+rmap::map(data=mydata, value = "HR60", legendTitle = "HR60")
 
 
 # Download file: https://data.london.gov.uk/download/gcse-results-by-borough/a8a71d73-cc48-4b30-9eb5-c5f605bc845c/gcse-results.xlsx
 # read in new test data
 #download.file("https://data.london.gov.uk/download/gcse-results-by-borough/a8a71d73-cc48-4b30-9eb5-c5f605bc845c/gcse-results.xlsx",
-#              destfile = "gcse-results.xlsx")
-gcse_results <- readxl::read_xlsx("gcse-results.xlsx", sheet = "2020-21")
+#             destfile = "gcse-results.xlsx")
+gcse_results <- readxl::read_xlsx("C:/Users/khan404/Downloads/gcse-results.xlsx", sheet = "2020-21")
+
+# clean up test data
+colnames <- paste0(gcse_results[1,], gcse_results[2,])
+colnames <- gsub("NA", "", colnames)
+names(gcse_results) <- colnames
+gcse_results <- gcse_results %>%
+  janitor::clean_names() %>%
+  slice(4:36) %>%
+  mutate(number_of_pupils_at_the_end_of_key_stage_4 = as.numeric(number_of_pupils_at_the_end_of_key_stage_4))
+
+# try to map using Local Authority name
+my_map <- rmap::map(gcse_results,
+                    subRegion = "area",
+                    value = "number_of_pupils_at_the_end_of_key_stage_4",
+                    legendTitle = "Pupils at KS4", save=F)
+
+
+# Issue: https://github.com/openjournals/joss-reviews/issues/4015#issuecomment-1152889162
+library(rmap); library(geodaData); library(dplyr); library(sf); library(tidyverse)
+library(readxl); library(janitor)
+
+gcse_results <- read_xlsx("C:/Users/khan404/Downloads/gcse-results.xlsx", sheet = "2020-21")
+gcse_results_2 <- read_xlsx("C:/Users/khan404/Downloads/gcse-results.xlsx", sheet = "2019-20")
 
 # clean up test data
 colnames <- paste0(gcse_results[1,], gcse_results[2,])
@@ -441,18 +464,52 @@ gcse_results <- gcse_results %>%
   slice(4:36) %>%
   mutate(number_of_pupils_at_the_end_of_key_stage_4 = as.numeric(number_of_pupils_at_the_end_of_key_stage_4))
 
-# try to map using Local Authority name
-my_map <- rmap::map(gcse_results,
-                    subRegCol = "area",
-                    valueCol = "number_of_pupils_at_the_end_of_key_stage_4",
-                    legendTitle = "Pupils at KS4")
+colnames <- paste0(gcse_results_2[1,], gcse_results_2[2,])
+colnames <- gsub("NA", "", colnames)
+names(gcse_results_2) <- colnames
+gcse_results_2 <- gcse_results_2 %>%
+  clean_names() %>%
+  slice(4:36) %>%
+  mutate(number_of_pupils_at_the_end_of_key_stage_4 = as.numeric(number_of_pupils_at_the_end_of_key_stage_4))
+
+gcse_results_joined <- rbind(gcse_results %>% mutate(year = "2020"),
+                             gcse_results_2 %>% mutate(year = "2019"))
+
+rmap::map(data = gcse_results_joined,
+          subRegion = "area",
+          value = "number_of_pupils_at_the_end_of_key_stage_4")
+
+rmap::map(data = gcse_results_joined,
+          subRegion = "area",
+          value = "number_of_pupils_at_the_end_of_key_stage_4",
+          x = "month")
+
+rmap::map(data = gcse_results_joined,
+          subRegion = "area",
+          value = "number_of_pupils_at_the_end_of_key_stage_4",
+          x = "month",
+          xRef = "jan",
+          legendType = "pretty",
+          save=F, labels=T) -> mapx
+
+gcse_results_joined_classes <- gcse_results_joined %>%
+  dplyr::mutate(gender = "girls") %>%
+  dplyr::bind_rows(gcse_results_joined %>%
+                     dplyr::mutate(gender="boys", value = value*runif(length(gcse_results_joined))))
 
 
-# Test Multi-regions
-rmap::map(data.frame(subRegion=c("Toledo","Madrid","Huesca"),value=c(1,2,3)), region="Spain", labels=T)
-rmap::map(data=data.frame(subRegion=c("Punjab","Sind"),value=c(1,2)), region="Pakistan")
-rmap::map(data=data.frame(subRegion=c("CA","TX","AL","CO","ID")))
-rmap::map(data=rmap::mapUS49)
+rmap::map_find(data = gcse_results_joined,
+               class = "gender",
+               subRegion = "area",
+               value = "number_of_pupils_at_the_end_of_key_stage_4") -> mapx
+
+mapx$ %>%
+  ggplot2::theme_bw()
+
+rmap::map_plot(data = gcse_results_joined,
+               subRegion = "area",
+               value = "number_of_pupils_at_the_end_of_key_stage_4")
+
 
 # Test Covid data
 # Our World in Data JHU https://github.com/owid/covid-19-data/tree/master/public/data

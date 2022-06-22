@@ -11,6 +11,11 @@ map_plot(
   shape = NULL,
   theme = NULL,
   show = T,
+  subRegion = "subRegion",
+  value = "value",
+  x = NULL,
+  class = "class",
+  scenario = "scenario",
   palette = "Set3",
   legendType = "kmeans",
   labels = F,
@@ -85,6 +90,16 @@ map_plot(
 \item{theme}{Default = NULL}
 
 \item{show}{Default = T. Print maps in console as they are processed.}
+
+\item{subRegion}{Default ="subRegion",}
+
+\item{value}{Default = "value",}
+
+\item{x}{Default = NULL}
+
+\item{class}{Default = "class"}
+
+\item{scenario}{Default = "scenario"}
 
 \item{palette}{Default = "Set3"}
 
