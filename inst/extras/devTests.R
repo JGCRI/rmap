@@ -477,39 +477,57 @@ gcse_results_joined <- rbind(gcse_results %>% mutate(year = "2020"),
 
 rmap::map(data = gcse_results_joined,
           subRegion = "area",
-          value = "number_of_pupils_at_the_end_of_key_stage_4")
+          value = "number_of_pupils_at_the_end_of_key_stage_4")->mapx
+
+mapx$map_param_KMEANS
+mapx$map_param_MEAN_KMEANS
+mapx$map_param_MEAN_KMEANS + ggplot2::theme_dark()
+ggsave("map_param_MEAN_KMEANS_dark.png",width=8,height=8)
 
 rmap::map(data = gcse_results_joined,
           subRegion = "area",
           value = "number_of_pupils_at_the_end_of_key_stage_4",
-          x = "month")
+          xRef = 2019,
+          save =F, show =F) -> mapx
 
-rmap::map(data = gcse_results_joined,
-          subRegion = "area",
-          value = "number_of_pupils_at_the_end_of_key_stage_4",
-          x = "month",
-          xRef = "jan",
-          legendType = "pretty",
-          save=F, labels=T) -> mapx
+mapx$map_param_KMEANS_xDiffPrcnt
+ggsave("map_param_MEAN_KMEANS.png",width=8,height=8)
 
 gcse_results_joined_classes <- gcse_results_joined %>%
   dplyr::mutate(gender = "girls") %>%
   dplyr::bind_rows(gcse_results_joined %>%
-                     dplyr::mutate(gender="boys", value = value*runif(length(gcse_results_joined))))
+                     dplyr::mutate(gender="boys",
+                                   number_of_pupils_at_the_end_of_key_stage_4 =
+                                     number_of_pupils_at_the_end_of_key_stage_4*runif(nrow(gcse_results_joined))))
 
-
-rmap::map_find(data = gcse_results_joined,
+rmap::map(data = gcse_results_joined_classes,
                class = "gender",
                subRegion = "area",
+               xRef = 2019,
                value = "number_of_pupils_at_the_end_of_key_stage_4") -> mapx
 
-mapx$ %>%
-  ggplot2::theme_bw()
 
-rmap::map_plot(data = gcse_results_joined,
-               subRegion = "area",
-               value = "number_of_pupils_at_the_end_of_key_stage_4")
+mapx$map_param_KMEANS
+mapx$map_param_KMEANS_xDiffPrcnt
 
+gcse_results_joined_scenario <- gcse_results_joined %>%
+  dplyr::mutate(income_level = "high_income") %>%
+  dplyr::bind_rows(gcse_results_joined %>%
+                     dplyr::mutate(income_level="low_income",
+                                   number_of_pupils_at_the_end_of_key_stage_4 =
+                                     number_of_pupils_at_the_end_of_key_stage_4*runif(nrow(gcse_results_joined))))
+
+rmap::map(data = gcse_results_joined_scenario,
+          scenario = "income_level",
+          subRegion = "area",
+          xRef = 2019,
+          scenRef = "low_income",
+          value = "number_of_pupils_at_the_end_of_key_stage_4",
+          save=F,show=F) -> mapx
+
+
+mapx$map_param_KMEANS
+mapx$map_param_KMEANS_DiffPrcnt
 
 # Test Covid data
 # Our World in Data JHU https://github.com/owid/covid-19-data/tree/master/public/data

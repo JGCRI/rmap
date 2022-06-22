@@ -23,18 +23,13 @@ Imports:
 	scales,
 	grDevices,
 	data.table,
-	graphics,
 	rlang, 
 	magrittr,
 	RColorBrewer,
 	magick,
 	stringr,
 	ggplot2,
-    markdown,
 	jgcricolors,
-	cowplot,
-	rgeos,
-	rgdal,
 	sf,
 	methods,
 	ggrepel
@@ -43,5 +38,6 @@ Suggests:
     testthat (>= 3.0.0),
     knitr
 VignetteBuilder: 
-    knitr
+    knitr,
+	cowplot
 Config/testthat/edition: 3

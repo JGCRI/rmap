@@ -974,13 +974,13 @@ rmap::map(data = data,
 
 ```
 
-```{r, results = 'hide', eval=T, echo=F, warning=FALSE, error = FALSE, message = FALSE}
+```{r, results = 'hide', eval=T, echo=F, warning=FALSE, error = FALSE, message = FALSE, fig.dim=c(15,15)}
 library(rmap);
 data = example_gridData_GWPv4To2015;
 mapx <- rmap::map(data = data,
           overLayer = rmap::mapCountries,
           background = T,
-          show=F, save = T, width = 15, height =15, animate = F)
+          show=F, save = F, width = 15, height =15, animate = F)
 
 mapx$map_param_KMEANS
 mapx$map_param_MEAN_KMEANS
@@ -1061,7 +1061,7 @@ mapx$map_param_KMEANS_xDiffAbs
 mapx$map_param_KMEANS_xDiffPrcnt
 ```
 
-```{r, results = 'hide', eval=T, echo=F, warning=FALSE, error = FALSE, message = FALSE}
+```{r, results = 'hide', eval=T, echo=F, warning=FALSE, error = FALSE, message = FALSE, fig.dim=c(15,15)}
 library(rmap);
 
 data = example_gridData_GWPv4To2015
@@ -1107,7 +1107,7 @@ rmap::map(data = data,
 
 ### Gridded Data Multi-Class
 
-```{r, results = 'hide', eval=T, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
+```{r, results = 'hide', eval=T, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE, fig.dim=c(15,15)}
 library(rmap);library(dplyr)
 
 # Change the years in the gridded data to classes
@@ -1262,7 +1262,7 @@ mapx$map_param_KMEANS
 
 ```
 
-```{r, results = 'hide', eval=T, echo=F, warning=FALSE, error = FALSE, message = FALSE}
+```{r, results = 'hide', eval=T, echo=F, warning=FALSE, error = FALSE, message = FALSE, fig.dim=c(15,15)}
 library(rmap);
 
 data = example_gridData_GWPv4To2015 %>%
@@ -1366,7 +1366,7 @@ mapx$map_param_KMEANS_DiffPrcnt
 
 ```
 
-```{r, results = 'hide', eval=F, echo=F, warning=FALSE, error = FALSE, message = FALSE}
+```{r, results = 'hide', eval=F, echo=F, warning=FALSE, error = FALSE, message = FALSE, fig.dim=c(15,15)}
 library(rmap);
 
 # # Change the years in the example gridded data to scenarios
@@ -1430,7 +1430,7 @@ rmap::map(data = data,
 
 ### Gridded Data Multi-Facet
 
-```{r, results = 'hide', eval=T, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
+```{r, results = 'hide', eval=T, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE, fig.dim=c(15,15)}
 library(rmap);library(dplyr)
 
 # Create data with new columns RCPs and GCMs

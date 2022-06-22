@@ -236,7 +236,7 @@ if(T){ # Initialize
   NULL->raster->map->checkFacets->catBreaks->catLabels->catPalette->legendLabelsX->
     singleValLoc->label->long->lat->group->dataShape->dataPolygon->dataGrid->data_shape->
     lon->hole->piece->X1->X2->id->name->datax->subRegionAlt->datax1->
-    data_sf_w_labels->geometry
+    data_sf_w_labels->geometry->key->v1->v2
 
   # Set originals
   valueCol = value; value = NULL;
