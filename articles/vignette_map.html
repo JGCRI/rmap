@@ -795,7 +795,9 @@ brew install imagemagick@6</code></pre>
 <div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># User can specify that they want to plot this data on rmap::mapGCAMReg32</span>
 <span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span>,
-          shape <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapGCAMReg32.html">mapGCAMReg32</a></span><span class="op">)</span></code></pre></div>
+          shape <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapGCAMReg32.html">mapGCAMReg32</a></span>,
+          crop <span class="op">=</span> <span class="cn">F</span> <span class="co"># Because will crop to the shapes boundaries when shape is specified</span>
+          <span class="op">)</span></code></pre></div>
 <p><img src="vignette_map_files/figure-html/unnamed-chunk-37-2.png" width="700"></p>
 <!-------------------------->
 <!-------------------------->
