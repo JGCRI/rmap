@@ -94,17 +94,47 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">map_find</span><span class="op">(</span><span class="va">data</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">map_find</span><span class="op">(</span>
+  <span class="va">data</span>,
+  subRegion <span class="op">=</span> <span class="st">"subRegion"</span>,
+  value <span class="op">=</span> <span class="st">"value"</span>,
+  x <span class="op">=</span> <span class="cn">NULL</span>,
+  class <span class="op">=</span> <span class="st">"class"</span>,
+  scenario <span class="op">=</span> <span class="st">"scenario"</span>
+<span class="op">)</span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>data</dt>
 <dd><p>data table to be processed</p></dd>
+
+
+<dt>subRegion</dt>
+<dd><p>Default ="subRegion",</p></dd>
+
+
+<dt>value</dt>
+<dd><p>Default = "value",</p></dd>
+
+
+<dt>x</dt>
+<dd><p>Default = NULL</p></dd>
+
+
+<dt>class</dt>
+<dd><p>Default = "class"</p></dd>
+
+
+<dt>scenario</dt>
+<dd><p>Default = "scenario"</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>dataframe with modified subRegions, subRegion shapefile and subRegion type</p>
+    
+
+<p>dataframe with modified subRegions, subRegion shapefile and subRegion type</p>
     </div>
 
   </div>
@@ -119,7 +149,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

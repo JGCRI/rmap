@@ -116,8 +116,11 @@ Each figure is accompanied with a csv table.</p>
   labelBorderSize <span class="op">=</span> <span class="cn">NA</span>,
   shapeFolder <span class="op">=</span> <span class="cn">NULL</span>,
   shapeFile <span class="op">=</span> <span class="cn">NULL</span>,
-  subRegCol <span class="op">=</span> <span class="st">"subRegion"</span>,
-  valueCol <span class="op">=</span> <span class="st">"value"</span>,
+  subRegion <span class="op">=</span> <span class="st">"subRegion"</span>,
+  value <span class="op">=</span> <span class="st">"value"</span>,
+  x <span class="op">=</span> <span class="cn">NULL</span>,
+  class <span class="op">=</span> <span class="st">"class"</span>,
+  scenario <span class="op">=</span> <span class="st">"scenario"</span>,
   nameAppend <span class="op">=</span> <span class="st">""</span>,
   legendTitle <span class="op">=</span> <span class="cn">NULL</span>,
   legendType <span class="op">=</span> <span class="st">"kmeans"</span>,
@@ -190,181 +193,368 @@ Each figure is accompanied with a csv table.</p>
     <h2>Arguments</h2>
     <dl><dt>data</dt>
 <dd><p>Default = NULL,</p></dd>
+
+
 <dt>region</dt>
 <dd><p>Default = NULL. Set the boundary region for subRegion maps. Useful when multiple subRegions in different regions.</p></dd>
+
+
 <dt>fillColumn</dt>
 <dd><p>(Optional). Default = NULL. Only for direct map plotting.</p></dd>
+
+
 <dt>shape</dt>
 <dd><p>Default = NULL, Cusotm shape can be provided as a SpatialPolygonDataFrame with features corresponding to subRegion columns in the data provided.</p></dd>
+
+
 <dt>fileName</dt>
 <dd><p>(Optional). Default = "map". Only for direct map plotting.</p></dd>
+
+
 <dt>save</dt>
 <dd><p>(Optional). Default = T. Only for direct map plotting.</p></dd>
+
+
 <dt>theme</dt>
 <dd><p>Default = NULL,</p></dd>
+
+
 <dt>show</dt>
 <dd><p>Default = T. Print maps in console as they are processed.</p></dd>
+
+
 <dt>folder</dt>
 <dd><p>Default = paste(getwd(),"/outputs",sep=""),</p></dd>
+
+
 <dt>labels</dt>
 <dd><p>Default = F,</p></dd>
+
+
 <dt>labelCol</dt>
 <dd><p>Default = NULL,</p></dd>
+
+
 <dt>labelRepel</dt>
 <dd><p>Default = 0,</p></dd>
+
+
 <dt>labelColor</dt>
 <dd><p>Default = "black",</p></dd>
+
+
 <dt>labelSize</dt>
 <dd><p>Default = 3</p></dd>
+
+
 <dt>labelAlpha</dt>
 <dd><p>Default = 0.7,</p></dd>
+
+
 <dt>labelFill</dt>
 <dd><p>Default = NA,</p></dd>
+
+
 <dt>labelBorderSize</dt>
 <dd><p>Default = NA</p></dd>
+
+
 <dt>shapeFolder</dt>
 <dd><p>Default = paste(getwd(),"/dataFiles/gis/admin_gadm36",sep=""),</p></dd>
+
+
 <dt>shapeFile</dt>
 <dd><p>Default = paste("gadm36_1",sep=""),</p></dd>
-<dt>subRegCol</dt>
+
+
+<dt>subRegion</dt>
 <dd><p>Default ="subRegion",</p></dd>
-<dt>valueCol</dt>
+
+
+<dt>value</dt>
 <dd><p>Default = "value",</p></dd>
+
+
+<dt>x</dt>
+<dd><p>Default = NULL</p></dd>
+
+
+<dt>class</dt>
+<dd><p>Default = "class"</p></dd>
+
+
+<dt>scenario</dt>
+<dd><p>Default = "scenario"</p></dd>
+
+
 <dt>nameAppend</dt>
 <dd><p>Default =""</p></dd>
+
+
 <dt>legendTitle</dt>
 <dd><p>Default = NULL</p></dd>
+
+
 <dt>legendType</dt>
 <dd><p>Default ="kmeans", Options include c("pretty","kmeans","freescale","all")</p></dd>
+
+
 <dt>legendBreaksn</dt>
 <dd><p>Default = "5",</p></dd>
+
+
 <dt>legendFixedBreaks</dt>
 <dd><p>Default = NULL,</p></dd>
+
+
 <dt>animate</dt>
 <dd><p>Default = T,</p></dd>
+
+
 <dt>fps</dt>
 <dd><p>Default = 1,</p></dd>
+
+
 <dt>crop</dt>
 <dd><p>Default = T. This crops the map to the extent of your data regions. If false will zoom out to the extent of the larget layer.</p></dd>
+
+
 <dt>crop_to_underLayer</dt>
 <dd><p>Default = F. Crop to the underLayer boundary provided.</p></dd>
+
+
 <dt>crop_to_overLayer</dt>
 <dd><p>Default = F. Crop to the overLayer boundary provided.</p></dd>
+
+
 <dt>fill</dt>
 <dd><p>Default = NULL. Fill of polygon shapes. Same as palette.</p></dd>
+
+
 <dt>color</dt>
 <dd><p>Default = "grey40". Color of polygon lines.</p></dd>
+
+
 <dt>lwd</dt>
 <dd><p>Default = 0.1. Line width of polygon boundaries.</p></dd>
+
+
 <dt>underLayer</dt>
 <dd><p>Default = NULL</p></dd>
+
+
 <dt>underLayerColor</dt>
 <dd><p>Default = "gray40"</p></dd>
+
+
 <dt>underLayerFill</dt>
 <dd><p>Default = "gray90"</p></dd>
+
+
 <dt>underLayerLwd</dt>
 <dd><p>Default = 0.5</p></dd>
+
+
 <dt>underLayerAlpha</dt>
 <dd><p>Default = 1</p></dd>
+
+
 <dt>underLayerLabels</dt>
 <dd><p>Default = F</p></dd>
+
+
 <dt>underLayerLabelCol</dt>
 <dd><p>Default = NULL</p></dd>
+
+
 <dt>overLayerLabelCol</dt>
 <dd><p>Default = NULL</p></dd>
+
+
 <dt>overLayerLabels</dt>
 <dd><p>Default = F</p></dd>
+
+
 <dt>overLayer</dt>
 <dd><p>Default = NULL</p></dd>
+
+
 <dt>overLayerColor</dt>
 <dd><p>Default = "gray40"</p></dd>
+
+
 <dt>overLayerFill</dt>
 <dd><p>Default = NA</p></dd>
+
+
 <dt>overLayerLwd</dt>
 <dd><p>Default = 0.5</p></dd>
+
+
 <dt>overLayerAlpha</dt>
 <dd><p>Default = 0</p></dd>
+
+
 <dt>zoom</dt>
 <dd><p>Default =-1. Zoom into or out of map. Positive values zoom in and negative out.</p></dd>
+
+
 <dt>zoomx</dt>
 <dd><p>Default = NULL. Zoom into or out of map along x. Positive values zoom in and negative out.</p></dd>
+
+
 <dt>zoomy</dt>
 <dd><p>Default = NULL. Zoom into or out of map along y. Positive values zoom in and negative out.</p></dd>
+
+
 <dt>asp</dt>
 <dd><p>Default = 1.2. Aspect ratio of lat and lon.</p></dd>
+
+
 <dt>projX</dt>
 <dd><p>Default = projX="+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"</p></dd>
+
+
 <dt>width</dt>
 <dd><p>Default =9</p></dd>
+
+
 <dt>height</dt>
 <dd><p>Default =7</p></dd>
+
+
 <dt>scenRef</dt>
 <dd><p>Reference Scenario. Default = NULL</p></dd>
+
+
 <dt>scenDiff</dt>
 <dd><p>Scenarios to Diff. Default = NULL</p></dd>
+
+
 <dt>scaleRange</dt>
 <dd><p>Default NULL. A vector with c(max,min) (Applied to all params) or a dataframe with cols param, max, min</p></dd>
+
+
 <dt>scaleRangeDiffAbs</dt>
 <dd><p>Default =NULL, A vector with c(max,min) (Applied to all params) or a dataframe with cols param, max, min</p></dd>
+
+
 <dt>scaleRangeDiffPrcnt</dt>
 <dd><p>Default =NULL, A vector with c(max,min) (Applied to all params) or a dataframe with cols param, max, min</p></dd>
+
+
 <dt>xRef</dt>
 <dd><p>Reference year. Default = NULL</p></dd>
+
+
 <dt>xDiff</dt>
 <dd><p>years to Diff. Default = NULL</p></dd>
+
+
 <dt>scaleRangexDiffAbs</dt>
 <dd><p>Default =NULL, A vector with c(max,min) (Applied to all params) or a dataframe with cols param, max, min</p></dd>
+
+
 <dt>scaleRangexDiffPrcnt</dt>
 <dd><p>Default =NULL, A vector with c(max,min) (Applied to all params) or a dataframe with cols param, max, min</p></dd>
+
+
 <dt>col</dt>
 <dd><p>Default ="multiFacetRow",</p></dd>
+
+
 <dt>row</dt>
 <dd><p>Default ="multiFacetCol",</p></dd>
+
+
 <dt>title</dt>
 <dd><p>Default=NULL</p></dd>
+
+
 <dt>numeric2Cat_list</dt>
 <dd><p>Default=NULL,</p></dd>
+
+
 <dt>pdfpng</dt>
 <dd><p>Save IO figures as pdf or png. Type=String. Options: 'pdf' or 'png'. Default = 'png'</p></dd>
+
+
 <dt>legendDigitsOverride</dt>
 <dd><p>Default=NULL</p></dd>
+
+
 <dt>legendSingleColor</dt>
 <dd><p>Default="white"</p></dd>
+
+
 <dt>legendSingleValue</dt>
 <dd><p>Default=F. Change to True to get default single value or provide a numeric value.</p></dd>
+
+
 <dt>palette</dt>
 <dd><p>Default = NULL</p></dd>
+
+
 <dt>paletteDiff</dt>
 <dd><p>Default = "pal_div_BrGn"</p></dd>
+
+
 <dt>colorNA</dt>
 <dd><p>Default = "gray50"</p></dd>
+
+
 <dt>showNA</dt>
 <dd><p>Default = T</p></dd>
+
+
 <dt>ncol</dt>
 <dd><p>Default = 3. Number of columns to wrap maps</p></dd>
+
+
 <dt>size</dt>
 <dd><p>Default = 12. Text size of plots.</p></dd>
+
+
 <dt>alpha</dt>
 <dd><p>Default = 1. Transparency of fill colors.</p></dd>
+
+
 <dt>background</dt>
 <dd><p>Default = F. Add background water color, border and default underlayer map.</p></dd>
+
+
 <dt>transparent</dt>
 <dd><p>Default = T. To make map background transparent for maps without backgrounds.</p></dd>
+
+
 <dt>legendShow</dt>
 <dd><p>Default = T</p></dd>
+
+
 <dt>legendShowForce</dt>
 <dd><p>Default = F. Force legend to show for maps without values.</p></dd>
+
+
 <dt>diffOnly</dt>
 <dd><p>Default = F. Only run diff plots and not individual scenarios.</p></dd>
+
+
 <dt>forceFacets</dt>
 <dd><p>Default = F. Used to force facet label for single scenario which is usually dropped.</p></dd>
+
+
 <dt>crs</dt>
 <dd><p>Default = "+proj=longlat +datum=WGS84 +no_defs". A proj4 string from EPSG https://epsg.io/</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>Returns the formatted data used to produce chart
-A list of maps</p>
+    
+
+<p>Returns the formatted data used to produce chart</p>
+
+
+<p>A list of maps</p>
     </div>
 
   </div>
@@ -379,7 +569,7 @@ A list of maps</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer></div>

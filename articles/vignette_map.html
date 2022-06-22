@@ -185,14 +185,32 @@ brew install imagemagick@6</code></pre>
 <p>The main input is the <code>data</code> argument in the <code><a href="../reference/map.html">map()</a></code> function. This will be an R table which can be created within R or read in from a csv file as shown below. As shown later if a shape file (<code>SpatialPolygonDataFrame</code>) is provided as the data argument (see Section <a href="#maps">Built-in Maps</a>) then the <code><a href="../reference/map.html">map()</a></code> function will produce a map without any value data.</p>
 <p align="center">
 <img src="vignetteFigs/mapsProcess_inputs.PNG"></p>
-<p>Users can also assign other column names to <code>subRegion</code> and <code>value</code> if desired using the <code>subRegCol</code> and <code>valueCol</code> arguments as follows:</p>
+<!-------------------------->
+<!-------------------------->
+</div>
+<div class="section level2">
+<h2 id="customcolumns">Custom Columns<a class="anchor" aria-label="anchor" href="#customcolumns"></a>
+</h2>
+<!-------------------------->
+<!-------------------------->
+<p align="center">
+<img src="vignetteFigs/divider.png"></p>
+<p>Users can also assign other column names to <code>x</code> (the time dimension), <code>class</code>, <code>subRegion</code>, <code>scenario</code> and <code>value</code> if desired using the <code>x</code>, <code>class</code>, <code>subRegion</code>, <code>scenario</code> and <code>value</code> arguments as follows:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap" class="external-link">rmap</a></span><span class="op">)</span>;
-<span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>my_column_1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CA"</span>,<span class="st">"FL"</span>,<span class="st">"ID"</span>,<span class="st">"MO"</span>,<span class="st">"TX"</span>,<span class="st">"WY"</span><span class="op">)</span>,
-                  my_column_2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>,<span class="fl">10</span>,<span class="fl">15</span>,<span class="fl">34</span>,<span class="fl">2</span>,<span class="fl">7</span><span class="op">)</span><span class="op">)</span>
+<span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>my_column_1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CA"</span>,<span class="st">"FL"</span>,<span class="st">"ID"</span>,<span class="st">"CA"</span>,<span class="st">"FL"</span>,<span class="st">"ID"</span>,<span class="st">"CA"</span>,<span class="st">"FL"</span>,<span class="st">"ID"</span>,<span class="st">"CA"</span>,<span class="st">"FL"</span>,<span class="st">"ID"</span><span class="op">)</span>,
+                  my_column_2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>,<span class="fl">10</span>,<span class="fl">15</span>,<span class="fl">34</span>,<span class="fl">22</span>,<span class="fl">77</span>,<span class="fl">15</span>,<span class="fl">110</span>,<span class="fl">115</span>,<span class="fl">134</span>,<span class="fl">122</span>,<span class="fl">177</span><span class="op">)</span>,
+                  my_column_3 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2010</span>,<span class="fl">2010</span>,<span class="fl">2010</span>,<span class="fl">2020</span>,<span class="fl">2020</span>,<span class="fl">2020</span>,<span class="fl">2010</span>,<span class="fl">2010</span>,<span class="fl">2010</span>,<span class="fl">2020</span>,<span class="fl">2020</span>,<span class="fl">2020</span><span class="op">)</span>,
+                  my_column_4 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"class1"</span>,<span class="st">"class1"</span>,<span class="st">"class1"</span>,<span class="st">"class1"</span>,<span class="st">"class1"</span>,<span class="st">"class1"</span>,
+                                  <span class="st">"class2"</span>,<span class="st">"class2"</span>,<span class="st">"class2"</span>,<span class="st">"class2"</span>,<span class="st">"class2"</span>,<span class="st">"class2"</span><span class="op">)</span>,
+                  my_column_5 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"my_scenario"</span>,<span class="st">"my_scenario"</span>,<span class="st">"my_scenario"</span>,<span class="st">"my_scenario"</span>,<span class="st">"my_scenario"</span>,<span class="st">"my_scenario"</span>,
+                                  <span class="st">"my_scenario"</span>,<span class="st">"my_scenario"</span>,<span class="st">"my_scenario"</span>,<span class="st">"my_scenario"</span>,<span class="st">"my_scenario"</span>,<span class="st">"my_scenario"</span><span class="op">)</span><span class="op">)</span>
 <span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span>,
-          subRegCol <span class="op">=</span> <span class="st">"my_column_1"</span>,
-          valueCol <span class="op">=</span> <span class="st">"my_column_2"</span><span class="op">)</span></code></pre></div>
+          subRegion <span class="op">=</span> <span class="st">"my_column_1"</span>,
+          value <span class="op">=</span> <span class="st">"my_column_2"</span>,
+          x <span class="op">=</span> <span class="st">"my_column_3"</span>,
+          class <span class="op">=</span> <span class="st">"my_column_4"</span>,
+          scenario <span class="op">=</span> <span class="st">"my_column_5"</span><span class="op">)</span></code></pre></div>
 <!-------------------------->
 <!-------------------------->
 </div>
@@ -1654,7 +1672,7 @@ brew install imagemagick@6</code></pre>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
 </div>
 
       </footer>
