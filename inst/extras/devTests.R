@@ -475,6 +475,7 @@ gcse_results_2 <- gcse_results_2 %>%
 gcse_results_joined <- rbind(gcse_results %>% mutate(year = "2020"),
                              gcse_results_2 %>% mutate(year = "2019"))
 
+# Multiple ggplots saved as a list which can be edited later
 rmap::map(data = gcse_results_joined,
           subRegion = "area",
           value = "number_of_pupils_at_the_end_of_key_stage_4")->mapx
@@ -484,11 +485,12 @@ mapx$map_param_MEAN_KMEANS
 mapx$map_param_MEAN_KMEANS + ggplot2::theme_dark()
 ggsave("map_param_MEAN_KMEANS_dark.png",width=8,height=8)
 
+# Comapre across time
 rmap::map(data = gcse_results_joined,
           subRegion = "area",
           value = "number_of_pupils_at_the_end_of_key_stage_4",
           xRef = 2019,
-          save =F, show =F) -> mapx
+          save =T, show =F) -> mapx
 
 mapx$map_param_KMEANS_xDiffPrcnt
 ggsave("map_param_MEAN_KMEANS.png",width=8,height=8)
@@ -510,20 +512,21 @@ rmap::map(data = gcse_results_joined_classes,
 mapx$map_param_KMEANS
 mapx$map_param_KMEANS_xDiffPrcnt
 
-gcse_results_joined_scenario <- gcse_results_joined %>%
+gcse_results_joined_classes_scenario <- gcse_results_joined_classes %>%
   dplyr::mutate(income_level = "high_income") %>%
-  dplyr::bind_rows(gcse_results_joined %>%
+  dplyr::bind_rows(gcse_results_joined_classes %>%
                      dplyr::mutate(income_level="low_income",
                                    number_of_pupils_at_the_end_of_key_stage_4 =
-                                     number_of_pupils_at_the_end_of_key_stage_4*runif(nrow(gcse_results_joined))))
+                                     number_of_pupils_at_the_end_of_key_stage_4*runif(nrow(gcse_results_joined_classes))))
 
-rmap::map(data = gcse_results_joined_scenario,
+rmap::map(data = gcse_results_joined_classes_scenario,
+          class = "gender",
           scenario = "income_level",
           subRegion = "area",
           xRef = 2019,
           scenRef = "low_income",
           value = "number_of_pupils_at_the_end_of_key_stage_4",
-          save=F,show=F) -> mapx
+          save=T,show=F) -> mapx
 
 
 mapx$map_param_KMEANS

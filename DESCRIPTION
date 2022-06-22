@@ -36,7 +36,8 @@ Imports:
 Suggests: 
     rmarkdown,
     testthat (>= 3.0.0),
-    knitr
+    knitr,
+	cowplot
 VignetteBuilder: 
     knitr,
 	cowplot
