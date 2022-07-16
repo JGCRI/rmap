@@ -96,79 +96,79 @@ Each figure is accompanied with a csv table.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">map_plot</span><span class="op">(</span>
-  data <span class="op">=</span> <span class="cn">NULL</span>,
-  region <span class="op">=</span> <span class="cn">NULL</span>,
-  fillColumn <span class="op">=</span> <span class="cn">NULL</span>,
-  shape <span class="op">=</span> <span class="cn">NULL</span>,
-  theme <span class="op">=</span> <span class="cn">NULL</span>,
-  show <span class="op">=</span> <span class="cn">T</span>,
-  subRegion <span class="op">=</span> <span class="st">"subRegion"</span>,
-  value <span class="op">=</span> <span class="st">"value"</span>,
-  x <span class="op">=</span> <span class="cn">NULL</span>,
-  class <span class="op">=</span> <span class="st">"class"</span>,
-  scenario <span class="op">=</span> <span class="st">"scenario"</span>,
-  palette <span class="op">=</span> <span class="st">"Set3"</span>,
-  legendType <span class="op">=</span> <span class="st">"kmeans"</span>,
-  labels <span class="op">=</span> <span class="cn">F</span>,
-  labelCol <span class="op">=</span> <span class="cn">NULL</span>,
-  labelRepel <span class="op">=</span> <span class="fl">0</span>,
-  labelColor <span class="op">=</span> <span class="st">"black"</span>,
-  labelSize <span class="op">=</span> <span class="fl">2</span>,
-  labelAlpha <span class="op">=</span> <span class="fl">1</span>,
-  labelFill <span class="op">=</span> <span class="cn">NA</span>,
-  labelBorderSize <span class="op">=</span> <span class="cn">NA</span>,
-  width <span class="op">=</span> <span class="fl">9</span>,
-  height <span class="op">=</span> <span class="fl">7</span>,
-  legendShow <span class="op">=</span> <span class="cn">T</span>,
-  legendTitle <span class="op">=</span> <span class="cn">NULL</span>,
-  legendBreaksn <span class="op">=</span> <span class="fl">5</span>,
-  legendBreaks <span class="op">=</span> <span class="cn">NULL</span>,
-  pdfpng <span class="op">=</span> <span class="st">"png"</span>,
-  underLayer <span class="op">=</span> <span class="cn">NULL</span>,
-  color <span class="op">=</span> <span class="st">"grey40"</span>,
-  lwd <span class="op">=</span> <span class="fl">0.1</span>,
-  underLayerLabelCol <span class="op">=</span> <span class="cn">NULL</span>,
-  underLayerColor <span class="op">=</span> <span class="st">"gray40"</span>,
-  underLayerFill <span class="op">=</span> <span class="st">"gray90"</span>,
-  underLayerLwd <span class="op">=</span> <span class="fl">0.1</span>,
-  underLayerAlpha <span class="op">=</span> <span class="fl">1</span>,
-  underLayerLabels <span class="op">=</span> <span class="cn">F</span>,
-  overLayerLabelCol <span class="op">=</span> <span class="cn">NULL</span>,
-  overLayerLabels <span class="op">=</span> <span class="cn">F</span>,
-  overLayer <span class="op">=</span> <span class="cn">NULL</span>,
-  overLayerColor <span class="op">=</span> <span class="st">"gray40"</span>,
-  overLayerFill <span class="op">=</span> <span class="cn">NA</span>,
-  overLayerLwd <span class="op">=</span> <span class="fl">0.2</span>,
-  overLayerAlpha <span class="op">=</span> <span class="fl">0</span>,
-  zoom <span class="op">=</span> <span class="fl">0</span>,
-  zoomx <span class="op">=</span> <span class="cn">NULL</span>,
-  zoomy <span class="op">=</span> <span class="cn">NULL</span>,
-  asp <span class="op">=</span> <span class="fl">1.2</span>,
-  save <span class="op">=</span> <span class="cn">T</span>,
-  fileName <span class="op">=</span> <span class="st">"map"</span>,
-  folder <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"/outputs"</span>, sep <span class="op">=</span> <span class="st">""</span><span class="op">)</span>,
-  row <span class="op">=</span> <span class="cn">NULL</span>,
-  col <span class="op">=</span> <span class="cn">NULL</span>,
-  title <span class="op">=</span> <span class="cn">NULL</span>,
-  numeric2Cat_list <span class="op">=</span> <span class="cn">NULL</span>,
-  catParam <span class="op">=</span> <span class="cn">NULL</span>,
-  legendDigits <span class="op">=</span> <span class="cn">NULL</span>,
-  legendDigitsOverride <span class="op">=</span> <span class="cn">NULL</span>,
-  legendSingleColor <span class="op">=</span> <span class="st">"white"</span>,
-  legendSingleValue <span class="op">=</span> <span class="cn">F</span>,
-  colorNA <span class="op">=</span> <span class="st">"gray50"</span>,
-  showNA <span class="op">=</span> <span class="cn">F</span>,
-  ncol <span class="op">=</span> <span class="fl">3</span>,
-  size <span class="op">=</span> <span class="fl">16</span>,
-  alpha <span class="op">=</span> <span class="fl">1</span>,
-  background <span class="op">=</span> <span class="cn">F</span>,
-  crop <span class="op">=</span> <span class="cn">T</span>,
-  crop_to_underLayer <span class="op">=</span> <span class="cn">F</span>,
-  crop_to_overLayer <span class="op">=</span> <span class="cn">F</span>,
-  transparent <span class="op">=</span> <span class="cn">F</span>,
-  crs <span class="op">=</span> <span class="st">"+proj=longlat +datum=WGS84 +no_defs"</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">map_plot</span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  region <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  fillColumn <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  shape <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  theme <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  show <span class="op">=</span> <span class="cn">T</span>,</span>
+<span>  subRegion <span class="op">=</span> <span class="st">"subRegion"</span>,</span>
+<span>  value <span class="op">=</span> <span class="st">"value"</span>,</span>
+<span>  x <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  class <span class="op">=</span> <span class="st">"class"</span>,</span>
+<span>  scenario <span class="op">=</span> <span class="st">"scenario"</span>,</span>
+<span>  palette <span class="op">=</span> <span class="st">"Set3"</span>,</span>
+<span>  legendType <span class="op">=</span> <span class="st">"kmeans"</span>,</span>
+<span>  labels <span class="op">=</span> <span class="cn">F</span>,</span>
+<span>  labelCol <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  labelRepel <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  labelColor <span class="op">=</span> <span class="st">"black"</span>,</span>
+<span>  labelSize <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  labelAlpha <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  labelFill <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  labelBorderSize <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  width <span class="op">=</span> <span class="fl">9</span>,</span>
+<span>  height <span class="op">=</span> <span class="fl">7</span>,</span>
+<span>  legendShow <span class="op">=</span> <span class="cn">T</span>,</span>
+<span>  legendTitle <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  legendBreaksn <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>  legendBreaks <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  pdfpng <span class="op">=</span> <span class="st">"png"</span>,</span>
+<span>  underLayer <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  color <span class="op">=</span> <span class="st">"grey40"</span>,</span>
+<span>  lwd <span class="op">=</span> <span class="fl">0.1</span>,</span>
+<span>  underLayerLabelCol <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  underLayerColor <span class="op">=</span> <span class="st">"gray40"</span>,</span>
+<span>  underLayerFill <span class="op">=</span> <span class="st">"gray90"</span>,</span>
+<span>  underLayerLwd <span class="op">=</span> <span class="fl">0.1</span>,</span>
+<span>  underLayerAlpha <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  underLayerLabels <span class="op">=</span> <span class="cn">F</span>,</span>
+<span>  overLayerLabelCol <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  overLayerLabels <span class="op">=</span> <span class="cn">F</span>,</span>
+<span>  overLayer <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  overLayerColor <span class="op">=</span> <span class="st">"gray40"</span>,</span>
+<span>  overLayerFill <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  overLayerLwd <span class="op">=</span> <span class="fl">0.2</span>,</span>
+<span>  overLayerAlpha <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  zoom <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  zoomx <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  zoomy <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  asp <span class="op">=</span> <span class="fl">1.2</span>,</span>
+<span>  save <span class="op">=</span> <span class="cn">T</span>,</span>
+<span>  fileName <span class="op">=</span> <span class="st">"map"</span>,</span>
+<span>  folder <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/getwd.html" class="external-link">getwd</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"/outputs"</span>, sep <span class="op">=</span> <span class="st">""</span><span class="op">)</span>,</span>
+<span>  row <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  col <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  title <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  numeric2Cat_list <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  catParam <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  legendDigits <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  legendDigitsOverride <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  legendSingleColor <span class="op">=</span> <span class="st">"white"</span>,</span>
+<span>  legendSingleValue <span class="op">=</span> <span class="cn">F</span>,</span>
+<span>  colorNA <span class="op">=</span> <span class="st">"gray50"</span>,</span>
+<span>  showNA <span class="op">=</span> <span class="cn">F</span>,</span>
+<span>  ncol <span class="op">=</span> <span class="fl">3</span>,</span>
+<span>  size <span class="op">=</span> <span class="fl">16</span>,</span>
+<span>  alpha <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  background <span class="op">=</span> <span class="cn">F</span>,</span>
+<span>  crop <span class="op">=</span> <span class="cn">T</span>,</span>
+<span>  crop_to_underLayer <span class="op">=</span> <span class="cn">F</span>,</span>
+<span>  crop_to_overLayer <span class="op">=</span> <span class="cn">F</span>,</span>
+<span>  transparent <span class="op">=</span> <span class="cn">F</span>,</span>
+<span>  crs <span class="op">=</span> <span class="st">"+proj=longlat +datum=WGS84 +no_defs"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -478,7 +478,7 @@ water of that color, a border and underlayer map.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.4.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
 </div>
 
       </footer></div>
