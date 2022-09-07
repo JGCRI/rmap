@@ -724,6 +724,42 @@ m1[[1]] +
 
 <!-------------------------->
 <!-------------------------->
+## Show NA {#showna}
+<!-------------------------->
+<!-------------------------->
+<p align="center"> <img src="vignetteFigs/divider.png"></p>
+
+Users have the option to `showNA` with a default (`gray50`) or custom colors.
+
+```{r, results = 'hide', eval=T, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap)
+
+# Create data table with a few US states
+data = data.frame(subRegion = c("CA","FL","ID","MO","TX","WY"),
+                  value = c(5,NA,15,34,2,7))
+
+# Without NA
+rmap::map(data,
+          labels = T,
+          underLayer = rmap::mapUS49,
+          title = "showNA is Default (F)")
+
+# showNA = T
+rmap::map(data,
+          labels = T,
+          underLayer = rmap::mapUS49, 
+          showNA = T,
+          title = "showNA = T")
+
+# showNA = T, colorNA = 'red'
+rmap::map(data,
+          labels = T,
+          underLayer = rmap::mapUS49, 
+          showNA = T, colorNA = 'green',
+          title = "showNA = T & colorNA = 'green'")
+```
+<!-------------------------->
+<!-------------------------->
 # Plot Polygon Data
 <!-------------------------->
 <!-------------------------->

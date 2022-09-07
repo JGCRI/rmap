@@ -677,20 +677,11 @@ i_4_disease <- i_disease %>%
 malaria_map_diff_2018 = map(i_4_disease[i_4_disease == "Malaria", ],
                             subRegion = "County",
                             value = "Cases",
-                            save = F, show=F, diffOnly = 1,
+                            save = T, show=F,
                             xRef = "2018",
-                            underLayer = mapUS49County, legendSingleValue = 0, showNA = T,
-                            title = "Difference with 2018 malaria cases")
+                            underLayer = mapUS49County,
+                            labels=T, legendSingleValue = 0, showNA = T)
 
+malaria_map_diff_2018$map_param_KMEANS
 malaria_map_diff_2018$map_param_KMEANS_xDiffAbs
 malaria_map_diff_2018$map_param_KMEANS_xDiffPrcnt
-
-disease_map = map(i_4_disease[i_4_disease$Year %in% c("2018","2019"), ],
-                  subRegion = "County",
-                  value = "Cases",
-                  save = F,
-                  class = "Disease",
-                  ncol = 4, legendSingleValue = 0,
-                  title = "Cases of several infectious diseases")
-
-disease_map$`map_param_KMEANS`
