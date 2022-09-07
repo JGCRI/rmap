@@ -680,7 +680,7 @@ malaria_map_diff_2018 = map(i_4_disease[i_4_disease == "Malaria", ],
                             save = T, show=F,
                             xRef = "2018",
                             underLayer = mapUS49County,
-                            labels=T, legendSingleValue = 0, showNA = T)
+                            labels=T, legendSingleValue = 0)
 
 malaria_map_diff_2018$map_param_KMEANS
 malaria_map_diff_2018$map_param_KMEANS_xDiffAbs
