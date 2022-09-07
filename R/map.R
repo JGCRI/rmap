@@ -83,7 +83,7 @@
 #' @param crop_to_underLayer Default = F. Crop to the underLayer boundary provided.
 #' @param crop_to_overLayer Default = F. Crop to the overLayer boundary provided.
 #' @param colorNA Default = "gray50"
-#' @param showNA Default = T
+#' @param showNA Default = F
 #' @param ncol Default = 3. Number of columns to wrap maps
 #' @param size Default = 12. Text size of plots.
 #' @param alpha Default = 1. Transparency of fill colors.
@@ -179,7 +179,7 @@ map <- function(data = NULL,
                 palette = NULL,
                 paletteDiff = "pal_div_BluRd",
                 colorNA = "gray50",
-                showNA = T,
+                showNA = F,
                 ncol = 3,
                 size = 16,
                 alpha = 1,

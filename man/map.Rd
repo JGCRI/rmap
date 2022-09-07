@@ -83,7 +83,7 @@ map(
   palette = NULL,
   paletteDiff = "pal_div_BluRd",
   colorNA = "gray50",
-  showNA = F,
+  showNA = T,
   ncol = 3,
   size = 16,
   alpha = 1,
