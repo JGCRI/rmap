@@ -310,7 +310,7 @@ map_find <- function(data,
 
       if (!is.null(subRegNotInShapeFoundx)) {
         if (length(subRegNotInShapeFoundx) > 0) {
-          rlang::inform(paste(
+          rlang::warn(paste(
             "subRegions in data not present in shapefile are: ",
             paste(subRegNotInShapeFoundx, collapse = ", "),
             sep = ""

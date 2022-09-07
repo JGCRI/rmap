@@ -315,6 +315,9 @@ map <- function(data = NULL,
   classCol = class; class = NULL
   scenarioCol = scenario; scenario = NULL;
 
+  # Fix legend single value
+  if(legendSingleValue==0){legendSingleValue=T}
+
   # Read in csv as tibble
   if (!is.null(data)) {
     if ((length(data) == 1) & (any(grepl("character",class(data))))) {
@@ -870,7 +873,7 @@ map <- function(data = NULL,
         tbl_temp1<-tbl_temp1%>%
           tidyr::gather(key=scenario,value=value,
                         -c(names(tbl_temp1)[!names(tbl_temp1) %in% paste(scenario_i,"_DiffAbs_",scenRef_i,sep="")]))%>%
-          dplyr::filter(!is.na(value))
+          dplyr::mutate(value = if_else(is.nan(value),0,value))
 
         tbl_temp2 <-dataTblDiffb%>%
           dplyr::mutate(!!paste(scenario_i,"_DiffPrcnt_",scenRef_i,sep=""):=((get(scenario_i)-get(scenRef_i))*100/get(scenRef_i)),
@@ -879,7 +882,7 @@ map <- function(data = NULL,
         tbl_temp2<-tbl_temp2%>%
           tidyr::gather(key=scenario,value=value,
                         -c(names(tbl_temp2)[!names(tbl_temp2) %in% paste(scenario_i,"_DiffPrcnt_",scenRef_i,sep="")]))%>%
-          dplyr::filter(!is.na(value))
+          dplyr::mutate(value = if_else(is.nan(value),0,value))
 
         dataTblDiff<-dplyr::bind_rows(dataTblDiff,tbl_temp1,tbl_temp2)
       }
@@ -890,6 +893,24 @@ map <- function(data = NULL,
 
     }
     }
+
+    #.................-
+    # Check Inf in Diff
+    #.................
+
+    if (T) {
+      # data table
+      if (!is.null(dataTblDiff)) {
+        if (any(dataTblDiff$value == Inf)) {
+          dataTblDiff <- dataTblDiff %>%
+            dplyr::mutate(value = dplyr::if_else((is.infinite(value) | (is.nan(value))), NA_real_, value))
+          rlang::warn(
+            "When calculating difference, diving by '0' results in 'Inf'. 'Inf' values converted to NAs."
+          )
+        }
+      }
+    }
+
 
     dataTbl <- dataTbl %>%
       dplyr::bind_rows(dataTblDiff) %>%
@@ -980,8 +1001,8 @@ map <- function(data = NULL,
                     tbl_temp1<-tbl_temp1%>%
                       tidyr::gather(key=scenario,value=value,
                                     -c(names(tbl_temp1)[!names(tbl_temp1) %in% paste(scen_i,"_xDiffAbs_",xRef_i,sep="")]))%>%
-                      dplyr::filter(!is.na(value))%>%
-                      dplyr::mutate(x=x_i)
+                      dplyr::mutate(x=x_i)%>%
+                        dplyr::mutate(value = if_else(is.nan(value),0,value))
 
                     tbl_temp2 <-dataTblDiffb%>%
                       dplyr::filter(scenario==scen_i)%>%
@@ -991,8 +1012,8 @@ map <- function(data = NULL,
                     tbl_temp2<-tbl_temp2%>%
                       tidyr::gather(key=scenario,value=value,
                                     -c(names(tbl_temp2)[!names(tbl_temp2) %in% paste(scen_i,"_xDiffPrcnt_",xRef_i,sep="")]))%>%
-                      dplyr::filter(!is.na(value))%>%
-                      dplyr::mutate(x=x_i)
+                      dplyr::mutate(x=x_i)%>%
+                      dplyr::mutate(value = if_else(is.nan(value),0,value))
 
                     dataTblxDiff<-dplyr::bind_rows(dataTblxDiff,tbl_temp1,tbl_temp2)
                   }
@@ -1007,6 +1028,23 @@ map <- function(data = NULL,
 
     }
 
+    #.................-
+    # Check Inf in xDiff
+    #.................
+
+    if (T) {
+      # data table
+      if (!is.null(dataTblxDiff)) {
+        if (any(dataTblxDiff$value == Inf)) {
+          dataTblxDiff <- dataTblxDiff %>%
+            dplyr::mutate(value = dplyr::if_else((is.infinite(value) | (is.nan(value))), NA_real_, value))
+          rlang::warn(
+            "When calculating x difference, diving by '0' results in 'Inf' values. 'Inf' values converted to NAs."
+          )
+        }
+      }
+    }
+
     dataTbl <- dataTbl %>%
       dplyr::bind_rows(dataTblxDiff) %>%
       dplyr::ungroup() %>%
@@ -1019,6 +1057,7 @@ map <- function(data = NULL,
 
   }
   }
+
 
   #.................-
   # Check MultiFacet Columns

@@ -640,3 +640,57 @@ map(data,
 library(rmap); library(dplyr);
 a1<-readRDS("a1.RDS")
 rmap::map(a1)
+
+
+#...........
+# Abby County maps
+#-----------
+
+library(rmap); library(dplyr); library(stats)
+data1 = rmap::mapUS49County %>% as.data.frame() %>% dplyr::mutate(value=as.numeric(FIPS)*sample(runif(10000), n(), replace = TRUE)); data
+rmap::map(data1, palette="Reds", show=F, nameAppend = "_reds")
+data2 = rmap::mapUS49County %>% as.data.frame() %>% dplyr::mutate(value=log2(as.numeric(FIPS))*sample(runif(10000), n(), replace = TRUE)); data
+rmap::map(data2, palette="Greens", show=F, nameAppend = "_greens")
+data3 = rmap::mapUS49County %>% as.data.frame() %>% dplyr::mutate(value=as.numeric(FIPS)*sample(runif(10000), n(), replace = TRUE)); data
+rmap::map(data3, palette="Blues", show=F, nameAppend = "_blues")
+
+#...........
+# Review https://github.com/openjournals/joss-reviews/issues/4015#issuecomment-1216784122
+#-----------
+
+library(stringr)
+library(dplyr)
+library(rmap)
+
+# Get infectious disease data
+download.file("https://data.chhs.ca.gov/dataset/03e61434-7db8-4a53-a3e2-1d4d36d6848d/resource/75019f89-b349-4d5e-825d-8b5960fc028c/download/odp_idb_2020_ddg_compliant.csv",
+              destfile = "infect_disease_us_county.csv", mode ="wb")
+
+i_disease = read.csv("infect_disease_us_county.csv") ; colnames(i_disease)
+
+# Clean data : keep years 2018-2020 and cases of Malaria, Typhus, Dengue and Lyme diseases
+i_4_disease <- i_disease %>%
+  subset(grepl("Malaria|Typhus|Dengue|Lyme", Disease) & grepl("Total", Sex) & grepl("2018|2019|2020", Year)) %>%
+  filter(County != "California")  %>% # csv contains a row with sum of cases for all counties in California
+  mutate(County = paste0(County, "_CA")) # add proper state abbreviation to match built-in map counties
+
+malaria_map_diff_2018 = map(i_4_disease[i_4_disease == "Malaria", ],
+                            subRegion = "County",
+                            value = "Cases",
+                            save = F, show=F, diffOnly = 1,
+                            xRef = "2018",
+                            underLayer = mapUS49County, legendSingleValue = 0, showNA = T,
+                            title = "Difference with 2018 malaria cases")
+
+malaria_map_diff_2018$map_param_KMEANS_xDiffAbs
+malaria_map_diff_2018$map_param_KMEANS_xDiffPrcnt
+
+disease_map = map(i_4_disease[i_4_disease$Year %in% c("2018","2019"), ],
+                  subRegion = "County",
+                  value = "Cases",
+                  save = F,
+                  class = "Disease",
+                  ncol = 4, legendSingleValue = 0,
+                  title = "Cases of several infectious diseases")
+
+disease_map$`map_param_KMEANS`

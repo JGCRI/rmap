@@ -74,7 +74,7 @@ brew install imagemagick@6
 
 <!-------------------------->
 <!-------------------------->
-# Input Formats {#inputs}
+# Input Structure {#inputs}
 <!-------------------------->
 <!-------------------------->
 <p align="center"> <img src="vignetteFigs/divider.png"></p>
@@ -109,6 +109,39 @@ rmap::map(data,
           scenario = "my_column_5")
 
 ```
+
+<!-------------------------->
+<!-------------------------->
+# Cleaning Data {#clean}
+<!-------------------------->
+<!-------------------------->
+<p align="center"> <img src="vignetteFigs/divider.png"></p>
+
+Users will need to check that the names of the regions in their data tables match those of the `subRegion` column of the [built-in maps](#maps) or a [custom shapefile](#maps) if they are using one. Sometimes user data may have a few names that have different spelling or accents and these will be flagged when rmap plots the maps. Users can then go back to their original data and fix those regions as shown in the example below.
+
+```{r, results = 'hide', eval=T, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap);
+
+# Create data table with a mis-spelled subRegion
+data = data.frame(subRegion = c("Italy","Spain","Greice"),
+                  value = c(10,15,34))
+
+# Plot data
+rmap::map(data,labels = T, title = "Mis-spelled subRegion 'Greice'")
+# Will return: 'Warning: subRegions in data not present in shapefile are: Greice'
+# As well as the built-in map used: 'Using map: mapCountries'
+
+# Check the subRegions in the map used
+rmap::mapCountries$subRegion%>%unique()%>%sort()
+
+# Fix the subRegion that was mis-spelled
+data = data.frame(subRegion = c("Italy","Spain","Greece"),
+                  value = c(10,15,34))
+
+# Re-plot cleaned data
+rmap::map(data,labels = T, title = "Correctly spelled subRegion 'Greece'")
+```
+
 
 <!-------------------------->
 <!-------------------------->
@@ -778,7 +811,7 @@ rmap::map(data,
 
 <!-------------------------->
 <!-------------------------->
-# Create Custom Map Shape
+# Using Custom Shapes {#custom}
 <!-------------------------->
 <!-------------------------->
 <p align="center"> <img src="vignetteFigs/divider.png"></p>

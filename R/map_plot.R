@@ -1211,13 +1211,23 @@ if(T){
         ) +
         ggplot2::scale_fill_gradientn(colors = paletteX, name = legendTitle)
     } else {
+
+      if(showNA){
       map <- underLayer +
         ggplot2::geom_sf(
-          data = data_sf_w_labels[, c("label",row,col)]%>%dplyr::filter(!is.na(label),label!="NA"),
+          data = data_sf_w_labels[, c("label",row,col)],
           ggplot2::aes_string(fill = "label"),
           color = colorx,
           lwd = lwd
-        )
+        )} else {
+          map <- underLayer +
+            ggplot2::geom_sf(
+              data = data_sf_w_labels[, c("label",row,col)]%>%dplyr::filter(!is.na(label),label!="NA"),
+              ggplot2::aes_string(fill = "label"),
+              color = colorx,
+              lwd = lwd
+            )
+        }
 
       # Add scales
       if (T) {
