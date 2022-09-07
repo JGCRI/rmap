@@ -122,19 +122,19 @@ Users will need to check that the names of the regions in their data tables matc
 ```{r, results = 'hide', eval=T, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
 library(rmap); library(dplyr)
 
-# Create data table with a mis-spelled subRegion
+# Create data table with a misspelled subRegion
 data = data.frame(subRegion = c("Italy","Spain","Greice"),
                   value = c(10,15,34))
 
 # Plot data
-rmap::map(data,labels = T, title = "Mis-spelled subRegion 'Greice'")
+rmap::map(data,labels = T, title = "Misspelled subRegion 'Greice'")
 # Will return: 'Warning: subRegions in data not present in shapefile are: Greice'
 # As well as the built-in map used: 'Using map: mapCountries'
 
 # Check the subRegions in the map used
 rmap::mapCountries$subRegion%>%unique()%>%sort()
 
-# Fix the subRegion that was mis-spelled
+# Fix the subRegion that was misspelled
 data = data.frame(subRegion = c("Italy","Spain","Greece"),
                   value = c(10,15,34))
 
