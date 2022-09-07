@@ -120,7 +120,7 @@ rmap::map(data,
 Users will need to check that the names of the regions in their data tables match those of the `subRegion` column of the [built-in maps](#maps) or a [custom shapefile](#maps) if they are using one. Sometimes user data may have a few names that have different spelling or accents and these will be flagged when rmap plots the maps. Users can then go back to their original data and fix those regions as shown in the example below.
 
 ```{r, results = 'hide', eval=T, echo=TRUE, warning=FALSE, error = FALSE, message = FALSE}
-library(rmap);
+library(rmap); library(dplyr)
 
 # Create data table with a mis-spelled subRegion
 data = data.frame(subRegion = c("Italy","Spain","Greice"),

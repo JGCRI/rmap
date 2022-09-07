@@ -83,7 +83,7 @@ map(
   palette = NULL,
   paletteDiff = "pal_div_BluRd",
   colorNA = "gray50",
-  showNA = T,
+  showNA = F,
   ncol = 3,
   size = 16,
   alpha = 1,
@@ -253,7 +253,7 @@ map(
 
 \item{colorNA}{Default = "gray50"}
 
-\item{showNA}{Default = T}
+\item{showNA}{Default = F}
 
 \item{ncol}{Default = 3. Number of columns to wrap maps}
 
