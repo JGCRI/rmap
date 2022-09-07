@@ -176,7 +176,7 @@ brew install imagemagick@6</code></pre>
 <!-------------------------->
 </div>
 <div class="section level2">
-<h2 id="inputs">Input Formats<a class="anchor" aria-label="anchor" href="#inputs"></a>
+<h2 id="inputs">Input Structure<a class="anchor" aria-label="anchor" href="#inputs"></a>
 </h2>
 <!-------------------------->
 <!-------------------------->
@@ -215,6 +215,41 @@ brew install imagemagick@6</code></pre>
 <!-------------------------->
 </div>
 <div class="section level2">
+<h2 id="clean">Cleaning Data<a class="anchor" aria-label="anchor" href="#clean"></a>
+</h2>
+<!-------------------------->
+<!-------------------------->
+<p align="center">
+<img src="vignetteFigs/divider.png"></p>
+<p>Users will need to check that the names of the regions in their data tables match those of the <code>subRegion</code> column of the <a href="#maps">built-in maps</a> or a <a href="#maps">custom shapefile</a> if they are using one. Sometimes user data may have a few names that have different spelling or accents and these will be flagged when rmap plots the maps. Users can then go back to their original data and fix those regions as shown in the example below.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap" class="external-link">rmap</a></span><span class="op">)</span>; <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Create data table with a mis-spelled subRegion</span></span>
+<span><span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>subRegion <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Italy"</span>,<span class="st">"Spain"</span>,<span class="st">"Greice"</span><span class="op">)</span>,</span>
+<span>                  value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>,<span class="fl">15</span>,<span class="fl">34</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Plot data</span></span>
+<span><span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span>,labels <span class="op">=</span> <span class="cn">T</span>, title <span class="op">=</span> <span class="st">"Mis-spelled subRegion 'Greice'"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-2-1.png" width="700"></p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Will return: 'Warning: subRegions in data not present in shapefile are: Greice'</span></span>
+<span><span class="co"># As well as the built-in map used: 'Using map: mapCountries'</span></span>
+<span></span>
+<span><span class="co"># Check the subRegions in the map used</span></span>
+<span><span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapCountries.html">mapCountries</a></span><span class="op">$</span><span class="va">subRegion</span><span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="op">)</span><span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span><span class="fu"><a href="https://rdrr.io/r/base/sort.html" class="external-link">sort</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Fix the subRegion that was mis-spelled</span></span>
+<span><span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>subRegion <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Italy"</span>,<span class="st">"Spain"</span>,<span class="st">"Greece"</span><span class="op">)</span>,</span>
+<span>                  value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>,<span class="fl">15</span>,<span class="fl">34</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Re-plot cleaned data</span></span>
+<span><span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span>,labels <span class="op">=</span> <span class="cn">T</span>, title <span class="op">=</span> <span class="st">"Correctly spelled subRegion 'Greece'"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-2-2.png" width="700"></p>
+<!-------------------------->
+<!-------------------------->
+</div>
+<div class="section level2">
 <h2 id="outputs">Output Formats<a class="anchor" aria-label="anchor" href="#outputs"></a>
 </h2>
 <!-------------------------->
@@ -222,7 +257,7 @@ brew install imagemagick@6</code></pre>
 <p align="center">
 <img src="vignetteFigs/divider.png"></p>
 <p>The output of the <code><a href="../reference/map.html">map()</a></code> function is a named list with all maps and animations created in the function. The elements of the list can be called individually and re-used as layers in new maps as decribed in the <a href="#layers">Layers</a> section. Since the output maps are <code>ggplot</code> elements all the features of the map can easily be modified using the taditional <code>ggplot2</code> theme options. Examples are provided in the <a href="#themes">Themes</a> section.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap" class="external-link">rmap</a></span><span class="op">)</span>;</span>
 <span><span class="va">my_map_list</span> <span class="op">&lt;-</span> <span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">mapUS49</span><span class="op">)</span> <span class="co"># my_map_list will contain a list of the maps produced. In this case a single map.</span></span>
 <span><span class="va">my_map</span> <span class="op">&lt;-</span> <span class="va">my_map_list</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="co"># my_map will be the first map in the list of maps produced</span></span>
@@ -231,7 +266,7 @@ brew install imagemagick@6</code></pre>
 <span><span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">mapUS49</span>, show <span class="op">=</span> <span class="cn">F</span><span class="op">)</span> <span class="co"># will return a map and save to disk without printing to console.</span></span>
 <span><span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">mapUS49</span>, folder <span class="op">=</span> <span class="st">"myOutputs"</span><span class="op">)</span> <span class="co"># Will save outputs to a directory called myOutputs</span></span>
 <span><span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">mapUS49</span>, save <span class="op">=</span> <span class="cn">F</span><span class="op">)</span> <span class="co"># Will simply print the maps to the console and not save the maps to file.</span></span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-3-1.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-4-1.png" width="700"></p>
 <!-------------------------->
 <!-------------------------->
 </div>
@@ -243,7 +278,7 @@ brew install imagemagick@6</code></pre>
 <p align="center">
 <img src="vignetteFigs/divider.png"></p>
 <p>rmap comes with a set of preloaded maps. A full list of maps is available in the reference list of <a href="https://jgcri.github.io/rmap/reference/index.html" class="external-link">maps</a>. The pre-loaded maps are all <code>sf</code> objects. Each map comes with a data column named <strong>subRegion</strong>. For each map the data contained in the shape and the map itself can be viewed as follows:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap" class="external-link">rmap</a></span><span class="op">)</span>;</span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">mapUS49</span><span class="op">)</span> <span class="co"># To view data for chosen map</span></span>
@@ -273,107 +308,107 @@ brew install imagemagick@6</code></pre>
 <div class="section level3">
 <h3 id="mapus49">mapUS49<a class="anchor" aria-label="anchor" href="#mapus49"></a>
 </h3>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-5-1.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="mapus52">mapUS52<a class="anchor" aria-label="anchor" href="#mapus52"></a>
 </h3>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-6-1.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="mapus52compact">mapUS52Compact<a class="anchor" aria-label="anchor" href="#mapus52compact"></a>
 </h3>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="mapus49county">mapUS49County<a class="anchor" aria-label="anchor" href="#mapus49county"></a>
 </h3>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="mapus52county">mapUS52County<a class="anchor" aria-label="anchor" href="#mapus52county"></a>
 </h3>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="mapus52countycompact">mapUS52CountyCompact<a class="anchor" aria-label="anchor" href="#mapus52countycompact"></a>
 </h3>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-11-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="mapcountries">mapCountries<a class="anchor" aria-label="anchor" href="#mapcountries"></a>
 </h3>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-11-1.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-12-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="mapcountriesus52">mapCountriesUS52<a class="anchor" aria-label="anchor" href="#mapcountriesus52"></a>
 </h3>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-12-1.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="mapgcamreg32">mapGCAMReg32<a class="anchor" aria-label="anchor" href="#mapgcamreg32"></a>
 </h3>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="mapgcamreg32us52">mapGCAMReg32US52<a class="anchor" aria-label="anchor" href="#mapgcamreg32us52"></a>
 </h3>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-15-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="mapgcambasins">mapGCAMBasins<a class="anchor" aria-label="anchor" href="#mapgcambasins"></a>
 </h3>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-15-1.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-16-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="mapgcambasinsus49">mapGCAMBasinsUS49<a class="anchor" aria-label="anchor" href="#mapgcambasinsus49"></a>
 </h3>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-16-1.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-17-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="mapgcambasinsus52">mapGCAMBasinsUS52<a class="anchor" aria-label="anchor" href="#mapgcambasinsus52"></a>
 </h3>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-17-1.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-18-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="mapgcamland">mapGCAMLand<a class="anchor" aria-label="anchor" href="#mapgcamland"></a>
 </h3>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-18-1.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-19-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="mapstates">mapStates<a class="anchor" aria-label="anchor" href="#mapstates"></a>
 </h3>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-19-1.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-20-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="maphydroshed1">mapHydroShed1<a class="anchor" aria-label="anchor" href="#maphydroshed1"></a>
 </h3>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-20-1.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-21-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="maphydroshed2">mapHydroShed2<a class="anchor" aria-label="anchor" href="#maphydroshed2"></a>
 </h3>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-21-1.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-22-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="maphydroshed3">mapHydroShed3<a class="anchor" aria-label="anchor" href="#maphydroshed3"></a>
 </h3>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-22-1.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-23-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="mapintersectgcambasincountry">mapIntersectGCAMBasinCountry<a class="anchor" aria-label="anchor" href="#mapintersectgcambasincountry"></a>
 </h3>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-23-1.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-24-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="mapintersectgcambasinus52">mapIntersectGCAMBasinUS52<a class="anchor" aria-label="anchor" href="#mapintersectgcambasinus52"></a>
 </h3>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-24-1.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-25-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="mapintersectgcambasinus52county">mapIntersectGCAMBasinUS52County<a class="anchor" aria-label="anchor" href="#mapintersectgcambasinus52county"></a>
 </h3>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-25-1.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-26-1.png" width="700"></p>
 <!-------------------------->
 <!-------------------------->
 </div>
@@ -386,12 +421,12 @@ brew install imagemagick@6</code></pre>
 <p align="center">
 <img src="vignetteFigs/divider.png"></p>
 <p>Users can change the projection of maps using the <code>crs</code> argumet as follows:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap" class="external-link">rmap</a></span><span class="op">)</span>;</span>
 <span><span class="co"># ESRI:54032  World Azimuthal Equidistant, https://epsg.io/54032</span></span>
 <span><span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">mapUS49</span>, </span>
 <span>          crs<span class="op">=</span><span class="st">"+proj=aeqd +lat_0=0 +lon_0=0 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m no_defs"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-26-1.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-27-1.png" width="700"></p>
 <!-------------------------->
 <!-------------------------->
 </div>
@@ -403,7 +438,7 @@ brew install imagemagick@6</code></pre>
 <p align="center">
 <img src="vignetteFigs/divider.png"></p>
 <p>Users can have rmap automatically search for an appropriate map using the <code>map_find</code> function as follows:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap" class="external-link">rmap</a></span><span class="op">)</span>;</span>
 <span><span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>subRegion <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CA"</span>,<span class="st">"FL"</span>,<span class="st">"ID"</span>,<span class="st">"MO"</span>,<span class="st">"TX"</span>,<span class="st">"WY"</span><span class="op">)</span>,</span>
 <span>                  value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>,<span class="fl">10</span>,<span class="fl">15</span>,<span class="fl">34</span>,<span class="fl">2</span>,<span class="fl">7</span><span class="op">)</span><span class="op">)</span></span>
@@ -411,7 +446,7 @@ brew install imagemagick@6</code></pre>
 <span><span class="va">map_chosen</span> <span class="op">&lt;-</span> <span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map_find.html">map_find</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span></span>
 <span><span class="va">map_chosen</span> <span class="co"># Will give a dataframe for the chosen map</span></span>
 <span><span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">map_chosen</span><span class="op">)</span></span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-27-1.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-28-1.png" width="700"></p>
 <!-------------------------->
 <!-------------------------->
 </div>
@@ -432,7 +467,7 @@ brew install imagemagick@6</code></pre>
 <p align="center">
 <img src="vignetteFigs/divider.png"></p>
 <p>The <code><a href="../reference/map.html">map()</a></code> funciton in <code>rmap</code> works in layers. The central layer is created using the <code>data</code> provided which fills out <code>values</code> for the <code>subRegion</code> or <code>lat</code> and <code>lon</code> columns provided. In addition to the central layer, users can choose an <code>underLayer</code> and an <code>overLayer</code> to show different kinds of intersecting boundaries or surrounding regions. The colors, border size and text labels for each layer can be individually be modified or as a global option. Examples of using layers are provided below for a basic dataset.</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap" class="external-link">rmap</a></span><span class="op">)</span>;</span>
 <span></span>
 <span><span class="co"># Create data table with a few US states</span></span>
@@ -440,8 +475,8 @@ brew install imagemagick@6</code></pre>
 <span>                  value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>,<span class="fl">10</span>,<span class="fl">15</span>,<span class="fl">34</span>,<span class="fl">2</span>,<span class="fl">7</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span> <span class="co"># Will choose the contiguous US map and plot this data for you as the only layer</span></span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-28-1.png" width="700"></p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-29-1.png" width="700"></p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap" class="external-link">rmap</a></span><span class="op">)</span>;</span>
 <span></span>
 <span><span class="co"># Create data table with a few US states</span></span>
@@ -449,8 +484,8 @@ brew install imagemagick@6</code></pre>
 <span>                  value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>,<span class="fl">10</span>,<span class="fl">15</span>,<span class="fl">34</span>,<span class="fl">2</span>,<span class="fl">7</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span>, </span>
 <span>          underLayer<span class="op">=</span><span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapUS49.html">mapUS49</a></span><span class="op">)</span> <span class="co"># Will add an underlayer of the US49 map zoomed in to your data set</span></span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-28-2.png" width="700"></p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-29-2.png" width="700"></p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap" class="external-link">rmap</a></span><span class="op">)</span>;</span>
 <span></span>
 <span><span class="co"># Create data table with a few US states</span></span>
@@ -460,7 +495,7 @@ brew install imagemagick@6</code></pre>
 <span><span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span>, </span>
 <span>          underLayer<span class="op">=</span><span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapUS49.html">mapUS49</a></span>, </span>
 <span>          overLayer<span class="op">=</span><span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapGCAMBasinsUS49.html">mapGCAMBasinsUS49</a></span><span class="op">)</span> <span class="co"># will add GCAM basins ontop of the previous map</span></span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-28-3.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-29-3.png" width="700"></p>
 <!-------------------------->
 <!-------------------------->
 </div>
@@ -472,7 +507,7 @@ brew install imagemagick@6</code></pre>
 <p align="center">
 <img src="vignetteFigs/divider.png"></p>
 <p>The line width, color and fill of each layer can be individually be modified or as a global option. Examples are provided below for a basic dataset.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create a basic map with no data and modify fill as well as line color and lwd.</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap" class="external-link">rmap</a></span><span class="op">)</span>;</span>
 <span><span class="co"># Create data table with a few US states</span></span>
@@ -482,8 +517,8 @@ brew install imagemagick@6</code></pre>
 <span>          fill <span class="op">=</span> <span class="st">"black"</span>,</span>
 <span>          color <span class="op">=</span> <span class="st">"white"</span>,</span>
 <span>          lwd <span class="op">=</span> <span class="fl">1.5</span><span class="op">)</span> <span class="co"># Will adjust the borders of the different layers to highlight them.</span></span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-29-1.png" width="700"></p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-30-1.png" width="700"></p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Create a basic map with data and modify line colors and lwd.</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap" class="external-link">rmap</a></span><span class="op">)</span>;</span>
 <span><span class="co"># Create data table with a few US states</span></span>
@@ -493,8 +528,8 @@ brew install imagemagick@6</code></pre>
 <span><span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span>, </span>
 <span>          color <span class="op">=</span> <span class="st">"blue"</span>,</span>
 <span>          lwd <span class="op">=</span> <span class="fl">1.5</span><span class="op">)</span> <span class="co"># Will adjust the borders of the different layers to highlight them.</span></span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-29-2.png" width="700"></p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-30-2.png" width="700"></p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Modify under and overlayer fill, line color and lwd.</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap" class="external-link">rmap</a></span><span class="op">)</span>;</span>
 <span><span class="co"># Create data table with a few US states</span></span>
@@ -510,7 +545,7 @@ brew install imagemagick@6</code></pre>
 <span>          overLayer<span class="op">=</span><span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapGCAMBasinsUS49.html">mapGCAMBasinsUS49</a></span>,</span>
 <span>          overLayerColor <span class="op">=</span> <span class="st">"red"</span>,</span>
 <span>          overLayerLwd <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="co"># Will adjust the borders of the different layers to highlight them.</span></span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-29-3.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-30-3.png" width="700"></p>
 <!-------------------------->
 <!-------------------------->
 </div>
@@ -522,7 +557,7 @@ brew install imagemagick@6</code></pre>
 <p align="center">
 <img src="vignetteFigs/divider.png"></p>
 <p>Labels can be added to the different layers of the maps as follows:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap" class="external-link">rmap</a></span><span class="op">)</span>;</span>
 <span></span>
 <span><span class="co"># Create data table with a few US states</span></span>
@@ -534,8 +569,8 @@ brew install imagemagick@6</code></pre>
 <span>          labels <span class="op">=</span> <span class="cn">T</span>,</span>
 <span>          labelSize <span class="op">=</span> <span class="fl">10</span>,</span>
 <span>          labelColor <span class="op">=</span> <span class="st">"blue"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-30-1.png" width="700"></p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-31-1.png" width="700"></p>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Add labels with a transparent background box</span></span>
 <span><span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span>,</span>
 <span>          labels <span class="op">=</span> <span class="cn">T</span>,</span>
@@ -544,8 +579,8 @@ brew install imagemagick@6</code></pre>
 <span>          labelFill <span class="op">=</span> <span class="st">"white"</span>,</span>
 <span>          labelAlpha <span class="op">=</span> <span class="fl">0.8</span>,</span>
 <span>          labelBorderSize <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-30-2.png" width="700"></p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-31-2.png" width="700"></p>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Repel the labels out with a leader line for crowded labels</span></span>
 <span><span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>data<span class="op">=</span><span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapUS49.html">mapUS49</a></span>,</span>
 <span>          labels <span class="op">=</span> <span class="cn">T</span>,</span>
@@ -555,8 +590,8 @@ brew install imagemagick@6</code></pre>
 <span>          labelAlpha <span class="op">=</span> <span class="fl">0.8</span>,</span>
 <span>          labelBorderSize <span class="op">=</span> <span class="fl">1</span>,</span>
 <span>          labelRepel <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-30-3.png" width="700"></p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-31-3.png" width="700"></p>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Choose which layers to apply these label options to.</span></span>
 <span><span class="co"># Labels for data (labels=T), labels for underlayer (underLayerLabels=T), labels for overLayer (overLayerLabels=T)</span></span>
 <span></span>
@@ -564,8 +599,8 @@ brew install imagemagick@6</code></pre>
 <span><span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span>,</span>
 <span>          underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapUS49.html">mapUS49</a></span>,</span>
 <span>          underLayerLabels <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-30-4.png" width="700"></p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-31-4.png" width="700"></p>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># OverLayer Examples</span></span>
 <span><span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span>,</span>
 <span>          underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapUS49.html">mapUS49</a></span>,</span>
@@ -578,8 +613,8 @@ brew install imagemagick@6</code></pre>
 <span>          labelAlpha <span class="op">=</span> <span class="fl">0.8</span>,</span>
 <span>          labelBorderSize <span class="op">=</span> <span class="fl">0.1</span>,</span>
 <span>          labelRepel <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-30-5.png" width="700"></p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-31-5.png" width="700"></p>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># All Labels (Not recommended as too confusing)</span></span>
 <span><span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span>,</span>
 <span>          underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapUS49.html">mapUS49</a></span>,</span>
@@ -593,7 +628,7 @@ brew install imagemagick@6</code></pre>
 <span>          labelAlpha <span class="op">=</span> <span class="fl">0.8</span>,</span>
 <span>          labelBorderSize <span class="op">=</span> <span class="fl">0.1</span>,</span>
 <span>          labelRepel <span class="op">=</span> <span class="fl">1</span><span class="op">)</span></span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-30-6.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-31-6.png" width="700"></p>
 <!-------------------------->
 <!-------------------------->
 </div>
@@ -605,7 +640,7 @@ brew install imagemagick@6</code></pre>
 <p align="center">
 <img src="vignetteFigs/divider.png"></p>
 <p>By default the maps are cropped to the extent of the subRegions provided in the data. If the argument <code>crop</code> is set to <code>FALSE</code> then the map will zoom to extents of the largest layer in the map as shown below. Maps can also be cropped to the underLayer or overLayer by setting the <code>crop_to_underLayer</code> and <code>crop_to_overLayer</code> arguments to <code>TRUE</code>.</p>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap" class="external-link">rmap</a></span><span class="op">)</span>;</span>
 <span></span>
 <span><span class="co"># Create data table with a few US states</span></span>
@@ -619,29 +654,29 @@ brew install imagemagick@6</code></pre>
 <span>          labels <span class="op">=</span> <span class="cn">T</span>,</span>
 <span>          crop <span class="op">=</span> <span class="cn">T</span>,</span>
 <span>          title <span class="op">=</span> <span class="st">"crop = T"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-31-1.png" width="700"></p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-32-1.png" width="700"></p>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span>,</span>
 <span>          underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapUS49.html">mapUS49</a></span>,</span>
 <span>          underLayerLabels <span class="op">=</span> <span class="cn">T</span>,</span>
 <span>          labels <span class="op">=</span> <span class="cn">T</span>,</span>
 <span>          crop <span class="op">=</span> <span class="cn">F</span>,</span>
 <span>          title <span class="op">=</span> <span class="st">"crop = F"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-31-2.png" width="700"></p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-32-2.png" width="700"></p>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span>,</span>
 <span>          underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapUS49.html">mapUS49</a></span>,</span>
 <span>          overLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapGCAMBasinsUS52.html">mapGCAMBasinsUS52</a></span>,</span>
 <span>          crop_to_underLayer <span class="op">=</span> <span class="cn">T</span>,</span>
 <span>          title <span class="op">=</span> <span class="st">"crop_to_underLayer = T"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-31-3.png" width="700"></p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-32-3.png" width="700"></p>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span>,</span>
 <span>          underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapUS49.html">mapUS49</a></span>,</span>
 <span>          overLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapGCAMBasinsUS52.html">mapGCAMBasinsUS52</a></span>,</span>
 <span>          crop_to_overLayer <span class="op">=</span> <span class="cn">T</span>,</span>
 <span>          title <span class="op">=</span> <span class="st">"crop_to_overLayer = T"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-31-4.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-32-4.png" width="700"></p>
 <!-------------------------->
 <!-------------------------->
 </div>
@@ -653,7 +688,7 @@ brew install imagemagick@6</code></pre>
 <p align="center">
 <img src="vignetteFigs/divider.png"></p>
 <p>Users can use <code>zoom</code> to zoom out or into a cropped map as desired. Options are available to zoom along x only (<code>zoomx</code>), along y only (<code>zoomy</code>) or both (<code>zoom</code>).</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap" class="external-link">rmap</a></span><span class="op">)</span>;</span>
 <span></span>
 <span><span class="co"># Create data table with a few US states</span></span>
@@ -666,7 +701,7 @@ brew install imagemagick@6</code></pre>
 <span><span class="va">m2</span> <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span>,underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapUS49.html">mapUS49</a></span>,zoom <span class="op">=</span> <span class="op">-</span><span class="fl">10</span><span class="op">)</span></span>
 <span><span class="va">m3</span> <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span>,underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapUS49.html">mapUS49</a></span>,zoomx <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span>
 <span><span class="va">m4</span> <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span>,underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapUS49.html">mapUS49</a></span>,zoomy <span class="op">=</span> <span class="fl">4</span><span class="op">)</span></span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-33-1.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-34-1.png" width="700"></p>
 <!-------------------------->
 <!-------------------------->
 </div>
@@ -678,7 +713,7 @@ brew install imagemagick@6</code></pre>
 <p align="center">
 <img src="vignetteFigs/divider.png"></p>
 <p>While users can adjust all the elements of the map using ggplot themes as explained in the <a href="#themes">Themes</a> section, we have provided a quick argument to simply add blue for oceans and a border to the map if the <code>background</code> argument is set to <code>T</code>. Additionally if the <code>background</code> argument is set to any color such as <code>grey10</code> then the map with border will be produced with that color.</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap" class="external-link">rmap</a></span><span class="op">)</span>;</span>
 <span></span>
 <span><span class="co"># Create data table with a few US states</span></span>
@@ -691,21 +726,21 @@ brew install imagemagick@6</code></pre>
 <span>          underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapCountriesUS52.html">mapCountriesUS52</a></span>,</span>
 <span>          background <span class="op">=</span> <span class="cn">F</span>,</span>
 <span>          title <span class="op">=</span> <span class="st">"background = F"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-34-1.png" width="700"></p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-35-1.png" width="700"></p>
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span>,</span>
 <span>          labels <span class="op">=</span> <span class="cn">T</span>,</span>
 <span>          underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapCountriesUS52.html">mapCountriesUS52</a></span>,</span>
 <span>          background <span class="op">=</span> <span class="cn">T</span>,</span>
 <span>          title <span class="op">=</span> <span class="st">"background = T"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-34-2.png" width="700"></p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-35-2.png" width="700"></p>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span>,</span>
 <span>          labels <span class="op">=</span> <span class="cn">T</span>,</span>
 <span>          underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapCountriesUS52.html">mapCountriesUS52</a></span>,</span>
 <span>          background <span class="op">=</span> <span class="st">"grey10"</span>,</span>
 <span>          title <span class="op">=</span> <span class="st">"background = 'grey10"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-34-3.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-35-3.png" width="700"></p>
 <!-------------------------->
 <!-------------------------->
 </div>
@@ -717,7 +752,7 @@ brew install imagemagick@6</code></pre>
 <p align="center">
 <img src="vignetteFigs/divider.png"></p>
 <p>The outputs of <code><a href="../reference/map.html">rmap::map()</a></code> is a list with <code>ggplot2</code> objects which can be modified using standard ggplot2 <a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">themes</a> or by adjusting any individual component of <a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">ggplot2 elements</a>. Some examples are shown below.</p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap" class="external-link">rmap</a></span><span class="op">)</span>; <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Create data table with a few US states</span></span>
@@ -733,16 +768,16 @@ brew install imagemagick@6</code></pre>
 <span></span>
 <span><span class="co"># Now Print with different ggplot elements</span></span>
 <span><span class="va">m1</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="op">+</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"No Theme"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-35-1.png" width="700"></p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-36-1.png" width="700"></p>
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Apply the ggplot theme_dark()</span></span>
 <span><span class="va">m1</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="op">+</span> </span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_dark</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Theme Dark"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">xlab</a></span><span class="op">(</span><span class="st">"MY X Label"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ylab</a></span><span class="op">(</span><span class="st">"MY Y Label"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-35-2.png" width="700"></p>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-36-2.png" width="700"></p>
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Apply custom ggplot theme to an element</span></span>
 <span><span class="va">m1</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="op">+</span></span>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">ggtitle</a></span><span class="op">(</span><span class="st">"Themes: x label and legend position"</span><span class="op">)</span> <span class="op">+</span></span>
@@ -750,29 +785,61 @@ brew install imagemagick@6</code></pre>
 <span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html" class="external-link">theme</a></span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"bottom"</span>,</span>
 <span>                 legend.text <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>size<span class="op">=</span><span class="fl">20</span><span class="op">)</span>,</span>
 <span>                 axis.title.x <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html" class="external-link">element_text</a></span><span class="op">(</span>size<span class="op">=</span><span class="fl">20</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-35-3.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-36-3.png" width="700"></p>
 <!-------------------------->
 <!-------------------------->
 </div>
-</div>
-<div class="section level2">
-<h2 id="plot-polygon-data">Plot Polygon Data<a class="anchor" aria-label="anchor" href="#plot-polygon-data"></a>
-</h2>
+<div class="section level3">
+<h3 id="showna">Show NA<a class="anchor" aria-label="anchor" href="#showna"></a>
+</h3>
 <!-------------------------->
 <!-------------------------->
 <p align="center">
 <img src="vignetteFigs/divider.png"></p>
+<p>Users have the option to <code>showNA</code> with a default (<code>gray50</code>) or custom colors.</p>
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap" class="external-link">rmap</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Create data table with a few US states</span></span>
+<span><span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>subRegion <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CA"</span>,<span class="st">"FL"</span>,<span class="st">"ID"</span>,<span class="st">"MO"</span>,<span class="st">"TX"</span>,<span class="st">"WY"</span><span class="op">)</span>,</span>
+<span>                  value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>,<span class="cn">NA</span>,<span class="fl">15</span>,<span class="fl">34</span>,<span class="fl">2</span>,<span class="fl">7</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Without NA</span></span>
+<span><span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span>,</span>
+<span>          labels <span class="op">=</span> <span class="cn">T</span>,</span>
+<span>          underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapUS49.html">mapUS49</a></span>,</span>
+<span>          title <span class="op">=</span> <span class="st">"showNA is Default (F)"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-37-1.png" width="700"></p>
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># showNA = T</span></span>
+<span><span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span>,</span>
+<span>          labels <span class="op">=</span> <span class="cn">T</span>,</span>
+<span>          underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapUS49.html">mapUS49</a></span>, </span>
+<span>          showNA <span class="op">=</span> <span class="cn">T</span>,</span>
+<span>          title <span class="op">=</span> <span class="st">"showNA = T"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-37-2.png" width="700"></p>
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># showNA = T, colorNA = 'red'</span></span>
+<span><span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span>,</span>
+<span>          labels <span class="op">=</span> <span class="cn">T</span>,</span>
+<span>          underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapUS49.html">mapUS49</a></span>, </span>
+<span>          showNA <span class="op">=</span> <span class="cn">T</span>, colorNA <span class="op">=</span> <span class="st">'green'</span>,</span>
+<span>          title <span class="op">=</span> <span class="st">"showNA = T &amp; colorNA = 'green'"</span><span class="op">)</span></span></code></pre></div>
+<img src="vignette_map_files/figure-html/unnamed-chunk-37-3.png" width="700"><!--------------------------><!--------------------------> # Plot Polygon Data <!--------------------------> <!-------------------------->
+<p align="center">
+<img src="vignetteFigs/divider.png"></p>
 <p>For a given data table in the correct format (see <a href="#inputs">Input Format</a>) <code><a href="../reference/map.html">map()</a></code> will search through the list of <a href="https://jgcri.github.io/rmap/reference/index.html" class="external-link">maps</a> to see if it can find the “subRegions” provided in the data and then plot the data on the most appropriate map. Users can specify a specific map. Some examples are provided below:</p>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap" class="external-link">rmap</a></span><span class="op">)</span>;</span>
 <span></span>
 <span><span class="co"># US Contiguous States </span></span>
 <span><span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>subRegion <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"CA"</span>,<span class="st">"FL"</span>,<span class="st">"ID"</span>,<span class="st">"MO"</span>,<span class="st">"TX"</span>,<span class="st">"WY"</span><span class="op">)</span>,</span>
 <span>                  value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">5</span>,<span class="fl">10</span>,<span class="fl">15</span>,<span class="fl">34</span>,<span class="fl">2</span>,<span class="fl">7</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span></span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-36-1.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-38-1.png" width="700"></p>
 <!-------------------------->
 <!-------------------------->
+</div>
 </div>
 <div class="section level2">
 <h2 id="select">Polygon Data Select Map<a class="anchor" aria-label="anchor" href="#select"></a>
@@ -782,7 +849,7 @@ brew install imagemagick@6</code></pre>
 <p align="center">
 <img src="vignetteFigs/divider.png"></p>
 <p>Sometimes subRegions can be present on multiple maps. For example “Colombia”, China" and “India” are all members of <code><a href="../reference/mapGCAMReg32.html">rmap::mapGCAMReg32</a></code> as well as <code><a href="../reference/mapCountries.html">rmap::mapCountries</a></code>. If a user knows which map they want to plot their data on they should specify the map in the <code>shape</code> argument.</p>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap" class="external-link">rmap</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>subRegion <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"China"</span>,<span class="st">"India"</span>,<span class="st">"Pakistan"</span><span class="op">)</span>,</span>
@@ -791,14 +858,14 @@ brew install imagemagick@6</code></pre>
 <span></span>
 <span><span class="co"># Auto selection by rmap will choose rmap::mapCountries</span></span>
 <span><span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span></span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-37-1.png" width="700"></p>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-39-1.png" width="700"></p>
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># User can specify that they want to plot this data on rmap::mapGCAMReg32</span></span>
 <span><span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span>,</span>
 <span>          shape <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapGCAMReg32.html">mapGCAMReg32</a></span>,</span>
 <span>          crop <span class="op">=</span> <span class="cn">F</span> <span class="co"># Because will crop to the shapes boundaries when shape is specified</span></span>
 <span>          <span class="op">)</span></span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-37-2.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-39-2.png" width="700"></p>
 <!-------------------------->
 <!-------------------------->
 </div>
@@ -810,7 +877,7 @@ brew install imagemagick@6</code></pre>
 <p align="center">
 <img src="vignetteFigs/divider.png"></p>
 <p>For a given data table in the correct format (see <a href="#inputs">Input Format</a>) <code><a href="../reference/map.html">map()</a></code> will search through the list of <a href="https://jgcri.github.io/rmap/reference/index.html" class="external-link">maps</a> to see if it can find the “subRegions” provided in the data and then plot the data on the most appropriate map. Users can specify a specific map. Some examples are provided below:</p>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap" class="external-link">rmap</a></span><span class="op">)</span>; <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Using example grid data provided in rmap</span></span>
@@ -833,24 +900,24 @@ brew install imagemagick@6</code></pre>
 <span><span class="co">## <span style="color: #BCBCBC;">4</span> -<span style="color: #BB0000;">180.</span>  66.2 2015   70.1</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">5</span> -<span style="color: #BB0000;">180.</span>  66.8 2015   79.2</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">6</span> -<span style="color: #BB0000;">180.</span>  67.2 2015   77.6</span></span></code></pre>
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span></span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-39-1.png" width="700"></p>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-41-1.png" width="700"></p>
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Plot part of data (first 10000 rows)</span></span>
 <span><span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fl">10000</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-39-2.png" width="700"></p>
-<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-41-2.png" width="700"></p>
+<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Add an underlayer to gridded data</span></span>
 <span><span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">data</span>,</span>
 <span>          overLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapCountriesUS52.html">mapCountriesUS52</a></span>,</span>
 <span>          background<span class="op">=</span><span class="cn">T</span><span class="op">)</span></span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-39-3.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-41-3.png" width="700"></p>
 <!-------------------------->
 <!-------------------------->
 </div>
 <div class="section level2">
-<h2 id="create-custom-map-shape">Create Custom Map Shape<a class="anchor" aria-label="anchor" href="#create-custom-map-shape"></a>
+<h2 id="custom">Using Custom Shapes<a class="anchor" aria-label="anchor" href="#custom"></a>
 </h2>
 <!-------------------------->
 <!-------------------------->
@@ -860,14 +927,14 @@ brew install imagemagick@6</code></pre>
 <div class="section level3">
 <h3 id="subset-existing-shape">Subset existing shape<a class="anchor" aria-label="anchor" href="#subset-existing-shape"></a>
 </h3>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap" class="external-link">rmap</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">shapeSubset</span> <span class="op">&lt;-</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapStates.html">mapStates</a></span> <span class="co"># Read in World States shape file</span></span>
 <span><span class="va">shapeSubset</span> <span class="op">&lt;-</span> <span class="va">shapeSubset</span><span class="op">[</span><span class="va">shapeSubset</span><span class="op">$</span><span class="va">region</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Colombia"</span><span class="op">)</span>,<span class="op">]</span> <span class="co"># Subset the shapefile to Colombia</span></span>
 <span><span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span><span class="va">shapeSubset</span><span class="op">)</span> <span class="co"># View custom shape</span></span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-40-1.png" width="700"></p>
-<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-42-1.png" width="700"></p>
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">shapeSubset</span><span class="op">)</span> <span class="co"># review data</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">shapeSubset</span><span class="op">$</span><span class="va">subRegion</span><span class="op">)</span> <span class="co"># Get a list of the unique subRegions</span></span>
 <span></span>
@@ -880,13 +947,13 @@ brew install imagemagick@6</code></pre>
 <span>          shape <span class="op">=</span> <span class="va">shapeSubset</span>,</span>
 <span>          underLayer <span class="op">=</span> <span class="va">shapeSubset</span>,</span>
 <span>          crop<span class="op">=</span><span class="cn">F</span><span class="op">)</span> <span class="co"># Must rename the states column to 'subRegion'</span></span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-40-2.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-42-2.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="crop-a-shape-to-another-shape">Crop a shape to another shape<a class="anchor" aria-label="anchor" href="#crop-a-shape-to-another-shape"></a>
 </h3>
 <p>For example if someone wants to analyze counties in Texas.</p>
-<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap" class="external-link">rmap</a></span><span class="op">)</span>; <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/raster" class="external-link">raster</a></span><span class="op">)</span>; <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">shapeSubRegions</span> <span class="op">&lt;-</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapUS49County.html">mapUS49County</a></span></span>
@@ -908,7 +975,7 @@ brew install imagemagick@6</code></pre>
 <h3 id="saveShape">Save Custom Shapefile<a class="anchor" aria-label="anchor" href="#saveShape"></a>
 </h3>
 <p>A cropped or custom shapefile which may be much smaller in size can be saved offline as an <code>ESRI Shapefile</code> for later use in <code>rmap</code> or other software if desired as follows:</p>
-<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://rgdal.r-forge.r-project.org" class="external-link">rgdal</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">rgdal</span><span class="fu">::</span><span class="fu">writeOGR</span><span class="op">(</span>obj<span class="op">=</span><span class="va">shapeCrop</span>,</span>
@@ -927,7 +994,7 @@ brew install imagemagick@6</code></pre>
 <li>custom_shape.shx</li>
 </ul>
 <p>After reading in the shapefile (e.g. as <code>my_custom_map</code>), users will need to insure that it contains a <code>subRegion</code> column corresponding to the features in the shape.</p>
-<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap" class="external-link">rmap</a></span><span class="op">)</span>; <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://rgdal.r-forge.r-project.org" class="external-link">rgdal</a></span><span class="op">)</span>; <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/edzer/sp/" class="external-link">sp</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Assuming custom_shape files are in folder custom_shape_folder</span></span>
@@ -966,7 +1033,7 @@ brew install imagemagick@6</code></pre>
 <div class="section level4">
 <h4 id="polygon-data-multi-year">Polygon Data Multi-Year<a class="anchor" aria-label="anchor" href="#polygon-data-multi-year"></a>
 </h4>
-<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap" class="external-link">rmap</a></span><span class="op">)</span>;</span>
 <span></span>
 <span><span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>subRegion <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Austria"</span>,<span class="st">"Spain"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>,<span class="st">"Greece"</span>,</span>
@@ -988,14 +1055,14 @@ brew install imagemagick@6</code></pre>
 <span>          background <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># NOTE: Animation files are only saved to file and not as a direct output of the rmap::map() function.</span></span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-45-1.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-45-2.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-47-1.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-47-2.png" width="700"></p>
 <p align="center">
 <img src="vignetteFigs/anim_param_scenario_KMEANS_polygon.gif"></p>
 </div>
 <div class="section level4">
 <h4 id="gridded-data-multi-year">Gridded Data Multi-Year<a class="anchor" aria-label="anchor" href="#gridded-data-multi-year"></a>
 </h4>
-<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap" class="external-link">rmap</a></span><span class="op">)</span>;</span>
 <span><span class="va">data</span> <span class="op">=</span> <span class="va">example_gridData_GWPv4To2015</span>;</span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span></span></code></pre></div>
@@ -1008,14 +1075,14 @@ brew install imagemagick@6</code></pre>
 <span><span class="co">## <span style="color: #BCBCBC;">4</span> -<span style="color: #BB0000;">180.</span>  66.2 2000   144.</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">5</span> -<span style="color: #BB0000;">180.</span>  66.8 2000   163.</span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">6</span> -<span style="color: #BB0000;">180.</span>  67.2 2000   159.</span></span></code></pre>
-<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap" class="external-link">rmap</a></span><span class="op">)</span>;</span>
 <span><span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>,</span>
 <span>          overLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapCountries.html">mapCountries</a></span>,</span>
 <span>          background <span class="op">=</span> <span class="cn">T</span>, width <span class="op">=</span> <span class="fl">15</span>, height <span class="op">=</span><span class="fl">15</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># NOTE: Animation files are only saved to file and not as a direct output of the rmap::map() function.</span></span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-49-1.png" width="1440"><img src="vignette_map_files/figure-html/unnamed-chunk-49-2.png" width="1440"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-51-1.png" width="1440"><img src="vignette_map_files/figure-html/unnamed-chunk-51-2.png" width="1440"></p>
 <!-- <p align="center"> <img src="/home/runner/work/rmap/rmap/vignettes/vignetteFigs/anim_param_scenario_KMEANS_gridded.gif"></p> -->
 <!-------------------------->
 </div>
@@ -1030,7 +1097,7 @@ brew install imagemagick@6</code></pre>
 <div class="section level4">
 <h4 id="polygon-data-multi-year-diff">Polygon Data Multi-Year Diff<a class="anchor" aria-label="anchor" href="#polygon-data-multi-year-diff"></a>
 </h4>
-<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap" class="external-link">rmap</a></span><span class="op">)</span>;</span>
 <span></span>
 <span><span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>subRegion <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Austria"</span>,<span class="st">"Spain"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>,<span class="st">"Greece"</span>,</span>
@@ -1049,12 +1116,12 @@ brew install imagemagick@6</code></pre>
 <span></span>
 <span><span class="va">mapx</span><span class="op">$</span><span class="va">map_param_KMEANS_xDiffAbs</span></span>
 <span><span class="va">mapx</span><span class="op">$</span><span class="va">map_param_KMEANS_xDiffPrcnt</span></span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-51-1.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-51-2.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-53-1.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-53-2.png" width="700"></p>
 </div>
 <div class="section level4">
 <h4 id="gridded-data-multi-year-diff">Gridded Data Multi-Year Diff<a class="anchor" aria-label="anchor" href="#gridded-data-multi-year-diff"></a>
 </h4>
-<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap" class="external-link">rmap</a></span><span class="op">)</span>;</span>
 <span></span>
 <span><span class="va">data</span> <span class="op">=</span> <span class="va">example_gridData_GWPv4To2015</span></span>
@@ -1066,7 +1133,7 @@ brew install imagemagick@6</code></pre>
 <span></span>
 <span><span class="va">mapx</span><span class="op">$</span><span class="va">map_param_KMEANS_xDiffAbs</span></span>
 <span><span class="va">mapx</span><span class="op">$</span><span class="va">map_param_KMEANS_xDiffPrcnt</span></span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-53-1.png" width="1440"><img src="vignette_map_files/figure-html/unnamed-chunk-53-2.png" width="1440"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-55-1.png" width="1440"><img src="vignette_map_files/figure-html/unnamed-chunk-55-2.png" width="1440"></p>
 <!-------------------------->
 </div>
 </div>
@@ -1079,7 +1146,7 @@ brew install imagemagick@6</code></pre>
 <div class="section level4">
 <h4 id="polygon-data-multi-class">Polygon Data Multi-Class<a class="anchor" aria-label="anchor" href="#polygon-data-multi-class"></a>
 </h4>
-<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap" class="external-link">rmap</a></span><span class="op">)</span>;</span>
 <span></span>
 <span><span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>subRegion <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Austria"</span>,<span class="st">"Spain"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>,<span class="st">"Greece"</span>,</span>
@@ -1097,12 +1164,12 @@ brew install imagemagick@6</code></pre>
 <span><span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>,</span>
 <span>          underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapCountries.html">mapCountries</a></span>,</span>
 <span>          background <span class="op">=</span> <span class="cn">T</span> <span class="op">)</span></span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-54-1.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-56-1.png" width="700"></p>
 </div>
 <div class="section level4">
 <h4 id="gridded-data-multi-class">Gridded Data Multi-Class<a class="anchor" aria-label="anchor" href="#gridded-data-multi-class"></a>
 </h4>
-<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap" class="external-link">rmap</a></span><span class="op">)</span>;<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Change the years in the gridded data to classes</span></span>
@@ -1120,7 +1187,7 @@ brew install imagemagick@6</code></pre>
 <span>          overLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapCountries.html">mapCountries</a></span>,</span>
 <span>          background <span class="op">=</span> <span class="cn">T</span>,</span>
 <span>          ncol <span class="op">=</span> <span class="fl">2</span>, width <span class="op">=</span> <span class="fl">15</span>, height <span class="op">=</span><span class="fl">15</span><span class="op">)</span></span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-55-1.png" width="1440"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-57-1.png" width="1440"></p>
 <!-------------------------->
 </div>
 </div>
@@ -1134,7 +1201,7 @@ brew install imagemagick@6</code></pre>
 <div class="section level4">
 <h4 id="polygon-data-multi-scenario">Polygon Data Multi-Scenario<a class="anchor" aria-label="anchor" href="#polygon-data-multi-scenario"></a>
 </h4>
-<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap" class="external-link">rmap</a></span><span class="op">)</span>;</span>
 <span></span>
 <span><span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>subRegion <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Austria"</span>,<span class="st">"Spain"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>,<span class="st">"Greece"</span>,</span>
@@ -1153,12 +1220,12 @@ brew install imagemagick@6</code></pre>
 <span>          background <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">mapx</span><span class="op">$</span><span class="va">map_param_KMEANS</span></span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-57-1.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-59-1.png" width="700"></p>
 </div>
 <div class="section level4">
 <h4 id="customize-order-of-scenarios">Customize Order of Scenarios<a class="anchor" aria-label="anchor" href="#customize-order-of-scenarios"></a>
 </h4>
-<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap" class="external-link">rmap</a></span><span class="op">)</span>;</span>
 <span></span>
 <span><span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>subRegion <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Austria"</span>,<span class="st">"Spain"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>,<span class="st">"Greece"</span>,</span>
@@ -1181,12 +1248,12 @@ brew install imagemagick@6</code></pre>
 <span>          background <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">mapx</span><span class="op">$</span><span class="va">map_param_KMEANS</span></span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-59-1.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-61-1.png" width="700"></p>
 </div>
 <div class="section level4">
 <h4 id="gridded-data-multi-scenario">Gridded Data Multi-Scenario<a class="anchor" aria-label="anchor" href="#gridded-data-multi-scenario"></a>
 </h4>
-<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap" class="external-link">rmap</a></span><span class="op">)</span>;</span>
 <span></span>
 <span><span class="co"># Change the years in the example gridded data to scenarios</span></span>
@@ -1205,7 +1272,7 @@ brew install imagemagick@6</code></pre>
 <span>          ncol <span class="op">=</span> <span class="fl">1</span>, width <span class="op">=</span> <span class="fl">15</span>, height <span class="op">=</span><span class="fl">15</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">mapx</span><span class="op">$</span><span class="va">map_param_KMEANS</span></span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-61-1.png" width="1440"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-63-1.png" width="1440"></p>
 <!-------------------------->
 </div>
 </div>
@@ -1219,7 +1286,7 @@ brew install imagemagick@6</code></pre>
 <div class="section level4">
 <h4 id="polygon-data-multi-scenario-diff">Polygon Data Multi-Scenario Diff<a class="anchor" aria-label="anchor" href="#polygon-data-multi-scenario-diff"></a>
 </h4>
-<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap" class="external-link">rmap</a></span><span class="op">)</span>;</span>
 <span></span>
 <span><span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>subRegion <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Austria"</span>,<span class="st">"Spain"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>,<span class="st">"Greece"</span>,</span>
@@ -1239,12 +1306,12 @@ brew install imagemagick@6</code></pre>
 <span></span>
 <span><span class="va">mapx</span><span class="op">$</span><span class="va">map_param_KMEANS_DiffAbs</span></span>
 <span><span class="va">mapx</span><span class="op">$</span><span class="va">map_param_KMEANS_DiffPrcnt</span></span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-63-1.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-63-2.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-65-1.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-65-2.png" width="700"></p>
 </div>
 <div class="section level4">
 <h4 id="gridded-data-multi-scenario-diff">Gridded Data Multi-Scenario Diff<a class="anchor" aria-label="anchor" href="#gridded-data-multi-scenario-diff"></a>
 </h4>
-<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap" class="external-link">rmap</a></span><span class="op">)</span>; <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Change the years in the example gridded data to scenarios</span></span>
@@ -1279,7 +1346,7 @@ brew install imagemagick@6</code></pre>
 <div class="section level4">
 <h4 id="polygon-data-multi-facet">Polygon Data Multi-Facet<a class="anchor" aria-label="anchor" href="#polygon-data-multi-facet"></a>
 </h4>
-<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap" class="external-link">rmap</a></span><span class="op">)</span>;</span>
 <span></span>
 <span><span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>subRegion <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Austria"</span>,<span class="st">"Spain"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>,<span class="st">"Greece"</span>,</span>
@@ -1303,12 +1370,12 @@ brew install imagemagick@6</code></pre>
 <span>          row <span class="op">=</span> <span class="st">"rcp"</span>,</span>
 <span>          col <span class="op">=</span> <span class="st">"gcm"</span>,</span>
 <span>          background <span class="op">=</span> <span class="cn">T</span> <span class="op">)</span></span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-66-1.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-68-1.png" width="700"></p>
 </div>
 <div class="section level4">
 <h4 id="gridded-data-multi-facet">Gridded Data Multi-Facet<a class="anchor" aria-label="anchor" href="#gridded-data-multi-facet"></a>
 </h4>
-<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb64"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap" class="external-link">rmap</a></span><span class="op">)</span>;<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Create data with new columns RCPs and GCMs</span></span>
@@ -1331,7 +1398,7 @@ brew install imagemagick@6</code></pre>
 <span>          col <span class="op">=</span> <span class="st">"gcm"</span>,</span>
 <span>          background <span class="op">=</span> <span class="cn">T</span>,</span>
 <span>          width<span class="op">=</span><span class="fl">15</span>, height <span class="op">=</span><span class="fl">15</span><span class="op">)</span></span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-67-1.png" width="1440"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-69-1.png" width="1440"></p>
 <!-------------------------->
 <!-------------------------->
 </div>
@@ -1344,7 +1411,7 @@ brew install imagemagick@6</code></pre>
 <!-------------------------->
 <p align="center">
 <img src="vignetteFigs/divider.png"></p>
-<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap" class="external-link">rmap</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># For Scenario Diff plots</span></span>
@@ -1385,7 +1452,7 @@ brew install imagemagick@6</code></pre>
 <span><span class="co"># scaleRangexDiffAbs_i = data.frame(param = c("param1","param2"),</span></span>
 <span><span class="co">#                                   min = c(0,0),</span></span>
 <span><span class="co">#                                   max = c(15000,2000))</span></span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-69-1.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-69-2.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-69-3.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-69-4.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-69-5.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-69-6.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-71-1.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-71-2.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-71-3.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-71-4.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-71-5.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-71-6.png" width="700"></p>
 <!-------------------------->
 <!-------------------------->
 </div>
@@ -1397,7 +1464,7 @@ brew install imagemagick@6</code></pre>
 <p align="center">
 <img src="vignetteFigs/divider.png"></p>
 <p>Can use any <a href="https://www.nceas.ucsb.edu/sites/default/files/2020-04/colorPaletteCheatsheet.pdf" class="external-link">R color palette</a> or choose from a list of colors from the <a href="https://jgcri.github.io/jgcricolors/articles/vignette_examples.html" class="external-link">jgcricolors package</a>.</p>
-<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap" class="external-link">rmap</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>subRegion <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Austria"</span>,<span class="st">"Spain"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>,<span class="st">"Greece"</span>,</span>
@@ -1413,7 +1480,7 @@ brew install imagemagick@6</code></pre>
 <span>          scenRef <span class="op">=</span> <span class="st">"scen1"</span>,</span>
 <span>          palette <span class="op">=</span> <span class="st">"pal_wet"</span>,</span>
 <span>          paletteDiff <span class="op">=</span> <span class="st">"pal_div_BrGn"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-70-1.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-70-2.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-70-3.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-72-1.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-72-2.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-72-3.png" width="700"></p>
 <!-------------------------->
 <!-------------------------->
 </div>
@@ -1440,7 +1507,7 @@ brew install imagemagick@6</code></pre>
 <div class="section level4">
 <h4 id="legend-fixed-breaks">Legend Fixed Breaks<a class="anchor" aria-label="anchor" href="#legend-fixed-breaks"></a>
 </h4>
-<div class="sourceCode" id="cb62"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb67"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap" class="external-link">rmap</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>subRegion <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Austria"</span>,<span class="st">"Spain"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>,<span class="st">"Greece"</span><span class="op">)</span>,</span>
@@ -1450,12 +1517,12 @@ brew install imagemagick@6</code></pre>
 <span>    background <span class="op">=</span> <span class="cn">T</span>,</span>
 <span>    underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapCountries.html">mapCountries</a></span>,</span>
 <span>    legendFixedBreaks<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">30</span>,<span class="fl">32</span>,<span class="fl">1000</span><span class="op">)</span><span class="op">)</span>  <span class="co"># Will append 24 to these breaks because they are part of the data.</span></span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-71-1.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-73-1.png" width="700"></p>
 </div>
 <div class="section level4">
 <h4 id="legend-type-kmeans">Legend Type Kmeans<a class="anchor" aria-label="anchor" href="#legend-type-kmeans"></a>
 </h4>
-<div class="sourceCode" id="cb63"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap" class="external-link">rmap</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>subRegion <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Austria"</span>,<span class="st">"Spain"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>,<span class="st">"Greece"</span><span class="op">)</span>,</span>
@@ -1465,12 +1532,12 @@ brew install imagemagick@6</code></pre>
 <span>    background <span class="op">=</span> <span class="cn">T</span>,</span>
 <span>    underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapCountries.html">mapCountries</a></span>,</span>
 <span>    legendType <span class="op">=</span> <span class="st">"kmeans"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-72-1.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-74-1.png" width="700"></p>
 </div>
 <div class="section level4">
 <h4 id="legend-type-pretty">Legend Type Pretty<a class="anchor" aria-label="anchor" href="#legend-type-pretty"></a>
 </h4>
-<div class="sourceCode" id="cb64"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb69"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap" class="external-link">rmap</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>subRegion <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Austria"</span>,<span class="st">"Spain"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>,<span class="st">"Greece"</span><span class="op">)</span>,</span>
@@ -1480,12 +1547,12 @@ brew install imagemagick@6</code></pre>
 <span>    background <span class="op">=</span> <span class="cn">T</span>,</span>
 <span>    underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapCountries.html">mapCountries</a></span>,</span>
 <span>    legendType <span class="op">=</span> <span class="st">"pretty"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-73-1.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-75-1.png" width="700"></p>
 </div>
 <div class="section level4">
 <h4 id="legend-type-continuous">Legend Type Continuous<a class="anchor" aria-label="anchor" href="#legend-type-continuous"></a>
 </h4>
-<div class="sourceCode" id="cb65"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb70"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap" class="external-link">rmap</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>subRegion <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Austria"</span>,<span class="st">"Spain"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>,<span class="st">"Greece"</span><span class="op">)</span>,</span>
@@ -1495,7 +1562,7 @@ brew install imagemagick@6</code></pre>
 <span>    background <span class="op">=</span> <span class="cn">T</span>,</span>
 <span>    underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapCountries.html">mapCountries</a></span>,</span>
 <span>    legendType <span class="op">=</span> <span class="st">"continuous"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-74-1.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-76-1.png" width="700"></p>
 <!-------------------------->
 </div>
 </div>
@@ -1509,7 +1576,7 @@ brew install imagemagick@6</code></pre>
 <li>“Kmeans” will ignore the value chosen for <code>legendBreaksn</code>since it calculates the best breaks it self to highlight the distribution of the data.</li>
 <li>The <code>legendBreaksn</code> will apply in the same way to Diff Plots.</li>
 </ul>
-<div class="sourceCode" id="cb66"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap" class="external-link">rmap</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>subRegion <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Austria"</span>,<span class="st">"Spain"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>,<span class="st">"Greece"</span><span class="op">)</span>,</span>
@@ -1520,14 +1587,14 @@ brew install imagemagick@6</code></pre>
 <span>          underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapCountries.html">mapCountries</a></span>,</span>
 <span>          legendType <span class="op">=</span> <span class="st">"pretty"</span>,</span>
 <span>          legendBreaksn<span class="op">=</span><span class="fl">3</span><span class="op">)</span></span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-75-1.png" width="700"></p>
-<div class="sourceCode" id="cb67"><pre class="downlit sourceCode r">
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-77-1.png" width="700"></p>
+<div class="sourceCode" id="cb72"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, </span>
 <span>          background <span class="op">=</span> <span class="cn">T</span>,</span>
 <span>          underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapCountries.html">mapCountries</a></span>,</span>
 <span>          legendType <span class="op">=</span> <span class="st">"pretty"</span>,</span>
 <span>          legendBreaksn<span class="op">=</span><span class="fl">9</span><span class="op">)</span></span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-75-2.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-77-2.png" width="700"></p>
 <!-------------------------->
 </div>
 <div class="section level3">
@@ -1535,7 +1602,7 @@ brew install imagemagick@6</code></pre>
 </h3>
 <!-------------------------->
 <p>Users can add a single value to the legend ranges. Sometimes it is important to see the <code>0</code> or minimum value in a rnage of data and this allows users to do that. Users can simply set <code>legendSingleValue=T</code> to use the minimum value (or 0 if present) of their dataset as the minimum value or set the value to a particular number. Users cna also set the color of the single value they choose as shown in the examples below.</p>
-<div class="sourceCode" id="cb68"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb73"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap" class="external-link">rmap</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">data</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>subRegion <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Austria"</span>,<span class="st">"Spain"</span>, <span class="st">"Italy"</span>, <span class="st">"Germany"</span>,<span class="st">"Greece"</span><span class="op">)</span>,</span>
@@ -1545,22 +1612,22 @@ brew install imagemagick@6</code></pre>
 <span><span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, </span>
 <span>          background <span class="op">=</span> <span class="cn">T</span>,</span>
 <span>          underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapCountries.html">mapCountries</a></span><span class="op">)</span></span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-76-1.png" width="700"></p>
-<div class="sourceCode" id="cb69"><pre class="downlit sourceCode r">
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-78-1.png" width="700"></p>
+<div class="sourceCode" id="cb74"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># With legendSingelValue = T (will choose the minimum value or if 0 (if present) and set it to single)</span></span>
 <span><span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, </span>
 <span>          background <span class="op">=</span> <span class="cn">T</span>,</span>
 <span>          underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapCountries.html">mapCountries</a></span>,</span>
 <span>          legendSingleValue <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-76-2.png" width="700"></p>
-<div class="sourceCode" id="cb70"><pre class="downlit sourceCode r">
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-78-2.png" width="700"></p>
+<div class="sourceCode" id="cb75"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># With legendSingelValue = 38 and set to "green"</span></span>
 <span><span class="fu">rmap</span><span class="fu">::</span><span class="fu"><a href="../reference/map.html">map</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, </span>
 <span>          background <span class="op">=</span> <span class="cn">T</span>,</span>
 <span>          underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapCountries.html">mapCountries</a></span>,</span>
 <span>          legendSingleValue <span class="op">=</span> <span class="fl">54</span>,</span>
 <span>          legendSingleColor <span class="op">=</span> <span class="st">"green"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-76-3.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-78-3.png" width="700"></p>
 <!-------------------------->
 <!-------------------------->
 </div>
@@ -1573,7 +1640,7 @@ brew install imagemagick@6</code></pre>
 <p align="center">
 <img src="vignetteFigs/divider.png"></p>
 <p>The <code>numeric2cat</code> parameter in the map function allows users to assign their own categorical legend labels for chosen ranges of numeric values.</p>
-<div class="sourceCode" id="cb71"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb76"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap" class="external-link">rmap</a></span><span class="op">)</span>;<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/jgcricolors" class="external-link">jgcricolors</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Create a list of ranges and categorical color scales for each parameter</span></span>
@@ -1607,7 +1674,7 @@ brew install imagemagick@6</code></pre>
 <span>          background <span class="op">=</span> <span class="cn">T</span>,</span>
 <span>          underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapCountries.html">mapCountries</a></span>,</span>
 <span>          numeric2Cat_list <span class="op">=</span> <span class="va">numeric2Cat_list</span><span class="op">)</span></span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-77-1.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-77-2.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-79-1.png" width="700"><img src="vignette_map_files/figure-html/unnamed-chunk-79-2.png" width="700"></p>
 <!-------------------------->
 <!-------------------------->
 </div>
@@ -1622,7 +1689,7 @@ brew install imagemagick@6</code></pre>
 <h3 id="gcam-basins">GCAM Basins<a class="anchor" aria-label="anchor" href="#gcam-basins"></a>
 </h3>
 <p>GCAM Basins can come sometimes come abbreviated. To covnert these into the names associated with the <code>rmap::mapGCAMBasin</code> basin names the following mapping is provided:</p>
-<div class="sourceCode" id="cb72"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb77"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapping_gcambasins.html">mapping_gcambasins</a></span> <span class="co"># View the mapping</span></span>
 <span></span>
 <span><span class="co"># Convert</span></span>
@@ -1637,7 +1704,7 @@ brew install imagemagick@6</code></pre>
 </h3>
 <p>In this example data was extracted from a GCAM output database and aggregated by paramater and class into <code><a href="../reference/exampleMapDataParam.html">rmap::exampleMapDataParam</a></code> and <code><a href="../reference/exampleMapDataClass.html">rmap::exampleMapDataClass</a></code>. Users can process their own GCAM data outputs into similar tables using the <a href="https://jgcri.github.io/gcamextractor/" class="external-link">gcamextractor</a> R package available at <a href="https://jgcri.github.io/gcamextractor/" class="external-link">https://jgcri.github.io/gcamextractor/</a>.</p>
 <p><strong>Note: The example data comes with only a few parameters: “elecByTechTWh”,“pop”,“watWithdrawBySec”,“watSupRunoffBasin”,“landAlloc” and “agProdByCrop”</strong></p>
-<div class="sourceCode" id="cb73"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb78"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/JGCRI/rmap" class="external-link">rmap</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">dfClass</span> <span class="op">&lt;-</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/exampleMapDataClass.html">exampleMapDataClass</a></span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
@@ -1652,7 +1719,7 @@ brew install imagemagick@6</code></pre>
 <span>          background <span class="op">=</span> <span class="cn">T</span>, </span>
 <span>          underLayer <span class="op">=</span> <span class="fu">rmap</span><span class="fu">::</span><span class="va"><a href="../reference/mapGCAMReg32.html">mapGCAMReg32</a></span>,</span>
 <span>          save<span class="op">=</span><span class="cn">F</span><span class="op">)</span></span></code></pre></div>
-<p><img src="vignette_map_files/figure-html/unnamed-chunk-79-1.png" width="700"></p>
+<p><img src="vignette_map_files/figure-html/unnamed-chunk-81-1.png" width="700"></p>
 </div>
 </div>
   </div>
@@ -1674,7 +1741,7 @@ brew install imagemagick@6</code></pre>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.5.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>
