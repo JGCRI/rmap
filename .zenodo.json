@@ -1,0 +1,43 @@
+{
+    "language": "eng", 
+    "license": "BSD-2-Clause", 
+    "title": "rmap: An R package to plot and compare tabular data on customizable maps across scenarios and time", 
+    "version": "v1.0.2", 
+    "upload_type": "software", 
+    "keywords": [
+        "rmap", 
+        "maps", 
+        "spatial", 
+        "temporal"
+    ], 
+    "publication_date": "2022-09-14", 
+    "creators": [
+	    {
+            "orcid": "0000-0002-8147-8553", 
+            "affiliation": "Joint Global Change Research Institute, Pacific Northwest National Laboratory (PNNL)", 
+            "name": "Khan, Zarrar"
+        }, 
+        {
+            "orcid": "0000-0001-5385-2758", 
+            "affiliation": "Earth System Science Interdisciplinary Center (ESSIC), University of Maryland", 
+            "name": "Zhao, Mengqi"
+        }, 
+        {
+            "orcid": "0000-0002-3406-6214", 
+            "affiliation": "Joint Global Change Research Institute, Pacific Northwest National Laboratory (PNNL)", 
+            "name": "Vernon, Chris R."
+        },
+        {
+            "orcid": "0000-0002-6045-7729", 
+            "affiliation": "Earth System Science Interdisciplinary Center (ESSIC), University of Maryland; Joint Global Change Research Institute, Pacific Northwest National Laboratory (PNNL)", 
+            "name": "Wild, Tom"
+        }, 
+        {
+            "orcid": "0000-0003-2944-3449", 
+            "affiliation": "School of Public Policy, University of Maryland", 
+            "name": "Yarlagadda, Brinda"
+        }
+    ], 
+    "access_right": "open", 
+    "description": "<p>This release is meant to complement the <code>rmap</code> publication in the Journal of Open Source Software (JOSS) after the peer-review process.</p>"
+}
