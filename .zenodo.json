@@ -2,7 +2,7 @@
     "language": "eng", 
     "license": "BSD-2-Clause", 
     "title": "rmap: An R package to plot and compare tabular data on customizable maps across scenarios and time", 
-    "version": "v1.0.2", 
+    "version": "v1.0.3", 
     "upload_type": "software", 
     "keywords": [
         "rmap", 
@@ -30,7 +30,7 @@
         {
             "orcid": "0000-0002-6045-7729", 
             "affiliation": "Earth System Science Interdisciplinary Center (ESSIC), University of Maryland; Joint Global Change Research Institute, Pacific Northwest National Laboratory (PNNL)", 
-            "name": "Wild, Tom"
+            "name": "Wild, Thomas"
         }, 
         {
             "orcid": "0000-0003-2944-3449", 
