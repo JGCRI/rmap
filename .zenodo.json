@@ -2,7 +2,7 @@
     "language": "eng", 
     "license": "BSD-2-Clause", 
     "title": "rmap: An R package to plot and compare tabular data on customizable maps across scenarios and time", 
-    "version": "v1.0.3", 
+    "version": "v1.0.5", 
     "upload_type": "software", 
     "keywords": [
         "rmap", 
