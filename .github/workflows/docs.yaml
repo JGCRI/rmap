@@ -35,12 +35,8 @@ jobs:
         run: |
           install.packages(c("remotes","rcmdcheck"), repos = "https://cloud.r-project.org")
           remotes::install_deps(dependencies = TRUE)
+          install.packages("pkgdown", type = "binary")
         shell: Rscript {0}
-
-      - uses: r-lib/actions/setup-r-dependencies@v2-branch
-        with:
-          extra-packages: pkgdown
-          needs: website
 
       - name: Deploy package
         run: |
