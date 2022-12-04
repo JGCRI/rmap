@@ -18,8 +18,8 @@ jobs:
       - uses: r-lib/actions/setup-r@master
         with:
           r-version: '3.6'
-      - uses: r-lib/actions/setup-pandoc@master
-      - uses: r-lib/actions/setup-tinytex@master
+      - uses: r-lib/actions/setup-pandoc@v2-branch
+      - uses: r-lib/actions/setup-tinytex@v2-branch
       
       - name: Cache R packages 
         uses: actions/cache@v1 
