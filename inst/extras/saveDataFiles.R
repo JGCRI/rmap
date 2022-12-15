@@ -1060,6 +1060,7 @@ if(F){
 if(T){
   mapping_tethys_grid_basin_region_country <- readRDS("./inst/extras/rmap_tethys_grid_basin_region_country.rds") %>%
     tibble::as_tibble() %>%
+    dplyr::mutate(basinName = gsub('Madasgacar', 'Madagascar', basinName)) %>%
     dplyr::rename(lat=Latitude,
                   lon=Longitude); mapping_tethys_grid_basin_region_country
   use_data(mapping_tethys_grid_basin_region_country, version=3, overwrite=T)
@@ -1547,7 +1548,7 @@ if(T){
     "Tocantins","TocantinsR",
     "Java_Timor","JavaTimor",
     "Solomon_Islands","SolomonIsl",
-    "Madasgacar","Madasgacar",
+    "Madagascar","Madagascar",
     "Sepik","SepikR",
     "Rift_Valley","RiftValley",
     "Peru_Pacific_Coast","PeruCst",
