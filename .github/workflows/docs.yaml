@@ -41,7 +41,7 @@ jobs:
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
 
-       - name: Install pkgdown
+      - name: Install pkgdown
         run: |
           install.packages(c("pkgdown"), repos = "https://cloud.r-project.org")
 
