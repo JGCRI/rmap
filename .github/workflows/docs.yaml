@@ -27,10 +27,6 @@ jobs:
           r-version: '3.6'
       - uses: r-lib/actions/setup-pandoc@v2-branch
       - uses: r-lib/actions/setup-tinytex@v2-branch
-      - uses: r-lib/actions/setup-r-dependencies@v2-branch
-        with:
-          extra-packages: any::pkgdown, local::.
-          needs: website
           
       - name: Ubuntu config
         if: startsWith(matrix.config.os, 'ubuntu')
