@@ -41,10 +41,9 @@ jobs:
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
 
-      - uses: r-lib/actions/setup-r-dependencies@v2-branch
-        with:
-          extra-packages: pkgdown
-          needs: website
+       - name: Install pkgdown
+        run: |
+          install.packages(c("pkgdown"), repos = "https://cloud.r-project.org")
 
       - name: Deploy package
         run: |
