@@ -34,13 +34,15 @@ Imports:
 	methods,
 	ggrepel
 Suggests: 
-    pkgdown,
+    ragg,
+	pkgdown,
 	rmarkdown,
     testthat (>= 3.0.0),
     knitr,
 	cowplot
 VignetteBuilder: 
-    pkgdown,
+    ragg,
+	pkgdown,
     knitr,
 	cowplot
 Config/testthat/edition: 3
