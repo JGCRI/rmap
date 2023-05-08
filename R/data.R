@@ -219,6 +219,18 @@
 #' }
 "mapGCAMReg32Uruguay"
 
+#' GCAM 32 Regions with EU countries
+#'
+#' @source Modified versions of shapefiles from \url{https://zenodo.org/record/4688451#.YdMNTmjMJPY}
+#' @format sf
+#' @examples
+#' \dontrun{
+#'  library(rmap)
+#'  plot(mapGCAMReg32EU[,"subRegion"])
+#'  head(mapGCAMReg32EU)
+#' }
+"mapGCAMReg32EU"
+
 
 #' GCAM Basins
 #'

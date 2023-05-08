@@ -677,6 +677,58 @@ if(redoMaps){
 # Merge
 #-------------------
 
+
+# Merge EU with GCAM Regs
+if(redoMaps){
+
+  # Create EU Map
+  eu <- (data.table::fread("C:/Z/models/rmap/inst/extras/Regions_GCAM-Europe.csv") %>%
+    dplyr::filter(new=="yes"))$model_region %>% unique(); eu
+  eu_ctry <- (data.table::fread("C:/Z/models/rmap/inst/extras/Regions_GCAM-Europe.csv") %>%
+           dplyr::filter(new=="yes") %>%
+           dplyr::mutate(country_name= dplyr::if_else(country_name=="Wallis and Futuna","Wallis & Futuna",country_name))%>%
+           dplyr::mutate(country_name= dplyr::if_else(country_name=="Turks and Caicos","Turks & Caicos Is.",country_name))%>%
+           dplyr::mutate(country_name= dplyr::if_else(country_name=="Saint Pierre and Miquelon","St. Pierre & Miquelon",country_name))%>%
+           dplyr::mutate(country_name= dplyr::if_else(country_name=="Saint Helena","St. Helena",country_name)))$country_name %>% unique(); eu_ctry %>% sort()
+  length(eu);
+  nrow(rmap::mapping_country_gcam32%>%filter(ctry_name %in% eu)%>%as.data.frame())
+  reg_12_13_16 <- (rmap::mapping_country_gcam32%>%filter(region_code %in% c(16,12,13)))$ctry_name;
+  reg_12_13_16[!reg_12_13_16 %in% eu_ctry]
+  # The following regions should be included in the EU countries being considered in eu
+  # "Falkland Is." "Iceland"      "Jan Mayen"    "Faroe Is."    "Svalbard"
+
+  m1 <- rmap::mapCountries %>%
+    dplyr::filter(region %in% eu); m1
+  rmap::map(m1,save=F, labels = T)
+
+  m2 <- rmap::mapGCAMReg32 %>% filter(!subRegionAlt %in% c(12,13,16))
+  rmap::map(m2,save=F, labels = T)
+
+  mapx<-m1 %>% dplyr::bind_rows(m2)
+
+  mapGCAMReg32EU <- mapx
+  mapGCAMReg32EU <- mapGCAMReg32EU %>%
+    dplyr::mutate(name="mapGCAMReg32EU")%>%
+    st_set_crs(st_crs(4326))
+
+  mapGCAMReg32EU <- mapGCAMReg32EU %>%
+    dplyr::mutate(region=subRegion)
+  sf::st_crs(mapGCAMReg32EU) <- 4326
+  use_data(mapGCAMReg32EU, version=3, overwrite=T)
+
+  # Plot
+  # http://vrl.cs.brown.edu/color
+  colors_eu <- c("#68affc", "#a2e84f", "#9d0d6c", "#4aeeb6", "#fe2b1c", "#36e515",
+           "#8115b4", "#63a122", "#da73f8", "#1c5f1e", "#fa1bfc", "#bcdeae",
+           "#7a3003", "#20d8fd", "#fa718e", "#347383", "#fab5b5", "#5a396e",
+           "#ed9845", "#1945c5", "#e8d746", "#b69cfd", "#544516", "#ad7484",
+           "#aee39a", "#b1475c", "#42f18f", "#ff98cc", "#13a64f", rep("gray90",40)); colors_eu
+  names(colors_eu) <- c(eu,mapGCAMReg32$region); colors_eu
+
+  rmap::map(mapGCAMReg32EU,save=F, labels = T, palette = colors_eu)
+
+}
+
 # Merge US52 with GCAM Regs
 if(redoMaps){
   m1 <- rmap::mapUS52
@@ -1636,6 +1688,9 @@ if(T){
     "mapGCAMReg32US52" =
       tolower(rmap::mapGCAMReg32US52$subRegion %>% unique() %>% as.character %>%
                 sort()),
+    "mapGCAMReg32EU" =
+      tolower(rmap::mapGCAMReg32EU$subRegion %>% unique() %>% as.character %>%
+                sort()),
     "mapCountriesUS52" =
       tolower(rmap::mapCountriesUS52$subRegion %>% unique() %>% as.character %>%
                 sort()),
@@ -1698,6 +1753,9 @@ if(T){
                 sort()),
     "mapGCAMReg32US52Alt" =
       tolower(rmap::mapGCAMReg32US52$subRegionAlt %>% unique() %>% as.character %>%
+                sort()),
+    "mapGCAMReg32EUAlt" =
+      tolower(rmap::mapGCAMReg32EU$subRegionAlt %>% unique() %>% as.character %>%
                 sort()),
     "mapCountriesUS52Alt" =
       tolower(rmap::mapCountriesUS52$subRegionAlt %>% unique() %>% as.character %>%

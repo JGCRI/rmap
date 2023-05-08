@@ -685,3 +685,17 @@ malaria_map_diff_2018 = map(i_4_disease[i_4_disease == "Malaria", ],
 malaria_map_diff_2018$map_param_KMEANS
 malaria_map_diff_2018$map_param_KMEANS_xDiffAbs
 malaria_map_diff_2018$map_param_KMEANS_xDiffPrcnt
+
+
+# EU Test
+
+library(rmap); library(dplyr);
+
+colors_eu <- c("#68affc", "#a2e84f", "#9d0d6c", "#4aeeb6", "#fe2b1c", "#36e515",
+               "#8115b4", "#63a122", "#da73f8", "#1c5f1e", "#fa1bfc", "#bcdeae",
+               "#7a3003", "#20d8fd", "#fa718e", "#347383", "#fab5b5", "#5a396e",
+               "#ed9845", "#1945c5", "#e8d746", "#b69cfd", "#544516", "#ad7484",
+               "#aee39a", "#b1475c", "#42f18f", "#ff98cc", "#13a64f", rep("gray90",40)); colors_eu
+names(colors_eu) <- c(eu,mapGCAMReg32$region); colors_eu
+
+rmap::map(mapGCAMReg32EU,save=F, labels = T, palette = colors_eu)

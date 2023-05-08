@@ -267,6 +267,13 @@ library(rmap);
 rmap::map(mapGCAMReg32US52)
 ```
 
+## mapGCAMReg32EU
+```{r, results = 'hide', eval=TRUE, echo=FALSE, warning=FALSE, error = FALSE, message = FALSE}
+library(rmap);
+rmap::map(mapGCAMReg32EU)
+```
+
+
 ## mapGCAMBasins
 ```{r, results = 'hide', eval=TRUE, echo=FALSE, warning=FALSE, error = FALSE, message = FALSE}
 library(rmap);
