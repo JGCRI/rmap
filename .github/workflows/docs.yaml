@@ -39,6 +39,7 @@ jobs:
         run: |
           install.packages(c("remotes","rcmdcheck"), repos = "https://cloud.r-project.org")
           remotes::install_deps(dependencies = TRUE)
+          install.packages("pkgdown")
         shell: Rscript {0}
 
       - name: Deploy package
