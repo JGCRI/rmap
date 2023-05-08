@@ -43,7 +43,7 @@ jobs:
 
       - name: Install pkgdown
         run: |
-          install.packages(c("pkgdown"), repos = "https://cloud.r-project.org")
+          install.packages("pkgdown")
 
       - name: Deploy package
         run: |
