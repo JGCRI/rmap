@@ -1,0 +1,260 @@
+model,ISO3,country_name,model_region,new
+GCAM-Europe,bdi,Burundi,Africa_Eastern,no
+GCAM-Europe,com,Comoros,Africa_Eastern,no
+GCAM-Europe,dji,Djibouti,Africa_Eastern,no
+GCAM-Europe,eri,Eritrea,Africa_Eastern,no
+GCAM-Europe,eth,Ethiopia,Africa_Eastern,no
+GCAM-Europe,ken,Kenya,Africa_Eastern,no
+GCAM-Europe,mdg,Madagascar,Africa_Eastern,no
+GCAM-Europe,mus,Mauritius,Africa_Eastern,no
+GCAM-Europe,reu,Reunion,Africa_Eastern,no
+GCAM-Europe,rwa,Rwanda,Africa_Eastern,no
+GCAM-Europe,sdn,Sudan,Africa_Eastern,no
+GCAM-Europe,som,Somalia,Africa_Eastern,no
+GCAM-Europe,ssd,South Sudan,Africa_Eastern,no
+GCAM-Europe,uga,Uganda,Africa_Eastern,no
+GCAM-Europe,dza,Algeria,Africa_Northern,no
+GCAM-Europe,egy,Egypt,Africa_Northern,no
+GCAM-Europe,esh,Western Sahara,Africa_Northern,no
+GCAM-Europe,lby,Libyan Arab Jamahiriya,Africa_Northern,no
+GCAM-Europe,mar,Morocco,Africa_Northern,no
+GCAM-Europe,tun,Tunisia,Africa_Northern,no
+GCAM-Europe,ago,Angola,Africa_Southern,no
+GCAM-Europe,bwa,Botswana,Africa_Southern,no
+GCAM-Europe,lso,Lesotho,Africa_Southern,no
+GCAM-Europe,moz,Mozambique,Africa_Southern,no
+GCAM-Europe,mwi,Malawi,Africa_Southern,no
+GCAM-Europe,nam,Namibia,Africa_Southern,no
+GCAM-Europe,swz,Swaziland,Africa_Southern,no
+GCAM-Europe,tza,Tanzania,Africa_Southern,no
+GCAM-Europe,zmb,Zambia,Africa_Southern,no
+GCAM-Europe,zwe,Zimbabwe,Africa_Southern,no
+GCAM-Europe,ben,Benin,Africa_Western,no
+GCAM-Europe,bfa,Burkina Faso,Africa_Western,no
+GCAM-Europe,caf,Central African Republic,Africa_Western,no
+GCAM-Europe,civ,Cote dIvoire,Africa_Western,no
+GCAM-Europe,cmr,Cameroon,Africa_Western,no
+GCAM-Europe,cod,Congo,Africa_Western,no
+GCAM-Europe,cog,Congo,Africa_Western,no
+GCAM-Europe,cpv,Cape Verde,Africa_Western,no
+GCAM-Europe,gab,Gabon,Africa_Western,no
+GCAM-Europe,gha,Ghana,Africa_Western,no
+GCAM-Europe,gin,Guinea,Africa_Western,no
+GCAM-Europe,gmb,Gambia,Africa_Western,no
+GCAM-Europe,gnb,Guinea-Bissau,Africa_Western,no
+GCAM-Europe,gnq,Equatorial Guinea,Africa_Western,no
+GCAM-Europe,lbr,Liberia,Africa_Western,no
+GCAM-Europe,mli,Mali,Africa_Western,no
+GCAM-Europe,mrt,Mauritania,Africa_Western,no
+GCAM-Europe,ner,Niger,Africa_Western,no
+GCAM-Europe,nga,Nigeria,Africa_Western,no
+GCAM-Europe,sen,Senegal,Africa_Western,no
+GCAM-Europe,sle,Sierra Leone,Africa_Western,no
+GCAM-Europe,stp,Sao Tome and Principe,Africa_Western,no
+GCAM-Europe,tcd,Chad,Africa_Western,no
+GCAM-Europe,tgo,Togo,Africa_Western,no
+GCAM-Europe,arg,Argentina,Argentina,no
+GCAM-Europe,flk,Falkland Islands (Malvinas),Argentina,no
+GCAM-Europe,aus,Australia,Australia_NZ,no
+GCAM-Europe,nzl,New Zealand,Australia_NZ,no
+GCAM-Europe,aut,Austria,Austria,yes
+GCAM-Europe,bel,Belgium,Belgium,yes
+GCAM-Europe,bra,Brazil,Brazil,no
+GCAM-Europe,bgr,Bulgaria,Bulgaria,yes
+GCAM-Europe,can,Canada,Canada,no
+GCAM-Europe,abw,Aruba,Central America and Caribbean,no
+GCAM-Europe,aia,Anguilla,Central America and Caribbean,no
+GCAM-Europe,ant,Netherlands Antilles,Central America and Caribbean,no
+GCAM-Europe,atg,Antigua & Barbuda,Central America and Caribbean,no
+GCAM-Europe,bhs,Bahamas,Central America and Caribbean,no
+GCAM-Europe,blz,Belize,Central America and Caribbean,no
+GCAM-Europe,bmu,Bermuda,Central America and Caribbean,no
+GCAM-Europe,brb,Barbados,Central America and Caribbean,no
+GCAM-Europe,cri,Costa Rica,Central America and Caribbean,no
+GCAM-Europe,cub,Cuba,Central America and Caribbean,no
+GCAM-Europe,cuw,Curacao,Central America and Caribbean,no
+GCAM-Europe,cym,Cayman Islands,Central America and Caribbean,no
+GCAM-Europe,dma,Dominica,Central America and Caribbean,no
+GCAM-Europe,dom,Dominican Republic,Central America and Caribbean,no
+GCAM-Europe,glp,Guadeloupe,Central America and Caribbean,no
+GCAM-Europe,grd,Grenada,Central America and Caribbean,no
+GCAM-Europe,gtm,Guatemala,Central America and Caribbean,no
+GCAM-Europe,hnd,Honduras,Central America and Caribbean,no
+GCAM-Europe,hti,Haiti,Central America and Caribbean,no
+GCAM-Europe,jam,Jamaica,Central America and Caribbean,no
+GCAM-Europe,kna,Saint Kitts and Nevis,Central America and Caribbean,no
+GCAM-Europe,lca,Saint Lucia,Central America and Caribbean,no
+GCAM-Europe,msr,Montserrat,Central America and Caribbean,no
+GCAM-Europe,mtq,Martinique,Central America and Caribbean,no
+GCAM-Europe,nic,Nicaragua,Central America and Caribbean,no
+GCAM-Europe,pan,Panama,Central America and Caribbean,no
+GCAM-Europe,slv,El Salvador,Central America and Caribbean,no
+GCAM-Europe,tto,Trinidad and Tobago,Central America and Caribbean,no
+GCAM-Europe,vct,Saint Vincent and the Grenadines,Central America and Caribbean,no
+GCAM-Europe,arm,Armenia,Central Asia,no
+GCAM-Europe,aze,Azerbaijan,Central Asia,no
+GCAM-Europe,geo,Georgia,Central Asia,no
+GCAM-Europe,kaz,Kazakhstan,Central Asia,no
+GCAM-Europe,kgz,Kyrgyzstan,Central Asia,no
+GCAM-Europe,mng,Mongolia,Central Asia,no
+GCAM-Europe,tjk,Tajikistan,Central Asia,no
+GCAM-Europe,tkm,Turkmenistan,Central Asia,no
+GCAM-Europe,uzb,Uzbekistan,Central Asia,no
+GCAM-Europe,chn,China,China,no
+GCAM-Europe,hkg,Hong Kong,China,no
+GCAM-Europe,mac,Macau,China,no
+GCAM-Europe,col,Colombia,Colombia,no
+GCAM-Europe,cyp,Cyprus,Cyprus,yes
+GCAM-Europe,cze,Czech Republic,Czech Republic,yes
+GCAM-Europe,dnk,Denmark,Denmark,yes
+GCAM-Europe,grl,Greenland,Denmark,yes
+GCAM-Europe,est,Estonia,Estonia,yes
+GCAM-Europe,blr,Belarus,Europe_Eastern,no
+GCAM-Europe,mda,Moldova,Europe_Eastern,no
+GCAM-Europe,ukr,Ukraine,Europe_Eastern,no
+GCAM-Europe,alb,Albania,Europe_Non_EU,no
+GCAM-Europe,bih,Bosnia and Herzegovina,Europe_Non_EU,no
+GCAM-Europe,fro,Faroe Islands,Europe_non_EU,no
+GCAM-Europe,hrv,Croatia,Europe_Non_EU,no
+GCAM-Europe,isl,Iceland,Europe_non_EU,no
+GCAM-Europe,mkd,North Macedonia,Europe_Non_EU,no
+GCAM-Europe,mne,Montenegro,Europe_Non_EU,no
+GCAM-Europe,scg,Serbia and Montenegro,Europe_Non_EU,no
+GCAM-Europe,sjm,Svalbard and Jan Mayen Islands,Europe_non_EU,no
+GCAM-Europe,srb,Serbia,Europe_Non_EU,no
+GCAM-Europe,tur,Turkey,Europe_Non_EU,no
+GCAM-Europe,yug,Yugoslavia,Europe_Non_EU,no
+GCAM-Europe,fin,Finland,Finland,yes
+GCAM-Europe,fra,France,France,yes
+GCAM-Europe,mco,Monaco,France,yes
+GCAM-Europe,spm,Saint Pierre and Miquelon,France,yes
+GCAM-Europe,deu,Germany,Germany,yes
+GCAM-Europe,grc,Greece,Greece,yes
+GCAM-Europe,hun,Hungary,Hungary,yes
+GCAM-Europe,ind,India,India,no
+GCAM-Europe,idn,Indonesia,Indonesia,no
+GCAM-Europe,irl,Ireland,Ireland,yes
+GCAM-Europe,ita,Italy,Italy,yes
+GCAM-Europe,smr,San Marino,Italy,yes
+GCAM-Europe,vat,Vatican,Italy,yes
+GCAM-Europe,jpn,Japan,Japan,no
+GCAM-Europe,lva,Latvia,Latvia,yes
+GCAM-Europe,ltu,Lithuania,Lithuania,yes
+GCAM-Europe,lux,Luxembourg,Luxembourg,yes
+GCAM-Europe,mlt,Malta,Malta,yes
+GCAM-Europe,mex,Mexico,Mexico,no
+GCAM-Europe,are,United Arab Emirates,Middle East,no
+GCAM-Europe,bhr,Bahrain,Middle East,no
+GCAM-Europe,irn,Iran,Middle East,no
+GCAM-Europe,irq,Iraq,Middle East,no
+GCAM-Europe,isr,Israel,Middle East,no
+GCAM-Europe,jor,Jordan,Middle East,no
+GCAM-Europe,kwt,Kuwait,Middle East,no
+GCAM-Europe,lbn,Lebanon,Middle East,no
+GCAM-Europe,omn,Oman,Middle East,no
+GCAM-Europe,pse,Palestinian Territory,Middle East,no
+GCAM-Europe,qat,Qatar,Middle East,no
+GCAM-Europe,sau,Saudi Arabia,Middle East,no
+GCAM-Europe,syr,Syrian Arab Republic,Middle East,no
+GCAM-Europe,yem,Yemen,Middle East,no
+GCAM-Europe,nld,Netherlands,Netherlands,yes
+GCAM-Europe,nor,Norway,Norway,yes
+GCAM-Europe,pak,Pakistan,Pakistan,no
+GCAM-Europe,pol,Poland,Poland,yes
+GCAM-Europe,prt,Portugal,Portugal,yes
+GCAM-Europe,rou,Romania,Romania,yes
+GCAM-Europe,rus,Russian Federation,Russia,no
+GCAM-Europe,svk,Slovakia,Slovakia,yes
+GCAM-Europe,svn,Slovenia,Slovenia,yes
+GCAM-Europe,zaf,South Africa,South Africa,no
+GCAM-Europe,guf,French Guiana,South America_Northern,no
+GCAM-Europe,guy,Guyana,South America_Northern,no
+GCAM-Europe,sur,Suriname,South America_Northern,no
+GCAM-Europe,ven,Venezuela,South America_Northern,no
+GCAM-Europe,bol,Bolivia,South America_Southern,no
+GCAM-Europe,chl,Chile,South America_Southern,no
+GCAM-Europe,ecu,Ecuador,South America_Southern,no
+GCAM-Europe,per,Peru,South America_Southern,no
+GCAM-Europe,pry,Paraguay,South America_Southern,no
+GCAM-Europe,ury,Uruguay,South America_Southern,no
+GCAM-Europe,afg,Afghanistan,South Asia,no
+GCAM-Europe,bgd,Bangladesh,South Asia,no
+GCAM-Europe,btn,Bhutan,South Asia,no
+GCAM-Europe,lka,Sri Lanka,South Asia,no
+GCAM-Europe,mdv,Maldives,South Asia,no
+GCAM-Europe,npl,Nepal,South Asia,no
+GCAM-Europe,kor,South Korea,South Korea,no
+GCAM-Europe,asm,American Samoa,Southeast Asia,no
+GCAM-Europe,brn,Brunei Darussalam,Southeast Asia,no
+GCAM-Europe,cck,Cocos (Keeling) Islands,Southeast Asia,no
+GCAM-Europe,cok,Cook Islands,Southeast Asia,no
+GCAM-Europe,cxr,Christmas Island,Southeast Asia,no
+GCAM-Europe,fji,Fiji,Southeast Asia,no
+GCAM-Europe,fsm,Micronesia,Southeast Asia,no
+GCAM-Europe,gum,Guam,Southeast Asia,no
+GCAM-Europe,khm,Cambodia,Southeast Asia,no
+GCAM-Europe,kir,Kiribati,Southeast Asia,no
+GCAM-Europe,lao,Lao Peoples Democratic Republic,Southeast Asia,no
+GCAM-Europe,mhl,Marshall Islands,Southeast Asia,no
+GCAM-Europe,mmr,Myanmar,Southeast Asia,no
+GCAM-Europe,mnp,Northern Mariana Islands,Southeast Asia,no
+GCAM-Europe,mys,Malaysia,Southeast Asia,no
+GCAM-Europe,myt,Mayotte,Southeast Asia,no
+GCAM-Europe,ncl,New Caledonia,Southeast Asia,no
+GCAM-Europe,nfk,Norfolk Island,Southeast Asia,no
+GCAM-Europe,niu,Niue,Southeast Asia,no
+GCAM-Europe,nru,Nauru,Southeast Asia,no
+GCAM-Europe,pci,Pacific Islands Trust Territory,Southeast Asia,no
+GCAM-Europe,pcn,Pitcairn Islands,Southeast Asia,no
+GCAM-Europe,phl,Philippines,Southeast Asia,no
+GCAM-Europe,plw,Palau,Southeast Asia,no
+GCAM-Europe,png,Papua New Guinea,Southeast Asia,no
+GCAM-Europe,prk,North Korea,Southeast Asia,no
+GCAM-Europe,pyf,French Polynesia,Southeast Asia,no
+GCAM-Europe,sgp,Singapore,Southeast Asia,no
+GCAM-Europe,slb,Solomon Islands,Southeast Asia,no
+GCAM-Europe,syc,Seychelles,Southeast Asia,no
+GCAM-Europe,tha,Thailand,Southeast Asia,no
+GCAM-Europe,tkl,Tokelau,Southeast Asia,no
+GCAM-Europe,tls,Timor Leste,Southeast Asia,no
+GCAM-Europe,ton,Tonga,Southeast Asia,no
+GCAM-Europe,tuv,Tuvalu,Southeast Asia,no
+GCAM-Europe,vnm,Viet Nam,Southeast Asia,no
+GCAM-Europe,vut,Vanuatu,Southeast Asia,no
+GCAM-Europe,wsm,Samoa,Southeast Asia,no
+GCAM-Europe,and,Andorra,Spain,yes
+GCAM-Europe,esp,Spain,Spain,yes
+GCAM-Europe,swe,Sweden,Sweden,yes
+GCAM-Europe,che,Switzerland,Switzerland,yes
+GCAM-Europe,lie,Liechtenstein,Switzerland,yes
+GCAM-Europe,twn,Taiwan,Taiwan,no
+GCAM-Europe,chi,Channel Islands,United Kingdom,yes
+GCAM-Europe,gbr,United Kingdom,United Kingdom,yes
+GCAM-Europe,ggy,Guernsey,United Kingdom,yes
+GCAM-Europe,gib,Gibraltar,United Kingdom,yes
+GCAM-Europe,imn,Isle of Man,United Kingdom,yes
+GCAM-Europe,jey,Jersey,United Kingdom,yes
+GCAM-Europe,shn,Saint Helena,United Kingdom,yes
+GCAM-Europe,tca,Turks and Caicos,United Kingdom,yes
+GCAM-Europe,vgb,Virgin Islands,United Kingdom,yes
+GCAM-Europe,wlf,Wallis and Futuna,United Kingdom,yes
+GCAM-Europe,pri,Puerto Rico,USA,no
+GCAM-Europe,usa,United States of America,USA,no
+GCAM-Europe,vir,Virgin Islands,USA,no
+GCAM-Europe,hmd,Heard Island and McDonald Islands,Southeast Asia,no
+GCAM-Europe,atc,Ashmore and Cartier Islands,Southeast Asia,no
+GCAM-Europe,sds,South Sudan,Africa_Eastern,no
+GCAM-Europe,atf,French Southern and Antarctic Lands,Africa_Southern,no
+GCAM-Europe,kos,Kosovo,Europe_Non_EU,no
+GCAM-Europe,cyn,Northern Cyprus,Europe_Non_EU,no
+GCAM-Europe,ald,Aland,Finland,yes
+GCAM-Europe,ioa,Indian Ocean Territories,Southeast Asia,no
+GCAM-Europe,sgs,South Georgia and the Islands,South America_Southern,no
+GCAM-Europe,maf,Saint Martin,Central America and Caribbean,no
+GCAM-Europe,sol,Somaliland,Africa_Eastern,no
+GCAM-Europe,iot,British Indian Ocean Territory,Southeast Asia,no
+GCAM-Europe,sxm,Sint Maarten,Central America and Caribbean,no
+GCAM-Europe,psx,Palestine,Africa_Northern,no
+GCAM-Europe,kas,Siachen Glacier,Central Asia,no
+GCAM-Europe,sah,Western Sahara,Africa_Northern,no
+GCAM-Europe,blm,Saint Barthelemy,Central America and Caribbean,no
