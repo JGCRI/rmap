@@ -108,28 +108,41 @@
   <div class="contents col-md-9">
 
 
-<!-- ------------------------><!-- ------------------------><div class="section level1">
+<!-- ------------------------>
+<!-- ------------------------>
+<div class="section level1">
 <div class="page-header"><h1 id="introduction">
 <a name="Introduction"></a>Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
 </h1></div>
-<!-- ------------------------><!-- ------------------------><p><code>rmap</code> is a comprehensive mapping package to create easily customizable maps and compare across scenarios, years and data classes. The package allows creation of difference maps as well as customizable legends, color palettes and styles.</p>
+<!-- ------------------------>
+<!-- ------------------------>
+<p><code>rmap</code> is a comprehensive mapping package to create easily customizable maps and compare across scenarios, years and data classes. The package allows creation of difference maps as well as customizable legends, color palettes and styles.</p>
 <p><br></p>
-<p align="center"><a href="https://jgcri.github.io/rmap/articles/vignette_map.html" target="_blank" class="external-link"><img src="https://github.com/JGCRI/jgcricolors/blob/main/vignettes/button_user_guide.PNG?raw=true" alt="https://jgcri.github.io/rmap/articles/vignette_map.html" height="60"></a> <img src="https://github.com/JGCRI/jgcricolors/blob/main/vignettes/button_divider.PNG?raw=true" height="40"><a href="https://jgcri.github.io/rmap/cheatsheet.pdf" target="_blank" class="external-link"><img src="https://github.com/JGCRI/jgcricolors/blob/main/vignettes/button_cheatsheet.PNG?raw=true" alt="https://jgcri.github.io/rmap/cheatsheet.pdf" height="60"></a></p>
-<!-- ------------------------><!-- ------------------------>
+<p align="center">
+<a href="https://jgcri.github.io/rmap/articles/vignette_map.html" target="_blank" class="external-link"><img src="https://github.com/JGCRI/jgcricolors/blob/main/vignettes/button_user_guide.PNG?raw=true" alt="https://jgcri.github.io/rmap/articles/vignette_map.html" height="60"></a> <img src="https://github.com/JGCRI/jgcricolors/blob/main/vignettes/button_divider.PNG?raw=true" height="40"><a href="https://jgcri.github.io/rmap/cheatsheet.pdf" target="_blank" class="external-link"><img src="https://github.com/JGCRI/jgcricolors/blob/main/vignettes/button_cheatsheet.PNG?raw=true" alt="https://jgcri.github.io/rmap/cheatsheet.pdf" height="60"></a>
+</p>
+<!-- ------------------------>
+<!-- ------------------------>
 </div>
 <div class="section level1">
 <h1 id="citation">
 <a name="Citation"></a>Citation<a class="anchor" aria-label="anchor" href="#citation"></a>
 </h1>
-<!-- ------------------------><!-- ------------------------><p>Khan, Z., Zhao, M., Vernon, C.R., Wild, T. and Yarlagadda, B., 2022. rmap: An R package to plot and compare tabular data on customizable maps across scenarios and time. Journal of Open Source Software, 7(77), p.4015. DOI: <a href="https://doi.org/10.21105/joss.04015" class="external-link uri">https://doi.org/10.21105/joss.04015</a></p>
-<!-- ------------------------><!-- ------------------------>
+<!-- ------------------------>
+<!-- ------------------------>
+<p>Khan, Z., Zhao, M., Vernon, C.R., Wild, T. and Yarlagadda, B., 2022. rmap: An R package to plot and compare tabular data on customizable maps across scenarios and time. Journal of Open Source Software, 7(77), p.4015. DOI: <a href="https://doi.org/10.21105/joss.04015" class="external-link uri">https://doi.org/10.21105/joss.04015</a></p>
+<!-- ------------------------>
+<!-- ------------------------>
 </div>
 <div class="section level1">
 <h1 id="installation-guide">
 <a name="InstallGuide"></a>Installation Guide<a class="anchor" aria-label="anchor" href="#installation-guide"></a>
 </h1>
-<!-- ------------------------><!-- ------------------------><ol style="list-style-type: decimal">
-<li>Download and install:<ul>
+<!-- ------------------------>
+<!-- ------------------------>
+<ol style="list-style-type: decimal">
+<li>Download and install:
+<ul>
 <li>R (<a href="https://www.r-project.org/" class="external-link uri">https://www.r-project.org/</a>)</li>
 <li>R studio (<a href="https://www.rstudio.com/" class="external-link uri">https://www.rstudio.com/</a>) (Optional)</li>
 </ul>
@@ -148,13 +161,16 @@ sudo apt-get install -y libcurl4-openssl-dev libssl-dev libxml2-dev libudunits2-
 brew install gdal
 brew install geos
 brew install imagemagick@6</code></pre>
-<!-- ------------------------><!-- ------------------------>
+<!-- ------------------------>
+<!-- ------------------------>
 </div>
 <div class="section level1">
 <h1 id="statement-of-need">
 <a name="Need"></a>Statement of need<a class="anchor" aria-label="anchor" href="#statement-of-need"></a>
 </h1>
-<!-- ------------------------><!-- ------------------------><p><code>rmap</code> is meant to help users having limited to no GIS knowledge use R for spatial visualization of tabular spatial data. <code>rmap</code> is not meant to be a replacement for spatial manipulation or cartographic software but focuses on the simple plotting of polygon and gridded data for spatio-temporal visualization of tabular data with a focus on comparing across scenarios and time periods. Several existing R packages (e.g. tmap, cartography, rworldmap, GISTools, choroplethr, sp and sf) have been developed to conduct spatial visualization and analytics in R without depending on external software. <code>rmap</code> enhances the following key capabilities which are limited in these existing packages:</p>
+<!-- ------------------------>
+<!-- ------------------------>
+<p><code>rmap</code> is meant to help users having limited to no GIS knowledge use R for spatial visualization of tabular spatial data. <code>rmap</code> is not meant to be a replacement for spatial manipulation or cartographic software but focuses on the simple plotting of polygon and gridded data for spatio-temporal visualization of tabular data with a focus on comparing across scenarios and time periods. Several existing R packages (e.g. tmap, cartography, rworldmap, GISTools, choroplethr, sp and sf) have been developed to conduct spatial visualization and analytics in R without depending on external software. <code>rmap</code> enhances the following key capabilities which are limited in these existing packages:</p>
 <ol style="list-style-type: decimal">
 <li>
 <strong>Pre-built maps</strong>: Existing packages come with only a few examples of built-in maps as package data. <code>rmap</code> comes with a growing collection of country, state, river basin, as well as other customized maps that are added into the package data based on user needs and requests. While built-in maps increase the size of the package, having direct access to these allows for automated searching and quick deployment of relevant shapefiles without the need to download any data. A list of pre-built maps in <code>rmap</code> can be found in the <a href="https://jgcri.github.io/rmap/articles/vignette_map.html#maps" class="external-link">Built-in Maps</a> section of the user guide.</li>
@@ -171,7 +187,9 @@ brew install imagemagick@6</code></pre>
 <h1 id="related-publications">
 <a name="Publications"></a>Related Publications<a class="anchor" aria-label="anchor" href="#related-publications"></a>
 </h1>
-<!-- ------------------------><!-- ------------------------><ul>
+<!-- ------------------------>
+<!-- ------------------------>
+<ul>
 <li><p>Khan, Z., Wild, T., Carrazzone, M.E.S., Gaudioso, R., Mascari, M.P., Bianchi, F., Weinstein, F., Pérez, F., Pérez, W., Miralles-Wilhelm, F. and Clarke, L., 2020. Integrated energy-water-land nexus planning to guide national policy: an example from Uruguay. Environmental Research Letters. DOI: <a href="https://doi.org/10.1088/1748-9326/ab9389" class="external-link uri">https://doi.org/10.1088/1748-9326/ab9389</a></p></li>
 <li><p>Khan, Z., Wild, T., Vernon, C., Miller, A., Hejazi, M., Clarke, L., Miralles-Wilhelm, F., Castillo, R.M., Moreda, F., Bereslawski, J.L., Suriano, M. and Casado, J., 2020. Metis – A Tool to Harmonize and Analyze Multi-Sectoral Data and Linkages at Variable Spatial Scales. Journal of Open Research Software, 8(1), p.10. DOI: <a href="http://doi.org/10.5334/jors.292" class="external-link uri">http://doi.org/10.5334/jors.292</a></p></li>
 </ul>
@@ -222,7 +240,6 @@ brew install imagemagick@6</code></pre>
 <li><a href="https://github.com/JGCRI/rmap/actions/workflows/test_coverage.yml" class="external-link"><img src="https://github.com/JGCRI/rmap/actions/workflows/test_coverage.yml/badge.svg?branch=main" alt="test_coverage"></a></li>
 <li><a href="https://codecov.io/gh/JGCRI/rmap" class="external-link"><img src="https://codecov.io/gh/JGCRI/rmap/branch/main/graph/badge.svg?token=XQ913U4IYM" alt="codecov"></a></li>
 <li><a href="https://github.com/JGCRI/rmap/actions/workflows/docs.yaml" class="external-link"><img src="https://github.com/JGCRI/rmap/actions/workflows/docs.yaml/badge.svg" alt="docs"></a></li>
-<li><a href=""><img src="https://img.shields.io/github/downloads/JGCRI/rmap/total.svg" alt="Github All Releases"></a></li>
 <li><a href="https://joss.theoj.org/papers/4cdf462f70681bc335ddebf5868b249c" class="external-link"><img src="https://joss.theoj.org/papers/4cdf462f70681bc335ddebf5868b249c/status.svg" alt="status"></a></li>
 </ul>
 </div>
@@ -238,7 +255,7 @@ brew install imagemagick@6</code></pre>
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer>
