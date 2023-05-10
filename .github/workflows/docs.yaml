@@ -7,44 +7,48 @@ on:
 
 jobs:
   pkgdown:
-    runs-on: ${{ matrix.config.os }}
-    name: ${{ matrix.config.os }} (${{ matrix.config.r }})
-    
-    strategy:
-      fail-fast: false
-      matrix:
-        config:
-        - { os: ubuntu-latest, r: 'devel', cran: "https://demo.rstudiopm.com/all/__linux__/xenial/latest"}
+    runs-on: ubuntu-latest
     
     env:
-      R_REMOTES_NO_ERRORS_FROM_WARNINGS: true      
+      R_REMOTES_NO_ERRORS_FROM_WARNINGS: true    
       GITHUB_PAT: ${{ secrets.GH_PAT}}
 
     steps:
-      - uses: actions/checkout@v1
-      - uses: r-lib/actions/setup-r@v2-branch
+      - uses: actions/checkout@v2
+
+      - uses: r-lib/actions/setup-r@v2
         with:
-          r-version: '3.6'
-      - uses: r-lib/actions/setup-pandoc@v2-branch
-      - uses: r-lib/actions/setup-tinytex@v2-branch
-          
-      - name: Ubuntu config
-        if: startsWith(matrix.config.os, 'ubuntu')
+          r-version: '4.1.0'
+
+      - uses: r-lib/actions/setup-pandoc@v2
+
+      - name: Install libraries
         run: |
-          sudo apt-add-repository ppa:ubuntugis/ubuntugis-unstable
           sudo apt-get update
-          sudo apt-get install -y libcurl4-openssl-dev libssl-dev libxml2-dev libudunits2-dev libgdal-dev libgeos-dev libproj-dev libmagick++-dev libavfilter-dev
+          sudo apt-get install -y libcurl4-openssl-dev libharfbuzz-dev libfribidi-dev libssl-dev libxml2-dev libudunits2-dev libgdal-dev libgeos-dev libproj-dev libmagick++-dev libavfilter-dev
       
-      - name: Install dependencies
+      - name: Restart R
         run: |
-          install.packages(c("remotes","rcmdcheck"), repos = "https://cloud.r-project.org")
+          R --vanilla --quiet
+          echo 'q()' | R --no-save
+
+      - name: Install dependencies 1
+        run: |
+          install.packages(c("remotes", "rcmdcheck"), repos = "https://cloud.r-project.org")
+        shell: Rscript {0}
+
+      - name: Install dependencies 2
+        run: |
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
-        
-      - uses: r-lib/actions/setup-r-dependencies@v2
-        with:
-          extra-packages: any::pkgdown, local::.
-          needs: website
+
+      - name: Install dependencies 3
+        run: |
+          install.packages("pkgdown")
+        shell: Rscript {0}
+
+      - name: Install package
+        run: R CMD INSTALL .
 
       - name: Deploy package
         run: |
