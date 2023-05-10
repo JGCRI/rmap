@@ -1233,12 +1233,19 @@ if(T){
             drop = F,
             name = legendTitle)
         } else {
+          if(is.null(names(palette))){
+            map <- map +
+              ggplot2::scale_fill_manual(values = (rep(palette, length(unique(data_sf_w_labels$subRegion))))[1:length(unique(data_sf_w_labels$subRegion))],
+              drop = F,
+              name = legendTitle)
+          } else {
           map <- map +
             ggplot2::scale_fill_manual(values = (rep(palette[names(palette) %in% data_sf_w_labels$subRegion], length(
               unique(data_sf_w_labels$subRegion)
             )))[1:length(unique(data_sf_w_labels$subRegion))],
             drop = F,
             name = legendTitle)
+          }
         }
       }
 
