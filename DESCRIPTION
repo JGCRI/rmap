@@ -42,5 +42,5 @@ VignetteBuilder:
     knitr,
 	cowplot
 Remotes:
-    github::JGCRI/jgcricolor
+    github::JGCRI/jgcricolors
 Config/testthat/edition: 3
