@@ -873,7 +873,7 @@ map <- function(data = NULL,
         tbl_temp1<-tbl_temp1%>%
           tidyr::gather(key=scenario,value=value,
                         -c(names(tbl_temp1)[!names(tbl_temp1) %in% paste(scenario_i,"_DiffAbs_",scenRef_i,sep="")]))%>%
-          dplyr::mutate(value = if_else(is.nan(value),0,value))
+          dplyr::mutate(value = dplyr::if_else(is.nan(value),0,value))
 
         tbl_temp2 <-dataTblDiffb%>%
           dplyr::mutate(!!paste(scenario_i,"_DiffPrcnt_",scenRef_i,sep=""):=((get(scenario_i)-get(scenRef_i))*100/get(scenRef_i)),
@@ -882,7 +882,7 @@ map <- function(data = NULL,
         tbl_temp2<-tbl_temp2%>%
           tidyr::gather(key=scenario,value=value,
                         -c(names(tbl_temp2)[!names(tbl_temp2) %in% paste(scenario_i,"_DiffPrcnt_",scenRef_i,sep="")]))%>%
-          dplyr::mutate(value = if_else(is.nan(value),0,value))
+          dplyr::mutate(value = dplyr::if_else(is.nan(value),0,value))
 
         dataTblDiff<-dplyr::bind_rows(dataTblDiff,tbl_temp1,tbl_temp2)
       }
@@ -1002,7 +1002,7 @@ map <- function(data = NULL,
                       tidyr::gather(key=scenario,value=value,
                                     -c(names(tbl_temp1)[!names(tbl_temp1) %in% paste(scen_i,"_xDiffAbs_",xRef_i,sep="")]))%>%
                       dplyr::mutate(x=x_i)%>%
-                        dplyr::mutate(value = if_else(is.nan(value),0,value))
+                        dplyr::mutate(value = dplyr::if_else(is.nan(value),0,value))
 
                     tbl_temp2 <-dataTblDiffb%>%
                       dplyr::filter(scenario==scen_i)%>%
@@ -1013,7 +1013,7 @@ map <- function(data = NULL,
                       tidyr::gather(key=scenario,value=value,
                                     -c(names(tbl_temp2)[!names(tbl_temp2) %in% paste(scen_i,"_xDiffPrcnt_",xRef_i,sep="")]))%>%
                       dplyr::mutate(x=x_i)%>%
-                      dplyr::mutate(value = if_else(is.nan(value),0,value))
+                      dplyr::mutate(value = dplyr::if_else(is.nan(value),0,value))
 
                     dataTblxDiff<-dplyr::bind_rows(dataTblxDiff,tbl_temp1,tbl_temp2)
                   }
